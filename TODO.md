@@ -1,2 +1,11 @@
 - CLAP args so they can track their own shader from a Path.
-- bottom-docked UI for: (toggle_framerate, next_shape, spin_shape)
+
+- UI:
+  | Button | Description | Notes |
+  |-------------|--------------------------|---------------|
+  | toggle_framerate | Toggles the display of the framerate in the UI | bevy+bevyUI|
+  | next_shape | Switches to the next shape in the rendering | Event, Component, system, buvyUI |
+  | spin_shape | Toggles the spinning of the current shape | system, event |
+  | decorations |Window topbar min/max/close | window.decorations, system, Event |
+  | transparent_bg | Transparent background toggle | window.decorations, system, Event|
+  | fallthrough | Enables fallthrough behavior for the shapes |window.decorations, system, Event |
