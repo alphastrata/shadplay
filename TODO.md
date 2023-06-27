@@ -1,0 +1,2 @@
+- CLAP args so they can track their own shader from a Path.
+- bottom-docked UI for: (toggle_framerate, next_shape, spin_shape)
