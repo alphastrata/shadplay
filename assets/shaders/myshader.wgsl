@@ -4,11 +4,11 @@
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    let speed = 2.0;
+    let speed = 3.45;
 
     // the globals have many things: their docs 
     let t_1 = sin(globals.time * speed) * 0.5 + 0.5;
 
 
-    return vec4<f32>(100.0, 0.0, 200.0, 0.4 * t_1);
+    return vec4<f32>(0.7, 0.0, 0.03, 0.8 * t_1);
 }

@@ -1,4 +1,4 @@
-- CLAP args so they can track their own shader from a Path.
+- CLAP args so they can track their own shader from a Path, NOTE this will require a world.insert_resource, you won't be able to use the existing method.
 
 - 2D 3D mode.
 
