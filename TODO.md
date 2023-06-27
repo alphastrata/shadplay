@@ -1,5 +1,7 @@
 - CLAP args so they can track their own shader from a Path.
 
+- 2D 3D mode.
+
 - UI:
   | Button | Description | Notes |
   |-------------|--------------------------|---------------|
