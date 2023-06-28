@@ -49,15 +49,25 @@ fn main() {
         )
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
         .add_systems(Startup, utils::setup)
+        .add_systems(Update, rotate)
         .run();
 }
 
+fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>) {
+    for mut transform in &mut query {
+        transform.rotate_local_z(time.delta_seconds() / 2.);
+        transform.rotate_local_x(time.delta_seconds() / 8.);
+        transform.rotate_y(time.delta_seconds() / 0.5);
+    }
+}
 /// The main place all our app's systems, input handling, spawning stuff into the world etc.
 pub mod utils {
     use bevy::{
         prelude::*,
         window::{Window, WindowLevel},
     };
+    #[derive(Component)]
+    pub struct Shape;
 
     #[derive(Component)]
     pub struct Cam3D;
@@ -115,17 +125,20 @@ pub mod utils {
         mut materials: ResMut<Assets<YourShader>>,
     ) {
         // shape
-        commands.spawn(MaterialMeshBundle {
-            mesh: meshes.add(Mesh::from(shape::Torus {
-                radius: 2.,
-                ring_radius: 0.2,
-                subdivisions_segments: 128,
-                subdivisions_sides: 128,
-            })),
-            transform: Transform::from_xyz(0.0, 0.5, 0.0),
-            material: materials.add(crate::shader_utils::YourShader {}),
-            ..default()
-        });
+        commands.spawn((
+            MaterialMeshBundle {
+                mesh: meshes.add(Mesh::from(shape::Torus {
+                    radius: 2.,
+                    ring_radius: 0.2,
+                    subdivisions_segments: 128,
+                    subdivisions_sides: 128,
+                })),
+                transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                material: materials.add(crate::shader_utils::YourShader {}),
+                ..default()
+            },
+            Shape,
+        ));
 
         // 3D camera
         commands.spawn((
