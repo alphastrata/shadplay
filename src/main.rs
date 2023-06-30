@@ -206,7 +206,7 @@ pub mod utils {
             false,
             ((
                 MaterialMeshBundle {
-                    mesh: meshes.add(Mesh::from(shape::Cube { size: 3.0 })).clone(),
+                    mesh: meshes.add(Mesh::from(shape::Cube { size: 2.0 })).clone(),
                     transform: Transform::from_xyz(0.0, 0.5, 0.0),
                     material: materials.add(crate::shader_utils::YourShader {
                         color: Color::default(),
@@ -217,7 +217,27 @@ pub mod utils {
             )),
         ));
 
-        //TODO: add more shapes...
+        shape_options.0.push((
+            false,
+            ((
+                MaterialMeshBundle {
+                    mesh: meshes.add(
+                        shape::Icosphere {
+                            radius: 1.40,
+                            subdivisions: 23,
+                        }
+                        .try_into()
+                        .unwrap(),
+                    ),
+                    transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                    material: materials.add(crate::shader_utils::YourShader {
+                        color: Color::default(),
+                    }),
+                    ..default()
+                },
+                Shape,
+            )),
+        ));
     }
 
     pub fn setup(mut commands: Commands, shape_options: Res<ShapeOptions>) {

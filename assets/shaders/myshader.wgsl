@@ -43,15 +43,11 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let py = in.position.y;
     let pz = in.position.z;
 
-
     let pct = abs(sin(globals.time));
 
+    let n_color = mix(pastelOrange, pastelTeal, pastelCyan);
 
-    let n_color = mix(pastelOrange, pastelTeal, pastelCyan / PI);
-
-
-    // return vec4<f32>(n_color.zyx, globals.time);
-    return vec4<f32>(uv.x, 0., 0., globals.time);
+    return vec4<f32>(n_color / t_1);
 }
 
 // fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
