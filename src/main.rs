@@ -1,4 +1,8 @@
 #![allow(unused_imports)]
+/// The UI buttons etc.
+//NOTE: most of this should be pub(crate) or private.
+pub mod ui;
+
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
@@ -8,9 +12,11 @@ use bevy::{
 };
 
 use shader_utils::YourShader;
+use utils::{switch_level, toggle_decorations, ShapeOptions};
 
 fn main() {
     App::new()
+        .insert_resource(ShapeOptions::default())
         .add_plugins(
             //..
             (
@@ -49,7 +55,14 @@ fn main() {
         )
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
         .add_systems(Startup, utils::setup)
-        .add_systems(Update, rotate)
+        .add_systems(
+            Update,
+            (
+                rotate,
+                toggle_decorations,
+                switch_level, //..
+            ),
+        )
         .run();
 }
 
@@ -63,21 +76,33 @@ fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>)
 /// The main place all our app's systems, input handling, spawning stuff into the world etc.
 pub mod utils {
     use bevy::{
+        ecs::component::ComponentDescriptor,
         prelude::*,
         window::{Window, WindowLevel},
     };
+
+    /// Component: Marking shapes that we spawn.
+    /// Used by: the rotate system.
     #[derive(Component)]
     pub struct Shape;
 
+    /// Component: Marking the 3d camera.
+    /// Used by: the CamSwitch event.
     #[derive(Component)]
     pub struct Cam3D;
 
+    /// Component: Marking the 2d camera.
+    /// Used by: the CamSwitch event.
     #[derive(Component)]
     pub struct Cam2D;
 
     ///Event: Triggers the 2D to 3D or vice-versa camera switch.
     #[derive(Event)]
     pub struct CamSwitch;
+
+    ///Resource: All the shapes we have the option of displaying.
+    #[derive(Resource, Deref, DerefMut, Default)]
+    pub struct ShapeOptions(pub Vec<(String, (Handle<Mesh>, bool))>);
 
     use crate::shader_utils::YourShader;
 
@@ -94,6 +119,14 @@ pub mod utils {
             };
             info!("WINDOW_LEVEL: {:?}", window.window_level);
         }
+    }
+
+    /// Switch the shape we're currently playing with a shader on.
+    pub fn switch_shape(mut shape_options: ResMut<ShapeOptions>) {
+        // find the true one, then go one more, be careful of wrapping around, % it out.
+        // set the true one's Visibility to Hidden, and the compute Visibility too.
+        // idx +1 % shape_options.len() to Visible and such.
+        todo!()
     }
 
     /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
@@ -123,30 +156,49 @@ pub mod utils {
         mut commands: Commands,
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<YourShader>>,
+        mut shape_options: ResMut<ShapeOptions>,
     ) {
-        // shape
+        // --------SHAPES-------- //
+        let torus = meshes.add(Mesh::from(shape::Torus {
+            radius: 2.,
+            ring_radius: 0.2,
+            subdivisions_segments: 128,
+            subdivisions_sides: 128,
+        }));
+
         commands.spawn((
             MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(shape::Torus {
-                    radius: 2.,
-                    ring_radius: 0.2,
-                    subdivisions_segments: 128,
-                    subdivisions_sides: 128,
-                })),
+                mesh: torus.clone(),
                 transform: Transform::from_xyz(0.0, 0.5, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::Rgba {
-                        red: 1.,
-                        green: 1.,
-                        blue: 1.,
-                        alpha: 1.,
-                    },
+                    color: Color::default(),
                 }),
                 ..default()
             },
             Shape,
         ));
 
+        shape_options.push(("torus".into(), (torus, true)));
+
+        let cube = meshes.add(Mesh::from(shape::Cube { size: 1.0 }));
+
+        commands.spawn((
+            MaterialMeshBundle {
+                mesh: cube.clone(),
+                transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                material: materials.add(crate::shader_utils::YourShader {
+                    color: Color::default(),
+                }),
+                visibility: Visibility::Hidden,
+                computed_visibility: ComputedVisibility::HIDDEN,
+                ..default()
+            },
+            Shape,
+        ));
+
+        shape_options.push(("cube".into(), (cube, false)));
+
+        //-----------------------CAMERAS-------------------------//
         // 3D camera
         commands.spawn((
             Camera3dBundle {
@@ -174,64 +226,6 @@ pub mod utils {
     }
 }
 
-/// The UI buttons etc.
-//NOTE: most of this should be pub(crate) or private.
-pub mod ui {
-    use bevy::prelude::*;
-
-    #[derive(Event)]
-    pub struct ToggleTransparency;
-
-    fn toggle_transparency(trigger: EventWriter<ToggleTransparency>) {
-        // on button press, toggle transparency.
-    }
-    //TODO: one of these dispatchers for every button.
-
-    const NORMAL_BUTTON: Color = Color::rgb(0.15, 0.15, 0.15);
-    const HOVERED_BUTTON: Color = Color::rgb(0.25, 0.25, 0.25);
-    const PRESSED_BUTTON: Color = Color::rgb(0.35, 0.75, 0.35);
-
-    ///System: handles the interaction with our App's buttons.
-    pub fn button_interaction(
-        mut interaction_query: Query<
-            (
-                &Interaction,
-                &mut BackgroundColor,
-                &mut BorderColor,
-                &Children,
-            ),
-            (Changed<Interaction>, With<Button>),
-        >,
-        mut text_query: Query<&mut Text>,
-    ) {
-        for (interaction, mut color, mut border_color, children) in &mut interaction_query {
-            let mut text = text_query.get_mut(children[0]).unwrap();
-            match *interaction {
-                Interaction::Clicked => {
-                    text.sections[0].value = "Press".to_string();
-                    *color = PRESSED_BUTTON.into();
-                    border_color.0 = Color::RED;
-                }
-                Interaction::Hovered => {
-                    text.sections[0].value = "Hover".to_string();
-                    *color = HOVERED_BUTTON.into();
-                    border_color.0 = Color::WHITE;
-                }
-                Interaction::None => {
-                    text.sections[0].value = "Button".to_string();
-                    *color = NORMAL_BUTTON.into();
-                    border_color.0 = Color::BLACK;
-                }
-            }
-        }
-    }
-
-    pub fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-        // Ideas:
-        // https://github.com/bevyengine/bevy/blob/main/examples/ui/ui.rs
-        todo!()
-    }
-}
 /// The main place to put code/systems/events/resources etc that handle the shaders a user is playing with.
 pub mod shader_utils {
 
