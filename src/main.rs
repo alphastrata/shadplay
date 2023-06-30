@@ -134,7 +134,14 @@ pub mod utils {
                     subdivisions_sides: 128,
                 })),
                 transform: Transform::from_xyz(0.0, 0.5, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {}),
+                material: materials.add(crate::shader_utils::YourShader {
+                    color: Color::Rgba {
+                        red: 1.,
+                        green: 1.,
+                        blue: 1.,
+                        alpha: 1.,
+                    },
+                }),
                 ..default()
             },
             Shape,
@@ -236,7 +243,10 @@ pub mod shader_utils {
 
     #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
     #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
-    pub struct YourShader {}
+    pub struct YourShader {
+        #[uniform(0)]
+        pub color: Color, //RGBA
+    }
 
     impl Material for YourShader {
         fn fragment_shader() -> ShaderRef {
