@@ -1,9 +1,19 @@
 [package]
 name = "shadplay"
 version = "0.1.0"
+resolver = "2"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-bevy = { git="https://github.com/bevyengine/bevy", features = ["filesystem_watcher", "dynamic_linking", "bevy_dylib"] }
+bevy = { git = "https://github.com/bevyengine/bevy", features = [
+    "filesystem_watcher",
+    "dynamic_linking",
+    "bevy_dylib",
+] }
+
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3

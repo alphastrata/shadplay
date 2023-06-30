@@ -15,7 +15,7 @@ var<uniform> material: MyShaderColor;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    let speed = PI * in.uv.y;
+    let speed = in.uv.y / 8.0;
     let uv = in.uv;
 
     var pastelRed: vec4<f32> = vec4<f32>(0.937, 0.502, 0.502, 1.0);
@@ -45,9 +45,9 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     let pct = abs(sin(globals.time));
 
-    let n_color = mix(pastelOrange, pastelTeal, pastelCyan);
+    let n_color = mix(pastelOrange, pastelTeal, 1.0);
 
-    return vec4<f32>(n_color / t_1);
+    return vec4<f32>(wz / t_1, wx, wy * t_1, (pct));
 }
 
 // fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
