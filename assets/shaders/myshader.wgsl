@@ -54,29 +54,29 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     return vec4<f32>(uv.x, 0., 0., globals.time);
 }
 
-fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
-    // fn fragment_main(fragCoord,: vec2<i32>, iResolution: vec3<f32>, iTime: f32) -> [[location(0)]] vec4<f32>{
-    var uv: vec2<f32> = (f32(fragCoord) * 2.0 - vec2<f32>(iResolution.xy)) / iResolution.y;
-    var uv0: vec2<f32> = uv;
-    var finalColor: vec3<f32> = vec3<f32>(0.0);
+// fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
+//     // fn fragment_main(fragCoord,: vec2<i32>, iResolution: vec3<f32>, iTime: f32) -> [[location(0)]] vec4<f32>{
+//     var uv: vec2<f32> = (f32(fragCoord) * 2.0 - vec2<f32>(iResolution.xy)) / iResolution.y;
+//     var uv0: vec2<f32> = uv;
+//     var finalColor: vec3<f32> = vec3<f32>(0.0);
 
-    for (var i: f32 = 0.0; i < 4.0; i = i + 1.0) {
-        uv = fract(uv * 1.5) - vec2<f32>(0.5);
+//     for (var i: f32 = 0.0; i < 4.0; i = i + 1.0) {
+//         uv = fract(uv * 1.5) - vec2<f32>(0.5);
 
-        var d: f32 = length(uv) * exp(-length(uv0));
+//         var d: f32 = length(uv) * exp(-length(uv0));
 
-        var col: vec3<f32> = palette(length(uv0) + i * 0.4 + iTime * 0.4);
+//         var col: vec3<f32> = palette(length(uv0) + i * 0.4 + iTime * 0.4);
 
-        d = sin(d * 8.0 + iTime) / 8.0;
-        d = abs(d);
+//         d = sin(d * 8.0 + iTime) / 8.0;
+//         d = abs(d);
 
-        d = pow(0.01 / d, 1.2);
+//         d = pow(0.01 / d, 1.2);
 
-        finalColor = finalColor + col * d;
-    }
+//         finalColor = finalColor + col * d;
+//     }
 
-    return vec4<f32>(finalColor, 1.0);
-}
+//     return vec4<f32>(finalColor, 1.0);
+// }
 
 fn palette(t: f32) -> vec3<f32> {
     var a: vec3<f32> = vec3<f32>(0.5, 0.5, 0.5);

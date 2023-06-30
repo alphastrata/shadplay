@@ -12,7 +12,7 @@ use bevy::{
 };
 
 use shader_utils::YourShader;
-use utils::{switch_level, toggle_decorations, ShapeOptions};
+use utils::{init_shapes, switch_level, toggle_decorations, ShapeOptions};
 
 fn main() {
     App::new()
@@ -54,13 +54,15 @@ fn main() {
             //..
         )
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
+        .add_systems(PreStartup, utils::init_shapes)
         .add_systems(Startup, utils::setup)
         .add_systems(
             Update,
             (
                 rotate,
-                toggle_decorations,
-                switch_level, //..
+                utils::toggle_decorations,
+                utils::switch_level, //..
+                utils::switch_shape,
             ),
         )
         .run();
@@ -83,7 +85,7 @@ pub mod utils {
 
     /// Component: Marking shapes that we spawn.
     /// Used by: the rotate system.
-    #[derive(Component)]
+    #[derive(Component, Clone, Default)]
     pub struct Shape;
 
     /// Component: Marking the 3d camera.
@@ -101,8 +103,8 @@ pub mod utils {
     pub struct CamSwitch;
 
     ///Resource: All the shapes we have the option of displaying.
-    #[derive(Resource, Deref, DerefMut, Default)]
-    pub struct ShapeOptions(pub Vec<(String, (Handle<Mesh>, bool))>);
+    #[derive(Resource, Default)]
+    pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
 
     use crate::shader_utils::YourShader;
 
@@ -122,11 +124,23 @@ pub mod utils {
     }
 
     /// Switch the shape we're currently playing with a shader on.
-    pub fn switch_shape(mut shape_options: ResMut<ShapeOptions>) {
-        // find the true one, then go one more, be careful of wrapping around, % it out.
-        // set the true one's Visibility to Hidden, and the compute Visibility too.
-        // idx +1 % shape_options.len() to Visible and such.
-        todo!()
+    pub fn switch_shape(
+        mut shape_options: ResMut<ShapeOptions>,
+        mut commands: Commands,
+        input: Res<Input<KeyCode>>,
+        query: Query<Entity, With<Shape>>,
+    ) {
+        if input.just_pressed(KeyCode::S) {
+            // Old
+            let Some(idx) = shape_options.0.iter().position(|v| v.0) else{return};
+            shape_options.0[idx].0 = false;
+            query.iter().for_each(|e| commands.entity(e).despawn());
+
+            // New
+            let next = (idx + 1) % shape_options.0.len();
+            commands.spawn(shape_options.0[next].1.clone());
+            shape_options.0[next].0 = true;
+        }
     }
 
     /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
@@ -152,52 +166,58 @@ pub mod utils {
         todo!()
     }
 
+    pub fn init_shapes(
+        mut meshes: ResMut<Assets<Mesh>>,
+        mut materials: ResMut<Assets<YourShader>>,
+        mut shape_options: ResMut<ShapeOptions>,
+    ) {
+        // --------SHAPES-------- //
+        shape_options.0.push((
+            true,
+            (
+                MaterialMeshBundle {
+                    mesh: meshes
+                        .add(Mesh::from(shape::Torus {
+                            radius: 2.,
+                            ring_radius: 0.2,
+                            subdivisions_segments: 128,
+                            subdivisions_sides: 128,
+                        }))
+                        .clone(),
+                    transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                    material: materials.add(crate::shader_utils::YourShader {
+                        color: Color::default(),
+                    }),
+                    ..default()
+                },
+                Shape,
+            ),
+        ));
+
+        shape_options.0.push((
+            false,
+            ((
+                MaterialMeshBundle {
+                    mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })).clone(),
+                    transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                    material: materials.add(crate::shader_utils::YourShader {
+                        color: Color::default(),
+                    }),
+                    ..default()
+                },
+                Shape,
+            )),
+        ));
+
+        //TODO: add other shapes...
+    }
+
     pub fn setup(
         mut commands: Commands,
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<YourShader>>,
         mut shape_options: ResMut<ShapeOptions>,
     ) {
-        // --------SHAPES-------- //
-        let torus = meshes.add(Mesh::from(shape::Torus {
-            radius: 2.,
-            ring_radius: 0.2,
-            subdivisions_segments: 128,
-            subdivisions_sides: 128,
-        }));
-
-        commands.spawn((
-            MaterialMeshBundle {
-                mesh: torus.clone(),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
-                }),
-                ..default()
-            },
-            Shape,
-        ));
-
-        shape_options.push(("torus".into(), (torus, true)));
-
-        let cube = meshes.add(Mesh::from(shape::Cube { size: 1.0 }));
-
-        commands.spawn((
-            MaterialMeshBundle {
-                mesh: cube.clone(),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
-                }),
-                visibility: Visibility::Hidden,
-                computed_visibility: ComputedVisibility::HIDDEN,
-                ..default()
-            },
-            Shape,
-        ));
-
-        shape_options.push(("cube".into(), (cube, false)));
-
         //-----------------------CAMERAS-------------------------//
         // 3D camera
         commands.spawn((
@@ -223,6 +243,11 @@ pub mod utils {
             },
             Cam3D,
         ));
+
+        for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
+            println!("found one!");
+            commands.spawn(matmeshbund.1.clone());
+        }
     }
 }
 
