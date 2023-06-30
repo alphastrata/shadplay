@@ -63,11 +63,13 @@ fn main() {
                 utils::toggle_decorations,
                 utils::switch_level, //..
                 utils::switch_shape,
+                utils::quit,
             ),
         )
         .run();
 }
 
+//TODO: up/down arrows to increase/decrease rotation speed.
 fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
         transform.rotate_local_z(time.delta_seconds() / 2.);
@@ -79,7 +81,7 @@ fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>)
 pub mod utils {
     use bevy::{
         ecs::component::ComponentDescriptor,
-        prelude::*,
+        prelude::{shape::CapsuleUvProfile, *},
         window::{Window, WindowLevel},
     };
 
@@ -122,12 +124,18 @@ pub mod utils {
             info!("WINDOW_LEVEL: {:?}", window.window_level);
         }
     }
+    /// Quits the app...
+    pub fn quit(input: Res<Input<KeyCode>>) {
+        if input.just_pressed(KeyCode::Q) {
+            panic!()
+        }
+    }
 
     /// Switch the shape we're currently playing with a shader on.
     pub fn switch_shape(
+        input: Res<Input<KeyCode>>,
         mut shape_options: ResMut<ShapeOptions>,
         mut commands: Commands,
-        input: Res<Input<KeyCode>>,
         query: Query<Entity, With<Shape>>,
     ) {
         if input.just_pressed(KeyCode::S) {
@@ -198,7 +206,7 @@ pub mod utils {
             false,
             ((
                 MaterialMeshBundle {
-                    mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })).clone(),
+                    mesh: meshes.add(Mesh::from(shape::Cube { size: 3.0 })).clone(),
                     transform: Transform::from_xyz(0.0, 0.5, 0.0),
                     material: materials.add(crate::shader_utils::YourShader {
                         color: Color::default(),
@@ -209,15 +217,10 @@ pub mod utils {
             )),
         ));
 
-        //TODO: add other shapes...
+        //TODO: add more shapes...
     }
 
-    pub fn setup(
-        mut commands: Commands,
-        mut meshes: ResMut<Assets<Mesh>>,
-        mut materials: ResMut<Assets<YourShader>>,
-        mut shape_options: ResMut<ShapeOptions>,
-    ) {
+    pub fn setup(mut commands: Commands, shape_options: Res<ShapeOptions>) {
         //-----------------------CAMERAS-------------------------//
         // 3D camera
         commands.spawn((
