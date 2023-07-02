@@ -13,7 +13,7 @@ use bevy::{
 };
 
 use shader_utils::YourShader;
-use utils::{init_shapes, switch_level, toggle_decorations, ShapeOptions};
+use utils::{init_shapes, switch_level, toggle_decorations, ShapeOptions, TransparencySet};
 
 fn main() {
     App::new()
@@ -55,6 +55,7 @@ fn main() {
             //..
         )
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
+        .insert_resource(TransparencySet(true)) // Transparent Window
         .add_systems(PreStartup, utils::init_shapes)
         .add_systems(Startup, utils::setup)
         .add_systems(
@@ -66,6 +67,7 @@ fn main() {
                 utils::switch_shape,
                 utils::quit,
                 utils::toggle_mouse_passthrough,
+                utils::toggle_transparency,
             ),
         )
         .run();
@@ -84,7 +86,7 @@ pub mod utils {
     use bevy::{
         ecs::component::ComponentDescriptor,
         prelude::{shape::CapsuleUvProfile, *},
-        window::{Window, WindowLevel},
+        window::{RequestRedraw, Window, WindowLevel},
     };
 
     /// Component: Marking shapes that we spawn.
@@ -133,9 +135,26 @@ pub mod utils {
         }
     }
 
-    pub fn toggle_transparency(input: Res<Input<KeyCode>>, mut clear_colour: ResMut<ClearColor>) {
+    #[derive(Resource, DerefMut, Deref)]
+    pub struct TransparencySet(pub bool);
+    pub fn toggle_transparency(
+        input: Res<Input<KeyCode>>,
+        mut clear_colour: ResMut<ClearColor>,
+        mut transparency_set: ResMut<TransparencySet>,
+        mut windows: Query<&mut Window>,
+        mut event: EventWriter<RequestRedraw>,
+    ) {
         if input.just_pressed(KeyCode::T) {
-            *clear_colour = ClearColor::BLACK;
+            // let mut window = windows.single_mut();
+            // window.transparent = !window.transparent; // Not supported after creation.
+            if **transparency_set {
+                *clear_colour = ClearColor(Color::BLACK);
+            } else {
+                *clear_colour = ClearColor(Color::NONE);
+            }
+
+            **transparency_set = !**transparency_set;
+            event.send(RequestRedraw);
         }
     }
 
