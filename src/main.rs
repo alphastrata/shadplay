@@ -104,6 +104,10 @@ pub mod utils {
     #[derive(Component)]
     pub struct Cam2D;
 
+    /// Resource: Used for toggling on/off the transparency of the app.
+    #[derive(Resource, DerefMut, Deref)]
+    pub struct TransparencySet(pub bool);
+
     ///Event: Triggers the 2D to 3D or vice-versa camera switch.
     #[derive(Event)]
     pub struct CamSwitch;
@@ -135,8 +139,6 @@ pub mod utils {
         }
     }
 
-    #[derive(Resource, DerefMut, Deref)]
-    pub struct TransparencySet(pub bool);
     pub fn toggle_transparency(
         input: Res<Input<KeyCode>>,
         mut clear_colour: ResMut<ClearColor>,
