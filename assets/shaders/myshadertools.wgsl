@@ -1,4 +1,4 @@
-#define_import_path shaders::myshadertools
+#define_import_path shadplay::myshadertools
 
 fn rgb2hsb(c: vec3<f32>) -> vec3<f32> {
     let K: vec4<f32> = vec4<f32>(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);

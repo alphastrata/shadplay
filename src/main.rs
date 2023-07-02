@@ -65,6 +65,7 @@ fn main() {
                 utils::switch_level, //..
                 utils::switch_shape,
                 utils::quit,
+                utils::toggle_mouse_passthrough,
             ),
         )
         .run();
@@ -73,9 +74,9 @@ fn main() {
 //TODO: up/down arrows to increase/decrease rotation speed.
 fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
-        transform.rotate_local_z(time.delta_seconds() / 2.);
-        transform.rotate_local_x(time.delta_seconds() / 8.);
-        transform.rotate_y(time.delta_seconds() / 0.5);
+        transform.rotate_local_z(time.delta_seconds() / 1.);
+        transform.rotate_local_x(time.delta_seconds() / 2.);
+        transform.rotate_y(time.delta_seconds() / 4.5);
     }
 }
 /// The main place all our app's systems, input handling, spawning stuff into the world etc.
@@ -161,6 +162,17 @@ pub mod utils {
             window.decorations = !window.decorations;
 
             info!("WINDOW_DECORATIONS: {:?}", window.decorations);
+        }
+    }
+
+    /// Toggle mouse passthrough.
+    pub(crate) fn toggle_mouse_passthrough(
+        keyboard_input: Res<Input<KeyCode>>,
+        mut windows: Query<&mut Window>,
+    ) {
+        if keyboard_input.just_pressed(KeyCode::P) {
+            let mut window = windows.single_mut();
+            window.cursor.hit_test = !window.cursor.hit_test;
         }
     }
 
