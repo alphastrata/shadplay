@@ -133,6 +133,12 @@ pub mod utils {
         }
     }
 
+    pub fn toggle_transparency(input: Res<Input<KeyCode>>, mut clear_colour: ResMut<ClearColor>) {
+        if input.just_pressed(KeyCode::T) {
+            *clear_colour = ClearColor::BLACK;
+        }
+    }
+
     /// Switch the shape we're currently playing with a shader on.
     pub fn switch_shape(
         input: Res<Input<KeyCode>>,
@@ -142,7 +148,9 @@ pub mod utils {
     ) {
         if input.just_pressed(KeyCode::S) {
             // Old
-            let Some(idx) = shape_options.0.iter().position(|v| v.0) else{return};
+            let Some(idx) = shape_options.0.iter().position(|v| v.0) else {
+                return;
+            };
             shape_options.0[idx].0 = false;
             query.iter().for_each(|e| commands.entity(e).despawn());
 

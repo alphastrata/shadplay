@@ -12,7 +12,6 @@ struct MyShaderColor {
     color: vec4<f32>,
 };
 
-
 @group(0) @binding(0)
 var<uniform> view: View;
 
@@ -23,13 +22,166 @@ var<uniform> material: MyShaderColor;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // var uv = ((in.uv.xy) * 2.0) - 1.0; // Make the center of our shape 0.5,0.5
-    // let center = length(uv);
-    // return vec4<f32>(palette(center), 1.0);
+    // Something simple:
+    // return simple_example(in);
 
-    return kishimisu(in);
+    // Kishimisu:
+    // return kishimisu(in);
+
+    // electricity:
+    // return vec4(random3(vec3<f32>(0.1, .1238, 94523.334)), 1.0);
+    // return electricity(in);
+
+
+    // let r = vec3<f32>(0.1235, .82347, .4283523);
+    // return vec4<f32>(random3(r), 1.0);
+    return electricity(in);
 }
 
+// Function to generate pseudorandom noise between [-0.5, +0.5]^3
+fn random3(c: vec3<f32>) -> vec3<f32> {
+    var j = 4096.0 * sin(dot(c, vec3<f32>(17.0, 59.4, 15.0)));
+    var r: vec3<f32>;
+    r.z = fract(512.0 * j);
+    j *= 0.125;
+    r.x = fract(512.0 * j);
+    j *= 0.125;
+    r.y = fract(512.0 * j);
+    return r / 1.;//- vec3<f32>(0.5, 0.5, 0.5);
+}
+
+// Constants for 3D simplex noise
+const F3: f32 = 0.3333333;
+const G3: f32 = 0.1666667;
+
+// 3D simplex noise function
+fn simplex3d(p: vec3<f32>) -> f32 {
+    // Find current tetrahedron T and its four vertices
+    // s, s + i1, s + i2, s + 1.0 - absolute skewed (integer) coordinates of T vertices
+    // x, x1, x2, x3 - unskewed coordinates of p relative to each of T vertices
+    
+    // Calculate s and x
+    var s = floor(p + dot(p, vec3<f32>(F3)));
+    var x = p - s + dot(s, vec3<f32>(G3));
+    
+    // Calculate i1 and i2
+    var e = step(vec3<f32>(0.0), x - x.yzx);
+    var i1 = e * (1.0 - e.zxy);
+    var i2 = 1.0 - e.zxy * (1.0 - e);
+    
+    // x1, x2, x3
+    var x1 = x - i1 + G3;
+    var x2 = x - i2 + 2.0 * G3;
+    var x3 = x - 1.0 + (3.0 * G3);
+    
+    // Find four surflets and store them in d
+    var w: vec4<f32>;
+    var d: vec4<f32>;
+    
+    // Calculate surflet weights
+    w.x = dot(x, x);
+    w.y = dot(x1, x1);
+    w.z = dot(x2, x2);
+    w.w = dot(x3, x3);
+    
+    // w fades from 0.6 at the center of the surflet to 0.0 at the margin
+    w = max(vec4<f32>(0.06 - w), vec4<f32>(0.0));
+    
+    // Calculate surflet components
+    d.x = dot(random3(s), x);
+    d.y = dot(random3(s + i1), x1);
+    d.z = dot(random3(s + i2), x2);
+    d.w = dot(random3(s + vec3<f32>(1.0)), x3);
+    
+    // Multiply d by w^4
+    w *= w;
+    w *= w;
+    d *= w;
+    
+    // Return the sum of the four surflets
+    return dot(d, vec4<f32>(0.520));
+}
+// Function to combine different frequencies of simplex noise
+fn noise(m: vec3<f32>) -> f32 {
+    return 0.5333333 * simplex3d(m) + 0.2666667 * simplex3d(2.0 * m) + 0.1333333 * simplex3d(4.0 * m) + 0.0666667 * simplex3d(8.0 * m);
+}
+
+// This is a port/cover of: https://www.shadertoy.com/view/4scGWj by https://www.shadertoy.com/user/sqrt_1
+fn electricity(in: MeshVertexOutput) -> vec4<f32> {
+    let res = view.viewport;
+    let time = globals.time;
+    let in = in.uv;
+    // var uv = in.xy / res.xy;
+    // uv = uv * 2.0 - vec2<f32>(1.0, 1.0);
+
+    var p = in.xy / res.w;
+    var p3 = vec3<f32>(p, time * 0.4);
+
+    // Generate noise intensity
+
+    var intensity = noise(vec3<f32>(p3 * 12.0 + vec3<f32>(12.0)));
+
+    // Calculate gradient and color
+    var t = clamp((in.x * -in.x * 0.16) + 0.15, 0.0, 1.0);
+    var y = abs(intensity * -t + in.y);
+    var g = pow(y, 0.2);
+
+    var col = vec3<f32>(1.0, 1.48, 1.78);
+    col = col * (-1.0 * g) + col;
+    col = col * col;
+    col = col * col;
+    /// NOISE:
+
+    var p1 = vec3(0.5);
+    // Calculate s and x
+    var s: vec3<f32> = floor(p1 + dot(p1, vec3<f32>(F3)));
+    var x = p1 - s + dot(s, vec3<f32>(G3));
+    
+    // // Calculate i1 and i2
+    var e = step(vec3<f32>(0.0), x - x.yzx);
+    var i1 = e * (1.0 - e.zxy);
+    var i2 = 1.0 - e.zxy * (1.0 - e);
+    
+    // // x1, x2, x3
+    let x1 = x - i1 + G3;
+    let x2 = x - i2 + 2.0 * G3;
+    let x3 = x - 1.0 + (3.0 * G3);
+    
+    // // Find four surflets and store them in d
+    var w: vec4<f32>;
+    var d: vec4<f32>;
+    
+    // // Calculate surflet weights
+    w.x = dot(x, x);
+    w.y = dot(x1, x1);
+    w.z = dot(x2, x2);
+    w.w = dot(x3, x3);
+    
+    // // w fades from 0.6 at the center of the surflet to 0.0 at the margin
+    w = max(vec4<f32>(0.9 - w), vec4<f32>(0.0));
+    
+    // Calculate surflet components
+    d.x = dot(random3(s), x);
+    d.y = dot(random3(s + i1), x1);
+    d.z = dot(random3(s + i2), x2);
+    d.w = dot(random3(s + vec3<f32>(1.0)), x3);
+    
+    // Multiply d by w^4
+    w *= w;
+    w *= w;
+    d *= w;
+    
+    // Return the sum of the four surflets
+    // return vec4(dot(d, vec4<f32>(0.520)));
+
+    // return vec4<f32>(vec3<f32>(dot(x3, x3)), 1.0);
+
+
+    return vec4(dot(d, vec4(1.0)) * vec4(col, 1.0));
+    // return vec4<f32>(w.xyz, 1.0);
+    // return max(vec4<f32>(0.6 - w), vec4<f32>(0.0));
+    // return vec4<f32>(d);
+}
 
 // This is a port/cover of Kimishisu's awesome YT tutotial: https://www.youtube.com/watch?v=f4s1h2YETNY
 fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
@@ -57,8 +209,6 @@ fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
 
     return vec4<f32>(output, 1.0);
 }
-
-
 fn palette(t: f32) -> vec3<f32> {
     var a: vec3<f32>= vec3<f32>(0.5, 0.5, 0.5);
     var b: vec3<f32>= vec3<f32>(0.5, 0.5, 0.5);
@@ -68,49 +218,12 @@ fn palette(t: f32) -> vec3<f32> {
     return a + b * cos(6.28318 * (c * t + d));
 }
 
-
-// struct MeshVertexOutput {
-//     // this is `clip position` when the struct is used as a vertex stage output 
-//     // and `frag coord` when used as a fragment stage input
-//     @builtin(position) position: vec4<f32>,
-//     @location(0) world_position: vec4<f32>,
-//     @location(1) world_normal: vec3<f32>,
-//     #ifdef VERTEX_UVS
-//     @location(2) uv: vec2<f32>,
-//     #endif
-//     #ifdef VERTEX_TANGENTS
-//     @location(3) world_tangent: vec4<f32>,
-//     #endif
-//     #ifdef VERTEX_COLORS
-//     @location(4) color: vec4<f32>,
-//     #endif
-// }
-
-
-
-// fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
-//     // fn fragment_main(fragCoord,: vec2<i32>, iResolution: vec3<f32>, iTime: f32) -> [[location(0)]] vec4<f32>{
-//     var uv: vec2<f32> = (f32(fragCoord) * 2.0 - vec2<f32>(iResolution.xy)) / iResolution.y;
-//     var uv0: vec2<f32> = uv;
-//     var finalColor: vec3<f32> = vec3<f32>(0.0);
-
-//     for (var i: f32 = 0.0; i < 4.0; i = i + 1.0) {
-//         uv = fract(uv * 1.5) - vec2<f32>(0.5);
-
-//         var d: f32 = length(uv) * exp(-length(uv0));
-
-//         var col: vec3<f32> = palette(length(uv0) + i * 0.4 + iTime * 0.4);
-
-//         d = sin(d * 8.0 + iTime) / 8.0;
-//         d = abs(d);
-
-//         d = pow(0.01 / d, 1.2);
-
-//         finalColor = finalColor + col * d;
-//     }
-
-//     return vec4<f32>(finalColor, 1.0);
-// }
+fn simple_example(in: MeshVertexOutput) -> vec4<f32> {
+    // Something simple:
+    var uv = ((in.uv.xy) * 2.0) - 1.0; // Make the center of our shape 0.5,0.5
+    let center = length(uv);
+    return vec4<f32>(palette(center), 1.0);
+}
 
 
 // Some nice colours:
@@ -162,3 +275,27 @@ fn palette(t: f32) -> vec3<f32> {
     // d = smoothstep(0.0, 0.1, d); // or, blend it
 
 
+
+
+// fn samplef(x: int, y: int, uv: vec2) {
+//     let screen_w = view.viewport.z;
+//     let screen_h = view.viewport.w;
+
+//     var uv = uv / screen_w; // what this? * iChannelResolution[0].xy;
+//     let uv = (uv + vec2(x, y)); // what this? view.viewport.xy / iChannelResolution[0].xy;
+
+//     return texture(iChannel0, uv).xyz;
+// }
+
+// fn luminance(c: vec3) {
+//     return dot(c, vec3(.2126, .7152, .0722));
+// }
+
+// fn filterf(in: vec2<f32>) {
+//     // var filterf(in, vec2fragCoord) {
+//     var hc = samplef(-1, -1, fragCoord) * 1. + samplef(0, -1, fragCoord) * 2. + samplef(1, -1, fragCoord) * 1. + samplef(-1, 1, fragCoord) * -1. + samplef(0, 1, fragCoord) * -2. + samplef(1, 1, fragCoord) * -1.;
+
+//     var vc = samplef(-1, -1, fragCoord) * 1. + samplef(-1, 0, fragCoord) * 2. + samplef(-1, 1, fragCoord) * 1. + samplef(1, -1, fragCoord) * -1. + samplef(1, 0, fragCoord) * -2. + samplef(1, 1, fragCoord) * -1.;
+
+//     return samplef(0, 0, uv) * pow(luminance(vc * vc + hc * hc), .6);
+// }
