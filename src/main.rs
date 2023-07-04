@@ -1,6 +1,4 @@
 #![allow(unused_imports)]
-
-/// The UI buttons etc.
 //NOTE: most of this should be pub(crate) or private.
 pub mod ui;
 
@@ -28,7 +26,6 @@ fn main() {
                         watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
                         ..default()
                     })
-                    // We want the window to not be shit.
                     .set(WindowPlugin {
                         primary_window: Some(Window {
                             title: "shadplay".into(),
@@ -43,8 +40,6 @@ fn main() {
                             window_level: WindowLevel::AlwaysOnTop,
                             ..default()
                         }),
-                        // exit_condition: todo!(),
-                        // close_when_requested: todo!(),
                         ..default()
                     }),
                 //..
@@ -55,13 +50,14 @@ fn main() {
             //..
         )
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
-        .insert_resource(TransparencySet(true)) // Transparent Window
+        /*NOTE: you cannot currently toggle this at runtime: which is what this Resource will someday be for..
+        .insert_resource(TransparencySet(true))*/
         .add_systems(PreStartup, utils::init_shapes)
         .add_systems(Startup, utils::setup)
         .add_systems(
             Update,
             (
-                rotate,
+                utils::rotate,
                 utils::toggle_decorations,
                 utils::switch_level, //..
                 utils::switch_shape,
@@ -71,15 +67,6 @@ fn main() {
             ),
         )
         .run();
-}
-
-//TODO: up/down arrows to increase/decrease rotation speed.
-fn rotate(mut query: Query<&mut Transform, With<utils::Shape>>, time: Res<Time>) {
-    for mut transform in &mut query {
-        transform.rotate_local_z(time.delta_seconds() / 1.);
-        transform.rotate_local_x(time.delta_seconds() / 2.);
-        transform.rotate_y(time.delta_seconds() / 4.5);
-    }
 }
 /// The main place all our app's systems, input handling, spawning stuff into the world etc.
 pub mod utils {
@@ -118,6 +105,14 @@ pub mod utils {
 
     use crate::shader_utils::YourShader;
 
+    //TODO: up/down arrows to increase/decrease rotation speed.
+    pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
+        for mut transform in &mut query {
+            transform.rotate_local_z(time.delta_seconds() / 1.);
+            transform.rotate_local_x(time.delta_seconds() / 2.);
+            transform.rotate_y(time.delta_seconds() / 4.5);
+        }
+    }
     /// Move between always on bottom, always on top and just, 'normal' window modes, by hitting the 'L' key.
     pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
         //TODO: move logic to helper func and have this trigger on key or Event.
