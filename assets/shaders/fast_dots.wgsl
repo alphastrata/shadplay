@@ -10,7 +10,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     var min_dist = 0.;
 
-    for (var i = 0; i < 2020; i += 1) {
+    for (var i = 0; i < 20; i += 1) {
         let n = N22(vec2(f32(i)));
         let p = sin(n*t);
         let d = length(uv - p);
@@ -26,7 +26,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     return vec4(col, 1.0);
 }
 
-// Noise: two in -> two out in range [0..1]
+// Noise: two in -> two out
 fn N22(pp: vec2<f32>)->vec2<f32>{
     var a = fract(pp.xyx*vec3(123.34, 234.34, 345.65));
     a += dot(a, a + 34.45);
