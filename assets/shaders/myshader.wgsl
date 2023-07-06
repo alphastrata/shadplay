@@ -2,42 +2,32 @@
 // #import shadplay::myshadertools rgb2hsb
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
-#import bevy_pbr::utils PI
-#import bevy_pbr::utils
-#import bevy_core_pipeline::fullscreen_vertex_shader FullscreenVertexOutput
-#import bevy_render::view View
 
-// Notice how this EXACTLY matches the YourShader declared in main? This is how you Get data INTO a shader.
-struct MyShaderColor {
-    color: vec4<f32>,
-};
-
-@group(0) @binding(0)
-var<uniform> view: View;
-
-@group(1) @binding(0)
-var<uniform> material: MyShaderColor;
+// @group(1) @binding(0)
+// var<uniform> material: MyShaderColor;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let uv: vec2<f32> = in.uv;
-    // return fbm_lightning(uv);
+    return fbm_lightning(uv);
 
     // Emergency:
-    return vec4(uv.x, uv.y, (uv.y / uv.x), 0.002) + fbm_lightning(uv);
+    // return vec4(uv.x, uv.y, (uv.y / uv.x), 0.002);
 }
 
 // Cover of https://www.shadertoy.com/view/dsXfDn
 fn fbm_lightning(uv: vec2<f32>) -> vec4<f32> {
     // Make the centre of our cube == 0,0
     var uv = ((uv.xy) * 2.0) - 1.5;
+    // uv.y += fract(h11(globals.time));
 
     var time: f32 = globals.time;
 
-    uv += fbm(uv + 0.004 * time, 120) ;
+    uv += fbm(uv - 0.004 * time, 2) ;
 
-    var dist = uv.x;
-    var col = vec3(0.3, 0.6, 0.8) * pow(mix(0.0, 0.05, h11(time)) / dist, 99.4);
+    var dist = abs(uv.x) * 18.0; // needs to be abs so that the glow goes in both directions.
+    var glow = 18.4;
+    var col = vec3(0.3, 0.6, 0.8) * pow(mix(0.0, 0.08, h11(time)) / dist, glow);
 
     return vec4(col, 1.0);
 }
@@ -82,9 +72,9 @@ fn fbm(pp: vec2<f32>, octave_count: i32) -> f32 {
 
     for (var i = 0; i < octave_count; i += 1) {
         value += amp * noise21(pp);
-        pp *= rotate2D(0.99);
+        pp *= rotate2D(h11(0.321));
         pp *= pp;
-        amp *= 0.2;
+        amp *= 0.33333333;
     }
 
     return value;
