@@ -130,14 +130,17 @@ pub fn toggle_mouse_passthrough(
 }
 
 /// Toggle camera between 2D and 3D:
+//TODO: Maybe do this with scenes?
 #[allow(unused_mut, dead_code, unused_variables)]
 pub fn switch_camera(
     mut cam3d: Query<&mut Camera, With<Cam3D>>,
     mut cam2d: Query<&mut Camera, With<Cam2D>>,
     mut trigger: EventReader<CamSwitch>,
 ) {
-    // read the trigger, flip the cameras.
-    // TODO: bind a hotkey.
+    if keyboard_input.just_pressed(KeyCode::Tab) {
+        info!("2d/3d Cam toggle");
+    }
+
     todo!()
 }
 
@@ -147,7 +150,7 @@ pub fn init_shapes(
     mut shape_options: ResMut<ShapeOptions>,
 ) {
     shape_options.0.push((
-        true,
+        false,
         (
             MaterialMeshBundle {
                 mesh: meshes
@@ -206,7 +209,12 @@ pub fn init_shapes(
     ));
 }
 
-pub fn setup(mut commands: Commands, shape_options: Res<ShapeOptions>) {
+pub fn setup(
+    mut commands: Commands,
+    shape_options: Res<ShapeOptions>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<YourShader>>,
+) {
     // 3D camera
     commands.spawn((
         Camera3dBundle {
@@ -221,19 +229,30 @@ pub fn setup(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     ));
 
     // 2D camera
-    commands.spawn((
-        Camera2dBundle {
-            camera: Camera {
-                is_active: false,
-                ..default()
-            },
-            ..default()
-        },
-        Cam3D,
-    ));
+    commands
+        .spawn((Camera2dBundle::default(), Cam2D))
+        .insert(VisibilityBundle::default())
+        .with_children(|camera| {
+            camera.spawn((
+                MaterialMeshBundle {
+                    mesh: meshes.add(
+                        shape::Quad {
+                            size: Vec2 { x: 16., y: 9. },
+                            flip: false,
+                        }
+                        .into(),
+                    ),
+                    transform: Transform::from_xyz(0.0, 0.0, 0.0),
+                    material: materials.add(crate::shader_utils::YourShader {
+                        color: Color::default(),
+                    }),
+                    ..default()
+                },
+                Shape,
+            ));
+        });
 
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
-        println!("found one!");
         commands.spawn(matmeshbund.1.clone());
     }
 }
