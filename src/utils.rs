@@ -136,6 +136,7 @@ pub fn switch_camera(
     mut cam3d: Query<&mut Camera, With<Cam3D>>,
     mut cam2d: Query<&mut Camera, With<Cam2D>>,
     mut trigger: EventReader<CamSwitch>,
+    keyboard_input: Res<Input<KeyCode>>,
 ) {
     if keyboard_input.just_pressed(KeyCode::Tab) {
         info!("2d/3d Cam toggle");
@@ -172,7 +173,7 @@ pub fn init_shapes(
     ));
 
     shape_options.0.push((
-        false,
+        true,
         ((
             MaterialMeshBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 2.0 })).clone(),
@@ -228,29 +229,29 @@ pub fn setup(
         Cam3D,
     ));
 
-    // 2D camera
-    commands
-        .spawn((Camera2dBundle::default(), Cam2D))
-        .insert(VisibilityBundle::default())
-        .with_children(|camera| {
-            camera.spawn((
-                MaterialMeshBundle {
-                    mesh: meshes.add(
-                        shape::Quad {
-                            size: Vec2 { x: 16., y: 9. },
-                            flip: false,
-                        }
-                        .into(),
-                    ),
-                    transform: Transform::from_xyz(0.0, 0.0, 0.0),
-                    material: materials.add(crate::shader_utils::YourShader {
-                        color: Color::default(),
-                    }),
-                    ..default()
-                },
-                Shape,
-            ));
-        });
+    // // 2D camera
+    // commands
+    //     .spawn((Camera2dBundle::default(), Cam2D))
+    //     .insert(VisibilityBundle::default())
+    //     .with_children(|camera| {
+    //         camera.spawn((
+    //             MaterialMeshBundle {
+    //                 mesh: meshes.add(
+    //                     shape::Quad {
+    //                         size: Vec2 { x: 16., y: 9. },
+    //                         flip: false,
+    //                     }
+    //                     .into(),
+    //                 ),
+    //                 transform: Transform::from_xyz(0.0, 0.0, 0.0),
+    //                 material: materials.add(crate::shader_utils::YourShader {
+    //                     color: Color::default(),
+    //                 }),
+    //                 ..default()
+    //             },
+    //             Shape,
+    //         ));
+    //     });
 
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
         commands.spawn(matmeshbund.1.clone());

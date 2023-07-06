@@ -20,39 +20,72 @@ var<uniform> material: MyShaderColor;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // Kishimisu:
-    return kishimisu(in);
+    let uv: vec2<f32> = in.uv;
+    // return fbm_lightning(uv);
+
+    // Emergency:
+    return vec4(uv.x, uv.y, (uv.y / uv.x), 0.002) + fbm_lightning(uv);
 }
 
-// This is a port/cover of Kimishisu's awesome YT tutotial: https://www.youtube.com/watch?v=f4s1h2YETNY
-fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
-    let uv0 = ((in.uv.xy) * 2.0) - 1.0;
-    var uv = (in.uv.xy) ;
+// Cover of https://www.shadertoy.com/view/dsXfDn
+fn fbm_lightning(uv: vec2<f32>) -> vec4<f32> {
+    // Make the centre of our cube == 0,0
+    var uv = ((uv.xy) * 2.0) - 1.5;
 
-    var output = vec3(0.0);
+    var time: f32 = globals.time;
 
-    for (var i = 0.0; i < 1.0; i += 1.0) {
-        uv = fract((uv * .0982)) - 1.225;
+    uv += fbm(uv + 0.004 * time, 120) ;
 
-        var d = length(uv) * exp(-length(uv0));
+    var dist = uv.x;
+    var col = vec3(0.3, 0.6, 0.8) * pow(mix(0.0, 0.05, h11(time)) / dist, 99.4);
 
-        var col = palette(length(uv0) + (i * 4.3) + (globals.time * .4));
+    return vec4(col, 1.0);
+}
 
-        d = sin(d * 8. + globals.time) / 4.;
-        d = abs(d);
+fn h11(p: f32) -> f32 {
+    var p = fract(p * .1031);
+    p *= p + 33.33;
+    p *= p + p;
+    return fract(p);
+}
 
-        d = pow(0.01 / d, 1.8);
+fn h12(pp: vec2<f32>) -> f32 {
+    var p3 = fract(vec3(pp.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
 
-        output += col * d;
+fn rotate2D(theta: f32) -> mat2x2<f32> {
+    let c = cos(theta);
+    let s = sin(theta);
+    return mat2x2<f32>(c, - s, s, c);
+}
+
+fn noise21(pp: vec2<f32>) -> f32 {
+    let ip = floor(pp);
+    let fp = fract(pp);
+
+    let a = h12(ip);
+    let b = h12(ip + vec2(1., 0.));
+    let c = h12(ip + vec2(0., 1.));
+    let d = h12(ip + vec2(1., 1.));
+
+    let t = smoothstep(vec2(0.0), vec2(1.0), fp);
+
+    return mix(mix(a, b, t.x), mix(c, d, t.x), t.y);
+}
+
+fn fbm(pp: vec2<f32>, octave_count: i32) -> f32 {
+    var value = 0.0;
+    var pp = pp;
+    var amp = 0.5;
+
+    for (var i = 0; i < octave_count; i += 1) {
+        value += amp * noise21(pp);
+        pp *= rotate2D(0.99);
+        pp *= pp;
+        amp *= 0.2;
     }
 
-    return vec4<f32>(output, 1.0);
-}
-fn palette(t: f32) -> vec3<f32> {
-    let a = vec3<f32>(0.5, 0.5, 0.5);
-    let b = vec3<f32>(0.5, 0.5, 0.5);
-    let c = vec3<f32>(1.0, 1.0, 1.0);
-    let d = vec3<f32>(0.263, 0.416, 0.557);
-
-    return a + b * cos(6.28318 * (c * t + d));
+    return value;
 }
