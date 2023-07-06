@@ -123,6 +123,8 @@ pub fn toggle_mouse_passthrough(
 ) {
     if keyboard_input.just_pressed(KeyCode::P) {
         let mut window = windows.single_mut();
+        info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+
         window.cursor.hit_test = !window.cursor.hit_test;
     }
 }
