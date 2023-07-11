@@ -48,6 +48,7 @@ fn kishimisu(in: MeshVertexOutput) -> vec4<f32> {
 
     return vec4<f32>(output, 1.0);
 }
+
 fn palette(t: f32) -> vec3<f32> {
     let a = vec3<f32>(0.5, 0.5, 0.5);
     let b = vec3<f32>(0.5, 0.5, 0.5);
