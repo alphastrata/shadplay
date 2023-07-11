@@ -5,12 +5,24 @@ resolver = "2"
 edition = "2021"
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", features = [
+# bevy = { git = "https://github.com/bevyengine/bevy", features = [
+#     "filesystem_watcher",
+#     "dynamic_linking",
+#     "bevy_dylib",
+# ] }
+bevy = {path="./bevy", features = [
     "filesystem_watcher",
     "dynamic_linking",
     "bevy_dylib",
-] }
+]}
 
+
+[dev-dependencies]
+bevy = {path="./bevy", features = [
+    "filesystem_watcher",
+    "dynamic_linking",
+    "bevy_dylib",
+]}
 
 [profile.dev]
 opt-level = 1

@@ -36,9 +36,9 @@ pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>
 //TODO: up/down arrows to increase/decrease rotation speed.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
-        transform.rotate_local_z(time.delta_seconds() / 0.25);
-        transform.rotate_local_x(time.delta_seconds() / 1.33);
-        transform.rotate_y(time.delta_seconds() / 4.250);
+        transform.rotate_local_z(time.delta_seconds() * 0.25);
+        transform.rotate_local_x(time.delta_seconds() * 0.33);
+        transform.rotate_y(time.delta_seconds() * 0.250);
     }
 }
 ///System:
