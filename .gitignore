@@ -18,4 +18,5 @@ Cargo.lock
 
 # for retards
 .vscode
-shaderbookbevy
+shaderbook
+bevy
