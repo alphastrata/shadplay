@@ -3,6 +3,7 @@
 #import bevy_pbr::utils PI HALF_PI
 #import bevy_pbr::mesh_functions 
 
+
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time;
@@ -15,7 +16,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let rotation = mat2x2(cos(angle), -sin(angle), sin(angle), cos(angle));
     uv = rotation * uv;
 
-    let d = sdStar(uv, 2.0, 8, 5.0);
+    var d = sdStar(uv, 2.0, 8, 5.0);
     let st = smoothstep(0.0, 0.05, abs(d)); 
     col = vec3<f32>(st);
 
@@ -25,9 +26,11 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
       col *= palette(0.497);
     }
 
+    d = 0.1 / d;
+    col *= d * cos(t);
+
     return vec4<f32>(col, 1.0);
 }
-
 
 // I disklike boring colours, this paticular function comes from Kishimisu (see the wgsl file of same name to explore more of her/his/their ideas.)
 fn palette(t: f32) -> vec3<f32> {
@@ -54,4 +57,11 @@ fn sdStar(p: vec2<f32>, r: f32, n: i32, m: f32) -> f32 {
   q = q + ecs * clamp(-dot(q, ecs), 0., r * acs.y / ecs.y);
 
   return length(q) * sign(q.x);
+}
+
+// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
+fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
+    let K: vec4<f32> = vec4<f32>(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    var p: vec3<f32> = abs(fract(vec3<f32>(c.x) + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, vec3<f32>(0.0), vec3<f32>(1.0)), c.y);
 }

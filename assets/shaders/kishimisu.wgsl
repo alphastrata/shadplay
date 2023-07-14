@@ -7,6 +7,8 @@
 #import bevy_core_pipeline::fullscreen_vertex_shader FullscreenVertexOutput
 #import bevy_render::view View
 
+#define_import_path kishimisu
+
 // Notice how this EXACTLY matches the YourShader declared in main? This is how you Get data INTO a shader.
 struct MyShaderColor {
     color: vec4<f32>,
