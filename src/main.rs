@@ -7,6 +7,7 @@ use bevy::{
     window::{Window, WindowPlugin},
 };
 
+use bevy_panorbit_camera::PanOrbitCameraPlugin;
 use shadplay::{shader_utils, utils};
 
 fn main() {
@@ -38,15 +39,15 @@ fn main() {
                         }),
                         ..default()
                     }),
-                // YOUR SHADER STUFF!!
-                MaterialPlugin::<shader_utils::YourShader>::default(),
             ),
             //..
         )
+        .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
+        .add_plugins(PanOrbitCameraPlugin)
+        .add_systems(Startup, utils::setup)
         .insert_resource(ClearColor(Color::NONE)) // Transparent Window
         .insert_resource(utils::TransparencySet(true))
         .add_systems(PreStartup, utils::init_shapes)
-        .add_systems(Startup, utils::setup)
         .add_systems(
             Update,
             (

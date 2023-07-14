@@ -3,6 +3,7 @@
 TODO:
 - [] drag n drop obj/stl/gltf opening?
 - [] clever snap camera
+- [] break things into more, smaller files.
 - [] material swap to ours system
 - [] hotkey menu display
 - [] More shader examples 

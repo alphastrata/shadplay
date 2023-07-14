@@ -20,3 +20,4 @@ Cargo.lock
 .vscode
 shaderbook
 bevy
+bevy_shaders

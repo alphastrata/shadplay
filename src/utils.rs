@@ -1,7 +1,9 @@
+use bevy::render::camera::ScalingMode;
 use bevy::{
     prelude::*,
     window::{RequestRedraw, Window, WindowLevel},
 };
+use bevy_panorbit_camera::{PanOrbitCamera, PanOrbitCameraPlugin};
 
 use crate::shader_utils::YourShader;
 
@@ -229,39 +231,12 @@ pub fn setup(
     // 3D camera
     commands.spawn((
         Camera3dBundle {
-            transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-            camera: Camera {
-                order: 0,
-                ..default()
-            },
+            transform: Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)),
             ..default()
         },
+        PanOrbitCamera::default(),
         Cam3D,
     ));
-
-    // // 2D camera
-    // commands
-    //     .spawn((Camera2dBundle::default(), Cam2D))
-    //     .insert(VisibilityBundle::default())
-    //     .with_children(|camera| {
-    //         camera.spawn((
-    //             MaterialMeshBundle {
-    //                 mesh: meshes.add(
-    //                     shape::Quad {
-    //                         size: Vec2 { x: 16., y: 9. },
-    //                         flip: false,
-    //                     }
-    //                     .into(),
-    //                 ),
-    //                 transform: Transform::from_xyz(0.0, 0.0, 0.0),
-    //                 material: materials.add(crate::shader_utils::YourShader {
-    //                     color: Color::default(),
-    //                 }),
-    //                 ..default()
-    //             },
-    //             Shape,
-    //         ));
-    //     });
 
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
         commands.spawn(matmeshbund.1.clone());
