@@ -9,14 +9,15 @@ const GRID_RATIO:f32 = 40.;
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time;
+
     var uv = in.uv - 0.5;
+    uv *=  GRID_RATIO / 5.;
     var col = vec3(0.0);
 
-    uv *=  GRID_RATIO / 5.;
     let grid = grid(uv);
-    let pal = palette(t / 2. );
+
+    let pal = palette(t / 20.);
     col = mix(col, pal, grid);
-    // col = cross(col, pal);
    
     return vec4<f32>(col, 1.0);
 }
@@ -34,7 +35,7 @@ fn palette(t: f32) -> vec3<f32> {
 // inspired by https://www.shadertoy.com/view/Wt33Wf & https://www.shadertoy.com/view/XtBfzz
 fn grid(uv: vec2<f32>)-> f32 {
     let i = step(fract(uv), vec2(1.0/GRID_RATIO));
-    return (1.1-i.x) * (0.005+i.y);
+    return (1.0-i.x) * (1.0-i.y);
     
 }
 
