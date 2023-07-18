@@ -3,17 +3,17 @@
 #import bevy_pbr::utils PI HALF_PI
 #import bevy_pbr::mesh_functions 
 
+const GRID_RATIO:f32 = 20.;
+
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time;
 
-    // let uv0 = ((in.uv.xy) * 2.0) - 1.0;
-    // var uv = in.uv *2.0 - 1.0; 
     var uv = in.uv - 0.5;
+    uv *=  GRID_RATIO/5.;
     var col = vec3(0.0);
 
-    uv *= 3.;
 
     let battery = 1.0;
     let grid = grid(uv, battery);
@@ -35,21 +35,11 @@ fn palette(t: f32) -> vec3<f32> {
 }
 
 // inspired by https://www.shadertoy.com/view/Wt33Wf
-fn grid(uv: vec2<f32>, battery: f32)-> f32{
+fn grid(uv: vec2<f32>, battery: f32)-> f32 {
+    let i = step(fract(uv), vec2(1.0/GRID_RATIO));
+    return (1.0-i.x) * (1.0-i.y);
 
-    let t = globals.time;
-    var uv = uv;
-
-    let size = vec2(uv.y, uv.y * uv.y * 0.2)*0.01;
-
-    uv += vec2(0.0, t *4.0 * (battery + 0.05));
-    uv = abs(fract(uv) - 0.5);
-
-    var lines:vec2<f32> = smoothstep(size *5.0, vec2(0.0), uv);
-    lines += smoothstep(size *5.0, vec2(0.), uv) * 0.4 * battery;
-
-    return clamp(lines.x + lines.y, 0.0, 3.0);
-   
+    
 }
 
 
