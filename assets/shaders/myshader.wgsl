@@ -7,28 +7,20 @@
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time;
-    var uv = in.uv - 0.5; 
+
+    // let uv0 = ((in.uv.xy) * 2.0) - 1.0;
+    // var uv = in.uv *2.0 - 1.0; 
+    var uv = in.uv - 0.5;
     var col = vec3(0.0);
-    uv *= 8.0;
 
-    // Apply rotation to UV coordinates
-    let angle = -t * 0.80; 
-    let rotation = mat2x2(cos(angle), -sin(angle), sin(angle), cos(angle));
-    uv = rotation * uv;
+    uv *= 3.;
 
-    var d = sdStar(uv, 2.0, 8, 5.0);
-    let st = smoothstep(0.0, 0.05, abs(d)); 
-    col = vec3<f32>(st);
+    let battery = 1.0;
+    let grid = grid(uv, battery);
 
-    if (d > 0.0) {
-      col *= palette(0.037);  
-    } else {
-      col *= palette(0.497);
-    }
-
-    d = 0.1 / d;
-    col *= d * cos(t);
-
+    uv.y *= abs(uv.x + 0.2)  + 0.05;
+    col = mix(col, vec3(1.0, 0.5, 1.0), grid);
+   
     return vec4<f32>(col, 1.0);
 }
 
@@ -42,22 +34,24 @@ fn palette(t: f32) -> vec3<f32> {
     return a + b * cos(6.28318 * (c * t + d));
 }
 
-// courtesy of : https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4
-fn sdStar(p: vec2<f32>, r: f32, n: i32, m: f32) -> f32 {
-  let an = 3.141593 / f32(n);
-  let en = 3.141593 / m;
+// inspired by https://www.shadertoy.com/view/Wt33Wf
+fn grid(uv: vec2<f32>, battery: f32)-> f32{
 
-  let acs = vec2<f32>(cos(an), sin(an));
-  let ecs = vec2<f32>(cos(en), sin(en));
+    let t = globals.time;
+    var uv = uv;
 
-  let bn = (atan2(abs(p.x), p.y) % (2. * an)) - an;
-  var q: vec2<f32> = length(p) * vec2<f32>(cos(bn), abs(sin(bn)));
+    let size = vec2(uv.y, uv.y * uv.y * 0.2)*0.01;
 
-  q = q - r * acs;
-  q = q + ecs * clamp(-dot(q, ecs), 0., r * acs.y / ecs.y);
+    uv += vec2(0.0, t *4.0 * (battery + 0.05));
+    uv = abs(fract(uv) - 0.5);
 
-  return length(q) * sign(q.x);
+    var lines:vec2<f32> = smoothstep(size *5.0, vec2(0.0), uv);
+    lines += smoothstep(size *5.0, vec2(0.), uv) * 0.4 * battery;
+
+    return clamp(lines.x + lines.y, 0.0, 3.0);
+   
 }
+
 
 // License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
 fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
