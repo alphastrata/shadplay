@@ -17,8 +17,10 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let pal = palette(t / 2. );
     col = mix(col, pal, grid);
     // col = cross(col, pal);
+
+    let mo = 5.0%2.0;
    
-    return vec4<f32>(col, 1.0);
+    return vec4<f32>(col, mo);
 }
 
 // I disklike boring colours, this paticular function comes from Kishimisu (see the wgsl file of same name to explore more of her/his/their ideas.)
