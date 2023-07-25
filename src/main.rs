@@ -1,4 +1,3 @@
-#![allow(unused_imports)]
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
@@ -6,8 +5,8 @@ use bevy::{
     window::{CompositeAlphaMode, WindowLevel},
     window::{Window, WindowPlugin},
 };
-
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
+
 use shadplay::{
     shader_utils,
     utils::{self, Rotating, ShapeOptions, TransparencySet},

@@ -4,16 +4,13 @@ use std::process::exit;
 
 fn main() {
     // Clone the Bevy repository
-    if !PathBuf::from("bevy").exists() {
-        if !std::process::Command::new("git")
-            .args(&["clone", "https://github.com/bevyengine/bevy"])
+    if !PathBuf::from("bevy").exists() && !std::process::Command::new("git")
+            .args(["clone", "https://github.com/bevyengine/bevy"])
             .status()
             .expect("Failed to execute git clone command")
-            .success()
-        {
-            eprintln!("Failed to clone Bevy repository");
-            exit(1);
-        }
+            .success() {
+        eprintln!("Failed to clone Bevy repository");
+        exit(1);
     }
 
     // Collect paths of all .wgsl files using `glob` crate
@@ -28,6 +25,6 @@ fn main() {
     wgsl_files.into_iter().for_each(|path| {
         let filename = path.file_name().expect("Failed to get filename");
         let destination = format!("bevy_shaders/{}", filename.to_string_lossy());
-        fs::rename(path, &destination).expect("Failed to move file");
+        fs::rename(path, destination).expect("Failed to move file");
     });
 }

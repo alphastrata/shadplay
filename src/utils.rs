@@ -26,11 +26,11 @@ pub struct Cam2D;
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
 
-///Event: Triggers the 2D to 3D or vice-versa camera switch.
+/// Event: Triggers the 2D to 3D or vice-versa camera switch.
 #[derive(Event)]
 pub struct CamSwitch;
 
-///Resource: All the shapes we have the option of displaying.
+/// Resource: All the shapes we have the option of displaying.
 #[derive(Resource, Default)]
 pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
 
