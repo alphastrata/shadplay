@@ -34,8 +34,17 @@ pub struct CamSwitch;
 #[derive(Resource, Default)]
 pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
 
-///System:
-//TODO: up/down arrows to increase/decrease rotation speed.
+#[derive(Resource, Default, PartialEq)]
+pub struct Rotating(pub bool);
+
+/// System: to toggle on/off the rotating
+pub fn toggle_rotate(input: Res<Input<KeyCode>>, mut toggle: ResMut<Rotating>) {
+    if input.just_pressed(KeyCode::R) {
+        toggle.0 = !toggle.0;
+    }
+}
+
+/// System: Rotates the currently active geometry in the scene
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
         transform.rotate_local_z(time.delta_seconds() * 0.25);
@@ -43,7 +52,8 @@ pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
         transform.rotate_y(time.delta_seconds() * 0.250);
     }
 }
-///System:
+
+/// System:
 /// Move between always on bottom, always on top and just, 'normal' window modes, by hitting the 'L' key.
 pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
     //TODO: move logic to helper func and have this trigger on key or Event.
@@ -58,7 +68,8 @@ pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>)
         info!("WINDOW_LEVEL: {:?}", window.window_level);
     }
 }
-///System:
+
+/// System:
 /// Quits the app...
 pub fn quit(input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::Q) {
@@ -66,7 +77,7 @@ pub fn quit(input: Res<Input<KeyCode>>) {
     }
 }
 
-///System:
+/// System:
 pub fn toggle_transparency(
     input: Res<Input<KeyCode>>,
     mut clear_colour: ResMut<ClearColor>,
@@ -88,7 +99,7 @@ pub fn toggle_transparency(
     }
 }
 
-///System:
+/// System:
 /// Switch the shape we're currently playing with a shader on.
 pub fn switch_shape(
     input: Res<Input<KeyCode>>,
@@ -111,7 +122,7 @@ pub fn switch_shape(
     }
 }
 
-///System:
+/// System:
 /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
 pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
     //TODO: move logic to helper func and have this trigger on key or Event.
@@ -124,7 +135,7 @@ pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Wi
     }
 }
 
-///System:
+/// System:
 /// Toggle mouse passthrough.
 pub fn toggle_mouse_passthrough(
     keyboard_input: Res<Input<KeyCode>>,
@@ -138,7 +149,7 @@ pub fn toggle_mouse_passthrough(
     }
 }
 
-///System:
+/// System:
 /// Toggle camera between 2D and 3D:
 //TODO: Maybe do this with scenes?
 #[allow(unused_mut, dead_code, unused_variables)]
@@ -155,7 +166,7 @@ pub fn switch_camera(
     todo!()
 }
 
-///System: Startup, initialises the scene's geometry.
+/// System: Startup, initialises the scene's geometry.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,
@@ -221,7 +232,7 @@ pub fn init_shapes(
     ));
 }
 
-///System: Startup, initialises the scene's geometry.
+/// System: Startup, initialises the scene's geometry.
 pub fn setup(
     mut commands: Commands,
     shape_options: Res<ShapeOptions>,
