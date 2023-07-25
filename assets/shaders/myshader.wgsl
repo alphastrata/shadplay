@@ -16,7 +16,6 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let grid = grid(uv);
     let pal = palette(t / 2. );
     col = mix(col, pal, grid);
-    // col = cross(col, pal);
 
     let mo = 5.0%2.0;
    
