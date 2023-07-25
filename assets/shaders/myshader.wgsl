@@ -32,12 +32,12 @@ fn get_dist(point: vec3<f32>) -> f32 {
 }
 
 /// Raymarch in direction, return the distance to what we hit (from origin...).
-fn ray_march(ray_origin: vec3<f32>, ray_dir: vec3<f32>) -> f32 {
+fn ray_march(ray_origin: vec3<f32>, ray_dir: vec3<f32>, sign: f32) -> f32 {
     var dO: f32 = 0.0;
 
     for (var i: i32 = 0; i < MAX_STEPS; i = i + 1) {
         var p: vec3<f32> = ray_origin + ray_dir * dO;
-        var dS: f32 = get_dist(p);
+        var dS: f32 = get_dist(p) * sign;
         dO = dO + dS;
         if dO > MAX_DIST || abs(dS) < SURF_DIST {
             break;
@@ -73,16 +73,21 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     let ro = vec3(0., 0., 0.);
     let rd = get_ray_dir(uv, ro, vec3(0., 0., 0.), 1.0);
-    let dist = ray_march(ro, rd);
+    let dist_outer = ray_march(ro, rd, 1.0);
 
-    if (dist < MAX_DIST){
-        let p = ro + rd * dist;
+    let IOR = 1.45;
+
+    if dist_outer < MAX_DIST {
+        let p = ro + rd * dist_outer;
         let norm = get_normal(p);
         let r = reflect(rd, norm);
 
-        let dif = dot(norm, normalize(vec3(1., 2., 3.))) *.5 + .5; 
 
-        col = vec3(dif);
+        let entry_point = p - norm * SURF_DIST * 3.0;
+        let refract_dir = refract(rd, norm, 1.0 / IOR);
+        let dist_inner = ray_march(p, refract_dir, -1.0);
+
+        col = refract_dir;
     }
 
 
