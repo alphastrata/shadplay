@@ -3,8 +3,67 @@
 #import bevy_pbr::utils PI HALF_PI
 #import bevy_pbr::mesh_functions 
 
-const GRID_RATIO:f32 = 40.;
+/// This is a cover/port of https://www.shadertoy.com/view/WtGXDD, Martijn is awesome!
 
+const GRID_RATIO:f32 = 40.;
+const MAX_STEPS: i32 = 100;
+const MAX_DIST: f32 = 100.;
+const SURF_DIST: f32 = 0.001;
+const TAU: f32 = 6.283185;
+
+/// Clockwise by `theta`
+fn rotate2D(theta: f32) -> mat2x2<f32> {
+    let c = cos(theta);
+    let s = sin(theta);
+    return mat2x2<f32>(c, - s, s, c);
+}
+
+/// Sighned distance field for a 2dBox
+fn sd_box(point: vec3<f32>, sign: vec3<f32>) -> f32 {
+    let p = abs(point) - sign;
+    let positive_part = max(p, vec3<f32>(0.0));
+    let max_component = max(p.x, max(p.y, p.z));
+    return length(positive_part) + min(max_component, 0.0);
+}
+
+/// Returns the distance to a point
+fn get_dist(point: vec3<f32>) -> f32 {
+    return sd_box(point, vec3(1.));
+}
+
+/// Raymarch in direction, return the distance to what we hit (from origin...).
+fn ray_march(ray_origin: vec3<f32>, ray_dir: vec3<f32>) -> f32 {
+    var dO: f32 = 0.0;
+
+    for (var i: i32 = 0; i < MAX_STEPS; i = i + 1) {
+        var p: vec3<f32> = ray_origin + ray_dir * dO;
+        var dS: f32 = get_dist(p);
+        dO = dO + dS;
+        if dO > MAX_DIST || abs(dS) < SURF_DIST {
+            break;
+        }
+    }
+
+    return dO;
+}
+
+fn get_ray_dir(uv: vec2<f32>, point: vec3<f32>, l: vec3<f32>, depth: f32) -> vec3<f32> {
+    let f = normalize(l - point);
+    let r = normalize(cross(vec3(0.0, 1.0, 0.0), f));
+    let u = cross(f, r);
+    let c: vec3<f32> = f * depth;
+    let i = c + uv.x * r + uv.y * u;
+
+    return normalize(i);
+}
+
+fn get_normal(point: vec3<f32>) -> vec3<f32> {
+    let e = vec2(0.001, 0.);
+    //delta - xyy, delta - yxy, delta -  yyx
+    let norm = get_dist(point) - vec3(get_dist(point - e.xyy), get_dist(point - e.yxy), get_dist(point - e.yyx));
+
+    return normalize(norm);
+}
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
@@ -12,37 +71,22 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var uv = in.uv - 0.5;
     var col = vec3(0.0);
 
-    uv *=  GRID_RATIO / 5.;
-    let grid = grid(uv);
-    let pal = palette(t / 2. );
-    col = mix(col, pal, grid);
+    let ro = vec3(0., 0., 0.);
+    let rd = get_ray_dir(uv, ro, vec3(0., 0., 0.), 1.0);
+    let dist = ray_march(ro, rd);
 
-    let mo = 5.0%2.0;
-   
-    return vec4<f32>(col, mo);
-}
+    if (dist < MAX_DIST){
+        let p = ro + rd * dist;
+        let norm = get_normal(p);
+        let r = reflect(rd, norm);
 
-// I disklike boring colours, this paticular function comes from Kishimisu (see the wgsl file of same name to explore more of her/his/their ideas.)
-fn palette(t: f32) -> vec3<f32> {
-    let a = vec3<f32>(0.5, 0.5, 0.5);
-    let b = vec3<f32>(0.5, 0.5, 0.5);
-    let c = vec3<f32>(1.0, 1.0, 1.0);
-    let d = vec3<f32>(0.263, 0.416, 0.557);
+        let dif = dot(norm, normalize(vec3(1., 2., 3.))) *.5 + .5; 
 
-    return a + b * cos(6.28318 * (c * t + d));
-}
-
-// inspired by https://www.shadertoy.com/view/Wt33Wf & https://www.shadertoy.com/view/XtBfzz
-fn grid(uv: vec2<f32>)-> f32 {
-    let i = step(fract(uv), vec2(1.0/GRID_RATIO));
-    return (1.1-i.x) * (0.005+i.y);
-    
-}
+        col = vec3(dif);
+    }
 
 
-// License: WTFPL, author: sam hocevar, found: https://stackoverflow.com/a/17897228/418488
-fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
-    let K: vec4<f32> = vec4<f32>(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    var p: vec3<f32> = abs(fract(vec3<f32>(c.x) + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, vec3<f32>(0.0), vec3<f32>(1.0)), c.y);
+
+    col = pow(col, vec3(0.4545)); // gamma correction
+    return vec4<f32>(col, 1.0);
 }
