@@ -137,7 +137,7 @@ pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Wi
 
 /// System:
 /// Toggle mouse passthrough.
-pub fn toggle_mouse_passthrough(
+pub fn toggle_window_passthrough(
     keyboard_input: Res<Input<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {

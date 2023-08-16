@@ -49,7 +49,7 @@ fn main() {
                 utils::switch_level,
                 utils::switch_shape,
                 utils::quit,
-                utils::toggle_mouse_passthrough,
+                utils::toggle_window_passthrough,
                 utils::toggle_transparency,
             ),
         )
