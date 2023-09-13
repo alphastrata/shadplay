@@ -1,8 +1,10 @@
+#[cfg(target_os = "macos")]
+use bevy::window::CompositeAlphaMode;
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
     utils::Duration,
-    window::{CompositeAlphaMode, WindowLevel},
+    window::WindowLevel,
     window::{Window, WindowPlugin},
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;

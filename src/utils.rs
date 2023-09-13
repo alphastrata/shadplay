@@ -1,9 +1,8 @@
-use bevy::render::camera::ScalingMode;
 use bevy::{
     prelude::*,
     window::{RequestRedraw, Window, WindowLevel},
 };
-use bevy_panorbit_camera::{PanOrbitCamera, PanOrbitCameraPlugin};
+use bevy_panorbit_camera::PanOrbitCamera;
 
 use crate::shader_utils::YourShader;
 
@@ -236,8 +235,8 @@ pub fn init_shapes(
 pub fn setup(
     mut commands: Commands,
     shape_options: Res<ShapeOptions>,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<YourShader>>,
+    _meshes: ResMut<Assets<Mesh>>,
+    _materials: ResMut<Assets<YourShader>>,
 ) {
     // 3D camera
     commands.spawn((
