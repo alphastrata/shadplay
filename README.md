@@ -13,11 +13,6 @@ TODO:
 
 Shadplay is a simple, (WIP) application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
 
-This app, as part of its build process clones the official Bevy repo -- why? Two Reasons:
-
-1. So you can have easy access to their shaders in order to quickly find definitions etc.
-2. So, users of the `wgsl-analyzer` plugin for vscode can have an easy spot to path to.
-
 ## Features
 
 - Live preview of shader code on Bevy mesh geometry.
