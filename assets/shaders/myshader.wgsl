@@ -5,7 +5,10 @@
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // return  vec4<f32>(0.0, 1.0, 0.0, 1.0);      // Green
-    return  vec4<f32>(0.0, 0.0, 1.0, 1.0);  // Blue
-    // return  vec4<f32>(1.0, 0.0, 0.0, 1.0);  // Red
+    var uv = in.uv;
+    uv -= 0.5;
+
+    let wp = in.world_position;
+    
+    return  vec4<f32>(uv.y, uv.x, 0.0, 1.0);
 }
