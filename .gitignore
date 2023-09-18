@@ -21,3 +21,4 @@ Cargo.lock
 shaderbook
 bevy
 bevy_shaders
+.DS_Store
