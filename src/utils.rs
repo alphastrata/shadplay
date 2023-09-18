@@ -1,9 +1,8 @@
-use bevy::render::camera::ScalingMode;
 use bevy::{
     prelude::*,
     window::{RequestRedraw, Window, WindowLevel},
 };
-use bevy_panorbit_camera::{PanOrbitCamera, PanOrbitCameraPlugin};
+use bevy_panorbit_camera::PanOrbitCamera;
 
 use crate::shader_utils::YourShader;
 
@@ -137,7 +136,7 @@ pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Wi
 
 /// System:
 /// Toggle mouse passthrough.
-pub fn toggle_mouse_passthrough(
+pub fn toggle_window_passthrough(
     keyboard_input: Res<Input<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
@@ -236,8 +235,8 @@ pub fn init_shapes(
 pub fn setup(
     mut commands: Commands,
     shape_options: Res<ShapeOptions>,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<YourShader>>,
+    _meshes: ResMut<Assets<Mesh>>,
+    _materials: ResMut<Assets<YourShader>>,
 ) {
     // 3D camera
     commands.spawn((
