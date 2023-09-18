@@ -1,17 +1,22 @@
 # shadplay
 
 TODO:
+
 - [] drag n drop obj/stl/gltf opening?
 - [] clever snap camera
-- [] break things into more, smaller files.
 - [] material swap to ours system
 - [] hotkey menu display
-- [] More shader examples 
+- [] More shader examples
 - [] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
-- [] demo images  (of all shaders in the library)
+- [] demo images (of all shaders in the library)
 - [] left/right arrows to swap between shaders from the assets' dir
- 
+
 Shadplay is a simple, (WIP) application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
+
+This app, as part of its build process clones the official Bevy repo -- why? Two Reasons:
+
+1. So you can have easy access to their shaders in order to quickly find definitions etc.
+2. So, users of the `wgsl-analyzer` plugin for vscode can have an easy spot to path to.
 
 ## Features
 
@@ -35,11 +40,13 @@ To run shadplay, you'll need the following:
  $ cargo run --release
 ```
 
+- Then edit the `myshader.wgsl` file in real time.
+
 ## Resources:
-- Fantastic implementations of soem sdf composed shapes  https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1
+
+- Fantastic implementations of some sdf composed shapes https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1
 - Shadertoy
 - Shaded by embark
 - pcf swap by DGriffin91 https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf
 
 ## Contributing:
-
