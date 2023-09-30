@@ -10,7 +10,7 @@ use bevy::{
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 use shadplay::{
-    shader_utils,
+    screenshot, shader_utils,
     utils::{self, Rotating, ShapeOptions, TransparencySet},
 };
 
@@ -53,6 +53,7 @@ fn main() {
                 utils::quit,
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
+                screenshot::screenshot_and_version_shader_on_spacebar,
             ),
         )
         .run();
