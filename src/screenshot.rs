@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy::render::view::screenshot::ScreenshotManager;
 use bevy::window::PrimaryWindow;
+use chrono::{Datelike, Local, Timelike};
 
 pub fn screenshot_on_spacebar(
     input: Res<Input<KeyCode>>,
@@ -15,8 +16,6 @@ pub fn screenshot_on_spacebar(
         }
     }
 }
-
-use chrono::{Datelike, Local, Timelike};
 
 /// Provides a String of hh-mm-ss_dd-mm-yy timestamp.
 fn timestamper() -> String {
