@@ -53,7 +53,7 @@ fn main() {
                 utils::quit,
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
-                screenshot::screenshot_on_spacebar,
+                screenshot::screenshot_and_version_shader_on_spacebar,
             ),
         )
         .run();
