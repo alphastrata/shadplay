@@ -33,6 +33,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 }
 ```
 
+---
 # resolution:
 ```rust
 #import bevy_render::view View
@@ -48,6 +49,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 ```
 - [Dunno what `uniform`s are?](https://thebookofshaders.com/03/) 
 
+---
 # time:
 ```rust
 #import bevy_pbr::mesh_view_bindings globals 
@@ -76,14 +78,17 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 }
 ```
 
+---
 # sdf-shapes
 - [munrocket's 3d](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
 - [munrocket's 2d](https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4)
 
 
+---
 # noise
 - [munrocket's noise](https://gist.github.com/munrocket/236ed5ba7e409b8bdf1ff6eca5dcdc39)
 
+---
 # uuid-generation:
 - you need `uuid`s for the ECS, whenever you're deriving `TypeUuid` on stuff you plan on putting in there (which we do plan on doing)
 ```rust
@@ -124,12 +129,11 @@ or, you can use [`quiddy`](https://github.com/alphastrata/quuidy):
 ```shell
 cargo install quuidy
 quuidy -n 10
-
 ```
 
+---
 # get-data-into-your-shader
-I wrote a  [blog-post](https://jeremyfwebb.ninja/src/blog_posts/wgsl_basics), on this.
-
+If none of that makes sense: I wrote a  [blog-post](https://jeremyfwebb.ninja/src/blog_posts/wgsl_basics), on this.
 Take this shader code [dotted-line-shader](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 Then use this [rust-binding-code](https://github.com/alphastrata/shadplay/blob/develop/src/shader_utils.rs). (copied below for the lazy)
 ```rust
@@ -166,7 +170,7 @@ In your `main.rs`:
 app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 ```
 
-
+---
 # [smoothstep](https://en.wikipedia.org/wiki/Smoothstep)
 smoothstep interpolates between two 'edges', `leftedge`, sometimes called `edge0` and `rightedge`, sometimes called `edge1`, for a given `x`.
 i.e make the shape of the _below_ graph, where all values are clamped between those two edges.
@@ -187,7 +191,8 @@ The smoothstep function takes three parameters:
     x: The input value that you want to interpolate between those above Edges.
 ````
 - [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explination
-		
+
+---	
 # step
 `fn step(limit, value)` any `value` under the `limit` will return a `0.0`, anything above `value` a `1.0`;
 available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` etc.
@@ -205,5 +210,9 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 ```
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 
-
+---
 # glsl-syntax-differences
+>NOTE: this is not an exhaustive list!
+- `glsl` has `mod` but in `wgsl` you need to use `%`
+- bindings in `glsl` by default are mutable, not so in `wgsl`, use `var` for mutable `let` for immutable.
+
