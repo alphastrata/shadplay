@@ -15,6 +15,7 @@ I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, 
 * ### [step](#step)
 * ### [glow](glow)
 * ### [glsl-syntax-differences](glsl-syntax-differences)
+* ### [importable from bevy](importable from bevy)
 ---
 
 # uvs:
@@ -214,4 +215,8 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 >NOTE: this is not an exhaustive list!
 - `glsl` has `mod` but in `wgsl` you need to use `%`
 - bindings in `glsl` by default are mutable, not so in `wgsl`, use `var` for mutable `let` for immutable.
+
+
+---
+# importable from bevy
 

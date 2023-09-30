@@ -1,4 +1,4 @@
-#define_import_path shadertoy
+#define_import_path bevy_pbr::shadbang
 
 fn shadertoy_default(uv: vec2<f32>)->vec4<f32>{
     var uv = uv;
