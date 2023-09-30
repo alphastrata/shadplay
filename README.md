@@ -20,6 +20,16 @@ A tertiary goal is to surface the builtins/existing library code that Bevy's cod
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it ontop of your editor)
+- Screenshot the shader you're working on with <SPACEBAR>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
+```shell
+ screenshots
+└──  01-10-23
+    └──  09-23-29
+        ├──  screeenshot.png // Your screenshot
+        └──  screeenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
+```
+
+---
 
 To run shadplay, you'll need the following:
 
@@ -36,6 +46,7 @@ To run shadplay, you'll need the following:
 
 - Then edit the `myshader.wgsl` file in real time.
 
+---
 ## Resources:
 
 - Fantastic implementations of some sdf composed shapes https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1
@@ -43,6 +54,7 @@ To run shadplay, you'll need the following:
 - Shaded by embark
 - pcf swap by DGriffin91 https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf
 
+---
 ## Contributing:
 Welcome.
 - open a PR.
