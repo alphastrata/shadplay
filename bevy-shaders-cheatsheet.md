@@ -11,7 +11,6 @@ I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, 
 * ### [uvs](#uvs)
 * ### [uuid-generation](#uuid-generation)
 * ### [get data into your shader from bevy](#get-data-into-your-shader)
-// TODO
 * ### [smoothstep](#smoothstep)
 * ### [step](#step)
 * ### [glow](glow)
