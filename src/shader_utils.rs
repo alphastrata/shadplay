@@ -2,6 +2,7 @@ use bevy::{
     prelude::*,
     reflect::{TypePath, TypeUuid},
     render::render_resource::*,
+    sprite::Material2d,
 };
 
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
@@ -11,7 +12,15 @@ pub struct YourShader {
     pub color: Color, //RGBA
 }
 
+// 3d impl
 impl Material for YourShader {
+    fn fragment_shader() -> ShaderRef {
+        "shaders/myshader.wgsl".into()
+    }
+}
+
+// Requires a seperate impl for 2d
+impl Material2d for YourShader {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader.wgsl".into()
     }

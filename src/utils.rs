@@ -271,10 +271,11 @@ pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
 
 pub fn setup_2d(
     mut commands: Commands,
-    _meshes: ResMut<Assets<Mesh>>,
-    _materials: ResMut<Assets<YourShader>>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut your_shader: ResMut<Assets<YourShader>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    // 3D camera
+    // 2D camera
     commands.spawn((
         Camera2dBundle { ..default() },
         // PanOrbitCamera::default(),
@@ -284,4 +285,19 @@ pub fn setup_2d(
     trace!("Spawned 2d Cam");
     // Spawn the giant screen consuming rect.
     // add the myshader.wgsl to it...?
+
+    // Quad
+    commands.spawn(bevy::sprite::MaterialMesh2dBundle {
+        mesh: meshes
+            .add(shape::Quad::new(Vec2::new(100., 100.)).into())
+            .into(),
+
+        material: materials.add(ColorMaterial::from(Color::LIME_GREEN)),
+
+        // material: debug_material.clone(),
+        // material: materials.add(crate::shader_utils::YourShader {
+        //     color: Color::default(),
+        // }),
+        ..default()
+    });
 }
