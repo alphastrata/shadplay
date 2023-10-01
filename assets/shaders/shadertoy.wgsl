@@ -1,5 +1,6 @@
 #define_import_path bevy_pbr::shadbang
 
+// This is a port of the default shader you get from in www.shadertoy.com/new
 fn shadertoy_default(uv: vec2<f32>)->vec4<f32>{
     var uv = uv;
     let t = globals.time;

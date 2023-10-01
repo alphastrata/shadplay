@@ -1,28 +1,9 @@
-// The time since startup data is in the globals binding which is part of the mesh_view_bindings import
-// #import shadplay::myshadertools rgb2hsb
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
-#import bevy_pbr::utils PI
-#import bevy_pbr::utils
-#import bevy_core_pipeline::fullscreen_vertex_shader FullscreenVertexOutput
-#import bevy_render::view View
 
-#define_import_path kishimisu
-
-// Notice how this EXACTLY matches the YourShader declared in main? This is how you Get data INTO a shader.
-struct MyShaderColor {
-    color: vec4<f32>,
-};
-
-@group(0) @binding(0)
-var<uniform> view: View;
-
-@group(1) @binding(0)
-var<uniform> material: MyShaderColor;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // Kishimisu:
     return kishimisu(in);
 }
 
