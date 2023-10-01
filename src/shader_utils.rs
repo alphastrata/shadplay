@@ -19,13 +19,17 @@ impl Material for YourShader {
     }
 }
 
+#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
+pub struct YourShader2D {}
 // Requires a seperate impl for 2d
-impl Material2d for YourShader {
+impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
-        "shaders/myshader.wgsl".into()
+        "shaders/myshader_2d.wgsl".into()
     }
 }
 
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]

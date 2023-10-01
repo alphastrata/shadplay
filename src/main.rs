@@ -3,6 +3,7 @@ use bevy::window::CompositeAlphaMode;
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
+    sprite::Material2dPlugin,
     utils::Duration,
     window::WindowLevel,
     window::{Window, WindowPlugin},
@@ -36,6 +37,7 @@ fn main() {
                 ..default()
             }),))
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
+        .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
         .insert_resource(Rotating(false))
@@ -72,6 +74,8 @@ fn main() {
                 cam_switch_system,
             ),
         )
+        // 2d Only Sytsems
+        .add_systems(Update, utils::size_quad.run_if(in_state(AppState::TwoD)))
         .run();
 }
 
