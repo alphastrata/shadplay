@@ -62,7 +62,6 @@ The app has some simple hotkeys:
 | r      | Toggle Rotating shape|
 | spacebar      | Takes a screenshot && versions the current `myshader.wgsl`| 
 
-
 ---
 ## Resources:
 - [Fantastic implementations of some sdf composed shapes](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
@@ -78,7 +77,6 @@ Welcome.
 ---
 ## TODO:
 - [] drag n drop obj/stl/gltf opening?
-- [] clever snap camera
 - [] material swap to ours system (drag n drop a shader onto the window)
 - [] hotkey menu display (egui? eframe?)
 - [] More shader examples (the entirety of shadertoy ported!)
@@ -86,3 +84,11 @@ Welcome.
 - [] left/right arrows to swap between shaders from the assets' dir
 - [] buttons to spin/swap the geomerty your shader is currently being applied to.
 - [] after supporting drag-n-drop shader applied to mesh -- need to support the screenshotter versioning their shaders too as it does for the defaults.
+- [] material swap to ours system
+- [] hotkey menu display
+- [] More shader examples
+- [] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
+- [] demo images (of all shaders in the library)
+- [] left/right arrows to swap between shaders from the assets' dir
+- [] buttons to spin/swap the geomerty your shader is currently being applied to.
+- [] 2D and 3D Modes

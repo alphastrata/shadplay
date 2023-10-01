@@ -12,6 +12,7 @@ use crate::utils::AppState;
 const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wgsl";
 const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 
+
 /// Saves a screenshot && versions the shader (from [`DEFAULT_SHADER`]) that was active when screenshotting.
 /// giving you something like this:
 ///```shell
@@ -45,6 +46,7 @@ pub fn screenshot_and_version_shader_on_spacebar(
                     AppState::ThreeD => DEFAULT_SHADER_3D,
                 };
                 version_current_shader(Path::new(shader_path), &target);
+               
             }
         }
     }
@@ -55,6 +57,7 @@ pub fn screenshot_and_version_shader_on_spacebar(
 // ---------------------------------------------
 
 /// Make every file/dir etc required from a given `p`:
+
 fn make_all<P>(p: P) -> Result<(), std::io::Error>
 where
     P: AsRef<Path>,
@@ -101,7 +104,6 @@ fn today() -> String {
 fn version_current_shader(source: &Path, target: &Path) {
     let mut target_adjusted = target.to_path_buf();
     target_adjusted.set_extension("wgsl");
-    trace!("target_adjusted: {}", target_adjusted.display());
 
     if let Err(e) = fs::copy(source, &target_adjusted) {
         error!("versioning shader failed with error:{}", e);
