@@ -30,6 +30,8 @@ impl Material2d for YourShader2D {
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
+// For an example of how you can pass larger ammounts of data from bevy -> yourshadercode
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
