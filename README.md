@@ -29,6 +29,21 @@ A tertiary goal is to surface the builtins/existing library code that Bevy's cod
         └──  screeenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
 ```
 
+### Keybindings:
+The app has some simple hotkeys:
+
+| Hotkey | Action               |
+|--------|----------------------|
+| q             | Quit                 |
+| s             | Change Shape in 3D   |
+| t             | Switch to 2D/ShaderToy Mode|
+| h             | Switch to 3D         |
+| l             | Window-Level         |
+| d             | Toggle Decorations   |
+| t             | Toggle Transparency (returning to fully transparent is not supported)|
+| r             | Toggle Rotating shape|
+| spacebar      | Takes a screenshot && versions the current `.wgsl`| 
+
 ---
 
 To run shadplay, you'll need the following:
@@ -44,30 +59,7 @@ To run shadplay, you'll need the following:
  $ cargo run --release
 ```
 
-- Then edit the `myshader.wgsl` file in real time.
-
----
-## Keybindings:
-The app has some simple hotkeys:
-
-| Hotkey | Action               |
-|--------|----------------------|
-| q      | Quit                 |
-| s      | Change Shape in 3D   |
-| t      | Switch to 2D/ShaderToy Mode|
-| h      | Switch to 3D         |
-| l      | Window-Level         |
-| d      | Toggle Decorations   |
-| t      | Toggle Transparency (returning to fully transparent is not supported)|
-| r      | Toggle Rotating shape|
-| spacebar      | Takes a screenshot && versions the current `myshader.wgsl`| 
-
----
-## Resources:
-- [Fantastic implementations of some sdf composed shapes](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
-- [Shadertoy](https://www.shadertoy.com/)
-- [Shaded by embark](https://github.com/EmbarkStudios/shaded)
-- [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
+- Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
 
 ---
 ## Contributing:
@@ -83,12 +75,17 @@ Welcome.
 - [] demo images (of all shaders in the library)
 - [] left/right arrows to swap between shaders from the assets' dir
 - [] buttons to spin/swap the geomerty your shader is currently being applied to.
-- [] after supporting drag-n-drop shader applied to mesh -- need to support the screenshotter versioning their shaders too as it does for the defaults.
-- [] material swap to ours system
 - [] hotkey menu display
-- [] More shader examples
 - [] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
-- [] demo images (of all shaders in the library)
-- [] left/right arrows to swap between shaders from the assets' dir
-- [] buttons to spin/swap the geomerty your shader is currently being applied to.
-- [] 2D and 3D Modes
+
+---
+## Resources:
+- [Fantastic implementations of some sdf composed shapes](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
+- [Shadertoy](https://www.shadertoy.com/)
+- [Shaded by embark](https://github.com/EmbarkStudios/shaded)
+- [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
+
+---
+# Shadertoy Ported contents:
+Any shaders in the `assets/shaders` _not_ by the repo's owner contain links to the original work.
+
