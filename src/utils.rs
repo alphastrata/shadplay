@@ -247,9 +247,11 @@ pub fn setup_3d(
         PanOrbitCamera::default(),
         Cam3D,
     ));
+    trace!("Spawned 3d Cam");
 
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
         commands.spawn(matmeshbund.1.clone());
+        trace!("Spawned mesh");
     }
 }
 
@@ -279,6 +281,7 @@ pub fn setup_2d(
         Cam2D,
     ));
 
+    trace!("Spawned 2d Cam");
     // Spawn the giant screen consuming rect.
     // add the myshader.wgsl to it...?
 }

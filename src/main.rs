@@ -38,14 +38,14 @@ fn main() {
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
-        .insert_resource(Rotating(true))
+        .insert_resource(Rotating(false))
         .add_plugins(PanOrbitCameraPlugin)
         //
         .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
-        .add_systems(OnExit(AppState::ThreeD), utils::setup_3d)
+        .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
         //
         .add_systems(OnEnter(AppState::TwoD), utils::setup_2d)
-        .add_systems(OnExit(AppState::TwoD), utils::setup_2d)
+        .add_systems(OnExit(AppState::TwoD), utils::cleanup_2d)
         // All the time
         .insert_resource(ClearColor(Color::NONE))
         .add_systems(PreStartup, utils::init_shapes)
@@ -69,6 +69,7 @@ fn main() {
                 utils::quit,
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
+                cam_switch_system,
             ),
         )
         .run();
@@ -76,7 +77,36 @@ fn main() {
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
-    TwoD,
     #[default]
+    TwoD,
     ThreeD,
 }
+
+fn cam_switch_system(
+    mut next_state: ResMut<NextState<AppState>>,
+    keyboard_input: Res<Input<KeyCode>>,
+) {
+    if keyboard_input.pressed(KeyCode::T) {
+        trace!("Swapping to 2D");
+        next_state.set(AppState::TwoD)
+    }
+    if keyboard_input.pressed(KeyCode::H) {
+        trace!("Swapping to 3D");
+        next_state.set(AppState::ThreeD)
+    }
+}
+
+// /// This system prints 'A' key state
+// fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>) {
+//     if keyboard_input.pressed(KeyCode::A) {
+//         info!("'A' currently pressed");
+//     }
+
+//     if keyboard_input.just_pressed(KeyCode::A) {
+//         info!("'A' just pressed");
+//     }
+
+//     if keyboard_input.just_released(KeyCode::A) {
+//         info!("'A' just released");
+//     }
+// }
