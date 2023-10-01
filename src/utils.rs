@@ -15,7 +15,6 @@ pub enum AppState {
     ThreeD,
 }
 
-
 /// Component: Marking shapes that we spawn.
 /// Used by: the rotate system.
 #[derive(Component, Clone, Default)]
@@ -225,7 +224,7 @@ pub fn init_shapes(
     ));
 }
 
-/// System: Startup, initialises the scene's geometry. Called on entry of [`AppState::TwoD`]
+/// System: Setup 3d Camera. Called on entry of [`AppState::ThreeD`]
 pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     // 3D camera
     commands.spawn((
@@ -243,6 +242,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
         trace!("Spawned mesh");
     }
 }
+
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
 pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
@@ -250,54 +250,13 @@ pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
         trace!("Despawned 3D camera.")
     }
 }
+
 /// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 2D camera.")
     }
-}
-/// System: Setup the 2d Camera. Called on entry of [`AppState::TwoD`]
-pub fn setup_2d(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut your_shader: ResMut<Assets<YourShader2D>>,
-) {
-    // 2D camera
-    commands.spawn((
-        Camera2dBundle { ..default() },
-        // PanOrbitCamera::default(),
-        Cam2D,
-    ));
-    trace!("Spawned 2d Cam");
-
-    // Quad
-    commands.spawn((
-        bevy::sprite::MaterialMesh2dBundle {
-            mesh: meshes
-                .add(shape::Quad::new(Vec2::new(1., 1.)).into())
-                .into(),
-            material: your_shader.add(YourShader2D {}),
-            ..default()
-        },
-        BillBoardQuad,
-    ));
-}
-
-/// System: Runs only when in [`AppState::TwoD`], and only on Condition of [`WindowResized`].
-/// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
-pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>) {
-    let win = windows
-        .get_single()
-        .expect("Should be impossible to NOT get a window");
-
-    let (width, height) = (win.width(), win.height());
-
-    query.iter_mut().for_each(|mut transform| {
-        transform.translation = Vec3::new(0.0, 0.0, 0.0);
-        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
-        trace!("Window Resized, resizing quad");
-    });
 }
 
 /// System: switches between 3d and 2d cameras, by triggering the [`AppState::XYZ`] transitions.
@@ -315,6 +274,7 @@ pub fn cam_switch_system(
     }
 }
 
+/// System: initialises 2d Camera. Called on entry of [`AppState::TwoD`]
 pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
