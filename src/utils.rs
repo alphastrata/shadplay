@@ -4,12 +4,17 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::shader_utils::YourShader;
+use crate::shader_utils::{YourShader, YourShader2D};
 
 /// Component: Marking shapes that we spawn.
 /// Used by: the rotate system.
 #[derive(Component, Clone, Default)]
 pub struct Shape;
+
+/// Component:
+/// Used to mark the billboard we do 2d shader stuff against to save having to implement a custom_vertex shader etc.
+#[derive(Component)]
+pub struct BillBoardQuad;
 
 /// Component: Marking the 3d camera.
 /// Used by: the CamSwitch event.
@@ -77,6 +82,7 @@ pub fn quit(input: Res<Input<KeyCode>>) {
 }
 
 /// System:
+/// Toggles the window's transparency (on supported OS')
 pub fn toggle_transparency(
     input: Res<Input<KeyCode>>,
     mut clear_colour: ResMut<ClearColor>,
@@ -92,13 +98,12 @@ pub fn toggle_transparency(
         } else {
             *clear_colour = ClearColor(Color::NONE);
         }
-
         **transparency_set = !**transparency_set;
         event.send(RequestRedraw);
     }
 }
 
-/// System:
+/// System: Runs in [`AppState::ThreeD`] only.
 /// Switch the shape we're currently playing with a shader on.
 pub fn switch_shape(
     input: Res<Input<KeyCode>>,
@@ -124,7 +129,6 @@ pub fn switch_shape(
 /// System:
 /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
 pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
-    //TODO: move logic to helper func and have this trigger on key or Event.
     if input.just_pressed(KeyCode::D) {
         let mut window = windows.single_mut();
 
@@ -148,23 +152,6 @@ pub fn toggle_window_passthrough(
     }
 }
 
-/// System:
-/// Toggle camera between 2D and 3D:
-//TODO: Maybe do this with scenes?
-#[allow(unused_mut, dead_code, unused_variables)]
-pub fn switch_camera(
-    mut cam3d: Query<&mut Camera, With<Cam3D>>,
-    mut cam2d: Query<&mut Camera, With<Cam2D>>,
-    mut trigger: EventReader<CamSwitch>,
-    keyboard_input: Res<Input<KeyCode>>,
-) {
-    if keyboard_input.just_pressed(KeyCode::Tab) {
-        info!("2d/3d Cam toggle");
-    }
-
-    todo!()
-}
-
 /// System: Startup, initialises the scene's geometry.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
@@ -183,7 +170,7 @@ pub fn init_shapes(
                         subdivisions_sides: 128,
                     }))
                     .clone(),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
                 }),
@@ -198,7 +185,7 @@ pub fn init_shapes(
         ((
             MaterialMeshBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 2.0 })).clone(),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
                 }),
@@ -220,7 +207,7 @@ pub fn init_shapes(
                     .try_into()
                     .unwrap(),
                 ),
-                transform: Transform::from_xyz(0.0, 0.5, 0.0),
+                transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
                 }),
@@ -232,7 +219,7 @@ pub fn init_shapes(
 }
 
 /// System: Startup, initialises the scene's geometry.
-pub fn setup(
+pub fn setup_3d(
     mut commands: Commands,
     shape_options: Res<ShapeOptions>,
     _meshes: ResMut<Assets<Mesh>>,
@@ -247,8 +234,73 @@ pub fn setup(
         PanOrbitCamera::default(),
         Cam3D,
     ));
+    trace!("Spawned 3d Cam");
 
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
         commands.spawn(matmeshbund.1.clone());
+        trace!("Spawned mesh");
     }
+}
+
+pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
+    for (ent, _q) in q.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned 3D camera.")
+    }
+}
+
+pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
+    for (ent, _q) in q.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned 2D camera.")
+    }
+}
+
+pub fn setup_2d(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut your_shader: ResMut<Assets<YourShader2D>>,
+    // mut materials: ResMut<Assets<ColorMaterial>>,
+) {
+    // 2D camera
+    commands.spawn((
+        Camera2dBundle { ..default() },
+        // PanOrbitCamera::default(),
+        Cam2D,
+    ));
+
+    trace!("Spawned 2d Cam");
+    // Spawn the giant screen consuming rect.
+    // add the myshader.wgsl to it...?
+
+    // Quad
+    commands.spawn((
+        bevy::sprite::MaterialMesh2dBundle {
+            mesh: meshes
+                .add(shape::Quad::new(Vec2::new(1., 1.)).into())
+                .into(),
+            material: your_shader.add(YourShader2D {}),
+
+            // materials.add(ColorMaterial::from(Color::LIME_GREEN)),
+            // TODO: add 2d shader...
+            ..default()
+        },
+        BillBoardQuad,
+    ));
+}
+
+/// System: Runs only when in [`AppState::TwoD`]
+/// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
+pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>) {
+    let win = windows
+        .get_single()
+        .expect("Should be impossible to NOT get a window");
+
+    let (width, height) = (win.width(), win.height());
+
+    query.iter_mut().for_each(|mut transform| {
+        transform.translation = Vec3::new(0.0, 0.0, 0.0);
+        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
+        trace!("Window Resized, resizing quad");
+    });
 }

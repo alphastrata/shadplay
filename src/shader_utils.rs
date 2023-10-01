@@ -2,6 +2,7 @@ use bevy::{
     prelude::*,
     reflect::{TypePath, TypeUuid},
     render::render_resource::*,
+    sprite::Material2d,
 };
 
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
@@ -11,12 +12,26 @@ pub struct YourShader {
     pub color: Color, //RGBA
 }
 
+// 3d impl
 impl Material for YourShader {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader.wgsl".into()
     }
 }
 
+#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
+pub struct YourShader2D {}
+// Requires a seperate impl for 2d
+impl Material2d for YourShader2D {
+    fn fragment_shader() -> ShaderRef {
+        "shaders/myshader_2d.wgsl".into()
+    }
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
+// For an example of how you can pass larger ammounts of data from bevy -> yourshadercode
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
