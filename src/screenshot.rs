@@ -36,7 +36,8 @@ pub fn screenshot_and_version_shader_on_spacebar(
         match screenshot_manager.save_screenshot_to_disk(main_window.single(), &target) {
             Err(e) => error!("screenshotting failed: {}", e),
             Ok(_) => {
-                version_current_shader(Path::new(DEFAULT_SHADER), &target);
+                version_current_shader(&Path::new(DEFAULT_SHADER), &target);
+
             }
         }
     }

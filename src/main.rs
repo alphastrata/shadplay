@@ -72,6 +72,8 @@ fn main() {
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
                 cam_switch_system,
+                screenshot::screenshot_and_version_shader_on_spacebar,
+
             ),
         )
         // 2d Only Sytsems
