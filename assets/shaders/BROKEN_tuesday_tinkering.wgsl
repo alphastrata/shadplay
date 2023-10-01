@@ -1,24 +1,103 @@
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
-#import bevy_sprite::mesh2d_view_bindings globals 
+#import bevy_sprite::mesh2d_view_bindings globals
 #import bevy_render::view View
-#import bevy_pbr::utils PI;
 
 @group(0) @binding(0) var<uniform> view: View;
 
+const HEIGHT:f32 = 4.0;
+const INTENSITY:f32 = 5.0;
+const NUM_LINES:f32 = 4.0;
 const SPEED:f32 = 1.0;
 const TAU: f32 = 6.283185;
-const HALF_PI:f32 =  1.57079632679;
+const GA: f32 = 100.0;
+const ICONST: i32 = 2;
 
+
+// This is a port of "Tuesday tinkering" https://www.shadertoy.com/view/DsccRS by mrange https://www.shadertoy.com/user/mrange
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    var uv = in.uv.yx * 2.0 - 1.0;
-    uv *= rotate2D(HALF_PI);
-
+    let uv = (in.uv * 2.0) - 1.0;
     var col = vec3f(0.0);
+    let resolution = view.viewport.xy;
+    let time = globals.time;
 
-    col.r = uv.x;
-    col.b = uv.y;
+    let off6: array<vec2<f32>, 6> = array<vec2<f32>, 6>( // How can you loop over arrays?
+        vec2<f32>(off6(0.)),
+        vec2<f32>(off6(1.)),
+        vec2<f32>(off6(2.)),
+        vec2<f32>(off6(3.)),
+        vec2<f32>(off6(4.)),
+        vec2<f32>(off6(5.))
+    );
 
+    let noff6: array<vec2<f32>, 6> = array<vec2<f32>, 6>(
+        vec2<f32>(-1.0, 0.0),
+        vec2<f32>(-0.5, 0.5),
+        vec2<f32>(0.5, 0.5),
+        vec2<f32>(1.0, 0.0),
+        vec2<f32>(0.5, -0.5),
+        vec2<f32>(-0.5, -0.5)
+    );
+
+
+    
+    let q: vec2<f32> = uv / resolution.xy;
+    var p: vec2<f32> = -1.0 + 2.0 * q;
+    let pp: vec2<f32> = p;
+    p.x *= resolution.x / resolution.y;
+    let aa: f32 = 4.0 / resolution.y;
+
+    var hp: vec2<f32> = p;
+    hp *= 3.0;
+    hp += GA * sin(vec2(1.0, sqrt(0.5)) * TAU * (time - 300.0) / (8.0 * GA));
+
+    let hn: vec2<f32> = hextile(hp);
+    let h0: f32 = hash(hn);
+    var p0: vec2<f32> = coff(h0, time);
+    let bcol: vec3<f32> = 0.5 * (1.0 + cos(vec3(0.0, 1.0, 2.0) + dot(p, p) - 0.5 * time));
+    
+    let mx: f32 = 0.0005;
+
+    // Loop through the off6 array
+    for (var i = 0; i <= 6; i ++) {
+        let i = i;
+        let v:vec2f= hn + noff6[ICONST]; // FIXME: this is fucking stupid you can only index by const...
+        let h1: f32 = hash(v);
+
+        let p1: vec2<f32> = off6[ICONST] + coff(h1, time);
+        
+        let fade: f32 = smoothstep(1.05, 0.85, distance(p0, p1));
+
+        let h2: f32 = h0 + h1;
+        let p2: vec2<f32> = 0.5 * (p1 + p0) + coff(h2, time);
+        let dd: f32 = sdBezier(hp, p0, p2, p1).x; //FIXME: this is not what the original does.
+        var gd: f32 = abs(dd);
+        gd *= sqrt(gd);
+        gd = max(gd, mx);
+        col = col + fade * 0.002 * bcol / (gd);
+    }
+
+    // Calculate additional color contribution based on distance
+    var cd: f32 = length(hp - p0);
+    var gd2: f32 = abs(cd);
+    gd2 = gd2*gd2;
+    gd2 = max(gd2, mx);
+    col += 0.0025 * sqrt(bcol) / gd2;
+
+    // Calculate additional color contribution based on hexagon pattern
+    let hd: f32 = sdHexagon(hp, 0.485);
+    gd2 = abs(hd);
+    gd2 = max(gd2, mx * 10.0);
+    col += 0.0005 * bcol * bcol / gd2;
+
+    // Apply smoothing based on length
+    col *= smoothstep(1.75, 0.5, length(pp));
+    
+    // Apply ACES tone mapping and gamma correction
+    col = aces_approx(col);
+    col = sqrt(col);
+
+     // return something..
     return vec4f(col, 1.0);
 }
 

@@ -298,6 +298,9 @@ pub fn setup_2d(
                 .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
             material: your_shader.add(YourShader2D {}),
+
+            transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
+            // .with_rotation(Quat::from_rotation_x(180.0)),
             ..default()
         },
         BillBoardQuad,
@@ -314,7 +317,7 @@ pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<
     let (width, height) = (win.width(), win.height());
 
     query.iter_mut().for_each(|mut transform| {
-        transform.translation = Vec3::new(0.0, 0.0, 0.0);
+        // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
     });
