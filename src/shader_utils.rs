@@ -1,3 +1,6 @@
+//!
+//! Most of the boilerplate to make a custom shader work lives here.
+//!
 use bevy::{
     prelude::*,
     reflect::{TypePath, TypeUuid},
