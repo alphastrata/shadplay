@@ -11,8 +11,8 @@ use crate::shader_utils::{YourShader, YourShader2D};
 #[derive(Component, Clone, Default)]
 pub struct Shape;
 
-/// Component:
-/// Used to mark the billboard we do 2d shader stuff against to save having to implement a custom_vertex shader etc.
+/// Component: Marking the 2d geometry we use inplace of a custom vertex shader.
+/// Used by: size_quad
 #[derive(Component)]
 pub struct BillBoardQuad;
 
@@ -30,25 +30,22 @@ pub struct Cam2D;
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
 
-/// Event: Triggers the 2D to 3D or vice-versa camera switch.
-#[derive(Event)]
-pub struct CamSwitch;
-
-/// Resource: All the shapes we have the option of displaying.
+/// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
 pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
 
+/// Resource: Tracking whether or not we're rotating our shapes. 3d only.
 #[derive(Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
-/// System: to toggle on/off the rotating
+/// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<Input<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::R) {
         toggle.0 = !toggle.0;
     }
 }
 
-/// System: Rotates the currently active geometry in the scene
+/// System: Rotates the currently active geometry in the scene, 3d only.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
         transform.rotate_local_z(time.delta_seconds() * 0.25);
@@ -152,7 +149,7 @@ pub fn toggle_window_passthrough(
     }
 }
 
-/// System: Startup, initialises the scene's geometry.
+/// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,
@@ -182,7 +179,7 @@ pub fn init_shapes(
 
     shape_options.0.push((
         true,
-        ((
+        (
             MaterialMeshBundle {
                 mesh: meshes.add(Mesh::from(shape::Cube { size: 2.0 })).clone(),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
@@ -192,12 +189,12 @@ pub fn init_shapes(
                 ..default()
             },
             Shape,
-        )),
+        ),
     ));
 
     shape_options.0.push((
         false,
-        ((
+        (
             MaterialMeshBundle {
                 mesh: meshes.add(
                     shape::Icosphere {
@@ -214,17 +211,12 @@ pub fn init_shapes(
                 ..default()
             },
             Shape,
-        )),
+        ),
     ));
 }
 
-/// System: Startup, initialises the scene's geometry.
-pub fn setup_3d(
-    mut commands: Commands,
-    shape_options: Res<ShapeOptions>,
-    _meshes: ResMut<Assets<Mesh>>,
-    _materials: ResMut<Assets<YourShader>>,
-) {
+/// System: Startup, initialises the scene's geometry. Called on entry of [`AppState::TwoD`]
+pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     // 3D camera
     commands.spawn((
         Camera3dBundle {
@@ -241,26 +233,25 @@ pub fn setup_3d(
         trace!("Spawned mesh");
     }
 }
-
+/// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
 pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 3D camera.")
     }
 }
-
+/// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 2D camera.")
     }
 }
-
+/// System: Setup the 2d Camera. Called on entry of [`AppState::TwoD`]
 pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
-    // mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     // 2D camera
     commands.spawn((
@@ -268,10 +259,7 @@ pub fn setup_2d(
         // PanOrbitCamera::default(),
         Cam2D,
     ));
-
     trace!("Spawned 2d Cam");
-    // Spawn the giant screen consuming rect.
-    // add the myshader.wgsl to it...?
 
     // Quad
     commands.spawn((
@@ -280,16 +268,13 @@ pub fn setup_2d(
                 .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
             material: your_shader.add(YourShader2D {}),
-
-            // materials.add(ColorMaterial::from(Color::LIME_GREEN)),
-            // TODO: add 2d shader...
             ..default()
         },
         BillBoardQuad,
     ));
 }
 
-/// System: Runs only when in [`AppState::TwoD`]
+/// System: Runs only when in [`AppState::TwoD`], and only on Condition of [`WindowResized`].
 /// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
 pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>) {
     let win = windows
