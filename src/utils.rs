@@ -232,7 +232,7 @@ pub fn init_shapes(
 }
 
 /// System: Startup, initialises the scene's geometry.
-pub fn setup(
+pub fn setup_3d(
     mut commands: Commands,
     shape_options: Res<ShapeOptions>,
     _meshes: ResMut<Assets<Mesh>>,
@@ -251,4 +251,34 @@ pub fn setup(
     for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
         commands.spawn(matmeshbund.1.clone());
     }
+}
+
+pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, (&mut Camera, With<Cam3D>))>) {
+    for (ent, _q) in q.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned 3D camera.")
+    }
+}
+
+pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, (&mut Camera, With<Cam3D>))>) {
+    for (ent, _q) in q.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned 2D camera.")
+    }
+}
+
+pub fn setup_2d(
+    mut commands: Commands,
+    _meshes: ResMut<Assets<Mesh>>,
+    _materials: ResMut<Assets<YourShader>>,
+) {
+    // 3D camera
+    commands.spawn((
+        Camera2dBundle { ..default() },
+        // PanOrbitCamera::default(),
+        Cam2D,
+    ));
+
+    // Spawn the giant screen consuming rect.
+    // add the myshader.wgsl to it...?
 }
