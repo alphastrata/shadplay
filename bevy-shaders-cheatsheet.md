@@ -77,6 +77,7 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
     return c.z * mix(K.xxx, clamp(p - K.xxx, vec3(0.0), vec3(1.0)), c.y);
 }
 ```
+> NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
 
 ---
 # sdf-shapes

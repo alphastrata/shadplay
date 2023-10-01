@@ -37,6 +37,7 @@ pub fn screenshot_and_version_shader_on_spacebar(
             Err(e) => error!("screenshotting failed: {}", e),
             Ok(_) => {
                 version_current_shader(&Path::new(DEFAULT_SHADER), &target);
+
             }
         }
     }
