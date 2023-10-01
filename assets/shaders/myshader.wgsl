@@ -2,26 +2,29 @@
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
 const TAU:f32 =  6.28318530718;
+const HEIGHT:f32 = 4.0;
+const INTENSITY:f32 = 5.0;
+const NUM_LINES:f32 = 4.0;
+const SPEED:f32 = 1.0;
 
+// This is a port of Discoteq2 https://www.shadertoy.com/view/DtXfDr by 'supah' https://www.shadertoy.com/user/supah
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // let uv = in.uv;
-    var uv = (in.uv * 2.0) - 1.0;
-    var col = vec3f(0.);
+    let uv = (in.uv * 2.0) - 1.0;
+    var col = vec4f(0.0);
 
-    let distance_to_center = vec2(0.5) - uv;
-    let angle = atan2(distance_to_center.y, distance_to_center.x);
-    let radius = length(distance_to_center) * 2.0;
 
-    col = hsv_to_srgb(vec3f((angle / TAU) + globals.time / 3.0, radius, 1.0));
+    for (var i = 0.0; i <= NUM_LINES; i += 1.0) {
+        let t = i / INTENSITY;
+        col += line(uv, SPEED + t, HEIGHT + t, vec3f(0.2 + t * 0.7, 0.2 + t * 0.4, 0.3));
+    }
 
-    return vec4f(col, 1.0);
+    return col;
 }
 
-// From the bevy source code
-fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
-    let K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    let p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, vec3(0.0), vec3(1.0)), c.y);
+fn line(uv: vec2f, speed: f32, height: f32, col: vec3f) -> vec4f {
+    var uv = uv;
+    uv.y += smoothstep(1.0, 0.0, abs(uv.x)) * sin(globals.time * speed + uv.x * height) * 0.2;
+    return vec4(smoothstep(.06 * smoothstep(.2, .9, abs(uv.x)), 0., abs(uv.y) - .004) * col, 1.0) * smoothstep(1., .3, abs(uv.x));
 }
 
