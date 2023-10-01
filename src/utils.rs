@@ -255,14 +255,14 @@ pub fn setup_3d(
     }
 }
 
-pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, (&mut Camera, With<Cam3D>))>) {
+pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 3D camera.")
     }
 }
 
-pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, (&mut Camera, With<Cam3D>))>) {
+pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 2D camera.")
