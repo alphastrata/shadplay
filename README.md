@@ -85,3 +85,4 @@ Welcome.
 - [] demo images (of all shaders in the library)
 - [] left/right arrows to swap between shaders from the assets' dir
 - [] buttons to spin/swap the geomerty your shader is currently being applied to.
+- [] after supporting drag-n-drop shader applied to mesh -- need to support the screenshotter versioning their shaders too as it does for the defaults.
