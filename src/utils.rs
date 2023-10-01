@@ -6,6 +6,15 @@ use bevy_panorbit_camera::PanOrbitCamera;
 
 use crate::shader_utils::{YourShader, YourShader2D};
 
+/// State: Used to transition between 2d and 3d mode.    
+/// Used by: cam_switch_system, screenshot
+#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
+pub enum AppState {
+    #[default]
+    TwoD,
+    ThreeD,
+}
+
 /// Component: Marking shapes that we spawn.
 /// Used by: the rotate system.
 #[derive(Component, Clone, Default)]
@@ -288,4 +297,18 @@ pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
     });
+}
+/// System: switches between 3d and 2d cameras, by triggering the [`AppState::XYZ`] transitions.
+pub fn cam_switch_system(
+    mut next_state: ResMut<NextState<AppState>>,
+    keyboard_input: Res<Input<KeyCode>>,
+) {
+    if keyboard_input.pressed(KeyCode::T) {
+        trace!("Swapping to 2D");
+        next_state.set(AppState::TwoD)
+    }
+    if keyboard_input.pressed(KeyCode::H) {
+        trace!("Swapping to 3D");
+        next_state.set(AppState::ThreeD)
+    }
 }

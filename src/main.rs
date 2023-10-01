@@ -12,7 +12,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 use shadplay::{
     screenshot, shader_utils,
-    utils::{self, Rotating, ShapeOptions, TransparencySet},
+    utils::{self, AppState, Rotating, ShapeOptions, TransparencySet},
 };
 
 fn main() {
@@ -71,7 +71,7 @@ fn main() {
                 utils::quit,
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
-                cam_switch_system,
+                utils::cam_switch_system,
             ),
         )
         // 2d Only Sytsems
@@ -82,25 +82,4 @@ fn main() {
                 .run_if(on_event::<WindowResized>()),
         )
         .run();
-}
-
-#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
-pub enum AppState {
-    #[default]
-    TwoD,
-    ThreeD,
-}
-
-fn cam_switch_system(
-    mut next_state: ResMut<NextState<AppState>>,
-    keyboard_input: Res<Input<KeyCode>>,
-) {
-    if keyboard_input.pressed(KeyCode::T) {
-        trace!("Swapping to 2D");
-        next_state.set(AppState::TwoD)
-    }
-    if keyboard_input.pressed(KeyCode::H) {
-        trace!("Swapping to 3D");
-        next_state.set(AppState::ThreeD)
-    }
 }
