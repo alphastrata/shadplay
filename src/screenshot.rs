@@ -7,7 +7,11 @@ use bevy::render::view::screenshot::ScreenshotManager;
 use bevy::window::PrimaryWindow;
 use chrono::{Datelike, Local, Timelike};
 
-const DEFAULT_SHADER: &str = "assets/shaders/myshader.wgsl";
+use crate::utils::AppState;
+
+const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wgsl";
+const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
+
 
 /// Saves a screenshot && versions the shader (from [`DEFAULT_SHADER`]) that was active when screenshotting.
 /// giving you something like this:
@@ -22,6 +26,7 @@ pub fn screenshot_and_version_shader_on_spacebar(
     input: Res<Input<KeyCode>>,
     main_window: Query<Entity, With<PrimaryWindow>>,
     mut screenshot_manager: ResMut<ScreenshotManager>,
+    app_state: Res<State<AppState>>,
 ) {
     if input.just_pressed(KeyCode::Space) {
         let target = PathBuf::from(format!(
@@ -36,29 +41,23 @@ pub fn screenshot_and_version_shader_on_spacebar(
         match screenshot_manager.save_screenshot_to_disk(main_window.single(), &target) {
             Err(e) => error!("screenshotting failed: {}", e),
             Ok(_) => {
-                version_current_shader(&Path::new(DEFAULT_SHADER), &target);
-
+                let shader_path = match app_state.get() {
+                    AppState::TwoD => DEFAULT_SHADER_2D,
+                    AppState::ThreeD => DEFAULT_SHADER_3D,
+                };
+                version_current_shader(Path::new(shader_path), &target);
+               
             }
         }
     }
 }
 
+// ---------------------------------------------
 // FILESYSTEM HELPERS:
+// ---------------------------------------------
 
 /// Make every file/dir etc required from a given `p`:
-///```rust
-/// fn main() -> Result<(), Box<dyn std::error::Error>> {
-///     let dir_path = "my_directory";
-///     let file_path = "my_directory/my_file.txt";
-///
-///     // Create a directory if it doesn't exist
-///     make_all(dir_path)?;
-///
-///     // Create a file if it doesn't exist
-///     make_all(file_path)?;
-///
-///     Ok(())
-/// }```
+
 fn make_all<P>(p: P) -> Result<(), std::io::Error>
 where
     P: AsRef<Path>,
@@ -80,6 +79,7 @@ where
 
     Ok(())
 }
+
 /// Provides a String of hh-mm-ss_dd-mm-yy timestamp.
 fn timestamper() -> String {
     let local = Local::now();
@@ -90,6 +90,7 @@ fn timestamper() -> String {
     format!("{:02}-{:02}-{:02}", hour, minute, second)
 }
 
+/// dd-mm-yy as a String.
 fn today() -> String {
     let local = Local::now();
     let day = local.day();

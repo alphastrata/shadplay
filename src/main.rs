@@ -12,7 +12,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 use shadplay::{
     screenshot, shader_utils,
-    utils::{self, Rotating, ShapeOptions, TransparencySet},
+    utils::{self, AppState, Rotating, ShapeOptions, TransparencySet, Rotating, ShapeOptions, TransparencySet},
 };
 
 fn main() {
@@ -71,9 +71,9 @@ fn main() {
                 utils::quit,
                 utils::toggle_window_passthrough,
                 utils::toggle_transparency,
-                cam_switch_system,
-                screenshot::screenshot_and_version_shader_on_spacebar,
+                utils::cam_switch_system,
 
+                screenshot::screenshot_and_version_shader_on_spacebar,
             ),
         )
         // 2d Only Sytsems
@@ -85,39 +85,3 @@ fn main() {
         )
         .run();
 }
-
-#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
-pub enum AppState {
-    #[default]
-    TwoD,
-    ThreeD,
-}
-
-fn cam_switch_system(
-    mut next_state: ResMut<NextState<AppState>>,
-    keyboard_input: Res<Input<KeyCode>>,
-) {
-    if keyboard_input.pressed(KeyCode::T) {
-        trace!("Swapping to 2D");
-        next_state.set(AppState::TwoD)
-    }
-    if keyboard_input.pressed(KeyCode::H) {
-        trace!("Swapping to 3D");
-        next_state.set(AppState::ThreeD)
-    }
-}
-
-// /// This system prints 'A' key state
-// fn keyboard_input_system(keyboard_input: Res<Input<KeyCode>>) {
-//     if keyboard_input.pressed(KeyCode::A) {
-//         info!("'A' currently pressed");
-//     }
-
-//     if keyboard_input.just_pressed(KeyCode::A) {
-//         info!("'A' just pressed");
-//     }
-
-//     if keyboard_input.just_released(KeyCode::A) {
-//         info!("'A' just released");
-//     }
-// }

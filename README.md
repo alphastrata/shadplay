@@ -47,12 +47,27 @@ To run shadplay, you'll need the following:
 - Then edit the `myshader.wgsl` file in real time.
 
 ---
-## Resources:
+## Keybindings:
+The app has some simple hotkeys:
 
-- Fantastic implementations of some sdf composed shapes https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1
-- Shadertoy
-- Shaded by embark
-- pcf swap by DGriffin91 https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf
+| Hotkey | Action               |
+|--------|----------------------|
+| q      | Quit                 |
+| s      | Change Shape in 3D   |
+| t      | Switch to 2D/ShaderToy Mode|
+| h      | Switch to 3D         |
+| l      | Window-Level         |
+| d      | Toggle Decorations   |
+| t      | Toggle Transparency (returning to fully transparent is not supported)|
+| r      | Toggle Rotating shape|
+| spacebar      | Takes a screenshot && versions the current `myshader.wgsl`| 
+
+---
+## Resources:
+- [Fantastic implementations of some sdf composed shapes](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
+- [Shadertoy](https://www.shadertoy.com/)
+- [Shaded by embark](https://github.com/EmbarkStudios/shaded)
+- [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
 ---
 ## Contributing:
@@ -62,7 +77,13 @@ Welcome.
 ---
 ## TODO:
 - [] drag n drop obj/stl/gltf opening?
-- [] clever snap camera
+- [] material swap to ours system (drag n drop a shader onto the window)
+- [] hotkey menu display (egui? eframe?)
+- [] More shader examples (the entirety of shadertoy ported!)
+- [] demo images (of all shaders in the library)
+- [] left/right arrows to swap between shaders from the assets' dir
+- [] buttons to spin/swap the geomerty your shader is currently being applied to.
+- [] after supporting drag-n-drop shader applied to mesh -- need to support the screenshotter versioning their shaders too as it does for the defaults.
 - [] material swap to ours system
 - [] hotkey menu display
 - [] More shader examples
