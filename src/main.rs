@@ -6,7 +6,7 @@ use bevy::{
     sprite::Material2dPlugin,
     utils::Duration,
     window::WindowLevel,
-    window::{Window, WindowPlugin},
+    window::{Window, WindowPlugin, WindowResized},
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
@@ -75,7 +75,12 @@ fn main() {
             ),
         )
         // 2d Only Sytsems
-        .add_systems(Update, utils::size_quad.run_if(in_state(AppState::TwoD)))
+        .add_systems(
+            Update,
+            utils::size_quad
+                .run_if(in_state(AppState::TwoD))
+                .run_if(on_event::<WindowResized>()),
+        )
         .run();
 }
 

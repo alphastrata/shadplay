@@ -260,7 +260,7 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
+    // mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     // 2D camera
     commands.spawn((
@@ -277,9 +277,11 @@ pub fn setup_2d(
     commands.spawn((
         bevy::sprite::MaterialMesh2dBundle {
             mesh: meshes
-                .add(shape::Quad::new(Vec2::new(100., 100.)).into())
+                .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
-            material: materials.add(ColorMaterial::from(Color::LIME_GREEN)),
+            material: your_shader.add(YourShader2D {}),
+
+            // materials.add(ColorMaterial::from(Color::LIME_GREEN)),
             // TODO: add 2d shader...
             ..default()
         },
@@ -298,6 +300,7 @@ pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<
 
     query.iter_mut().for_each(|mut transform| {
         transform.translation = Vec3::new(0.0, 0.0, 0.0);
-        transform.scale = Vec3::new(width - width * 0.95, height - height * 0.95, 1.0);
+        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
+        trace!("Window Resized, resizing quad");
     });
 }
