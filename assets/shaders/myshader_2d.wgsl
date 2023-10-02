@@ -22,13 +22,13 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     col.a = 1.0;
 
     var v = vec3f(1.0);
-
-    for (var id = 0; id < 3; id += 1) {
-        // v = fract(globals.time);
+    for (var idx = 0; idx < 3; idx ++) {
+        v[idx] = fract(globals.time);
     }
 
-    col.r = uv.x;
-    col.b = uv.y;
+    col.r = v.r;
+    col.b = v.b;
+    col.g = v.g;
 
     return col;
 }
