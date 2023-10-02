@@ -11,11 +11,12 @@ const HALF_PI:f32 =  1.57079632679;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+    let resolution:vec2f = view.viewport.xy;
     var uv = in.uv.yx * 2.0 - 1.0;
+
     uv *= rotate2D(HALF_PI);
 
     var col = vec3f(0.0);
-
     col.r = uv.x;
     col.b = uv.y;
 
