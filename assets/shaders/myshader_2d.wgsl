@@ -1,29 +1,82 @@
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import bevy_render::view View
-#import bevy_pbr::utils PI;
+#import bevy_pbr::utils PI
 
 @group(0) @binding(0) var<uniform> view: View;
 
 const SPEED:f32 = 1.0;
 const TAU: f32 = 6.283185;
 const HALF_PI:f32 =  1.57079632679;
+const NEG_HALF_PI:f32 =  -1.57079632679;
 
+
+// This is a port of "Peano Monofractal" https://www.shadertoy.com/view/mdVcWD by MartyMcFly https://www.shadertoy.com/user/MartyMcFly
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    let resolution:vec2f = view.viewport.xy;
-    var uv = in.uv.yx * 2.0 - 1.0;
+    let resolution: vec2f = view.viewport.xy;
+    var uv = in.uv.xy * 2.0 - 1.0;
+    uv *= rotate2D(NEG_HALF_PI);
 
-    uv *= rotate2D(HALF_PI);
+    var col = vec4f(0.0);
+    col.a = 1.0;
 
-    var col = vec3f(0.0);
+    var v = vec3f(1.0);
+
+    for (var id = 0; id < 3; id += 1) {
+        // v = fract(globals.time);
+    }
+
     col.r = uv.x;
     col.b = uv.y;
 
-    return vec4f(col, 1.0);
+    return col;
+}
+
+fn peano(p: vec2i, level: i32) -> i32 {
+    var i: i32 = 0;
+    var p_new: vec2i = p;
+    var b: i32 = i32(round(pow(3.0, f32(level))));  // b = blocksize
+
+    for (; b > 0; b = b / 3) {
+        let t: vec2i = p_new / b;
+        let ti: i32 = 3 * t.x + t.y + (t.x * 2 % 2) * (1 - t.y);  // the 3x3 snake
+        i = i * 9 + ti;  // add current octave to total
+
+        p_new = p_new - b * t;  // p %= blocksize
+
+        if t.y == 1 {
+            p_new.x = b - p_new.x - 1;  // flip sub-blocks so next subfractals connect
+        }
+        if t.x == 1 {
+            p_new.y = b - p_new.y - 1;
+        }
+    }
+
+    return i;
+}
+
+fn hsv2rgb(c: vec3f) -> vec3f {
+    var rgb: vec3f = clamp(
+        abs((c.x * 6.0 + vec3f(0.0, 4.0, 2.0)) % 6.0 - 3.0) - 1.0,
+        vec3f(0.0),
+        vec3f(1.0)
+    );
+    return c.z * mix(vec3f(1.0), rgb, c.y);
+}
+
+fn gradient(t: f32) -> vec3f {
+    let h: f32 = 0.6666 * (1.0 - t * t);
+    let s: f32 = 0.75;
+    let v: f32 = 1.0 - 0.9 * (1.0 - t) * (1.0 - t);
+    return hsv2rgb(vec3f(h, s, v));
 }
 
 
+
+
+
+/// MISC:
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 fn sdHexagon(p: vec2f, r: f32) -> f32 {
     let k = vec3f(-0.866025404, 0.5, 0.577350269);
