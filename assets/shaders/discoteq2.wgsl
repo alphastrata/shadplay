@@ -1,7 +1,6 @@
-#import bevy_pbr::mesh_view_bindings globals 
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_sprite::mesh2d_view_bindings globals
 
-const TAU:f32 =  6.28318530718;
 const HEIGHT:f32 = 4.0;
 const INTENSITY:f32 = 5.0;
 const NUM_LINES:f32 = 4.0;

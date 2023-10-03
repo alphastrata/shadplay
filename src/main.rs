@@ -55,10 +55,9 @@ fn main() {
         .add_systems(
             Update,
             (
-                utils::toggle_rotate,
                 utils::rotate.run_if(resource_equals::<Rotating>(shadplay::utils::Rotating(true))),
-                utils::switch_level,
                 utils::switch_shape,
+                utils::toggle_rotate,
             )
                 .run_if(in_state(AppState::ThreeD)),
         )
@@ -67,12 +66,11 @@ fn main() {
             Update,
             (
                 screenshot::screenshot_and_version_shader_on_spacebar,
-                utils::toggle_decorations,
-                utils::quit,
-                utils::toggle_window_passthrough,
-                utils::toggle_transparency,
                 utils::cam_switch_system,
-                screenshot::screenshot_and_version_shader_on_spacebar,
+                utils::quit,
+                utils::switch_level,
+                utils::toggle_transparency,
+                utils::toggle_window_passthrough,
             ),
         )
         // 2d Only Sytsems

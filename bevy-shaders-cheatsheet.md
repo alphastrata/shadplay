@@ -14,8 +14,8 @@ I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, 
 * ### [smoothstep](#smoothstep)
 * ### [step](#step)
 * ### [glow](glow)
-* ### [glsl-syntax-differences](glsl-syntax-differences)
-* ### [importable from bevy](importable from bevy)
+* ### [glsl syntax differences](glsl-syntax-differences)
+* ### [importable from bevy](importable-from-bevy)
 ---
 
 # uvs:
@@ -212,12 +212,20 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 
 ---
-# glsl-syntax-differences
+# glsl syntax differences
 >NOTE: this is not an exhaustive list!
 - `glsl` has `mod` but in `wgsl` you need to use `%`
 - bindings in `glsl` by default are mutable, not so in `wgsl`, use `var` for mutable `let` for immutable.
+- in `glsl` you'll see the `in` keyword, which do to a similar thing with pointers in wgsl:
+```rust
+fn testing (uv: ptr<function, vec2<f32>>) {
+    (*uv).x = 4.0;
+}
+``` 
+which you cal call like this `testing(&uv)`.
 
 
 ---
 # importable from bevy
+>TODO
 
