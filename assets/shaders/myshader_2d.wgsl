@@ -15,18 +15,12 @@ const NEG_HALF_PI:f32 =  -1.57079632679;
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let resolution: vec2f = view.viewport.xy;
-    var uv = in.uv.xy * -2.0 + 1.0; // either do uv.yx and then rotate or just flip em here..
+    var uv = in.uv * -2.0 + 1.0; 
     var col = vec3f(0.0);
-    let x = uv.x;
 
-    var y = max(0.0, x);
-    col = vec3f(y);
+    let v = pow(mix(uv.y, uv.x, 0.5), -2.0);
 
-
-    let pct: f32 = plot(uv, y);
-    let a: vec3f = (1.0 - pct) * col;
-    col = a + pct * vec3(0.0, 1.0, 0.0);
-
+    col = vec3f(v);
 
     return vec4f(col, 1.0);
 }
