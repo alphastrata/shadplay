@@ -9,6 +9,7 @@ const SPEED:f32 = 1.0;
 const TAU: f32 = 6.283185;
 const HALF_PI:f32 =  1.57079632679;
 const NEG_HALF_PI:f32 =  -1.57079632679;
+const LEVELS: i32 = 7;
 
 
 // This is a port of "Peano Monofractal" https://www.shadertoy.com/view/mdVcWD by MartyMcFly https://www.shadertoy.com/user/MartyMcFly
@@ -16,40 +17,58 @@ const NEG_HALF_PI:f32 =  -1.57079632679;
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let resolution: vec2f = view.viewport.xy;
     var uv = in.uv.yx * 2.0 - 1.0; // either do uv.yx and then rotate or just flip em here..
-    // uv *= rotate2D(NEG_HALF_PI);
-    testing(&uv);
 
-    var col = vec3f(1.0);
-    return vec4f(col, 1.0);
+    let N = i32(round(pow(3.0, f32(LEVELS))));
+
+    /// Creates a sort of vignette
+    var r = max(0.0, 1.0 - dot(uv, uv) * 0.3);
+    var col = vec4f(r); 
+
+    uv *= 1.3; // TODO: Const interesting canvas/frame size
+
+    fade(col, uv);
+
+    // if abs(uv.x) < 1.0 && abs(uv.y) < 1.0{
+    //     uv = uv * 0.5 +0.5;
+    //     var pos:vec2i = vec2i(uv*f32(N));
+    //     let mode = i32(globals.time*0.125) % 3;
+
+    //     let i = peano(*pos, LEVELS);
+    //     // var t = flaot(i) / float( N * N );
+    // }
+
+    return col;
+}
+fn fade(col: ptr<function, vec4f>, uv: vec2f){
+    let fade = max(abs(uv.x), abs(uv.y)) - 1.0 ; // This is really cool.
+    *col *=  (fade / (0.005 + fade));
+    
 }
 
-fn testing (uv: ptr<function, vec2<f32>>) {
-    (*uv).x = 4.0;
-}
 
 
-fn peano(p: vec2i, level: i32) -> i32 {
-    var i: i32 = 0;
-    var p_new: vec2i = p;
-    var b: i32 = i32(round(pow(3.0, f32(level))));  // b = blocksize
+// fn peano(p: ptr<function, vec2i>, level: i32) -> i32 {
+// // fn testing (uv: ptr<function, vec2<f32>>) {
+//     var i: i32 = 0;
+//     var b: i32 = i32(round(pow(3.0, f32(level))));  // b = blocksize
 
-    for (; b > 0; b = b / 3) {
-        let t: vec2i = p_new / b;
-        let ti: i32 = 3 * t.x + t.y + (t.x * 2 % 2) * (1 - t.y);  // the 3x3 snake
-        i = i * 9 + ti;  // add current octave to total
+//     for (; b > 0; b = b / 3) {
+//         let t =  vec2f(34, 98);
+//         let ti = 3 * t.x + t.y + (t.x * 2 % 2) * (1 - t.y);  // the 3x3 snake
+//         i = i * 9 + ti;  // add current octave to total
 
-        p_new = p_new - b * t;  // p %= blocksize
+//         p = p - b * t;  // p %= blocksize
 
-        if t.y == 1 {
-            p_new.x = b - p_new.x - 1;  // flip sub-blocks so next subfractals connect
-        }
-        if t.x == 1 {
-            p_new.y = b - p_new.y - 1;
-        }
-    }
+//         if t.y == 1 {
+//             p.x = b - p.x - 1;  // flip sub-blocks so next subfractals connect
+//         }
+//         if t.x == 1 {
+//             p.y = b - p.y - 1;
+//         }
+//     }
 
-    return i;
-}
+//     return i;
+// }
 
 fn hsv2rgb(c: vec3f) -> vec3f {
     var rgb: vec3f = clamp(
