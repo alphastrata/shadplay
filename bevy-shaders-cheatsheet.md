@@ -216,6 +216,13 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 >NOTE: this is not an exhaustive list!
 - `glsl` has `mod` but in `wgsl` you need to use `%`
 - bindings in `glsl` by default are mutable, not so in `wgsl`, use `var` for mutable `let` for immutable.
+- in `glsl` you'll see the `in` keyword, which do to a similar thing with pointers in wgsl:
+```rust
+fn testing (uv: ptr<function, vec2<f32>>) {
+    (*uv).x = 4.0;
+}
+``` 
+which you cal call like this `testing(&uv)`.
 
 
 ---

@@ -15,23 +15,18 @@ const NEG_HALF_PI:f32 =  -1.57079632679;
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let resolution: vec2f = view.viewport.xy;
-    var uv = in.uv.xy * 2.0 - 1.0;
-    uv *= rotate2D(NEG_HALF_PI);
+    var uv = in.uv.yx * 2.0 - 1.0; // either do uv.yx and then rotate or just flip em here..
+    // uv *= rotate2D(NEG_HALF_PI);
+    testing(&uv);
 
-    var col = vec4f(0.0);
-    col.a = 1.0;
-
-    var v = vec3f(1.0);
-    for (var idx = 0; idx < 3; idx ++) {
-        v[idx] = fract(globals.time);
-    }
-
-    col.r = v.r;
-    col.b = v.b;
-    col.g = v.g;
-
-    return col;
+    var col = vec3f(1.0);
+    return vec4f(col, 1.0);
 }
+
+fn testing (uv: ptr<function, vec2<f32>>) {
+    (*uv).x = 4.0;
+}
+
 
 fn peano(p: vec2i, level: i32) -> i32 {
     var i: i32 = 0;
