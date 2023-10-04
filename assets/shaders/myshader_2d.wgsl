@@ -17,30 +17,28 @@ const WBCOL2: vec3f = vec3f(0.15, 0.8, 1.7);
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    // Initialize fragColor to vec4(0.0)
     var fragColor: vec4<f32> = vec4<f32>(0.0);
-
-    var uv = in.uv.xy;
-
+    var uv = (in.uv.xy * 2.0)- 1.0;
     let resolution = view.viewport.xy;
 
-    // Loop for REP iterations
+     // Loop for REP iterations
     for (var count: i32 = 0; count < 2; count = count + 1) {
-        // Calculate uv coordinates
+         // Calculate uv coordinates
         uv *= 1.4;
         uv.x += hash(uv.xy + globals.time + f32(count)) / 512.0;
         uv.y += hash(uv.yx + globals.time + f32(count)) / 512.0;
 
-        // Calculate the direction
+         // Calculate the direction
         var dir: vec3<f32> = normalize(vec3<f32>(
-            uv * vec2<f32>(resolution.x / resolution.y, 1.0),
+            uv,
             1.0 + sin(globals.time) * 0.01
         ));
 
- // Calculate rotations
-        dir = rot(rot(dir, d2r(90.0)), d2r(70.0));
+        // Calculate rotations
 
-        // Initialize variables
+        
+
+         // Initialize variables
         var pos: vec3<f32> = vec3<f32>(
             -0.1 + sin(globals.time * 0.3) * 0.1,
             2.0 + cos(globals.time * 0.4) * 0.1,
@@ -52,7 +50,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         var bsh: f32 = 0.01;
         var dens: f32 = 0.0;
 
-        // First loop
+         // First loop
         for (var i: i32 = 0; i < REP * 24; i = i + 1) {
             var temp: f32 = map1(pos + dir * t, 0.6);
             if temp < 0.2 {
@@ -77,14 +75,14 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
             y = y + 1.0;
         }
 
-        // Update col
+         // Update col
         col += ((2.0 + uv.x) * WBCOL2) + (y / (25.0 * 50.0));
         col += gennoise(vec2<f32>(dir.xz), globals.time) * 0.5;
         col *= 1.0 - uv.y * 0.5;
         col *= vec3<f32>(0.05);
         col = pow(col, vec3<f32>(0.717));
 
-        // Add the result to fragColor
+         // Add the result to fragColor
         fragColor = fragColor + vec4<f32>(col, 1.0 / t);
     }
 
