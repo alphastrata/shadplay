@@ -3,22 +3,26 @@
 I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, this is a small attempt to collect some of my notes -- made public in the hope it will alleviate the potential suffering of others.
 
 ---
+
 ## Contents:
-* ### [noise](#noise)
-* ### [resolution](#resolution)
-* ### [sdf-shapes](#sdf-shapes)
-* ### [time](#time)
-* ### [uvs](#uvs)
-* ### [uuid-generation](#uuid-generation)
-* ### [get data into your shader from bevy](#get-data-into-your-shader)
-* ### [smoothstep](#smoothstep)
-* ### [step](#step)
-* ### [glow](#glow)
-* ### [glsl syntax differences](#syntax-diffs)
-* ### [importable from bevy](#importable)
+
+- ### [noise](#noise)
+- ### [resolution](#resolution)
+- ### [sdf-shapes](#sdf-shapes)
+- ### [time](#time)
+- ### [uvs](#uvs)
+- ### [uuid-generation](#uuid-generation)
+- ### [get data into your shader from bevy](#get-data-into-your-shader)
+- ### [smoothstep](#smoothstep)
+- ### [step](#step)
+- ### [glow](#glow)
+- ### [glsl syntax differences](#syntax-diffs)
+- ### [importable from bevy](#importable)
+
 ---
 
 # uvs:
+
 ```rust
 // 'uv's are in the MeshVertexOutput
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
@@ -34,7 +38,9 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 ```
 
 ---
+
 # resolution:
+
 ```rust
 #import bevy_render::view View
 
@@ -47,12 +53,15 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 
 }
 ```
-- [Dunno what `uniform`s are?](https://thebookofshaders.com/03/) 
+
+- [Dunno what `uniform`s are?](https://thebookofshaders.com/03/)
 
 ---
+
 # time:
+
 ```rust
-#import bevy_pbr::mesh_view_bindings globals 
+#import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
 const TAU:f32 =  6.28318530718;
@@ -77,28 +86,37 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
     return c.z * mix(K.xxx, clamp(p - K.xxx, vec3(0.0), vec3(1.0)), c.y);
 }
 ```
+
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
 
 ---
+
 # sdf-shapes
+
 - [munrocket's 3d](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
 - [munrocket's 2d](https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4)
 
-
 ---
+
 # noise
+
 - [munrocket's noise](https://gist.github.com/munrocket/236ed5ba7e409b8bdf1ff6eca5dcdc39)
 
 ---
+
 # uuid-generation:
+
 - you need `uuid`s for the ECS, whenever you're deriving `TypeUuid` on stuff you plan on putting in there (which we do plan on doing)
+
 ```rust
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct MyShader{}
 ```
+
 Here's an [online-generator](https://www.uuidgenerator.net/), that I use a bit.
 _if you're feeling lazy here's 25 generated earlier_
+
 ```shell
 f6395028-088c-4d0c-bf79-9bb238b79768
 83db0271-2867-4477-9cad-afd89bd93abc
@@ -126,17 +144,22 @@ cca52d9e-2bd4-4fc0-b058-7bd3ddd1aba5
 6feca34e-6fa7-4fa4-a7c8-d914382108ba
 fd9ec163-e144-478d-a085-702d028f1149
 ```
-or, you can use [`quiddy`](https://github.com/alphastrata/quuidy): 
+
+or, you can use [`quiddy`](https://github.com/alphastrata/quuidy):
+
 ```shell
 cargo install quuidy
 quuidy -n 10
 ```
 
 ---
+
 # get-data-into-your-shader
-If none of that makes sense: I wrote a  [blog-post](https://jeremyfwebb.ninja/src/blog_posts/wgsl_basics), on this.
+
+If none of that makes sense: I wrote a [blog-post](https://jeremyfwebb.ninja/src/blog_posts/wgsl_basics), on this.
 Take this shader code [dotted-line-shader](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 Then use this [rust-binding-code](https://github.com/alphastrata/shadplay/blob/develop/src/shader_utils.rs). (copied below for the lazy)
+
 ```rust
 // in src/YOURMODULE.rs
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
@@ -166,38 +189,46 @@ impl Material for DottedLineShader {
     }
 }
 ```
+
 In your `main.rs`:
+
 ```rust
 app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 ```
 
 ---
+
 # [smoothstep](https://en.wikipedia.org/wiki/Smoothstep)
+
 smoothstep interpolates between two 'edges', `leftedge`, sometimes called `edge0` and `rightedge`, sometimes called `edge1`, for a given `x`.
 i.e make the shape of the _below_ graph, where all values are clamped between those two edges.
 So if your `x` is <= to leftedge smoothstep returns you a 0.
 if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
-
-![smoostep](
-	https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
+![smoostep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
 
 > _It's usually assumed x is a real number (i.e a float)._
-It's commonly used to create smooth transitions and animations, such as in fading effects, transitions between colors, or smoothly moving objects from one position to another.
+> It's commonly used to create smooth transitions and animations, such as in fading effects, transitions between colors, or smoothly moving objects from one position to another.
 
 The smoothstep function takes three parameters:
+
 ```
     LeftEdge: The lower edge of the range.
     RightEdge: The upper edge of the range.
     x: The input value that you want to interpolate between those above Edges.
-````
+```
+
 - [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explination
 
----	
+---
+
 # step
+
 `fn step(limit, value)` any `value` under the `limit` will return a `0.0`, anything above `value` a `1.0`;
 available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` etc.
+
 > can be useful to replace `if` statements, because a numerical solve is (rumoured to be) superiour in performance to a branch:
+
 ```rust
 // From the dotted_line.wgsl mentioned elsewhere in this guide.
     // draw x line
@@ -209,23 +240,29 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
         col += vec4f(0.23, 0.88, 0.238, 1.0)* step_y;
     }
 ```
+
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 
 ---
+
 # syntax diffs
->NOTE: this is not an exhaustive list!
+
+> NOTE: this is not an exhaustive list!
+
 - `glsl` has `mod` but in `wgsl` you need to use `%`
 - bindings in `glsl` by default are mutable, not so in `wgsl`, use `var` for mutable `let` for immutable.
 - in `glsl` you'll see the `in` keyword, which do to a similar thing with pointers in wgsl:
+
 ```rust
 fn testing (uv: ptr<function, vec2<f32>>) {
     (*uv).x = 4.0;
 }
-``` 
+```
+
 which you cal call like this `testing(&uv)`.
 
-
 ---
-# importable
->TODO
 
+# importable
+
+> TODO
