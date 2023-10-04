@@ -32,9 +32,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         uv.y += hash(uv.yx + globals.time + f32(count)) / 512.0;
 
 
-         // Calculate the direction
-// vec3 dir = normalize(vec3(uv * vec2(iResolution.x / iResolution.y, 1.0), 1.0 + sin(iTime) * 0.01));
-        
+        // Calculate the direction # I was unable to work out how to do this well, due to not being able to swizzle.
         var dir: vec3<f32> = normalize(vec3<f32>(
             uv.xy * 0.33,
             2.0 + sin(globals.time) * 0.01
@@ -47,9 +45,6 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         dir.z = stash.y;
         stash = rot(dir.xy, d2r(92.0)); //xy
         dir.x = stash.y;
-
-        
-        
 
          // Initialize variables
         var pos: vec3<f32> = vec3<f32>(
