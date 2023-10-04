@@ -96,7 +96,7 @@ pub fn toggle_transparency(
     mut _windows: Query<&mut Window>,
     mut event: EventWriter<RequestRedraw>,
 ) {
-    if input.just_pressed(KeyCode::T) {
+    if input.just_pressed(KeyCode::O) {
         // let mut window = windows.single_mut();
         // window.transparent = !window.transparent; // Not supported after creation.
         if **transparency_set {

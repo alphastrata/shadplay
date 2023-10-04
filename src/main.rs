@@ -10,13 +10,17 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
+#[cfg(feature = "ui")]
+use shadplay::ui::HelpUIPlugin;
 use shadplay::{
     screenshot, shader_utils,
     utils::{self, AppState, Rotating, ShapeOptions, TransparencySet},
 };
 
 fn main() {
-    App::new()
+    let mut app = App::new();
+
+    let shadplay = app
         .add_state::<AppState>()
         .add_plugins((DefaultPlugins
             .set(AssetPlugin {
@@ -79,6 +83,10 @@ fn main() {
             utils::size_quad
                 .run_if(in_state(AppState::TwoD))
                 .run_if(on_event::<WindowResized>()),
-        )
-        .run();
+        );
+
+    #[cfg(feature = "ui")]
+    shadplay.add_plugins(HelpUIPlugin);
+
+    shadplay.run();
 }

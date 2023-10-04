@@ -9,28 +9,34 @@ description = """
 Shadplay is a simple, (WIP) application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
 """
 
+[features]
+ui = ["dep:bevy_egui"]
+default = ["ui"]
+
 [dependencies]
-bevy = { version= "0.11.*", features = [
+bevy = { version = "0.11.*", features = [
   "filesystem_watcher",
   "dynamic_linking",
   "bevy_dylib",
 ] }
-
+bevy_egui = { version = "0.21.0", optional = true }
 bevy_panorbit_camera = "0.8.*"
 chrono = "0.4.31"
 
-[build-dependencies]
-glob = "0.3.1"
-
-[profile.dev]
+[profile.dev] # A little bit of optimisation for dev builds
 opt-level = 1
 
-[profile.dev.package."*"]
+[profile.dev.package."*"] # Always build dependencies with the highest level of optimisations possible.
 opt-level = 3
 
 # No dynamic linking for production releases.
 [profile.production]
 inherits = "release"
+
 [profile.production.bevy]
-version= "0.11.*"
-features = [ "filesystem_watcher" ] 
+version = "0.11.*"
+features = ["filesystem_watcher"]
+
+
+[build-dependencies]
+glob = "0.3.1"
