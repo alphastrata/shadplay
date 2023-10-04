@@ -14,12 +14,15 @@ const REP: i32 = 25;
 const WBCOL: vec3f = vec3f(0.5, 0.7, 1.7);
 const WBCOL2: vec3f = vec3f(0.15, 0.8, 1.7);
 
-
+// this is an attempted port of 'w10'  https://www.shadertoy.com/view/lllSR2 by https://www.shadertoy.com/user/gyabo
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    var fragColor: vec4<f32> = vec4<f32>(0.0);
+    var fragColor: vec4<f32> = vec4<f32>(0.0080);
     var uv = (in.uv.xy * 2.0)- 1.0;
-    let resolution = view.viewport.xy;
+    uv.y -= 0.55; // To keep the logo centered.
+
+    let resolution = view.viewport.zw;
+    let scalefac = vec2f(resolution.x, resolution.y);
 
      // Loop for REP iterations
     for (var count: i32 = 0; count < 2; count = count + 1) {
@@ -28,14 +31,24 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         uv.x += hash(uv.xy + globals.time + f32(count)) / 512.0;
         uv.y += hash(uv.yx + globals.time + f32(count)) / 512.0;
 
+
          // Calculate the direction
+// vec3 dir = normalize(vec3(uv * vec2(iResolution.x / iResolution.y, 1.0), 1.0 + sin(iTime) * 0.01));
+        
         var dir: vec3<f32> = normalize(vec3<f32>(
-            uv,
-            1.0 + sin(globals.time) * 0.01
+            uv.xy * 0.33,
+            2.0 + sin(globals.time) * 0.01
         ));
 
-        // Calculate rotations
+        let scale_factor = vec2f((resolution.x / resolution.y), 1.0);
 
+        // Calculate rotations
+        var stash = rot(dir.xz, d2r(80.0)); //xz
+        dir.z = stash.y;
+        stash = rot(dir.xy, d2r(92.0)); //xy
+        dir.x = stash.y;
+
+        
         
 
          // Initialize variables
@@ -50,7 +63,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         var bsh: f32 = 0.01;
         var dens: f32 = 0.0;
 
-         // First loop
+         // First loop, controls the intensity of the backlighting
         for (var i: i32 = 0; i < REP * 24; i = i + 1) {
             var temp: f32 = map1(pos + dir * t, 0.6);
             if temp < 0.2 {
@@ -61,11 +74,9 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
             dens += 0.025;
         }
 
-        // Reset t and y
         t = 0.0;
         var y: f32 = 0.0;
-
-        // Second loop
+        // Second loop, draws the windows...
         for (var i: i32 = 0; i < REP * 50; i = i + 1) {
             var temp: f32 = map2(pos + dir * t);
             if temp < 0.1 {
@@ -75,11 +86,12 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
             y = y + 1.0;
         }
 
-         // Update col
-        col += ((2.0 + uv.x) * WBCOL2) + (y / (25.0 * 50.0));
-        col += gennoise(vec2<f32>(dir.xz), globals.time) * 0.5;
-        col *= 1.0 - uv.y * 0.5;
-        col *= vec3<f32>(0.05);
+        col += ((0.0 + uv.x) * WBCOL2) + (y / (25.0 * 50.0));
+        // col += gennoise(vec2<f32>(dir.xz), globals.time) * 0.5;
+        // Tint it blue:
+        col *= 1.0 - uv.y * 0.28;
+        col *= vec3<f32>(0.25);
+        // get brigther toward the center
         col = pow(col, vec3<f32>(0.717));
 
          // Add the result to fragColor
@@ -88,9 +100,29 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     // Divide fragColor by 2.0
     fragColor = fragColor / 2.0;
+    fragColor.b += 0.7;
 
     return fragColor;
 }
+
+
+// // Rotate 2D vectors around a specified axis
+// fn roty(theta: f32, axis: i32) -> mat2x2<f32> {
+//     let c = cos(theta);
+//     let s = sin(theta);
+    
+//     if (axis == 0) {
+//         // Rotate around the x-axis
+//         return mat2x2<f32>(1.0, 0.0, 0.0, c, 0.0, -s, 0.0, c);
+//     } else if (axis == 1) {
+//         // Rotate around the y-axis
+//         return mat2x2<f32>(c, 0.0, s, 1.0, -s, 0.0, c, 0.0);
+//     } else {
+//         // Default to no rotation
+//         return mat2x2<f32>(1.0, 0.0, 0.0, 1.0);
+//     }
+// }
+
 
 fn d2r(x: f32) -> f32 {
     return x * PI / 180.0;
