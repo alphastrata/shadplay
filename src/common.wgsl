@@ -1,5 +1,10 @@
-// myrustproject/assets/shaders/common.wgsl
 #define_import_path shadplay::common
+
+const TAU:f32 =  6.28318530718;
+const HEIGHT:f32 = 4.0;
+const INTENSITY:f32 = 5.0;
+const NUM_LINES:f32 = 4.0;
+const SPEED:f32 = 1.0;
 
 /// Clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {

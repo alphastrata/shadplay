@@ -1,6 +1,8 @@
 // myrustproject/assets/shaders/common.wgsl
 #define_import_path shadplay::common
 
+const TAU:f32 =  6.28318530718;
+
 /// Clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {
     let c = cos(theta);
