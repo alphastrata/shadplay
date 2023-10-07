@@ -40,6 +40,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 ---
 
 # resolution:
+You'll usually need this when you go to say, draw a `sdCircle` or other `sdf` shape and suddenly realise that it's squashed because the aspect ratio of the window is _not_ being accounted for.
 - Most of what you need is in [View](https://github.com/bevyengine/bevy/blob/154a49044514fb21b0f83f4f077d76380e12a8a8/crates/bevy_render/src/view/view.wgsl#L19)
 - Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform availble.
 
