@@ -1,4 +1,4 @@
-#define_import_path shadplay::common
+// #define_import_path shadplay::common
 
 const TAU:f32 =  6.28318530718;
 const HEIGHT:f32 = 4.0;

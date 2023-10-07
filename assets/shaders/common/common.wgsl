@@ -1,5 +1,3 @@
-// myrustproject/assets/shaders/common.wgsl
-#define_import_path shadplay::common
 
 const TAU:f32 =  6.28318530718;
 

@@ -40,6 +40,8 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 ---
 
 # resolution:
+- Most of what you need is in [View](https://github.com/bevyengine/bevy/blob/154a49044514fb21b0f83f4f077d76380e12a8a8/crates/bevy_render/src/view/view.wgsl#L19)
+- Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform availble.
 
 ```rust
 #import bevy_render::view View
@@ -48,8 +50,14 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> vec4<f32> {
-	// example:
-	let resolution = view.resolution.xy;
+  	// example, shader-toyesk normalise and account for aspect ratio:
+    var uv = (in.uv.xy * 2.0) - 1.0;
+    let resolution = view.viewport.zw;
+    uv.x *= resolution.x / resolution.y;
+    uv *= rotate2D(PI / -2.0); // Our uvs are by default a -1,-1 in uppermost left cnr, this rotates you around.
+
+    // your code here.
+  
 
 }
 ```
