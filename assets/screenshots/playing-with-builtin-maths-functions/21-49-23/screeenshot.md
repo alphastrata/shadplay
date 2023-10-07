@@ -1,5 +1,7 @@
 #### fragment
+
 ![photo](screeenshot.png)
+
 ```rust
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
@@ -28,6 +30,9 @@ fn plot(st: vec2f, pct: f32) -> f32 {
 }
 
 ```
+
 ### Summary
+
 #### y = x % 0.5;
+
 Return x modulo 0.5

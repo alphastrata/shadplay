@@ -9,13 +9,13 @@ A secondary goal is to flesh out a relatively comprehensive 'port' of existing c
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
----
+______________________________________________________________________
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
----
+______________________________________________________________________
 
 ## Features
 
@@ -50,7 +50,7 @@ The app has some simple hotkeys:
 | r        | Toggle Rotating shape                                                 |
 | spacebar | Takes a screenshot && versions the current `.wgsl`                    |
 
----
+______________________________________________________________________
 
 To run shadplay, you'll need the following:
 
@@ -67,7 +67,7 @@ To run shadplay, you'll need the following:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
 
----
+______________________________________________________________________
 
 ## Contributing:
 
@@ -75,21 +75,21 @@ Welcome.
 
 - open a PR.
 
----
+______________________________________________________________________
 
 ## TODO:
 
-- [] drag n drop obj/stl/gltf opening?
-- [] material swap to ours system (drag n drop a shader onto the window)
-- [] hotkey menu display (egui? eframe?)
-- [] More shader examples (the entirety of shadertoy ported!)
-- [] demo images (of all shaders in the library)
-- [] left/right arrows to swap between shaders from the assets' dir
-- [] buttons to spin/swap the geomerty your shader is currently being applied to.
-- [] hotkey menu display
-- [] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
+- \[\] drag n drop obj/stl/gltf opening?
+- \[\] material swap to ours system (drag n drop a shader onto the window)
+- \[\] hotkey menu display (egui? eframe?)
+- \[\] More shader examples (the entirety of shadertoy ported!)
+- \[\] demo images (of all shaders in the library)
+- \[\] left/right arrows to swap between shaders from the assets' dir
+- \[\] buttons to spin/swap the geomerty your shader is currently being applied to.
+- \[\] hotkey menu display
+- \[\] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
 
----
+______________________________________________________________________
 
 ## Resources:
 
@@ -98,7 +98,7 @@ Welcome.
 - [Shaded by embark](https://github.com/EmbarkStudios/shaded)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
----
+______________________________________________________________________
 
 # Shadertoy Ports:
 
