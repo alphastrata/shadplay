@@ -47,7 +47,9 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [assets/shaders/custom_material_screenspace_texture](#assets/shaders/custom_material_screenspace_texture)
 - [assets/shaders/fallback_image_test](#assets/shaders/fallback_image_test)
 - [assets/shaders/array_texture](#assets/shaders/array_texture)
+
 ### crates/bevy_render/src/instance_index
+
 ```rust
 #define_import_path bevy_render::instance_index
 
@@ -68,7 +70,9 @@ fn get_instance_index(instance_index: u32) -> u32 {
 #endif
 
 ```
+
 ### crates/bevy_render/src/maths
+
 ```rust
 #define_import_path bevy_render::maths
 
@@ -93,7 +97,9 @@ fn mat2x4_f32_to_mat3x3_unpack(
 }
 
 ```
+
 ### crates/bevy_ui/src/render/ui
+
 ```rust
 #import bevy_render::view  View
 
@@ -139,7 +145,9 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_gizmos/src/lines
+
 ```rust
 // TODO use common view binding
 #import bevy_render::view View
@@ -264,7 +272,9 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 }
 
 ```
+
 ### crates/bevy_sprite/src/render/sprite
+
 ```rust
 #ifdef TONEMAP_IN_SHADER
 #import bevy_core_pipeline::tonemapping
@@ -329,7 +339,9 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_sprite/src/mesh2d/color_material
+
 ```rust
 #import bevy_sprite::mesh2d_types          Mesh2d
 #import bevy_sprite::mesh2d_vertex_output  MeshVertexOutput
@@ -368,7 +380,9 @@ fn fragment(
 }
 
 ```
+
 ### crates/bevy_sprite/src/mesh2d/mesh2d_view_bindings
+
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_bindings
 
@@ -380,7 +394,9 @@ fn fragment(
 @group(0) @binding(1) var<uniform> globals: Globals;
 
 ```
+
 ### crates/bevy_sprite/src/mesh2d/mesh2d_bindings
+
 ```rust
 #define_import_path bevy_sprite::mesh2d_bindings
 
@@ -389,7 +405,9 @@ fn fragment(
 @group(2) @binding(0) var<uniform> mesh: bevy_sprite::mesh2d_types::Mesh2d;
 
 ```
+
 ### crates/bevy_core_pipeline/src/tonemapping/tonemapping_shared
+
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping
 
@@ -711,7 +729,9 @@ fn tone_mapping(in: vec4<f32>, color_grading: ColorGrading) -> vec4<f32> {
 
 
 ```
+
 ### crates/bevy_core_pipeline/src/tonemapping/tonemapping
+
 ```rust
 #define TONEMAPPING_PASS
 
@@ -746,7 +766,9 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_core_pipeline/src/fxaa/fxaa
+
 ```rust
 // NVIDIA FXAA 3.11
 // Original source code by TIMOTHY LOTTES
@@ -1024,7 +1046,9 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_core_pipeline/src/bloom/bloom
+
 ```rust
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
 // You then downsample each mip (starting with the original texture) to the lower resolution mip under it, going in order.
@@ -1177,7 +1201,9 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_core_pipeline/src/skybox/skybox
+
 ```rust
 #import bevy_render::view View
 
@@ -1230,7 +1256,9 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening
+
 ```rust
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
 //
@@ -1329,7 +1357,9 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_core_pipeline/src/blit/blit
+
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader  FullscreenVertexOutput
 
@@ -1342,7 +1372,9 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_pbr/src/prepass/prepass_bindings
+
 ```rust
 #define_import_path bevy_pbr::prepass_bindings
 #import bevy_render::view View
@@ -1360,7 +1392,9 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 #import bevy_pbr::mesh_bindings   mesh
 
 ```
+
 ### crates/bevy_pbr/src/prepass/prepass
+
 ```rust
 #import bevy_pbr::prepass_bindings
 #import bevy_pbr::mesh_functions
@@ -1570,7 +1604,9 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 #endif // PREPASS_FRAGMENT
 
 ```
+
 ### crates/bevy_pbr/src/render/pbr_functions
+
 ```rust
 #define_import_path bevy_pbr::pbr_functions
 
@@ -1955,7 +1991,9 @@ fn premultiply_alpha(standard_material_flags: u32, color: vec4<f32>) -> vec4<f32
 #endif
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh
+
 ```rust
 #import bevy_pbr::mesh_functions as mesh_functions
 #import bevy_pbr::skinning
@@ -2086,7 +2124,9 @@ fn fragment(
 }
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh_bindings
+
 ```rust
 #define_import_path bevy_pbr::mesh_bindings
 
@@ -2111,7 +2151,9 @@ fn fragment(
 #endif // MESH_BINDGROUP_1
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh_vertex_output
+
 ```rust
 #define_import_path bevy_pbr::mesh_vertex_output
 
@@ -2136,7 +2178,9 @@ struct MeshVertexOutput {
 }
 
 ```
+
 ### crates/bevy_pbr/src/render/pbr_bindings
+
 ```rust
 #define_import_path bevy_pbr::pbr_bindings
 
@@ -2157,7 +2201,9 @@ struct MeshVertexOutput {
 @group(1) @binding(12) var depth_map_sampler: sampler;
 
 ```
+
 ### crates/bevy_pbr/src/render/pbr
+
 ```rust
 #define_import_path bevy_pbr::fragment
 
@@ -2330,7 +2376,9 @@ fn fragment(
 }
 
 ```
+
 ### crates/bevy_pbr/src/render/wireframe
+
 ```rust
 #import bevy_pbr::mesh_bindings    mesh
 #import bevy_pbr::mesh_functions   get_model_matrix, mesh_position_local_to_clip
@@ -2398,7 +2446,9 @@ fn fragment() -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh_view_bindings
+
 ```rust
 #define_import_path bevy_pbr::mesh_view_bindings
 
@@ -2454,7 +2504,9 @@ fn fragment() -> @location(0) vec4<f32> {
 #endif
 
 ```
+
 ### crates/bevy_pbr/src/render/skinning
+
 ```rust
 #define_import_path bevy_pbr::skinning
 
@@ -2509,7 +2561,9 @@ fn skin_normals(
 #endif
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh_types
+
 ```rust
 #define_import_path bevy_pbr::mesh_types
 
@@ -2546,7 +2600,9 @@ const MESH_FLAGS_SHADOW_RECEIVER_BIT: u32 = 1u;
 const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
 
 ```
+
 ### crates/bevy_pbr/src/render/mesh_functions
+
 ```rust
 #define_import_path bevy_pbr::mesh_functions
 
@@ -2626,7 +2682,9 @@ fn mesh_tangent_local_to_world(model: mat4x4<f32>, vertex_tangent: vec4<f32>, in
 }
 
 ```
+
 ### crates/bevy_pbr/src/render/morph
+
 ```rust
 // If using this WGSL snippet as an #import, the following should be in scope:
 //
@@ -2693,7 +2751,9 @@ fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f3
 
 #endif // MORPH_TARGETS
 ```
+
 ### assets/shaders/show_prepass
+
 ```rust
 #import bevy_pbr::mesh_types
 #import bevy_pbr::mesh_view_bindings  globals
@@ -2734,7 +2794,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/texture_binding_array
+
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
@@ -2755,7 +2817,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/instancing
+
 ```rust
 #import bevy_pbr::mesh_functions  get_model_matrix, mesh_position_local_to_clip
 #import bevy_pbr::mesh_bindings   mesh
@@ -2796,7 +2860,9 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### assets/shaders/line_material
+
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
@@ -2814,7 +2880,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/cubemap_unlit
+
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
@@ -2839,7 +2907,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/game_of_life
+
 ```rust
 @group(0) @binding(0) var texture: texture_storage_2d<rgba8unorm, read_write>;
 
@@ -2907,7 +2977,9 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
     textureStore(texture, location, color);
 }
 ```
+
 ### assets/shaders/shader_defs
+
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
@@ -2929,7 +3001,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/post_processing
+
 ```rust
 // This shader computes the chromatic aberration effect
 
@@ -2982,7 +3056,9 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
+
 ### assets/shaders/custom_vertex_attribute
+
 ```rust
 #import bevy_pbr::mesh_bindings   mesh
 #import bevy_pbr::mesh_functions  get_model_matrix, mesh_position_local_to_clip
@@ -3024,7 +3100,9 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 }
 
 ```
+
 ### assets/shaders/tonemapping_test_patterns
+
 ```rust
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
@@ -3089,7 +3167,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/custom_material
+
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
@@ -3109,7 +3189,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/custom_material_screenspace_texture
+
 ```rust
 #import bevy_pbr::mesh_view_bindings  view
 #import bevy_pbr::mesh_vertex_output  MeshVertexOutput
@@ -3128,7 +3210,9 @@ fn fragment(
 }
 
 ```
+
 ### assets/shaders/fallback_image_test
+
 ```rust
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
@@ -3156,7 +3240,9 @@ fn fragment(
 fn fragment(in: MeshVertexOutput) {}
 
 ```
+
 ### assets/shaders/array_texture
+
 ```rust
 #import bevy_pbr::mesh_vertex_output    MeshVertexOutput
 #import bevy_pbr::mesh_view_bindings    view

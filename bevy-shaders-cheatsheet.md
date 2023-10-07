@@ -2,7 +2,7 @@
 
 I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, this is a small attempt to collect some of my notes -- made public in the hope it will alleviate the potential suffering of others.
 
----
+______________________________________________________________________
 
 ## Contents:
 
@@ -19,7 +19,7 @@ I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, 
 - ### [glsl syntax differences](#syntax-diffs)
 - ### [importable from bevy](#importable)
 
----
+______________________________________________________________________
 
 # uvs:
 
@@ -37,10 +37,12 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 }
 ```
 
----
+______________________________________________________________________
 
 # resolution:
+
 You'll usually need this when you go to say, draw a `sdCircle` or other `sdf` shape and suddenly realise that it's squashed because the aspect ratio of the window is _not_ being accounted for.
+
 - Most of what you need is in [View](https://github.com/bevyengine/bevy/blob/154a49044514fb21b0f83f4f077d76380e12a8a8/crates/bevy_render/src/view/view.wgsl#L19)
 - Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform availble.
 
@@ -65,7 +67,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 
 - [Dunno what `uniform`s are?](https://thebookofshaders.com/03/)
 
----
+______________________________________________________________________
 
 # time:
 
@@ -98,20 +100,20 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
 
----
+______________________________________________________________________
 
 # sdf-shapes
 
 - [munrocket's 3d](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
 - [munrocket's 2d](https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4)
 
----
+______________________________________________________________________
 
 # noise
 
 - [munrocket's noise](https://gist.github.com/munrocket/236ed5ba7e409b8bdf1ff6eca5dcdc39)
 
----
+______________________________________________________________________
 
 # uuid-generation:
 
@@ -161,7 +163,7 @@ cargo install quuidy
 quuidy -n 10
 ```
 
----
+______________________________________________________________________
 
 # get-data-into-your-shader
 
@@ -205,13 +207,13 @@ In your `main.rs`:
 app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 ```
 
----
+______________________________________________________________________
 
 # [smoothstep](https://en.wikipedia.org/wiki/Smoothstep)
 
 smoothstep interpolates between two 'edges', `leftedge`, sometimes called `edge0` and `rightedge`, sometimes called `edge1`, for a given `x`.
 i.e make the shape of the _below_ graph, where all values are clamped between those two edges.
-So if your `x` is <= to leftedge smoothstep returns you a 0.
+So if your `x` is \<= to leftedge smoothstep returns you a 0.
 if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
 ![smoostep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
@@ -229,7 +231,7 @@ The smoothstep function takes three parameters:
 
 - [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explination
 
----
+______________________________________________________________________
 
 # step
 
@@ -252,7 +254,7 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/dotted_line.wgsl)
 
----
+______________________________________________________________________
 
 # syntax diffs
 
@@ -270,7 +272,7 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 
 which you cal call like this `testing(&uv)`.
 
----
+______________________________________________________________________
 
 # importable
 
