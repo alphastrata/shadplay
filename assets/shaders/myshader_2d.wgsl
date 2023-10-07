@@ -12,7 +12,6 @@ const HEIGHT:f32 = 4.128;
 const INTENSITY:f32 = 5.0;
 const NUM_LINES:f32 = 4.0;
 const SPEED:f32 = 0.20;
-
 const CAM_DISTANCE: f32 = -2.;
 
 @fragment
@@ -23,24 +22,18 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time * SPEED;
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(PI / -2.0);
-    var col = vec4(0.0);
 
-    var gv = fract(uv * 2.0) - 0.5;
+    var col = vec3f(0.0);
+    col = shaderToyDefault(t, uv);
 
-    let ray_origin = vec3f(0., 0., CAM_DISTANCE); // The camera is at -2.0 
-    let ray_dir = vec3f(gv.y, gv.x, 0.0) - ray_origin; //NOTE: due to our Rotate2D above we need to flip here.
+    return vec4<f32>(col, 1.0);
+}
 
-    let pt_dist = vec3(sin(t), sin(t) / 2.0, cos(t) + 1.0);
-    var dist = distLine(ray_origin, ray_dir, pt_dist);
-    dist = smoothstep(0.1, 0.09, dist);
-    col = vec4(dist);
-
-    let a = smoothstep(gv.x - 0.25, gv.y + 0.25, gv.x);
-    let b = smoothstep(gv.x + 0.25, gv.y - 0.25, gv.y);
-    col *= (a-b);
-
-
-    return col;
+/// This is the default (and rather pretty) shader you start with in ShaderToy
+fn shaderToyDefault(t: f32, uv: vec2f)-> vec3f{
+    var col = vec3f(0.0);
+    let v = vec3(t) + vec3(uv.xyx) + vec3(0., 2., 4.);
+    return 0.5 + 0.5 * cos(v);
 }
 
 fn distLine(ray_origin: vec3f, ray_dir: vec3f, pt: vec3f) -> f32 {
@@ -64,3 +57,14 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
     let s = sin(theta);
     return mat2x2<f32>(c, s, -s, c);
 }
+
+fn sdCappedCylinder(p: vec3f, h: vec2f) -> f32 {
+    let d: vec2f = abs(vec2f(length(p.xz), p.y)) - h;
+    return min(max(d.x, d.y), 0.0) + length(max(d, vec2f(0.0)));
+}
+
+fn sdTorus(p: vec3f, t: vec2f) -> f32 {
+    let q: vec2f = vec2f(length(p.xz) - t.x, p.y);
+    return length(q) - t.y;
+}
+
