@@ -45,7 +45,7 @@ ______________________________________________________________________
 You'll usually need this when you go to say, draw a `sdCircle` or other `sdf` shape and suddenly realise that it's squashed because the aspect ratio of the window is _not_ being accounted for.
 
 - Most of what you need is in [View](https://github.com/bevyengine/bevy/blob/154a49044514fb21b0f83f4f077d76380e12a8a8/crates/bevy_render/src/view/view.wgsl#L19)
-- Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform availble.
+- Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform available.
 
 ```rust
 #import bevy_render::view View
@@ -185,7 +185,7 @@ struct DottedLineShader {
 #[derive(ShaderType, Default, Clone, Debug)]
 struct Holder {
     tint: Color,
-    /// How wide do you want the line as a % of its availablu uv space: 0.5 would be 50% of the surface of the geometry
+    /// How wide do you want the line as a % of its available uv space: 0.5 would be 50% of the surface of the geometry
     line_width: f32,
     /// How many segments (transparent 'cuts') do you want?
     segments: f32,
@@ -219,8 +219,7 @@ if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
 ![smoothstep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
 
-
-or, 
+or,
 
 ![smoothstep](assets/screenshots/smootstep-concept.png)
 
@@ -233,7 +232,7 @@ The smoothstep function takes three parameters:
     x: The input value that you want to interpolate between those above Edges.
 ```
 
-- [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explination
+- [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explanation
 
 ______________________________________________________________________
 
@@ -242,7 +241,7 @@ ______________________________________________________________________
 `fn step(limit, value)` any `value` under the `limit` will return a `0.0`, anything above `value` a `1.0`;
 available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` etc.
 
-> can be useful to replace `if` statements, because a numerical solve is (rumoured to be) superiour in performance to a branch:
+> can be useful to replace `if` statements, because a numerical solve is (rumoured to be) superior in performance to a branch:
 
 ```rust
 // From the dotted_line.wgsl mentioned elsewhere in this guide.
@@ -257,8 +256,6 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 ```
 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/shadertoy-ports/dotted_line.wgsl)
-
-
 
 ______________________________________________________________________
 
