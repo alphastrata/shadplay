@@ -1,6 +1,6 @@
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
-#import bevy_pbr::utils PI
+#import shadplay::shader_utils::common NEG_HALF_PI
 
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
@@ -17,7 +17,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let resolution = view.viewport.zw;
     let t = globals.time * SPEED;
     uv.x *= resolution.x / resolution.y;
-    uv *= rotate2D(PI / -2.0);
+    uv *= rotate2D(NEG_HALF_PI);
 
     // Create some colour, do nothing with it.
     var col = vec4f(0.0);

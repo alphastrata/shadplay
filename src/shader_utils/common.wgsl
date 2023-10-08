@@ -1,6 +1,13 @@
-#define_import_path shadplay::common
+#define_import_path shadplay::shader_utils::common
+
 
 const TAU:f32 =  6.28318530718;
+const PI:f32  =  3.14159265359;
+const HALF_PI = 1.57079632679;
+const NEG_HALF_PI = -1.57079632679;
+const NEG_QUARTER_PI = -0.78539816339;
+const QUARTER_PI = -0.78539816339;
+
 
 /// Clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {
@@ -28,57 +35,10 @@ fn sdHexagon(p: vec2f, r: f32) -> f32 {
     return length(q) * sign(q.y);
 }
 
-
-fn trace(origin: vec3f, r: vec3f) -> f32 {
-    var t = 0.0;
-    for (var i = 0; i < 64; i++) {
-        let p = origin + r * t;
-        let d = mmap(p);
-        t += d * 0.22;
-    }
-    return t ;
-}
-
-fn mmap(p: vec3f) -> f32 {
-    var p = p;
-    var q = p;
-    var qa = p;
-
-    q = pmod3(q, vec3f(0.8, 1.0, 0.23));
-    qa = pmod3(qa, vec3f(0.8, 1.0, 0.18));
-    p.x = pmod1(p.x, 1.0);
-
-    let s1 = sdSphere(p, 0.75);
-    let s2 = sdSphere(q, 0.5);
-    let s3 = sdSphere(qa, 0.555);
-
-    return min(min(s1, s2), s3);
-}
-
-fn pmod1(in: f32, size: f32) -> f32 {
-    let halfsize = size * 0.5;
-    return (in + halfsize % size) - halfsize;
-}
-
-fn pmod3(in: vec3f, size: vec3f) -> vec3f {
-    let out = (in % size * 0.5) - (size * 0.5);
-
-    return out;
-}
-
 /// Signed distance field for a Sphere (3d)
 fn sdSphere(p: vec3f, radius: f32) -> f32 {
     return (length(p) - radius);
 }
-
-
-fn gradient(t: f32) -> vec3f {
-    let h: f32 = 0.6666 * (1.0 - t * t);
-    let s: f32 = 0.75;
-    let v: f32 = 1.0 - 0.9 * (1.0 - t) * (1.0 - t);
-    return hsv2rgb(vec3f(h, s, v));
-}
-
 
 // Hexagonal tiling
 fn hextile(p: vec2f) -> vec2f {
@@ -183,15 +143,4 @@ fn aces_approx(v: vec3<f32>) -> vec3<f32> {
     let d: f32 = 0.59;
     let e: f32 = 0.14;
     return clamp((v * (a * v + b)) / (v * (c * v + d) + e), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0));
-}
-
-
-/// some kinda transform over time...
-fn transform(p: vec2<f32>, time: f32) -> vec2<f32> {
-    var p = p * 2.0;
-    let sp0: vec2<f32> = toSmith(p - vec2<f32>(0.0, 0.0));
-    let sp1: vec2<f32> = toSmith(p + vec2<f32>(1.0) * rotate2D(0.12 * time));
-    let sp2: vec2<f32> = toSmith(p - vec2<f32>(1.0) * rotate2D(0.23 * time));
-    p = fromSmith(sp0 + sp1 - sp2);
-    return p;
 }
