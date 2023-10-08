@@ -15,6 +15,7 @@ ______________________________________________________________________
 - ### [get data into your shader from bevy](#get-data-into-your-shader)
 - ### [smoothstep](#smoothstep)
 - ### [step](#step)
+- ### [smoothstep](#smoothstep)
 - ### [glow](#glow)
 - ### [glsl syntax differences](#syntax-diffs)
 - ### [importable from bevy](#importable)
@@ -209,18 +210,21 @@ app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 
 ______________________________________________________________________
 
-# [smoothstep](https://en.wikipedia.org/wiki/Smoothstep)
+# [smoothstep](#smoothstep)
 
 smoothstep interpolates between two 'edges', `leftedge`, sometimes called `edge0` and `rightedge`, sometimes called `edge1`, for a given `x`.
 i.e make the shape of the _below_ graph, where all values are clamped between those two edges.
 So if your `x` is \<= to leftedge smoothstep returns you a 0.
 if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
-![smoostep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
+![smoothstep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
 
-> _It's usually assumed x is a real number (i.e a float)._
-> It's commonly used to create smooth transitions and animations, such as in fading effects, transitions between colors, or smoothly moving objects from one position to another.
 
+or, 
+
+![smoothstep](assets/screenshots/smootstep-concept.png)
+
+or,
 The smoothstep function takes three parameters:
 
 ```
@@ -253,6 +257,8 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 ```
 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/shadertoy-ports/dotted_line.wgsl)
+
+
 
 ______________________________________________________________________
 
