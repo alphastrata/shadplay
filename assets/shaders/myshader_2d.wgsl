@@ -33,9 +33,12 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     return col;
 }
 
+// Signed distance field for a 2D circle
 fn sdCircle(pt: vec2f, radius: f32)->f32{
-    return length(pt) - radius;
+    return length(pt)-radius;
 }
+
+
 
 /// This is the default (and rather pretty) shader you start with in ShaderToy
 fn shaderToyDefault(t: f32, uv: vec2f)-> vec3f{

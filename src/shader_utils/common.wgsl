@@ -1,6 +1,5 @@
 #define_import_path shadplay::shader_utils::common
 
-
 const TAU:f32 =  6.28318530718;
 const PI:f32  =  3.14159265359;
 const HALF_PI = 1.57079632679;
@@ -25,6 +24,41 @@ fn hsv2rgb(c: vec3f) -> vec3f {
     );
     return c.z * mix(vec3f(1.0), rgb, c.y);
 }
+
+// Signed distance field for a 2D circle
+fn sdCircle(pt: vec2f, radius: f32)->f32{
+    return length(pt)-radius;
+}
+
+/// This is the default (and rather pretty) shader you start with in ShaderToy
+fn shaderToyDefault(t: f32, uv: vec2f)-> vec3f{
+    var col = vec3f(0.0);
+    let v = vec3(t) + vec3(uv.xyx) + vec3(0., 2., 4.);
+    return 0.5 + 0.5 * cos(v);
+}
+
+fn distLine(ray_origin: vec3f, ray_dir: vec3f, pt: vec3f) -> f32 {
+    return length(cross(pt - ray_origin, ray_dir)) / length(ray_dir);
+}
+
+fn sdCapsule(p: vec3f, a: vec3f, b: vec3f, r: f32) -> f32 {
+    let pa = p - a;
+    let ba = b - a;
+    let h = clamp(dot(pa, ba) / dot(ba, ba), 0., 1.);
+    return length(pa - ba * h) - r;
+}
+
+fn sdCappedCylinder(p: vec3f, h: vec2f) -> f32 {
+    let d: vec2f = abs(vec2f(length(p.xz), p.y)) - h;
+    return min(max(d.x, d.y), 0.0) + length(max(d, vec2f(0.0)));
+}
+
+fn sdTorus(p: vec3f, t: vec2f) -> f32 {
+    let q: vec2f = vec2f(length(p.xz) - t.x, p.y);
+    return length(q) - t.y;
+}
+
+
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 fn sdHexagon(p: vec2f, r: f32) -> f32 {
