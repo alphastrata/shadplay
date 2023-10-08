@@ -6,8 +6,9 @@
 @group(0) @binding(0) var<uniform> view: View;
 
 const HEIGHT:f32 = 4.128;
-const SPEED:f32 = 0.20;
+const SPEED:f32 = 1.80;
 const CAM_DISTANCE: f32 = -2.;
+const SIZE: f32 = 1.2;
 
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
@@ -18,10 +19,22 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(PI / -2.0);
 
-    var col = vec3f(0.0);
-    col = shaderToyDefault(t, uv);
+    // Create some colour, do nothing with it.
+    var col = vec4f(0.0);
+    var base_colour = shaderToyDefault(t, uv);
 
-    return vec4<f32>(col, 1.0);
+    // sdf for a 2D circle
+    uv /= SIZE; // Make uvs bigger 
+    let d = -1.0 * sdCircle(uv, 0.3); // -1 to flip it so we're drawing the circle in colour, not the space around it.
+    
+    base_colour *= smoothstep(0.02, 0.09, d); // use the smoothstep to colour BY the circle's sdf.
+    col = vec4f(base_colour, d); // use the circle's sdf to, in the same way it supplies values to the smoothstep above, also be the alpha values -- so our 'background' is transparent.
+
+    return col;
+}
+
+fn sdCircle(pt: vec2f, radius: f32)->f32{
+    return length(pt) - radius;
 }
 
 /// This is the default (and rather pretty) shader you start with in ShaderToy
