@@ -83,7 +83,7 @@ pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>)
 /// Quits the app...
 pub fn quit(input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::Q) {
-        panic!()
+        std::process::exit(0)
     }
 }
 

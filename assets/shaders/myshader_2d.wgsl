@@ -20,7 +20,6 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     var col = vec3f(0.0);
     col = shaderToyDefault(t, uv);
-    col *= sdSphere(vec2f(0.0), 2.0);
 
     return vec4<f32>(col, 1.0);
 }
