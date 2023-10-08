@@ -40,6 +40,7 @@ fn main() {
                 }),
                 ..default()
             }),))
+        .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         .insert_resource(ShapeOptions::default())
