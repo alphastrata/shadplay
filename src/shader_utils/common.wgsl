@@ -1,10 +1,6 @@
-// #define_import_path shadplay::common
+#define_import_path shadplay::common
 
 const TAU:f32 =  6.28318530718;
-const HEIGHT:f32 = 4.0;
-const INTENSITY:f32 = 5.0;
-const NUM_LINES:f32 = 4.0;
-const SPEED:f32 = 1.0;
 
 /// Clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {
@@ -13,6 +9,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
     return mat2x2<f32>(c, s, -s, c);
 }
 
+/// Move from the HueSaturationValue to RedGreenBlue
 fn hsv2rgb(c: vec3f) -> vec3f {
     var rgb: vec3f = clamp(
         abs((c.x * 6.0 + vec3f(0.0, 4.0, 2.0)) % 6.0 - 3.0) - 1.0,
@@ -69,6 +66,7 @@ fn pmod3(in: vec3f, size: vec3f) -> vec3f {
     return out;
 }
 
+/// Signed distance field for a Sphere (3d)
 fn sdSphere(p: vec3f, radius: f32) -> f32 {
     return (length(p) - radius);
 }
@@ -82,7 +80,7 @@ fn gradient(t: f32) -> vec3f {
 }
 
 
-// Translate the GLSL hextile function to WGSL
+// Hexagonal tiling
 fn hextile(p: vec2f) -> vec2f {
     // See Art of Code: Hexagonal Tiling Explained!
     // https://www.youtube.com/watch?v=VmrIDyYiJBA
@@ -113,12 +111,7 @@ fn hextile(p: vec2f) -> vec2f {
     return round(n * 2.0) * 0.5;
 } 
 
-// NOTE: swapped the hash
-// fn hash(pp: vec2<f32>) -> f32 { //NOTE: from some other tutorial/bevy code?
-//     var p3 = fract(vec3(pp.xyx) * 0.1031);
-//     p3 += dot(p3, p3.yzx + 33.33);
-//     return fract((p3.x + p3.y) * p3.z);
-// }
+// 2 in 1 out hash
 fn hash(co: vec2f) -> f32 {
     // Add a constant
     let co: vec2f = co + 1.234;
@@ -128,10 +121,7 @@ fn hash(co: vec2f) -> f32 {
 }
 
 
-fn off6(n: f32) -> vec2<f32> {
-    return vec2<f32>(1.0, 0.0) * rotate2D(n * TAU / 6.0);
-}
-
+/// Signed distance field for a Bezier curve.
 fn sdBezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
     let a = B - A;
     let b = A - 2. * B + C;
@@ -174,6 +164,7 @@ fn sdBezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
 }
 
 
+/// coff
 fn coff(h: f32, time: f32) -> vec2<f32> {
     let h0: f32 = h;
     let h1: f32 = fract(h0 * 9677.0);
@@ -182,6 +173,7 @@ fn coff(h: f32, time: f32) -> vec2<f32> {
     return mix(vec2<f32>(0.1, 0.1), vec2<f32>(0.2, 0.2), h1 * h1) * sin(t * vec2<f32>(1.0, sqrt(0.5)));
 }
 
+/// approx aces colour-space
 fn aces_approx(v: vec3<f32>) -> vec3<f32> {
     var v = max(v, vec3<f32>(0.0, 0.0, 0.0));
     v *= 0.6;
@@ -193,27 +185,13 @@ fn aces_approx(v: vec3<f32>) -> vec3<f32> {
     return clamp((v * (a * v + b)) / (v * (c * v + d) + e), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0));
 }
 
-fn toSmith(p: vec2<f32>) -> vec2<f32> {
-    let d: f32 = (1.0 - p.x) * (1.0 - p.x) + p.y * p.y;
-    let x: f32 = (1.0 + p.x) * (1.0 - p.x) - p.y * p.y;
-    let y: f32 = 2.0 * p.y;
-    return vec2<f32>(x, y) / d;
-}
 
-fn fromSmith(p: vec2<f32>) -> vec2<f32> {
-    let d: f32 = (p.x + 1.0) * (p.x + 1.0) + p.y * p.y;
-    let x: f32 = (p.x + 1.0) * (p.x - 1.0) + p.y * p.y;
-    let y: f32 = 2.0 * p.y;
-    return vec2<f32>(x, y) / d;
-}
-
-
-
-fn transform(p: vec2<f32>, TIME: f32) -> vec2<f32> {
+/// some kinda transform over time...
+fn transform(p: vec2<f32>, time: f32) -> vec2<f32> {
     var p = p * 2.0;
     let sp0: vec2<f32> = toSmith(p - vec2<f32>(0.0, 0.0));
-    let sp1: vec2<f32> = toSmith(p + vec2<f32>(1.0) * rotate2D(0.12 * TIME));
-    let sp2: vec2<f32> = toSmith(p - vec2<f32>(1.0) * rotate2D(0.23 * TIME));
+    let sp1: vec2<f32> = toSmith(p + vec2<f32>(1.0) * rotate2D(0.12 * time));
+    let sp2: vec2<f32> = toSmith(p - vec2<f32>(1.0) * rotate2D(0.23 * time));
     p = fromSmith(sp0 + sp1 - sp2);
     return p;
 }

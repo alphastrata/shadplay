@@ -8,6 +8,8 @@ use bevy::{
     sprite::Material2d,
 };
 
+pub mod common;
+
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
