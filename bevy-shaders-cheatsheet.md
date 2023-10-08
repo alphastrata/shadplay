@@ -2,7 +2,7 @@
 
 I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, this is a small attempt to collect some of my notes -- made public in the hope it will alleviate the potential suffering of others.
 
-______________________________________________________________________
+---
 
 ## Contents:
 
@@ -20,7 +20,7 @@ ______________________________________________________________________
 - ### [glsl syntax differences](#syntax-diffs)
 - ### [importable from bevy](#importable)
 
-______________________________________________________________________
+---
 
 # uvs:
 
@@ -38,14 +38,14 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 }
 ```
 
-______________________________________________________________________
+---
 
 # resolution:
 
 You'll usually need this when you go to say, draw a `sdCircle` or other `sdf` shape and suddenly realise that it's squashed because the aspect ratio of the window is _not_ being accounted for.
 
 - Most of what you need is in [View](https://github.com/bevyengine/bevy/blob/154a49044514fb21b0f83f4f077d76380e12a8a8/crates/bevy_render/src/view/view.wgsl#L19)
-- Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform availble.
+- Don't forget the `@group(0) @binding(0) var<uniform> view: View;` to make the uniform available.
 
 ```rust
 #import bevy_render::view View
@@ -61,14 +61,14 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
     uv *= rotate2D(PI / -2.0); // Our uvs are by default a -1,-1 in uppermost left cnr, this rotates you around.
 
     // your code here.
-  
+
 
 }
 ```
 
 - [Dunno what `uniform`s are?](https://thebookofshaders.com/03/)
 
-______________________________________________________________________
+---
 
 # time:
 
@@ -101,20 +101,20 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
 
-______________________________________________________________________
+---
 
 # sdf-shapes
 
 - [munrocket's 3d](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
 - [munrocket's 2d](https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4)
 
-______________________________________________________________________
+---
 
 # noise
 
 - [munrocket's noise](https://gist.github.com/munrocket/236ed5ba7e409b8bdf1ff6eca5dcdc39)
 
-______________________________________________________________________
+---
 
 # uuid-generation:
 
@@ -164,7 +164,7 @@ cargo install quuidy
 quuidy -n 10
 ```
 
-______________________________________________________________________
+---
 
 # get-data-into-your-shader
 
@@ -185,7 +185,7 @@ struct DottedLineShader {
 #[derive(ShaderType, Default, Clone, Debug)]
 struct Holder {
     tint: Color,
-    /// How wide do you want the line as a % of its availablu uv space: 0.5 would be 50% of the surface of the geometry
+    /// How wide do you want the line as a % of its available uv space: 0.5 would be 50% of the surface of the geometry
     line_width: f32,
     /// How many segments (transparent 'cuts') do you want?
     segments: f32,
@@ -208,7 +208,7 @@ In your `main.rs`:
 app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 ```
 
-______________________________________________________________________
+---
 
 # smoothstep
 
@@ -219,8 +219,7 @@ if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
 ![smoothstep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
 
-
-or, 
+or,
 
 ![smoothstep](assets/screenshots/smootstep-concept.png)
 
@@ -233,16 +232,16 @@ The smoothstep function takes three parameters:
     x: The input value that you want to interpolate between those above Edges.
 ```
 
-- [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explination
+- [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explanation
 
-______________________________________________________________________
+---
 
 # step
 
 `fn step(limit, value)` any `value` under the `limit` will return a `0.0`, anything above `value` a `1.0`;
 available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` etc.
 
-> can be useful to replace `if` statements, because a numerical solve is (rumoured to be) superiour in performance to a branch:
+> can be useful to replace `if` statements, because a numerical solve is (rumoured to be) superior in performance to a branch:
 
 ```rust
 // From the dotted_line.wgsl mentioned elsewhere in this guide.
@@ -258,9 +257,7 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/shadertoy-ports/dotted_line.wgsl)
 
-
-
-______________________________________________________________________
+---
 
 # syntax diffs
 
@@ -278,7 +275,7 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 
 which you cal call like this `testing(&uv)`.
 
-______________________________________________________________________
+---
 
 # importable
 
