@@ -2,25 +2,25 @@
 
 I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, this is a small attempt to collect some of my notes -- made public in the hope it will alleviate the potential suffering of others.
 
----
+______________________________________________________________________
 
 ## Contents:
 
-- ### [noise](#noise)
-- ### [resolution](#resolution)
-- ### [sdf-shapes](#sdf-shapes)
-- ### [time](#time)
-- ### [uvs](#uvs)
-- ### [uuid-generation](#uuid-generation)
-- ### [get data into your shader from bevy](#get-data-into-your-shader)
-- ### [smoothstep](#smoothstep)
-- ### [step](#step)
-- ### [smoothstep](#smoothstep)
-- ### [glow](#glow)
-- ### [glsl syntax differences](#syntax-diffs)
-- ### [importable from bevy](#importable)
+- [noise](#noise)
+- [resolution](#resolution)
+- [sdf-shapes](#sdf-shapes)
+- [time](#time)
+- [uvs](#uvs)
+- [uuid-generation](#uuid-generation)
+- [get data into your shader from bevy](#get-data-into-your-shader)
+- [smoothstep](#smoothstep)
+- [step](#step)
+- [smoothstep](#smoothstep)
+- [glow](#glow)
+- [glsl syntax differences](#syntax-diffs)
+- [importable from bevy](#importable)
 
----
+______________________________________________________________________
 
 # uvs:
 
@@ -38,7 +38,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 }
 ```
 
----
+______________________________________________________________________
 
 # resolution:
 
@@ -68,7 +68,7 @@ fn fragment(in: MeshVertexOutput) -> vec4<f32> {
 
 - [Dunno what `uniform`s are?](https://thebookofshaders.com/03/)
 
----
+______________________________________________________________________
 
 # time:
 
@@ -101,20 +101,20 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
 
----
+______________________________________________________________________
 
 # sdf-shapes
 
 - [munrocket's 3d](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
 - [munrocket's 2d](https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4)
 
----
+______________________________________________________________________
 
 # noise
 
 - [munrocket's noise](https://gist.github.com/munrocket/236ed5ba7e409b8bdf1ff6eca5dcdc39)
 
----
+______________________________________________________________________
 
 # uuid-generation:
 
@@ -164,7 +164,7 @@ cargo install quuidy
 quuidy -n 10
 ```
 
----
+______________________________________________________________________
 
 # get-data-into-your-shader
 
@@ -208,7 +208,7 @@ In your `main.rs`:
 app.add_plugins(MaterialPlugin::<YOURMODULEPATH::DottedLineShader>::default());
 ```
 
----
+______________________________________________________________________
 
 # smoothstep
 
@@ -234,7 +234,7 @@ The smoothstep function takes three parameters:
 
 - [lil-book-of-shaders](https://thebookofshaders.com/glossary/?search=smoothstep)'s explanation
 
----
+______________________________________________________________________
 
 # step
 
@@ -257,7 +257,7 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
 
 [code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/shadertoy-ports/dotted_line.wgsl)
 
----
+______________________________________________________________________
 
 # syntax diffs
 
@@ -275,7 +275,7 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 
 which you cal call like this `testing(&uv)`.
 
----
+______________________________________________________________________
 
 # importable
 
