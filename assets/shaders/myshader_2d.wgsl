@@ -136,13 +136,13 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
         o_rgb += red_shift * (intensity * 1.0 + 0.5) * (1.0 / DISK_TEXTURE_LAYERS) * 100.0 * dist_mult / (length_pos_local * length_pos_local);
     }
 
-    o_rgb += 0.205;
-    // o_rgb = clamp(o_rgb, 0., 1.);
+    // let o_r= clamp((o_rgb.r - 0.005), 0.0, 1.0);
+    // let o_b= clamp((o_rgb.b - 0.005), 0.0, 1.0);
+    // let o_g= clamp((o_rgb.g - 0.005), 0.0, 1.0);
 
-    out.a = 0.222; //DEBUG:
-    // return out;
-    return (vec4f(o_rgb, 1.0));        
-
+    // return vec4f(o_r, o_b, o_g, out.a);
+    return vec4f(o_rgb, out.a);
+    
     // return vec4f(1.0, 1.0, 1.0, 0.0); // no disk 
 }
 
