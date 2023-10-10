@@ -1,53 +1,152 @@
-#import bevy_core_pipeline::tonemapping   tone_mapping
 #import bevy_pbr::mesh_vertex_output      MeshVertexOutput
-#import bevy_pbr::pbr_functions as        fns
-#import bevy_pbr::pbr_types               STANDARD_MATERIAL_FLAGS_DOUBLE_SIDED_BIT
 #import bevy_pbr::utils                   PI
 #import bevy_sprite::mesh2d_view_bindings globals 
+#import bevy_render::view                 View
+
 #import shadplay::shader_utils::common    rotate2D
 
-#import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
 
-
-@group(1) @binding(0) var my_array_texture: texture_2d<f32>;
-@group(1) @binding(1) var my_array_texture_sampler: sampler;
+@group(1) @binding(0) var texture: texture_2d<f32>;
+@group(1) @binding(1) var texture_sampler: sampler;
 
 const SPEED:f32 = 0.25;
 const CAM_DISTANCE: f32 = -2.;
+const DISK_ROTATION_SPEED: f32 = 3.0;
+const DISK_TEXTURE_LAYERS: f32 = 12.0;
+const BLACK_HOLE_SIZE:f32 = 0.3; //QUESTION: % of screen occupied???
 
 
 // Porting https://www.shadertoy.com/view/tsBXW3 by set111:https://www.shadertoy.com/user/set111
 @fragment
 fn fragment(
-    @builtin(front_facing) is_front: bool,
     in: MeshVertexOutput
 ) -> @location(0) vec4<f32> {
     let t = globals.time * SPEED;
     let resolution = view.viewport.zw;
 
     var texture_uvs = in.uv;
-    texture_uvs *= rotate2D(1.0+t);
+    // texture_uvs *= rotate2D(1.0 + t); // Play with this to rotate the stars in the background.
 
-    let tex:vec4f = textureSample(my_array_texture, my_array_texture_sampler, texture_uvs); // Shadertoy's ones don't seem to be affected by uvs modified in the scope of the functions that folk are writing so we take the uvs early do get around that.
-    
+    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); // Shadertoy's ones don't seem to be affected by uvs modified in the scope of the functions that folk are writing so we take the uvs early do get around that.
+
     var uv = (in.uv * 2.0) - 1.0;
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(PI / -2.0);
     var col = vec3f(0.0);
     // col.b = value_noise(uv, t); // Test the noise!
 
-    let ro = vec3f(0.0);
-    let bg = background(ro, tex);
+    // background
+    let ray = vec3f(0.0);
+    let bg = background(ray, tex);
 
-    let fragColor = vec4<f32>(col, 1.0);
+    // disk 
+    let zero_position = vec3f(0.0);
+    let disk = raymarch_disk(ray, zero_position);
 
 
 
 
     return bg;
-    
 }
+
+fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
+    let t = globals.time * SPEED; // we don't have constant iTime and I like to control the speed of animations from const.
+
+    // Probably the disk and its sizing?
+    var position = zero_position;
+    let len_pos:f32 = length(position.xz);
+    let dist:f32 = min(1., len_pos * (1. / BLACK_HOLE_SIZE) * 0.5) * BLACK_HOLE_SIZE * 0.4 * (1. / BLACK_HOLE_SIZE) / (abs(ray.y)); //TODO break this up.
+
+    position += dist * DISK_TEXTURE_LAYERS * ray * 0.5; // why 0.5
+
+    //???
+    var delta_pos = vec2f(0.0);
+    delta_pos.x = -zero_position.z * 0.01 + zero_position.x;
+    delta_pos.y = -zero_position.x * 0.01 + zero_position.z; // What happens wit h bigger values than 0.01 does this turn us around or something?
+    delta_pos = normalize(delta_pos - zero_position.xz); // why xz?
+
+
+    // Does what?
+    var parallel:f32 = dot(ray.xz, delta_pos); // what does the dot do again?
+    parallel /= sqrt(len_pos);
+    parallel *= 0.5;
+    var red_shift = parallel + 0.3;
+    red_shift *= red_shift;
+    red_shift = clamp(red_shift, 0.0, 1.0);
+
+    var dis_mix = clamp((len_pos - BLACK_HOLE_SIZE * 2.0) * (1.0 / BLACK_HOLE_SIZE) * 0.25, 0.0, 1.0); // TODO: break this up.
+
+    var inside_col:vec3f = mix(vec3f(1.0, 0.8, 0.0), vec3(1.6, 2.4, 4.0), red_shift);
+    inside_col *= mix(vec3(0.4, 0.2, 0.1), vec3(1.6, 2.4, 4.0), red_shift);
+    inside_col *= 1.25;
+    red_shift += 0.12;
+    red_shift *= red_shift;
+
+    var out = vec4(0.); // Initialise a blank to draw onto.
+
+    for (var i: f32 = 0.0; i < DISK_TEXTURE_LAYERS; i += 1.0) {
+        //
+        position -= dist * ray;
+
+        var intensity: f32 = clamp(1.0 - abs((i - 0.8) * (1. / DISK_TEXTURE_LAYERS) * 2.0), 0.0, 1.0); // TODO: wtf these numbers do?
+        var length_pos_local = length(position.xz);
+        var dist_mult = 1.0;
+
+        dist_mult *= clamp((length_pos_local - DISK_TEXTURE_LAYERS * 0.75) * (1. / DISK_TEXTURE_LAYERS) * 1.5, 0., 1.); // TODO: wtf these numbers do?
+        dist_mult *= clamp((DISK_TEXTURE_LAYERS * 10. - length_pos_local) * (1. / DISK_TEXTURE_LAYERS) * 0.20, 0., 1.);  // TODO: wtf these numbers do?
+        dist_mult *= dist_mult;
+
+        let u = length_pos_local + t * DISK_TEXTURE_LAYERS * 0.3 + intensity * DISK_TEXTURE_LAYERS * 0.2;
+
+        // -sin + cos, and sin cos is usually a rotation...
+        let rot = t * (DISK_ROTATION_SPEED % 8192.0); //QUESTION: suspicious power of 2...
+        let x = -position.z * sin(rot) + position.x * cos(rot);
+        let y = position.x * sin(rot) + position.z * cos(rot);
+        let xy = vec2f(x, y);
+
+
+        let x_ab = abs(xy.x / (xy.y)); // That's slick.
+        let angle = 0.02 * atan(x);
+
+        let f = 70.0; // TODO: why? const?
+        let lhs: vec2f = vec2f(angle, (u * (1.0 / BLACK_HOLE_SIZE) * 0.05));
+        var noise: f32 = value_noise(lhs, f);
+        noise = noise * 0.66 + 0.33 * value_noise(lhs, f * 2.); //QUESTION: this lhs was hard-coded in -- perhaps for good reason?
+
+
+        let extra_width:f32 = noise * 1. * (1. - clamp(i * (1.0 / DISK_TEXTURE_LAYERS) * 2. - 1., 0., 1.)); // TODO: (1.0/BLABLACK_HOLE_SIZE is used so many times we should just do it once...)
+
+        let lhs_clamp:f32 = noise * (intensity + extra_width) * ((1. / BLACK_HOLE_SIZE) * 10. + 0.01) * dist * dist_mult;
+        // let alpha:f32 = clamp(lhs, 0.0, 1.0);
+
+ //        vec3 col = 2.*mix(vec3(0.3,0.2,0.15)*insideCol, insideCol, min(1.,intensity*2.));
+ //        o = clamp(vec4(col*alpha + o.rgb*(1.-alpha), o.a*(1.-alpha) + alpha), vec4(0.), vec4(1.));
+
+ //        lengthPos *= (1./_Size);
+   
+ //        o.rgb+= redShift*(intensity*1. + 0.5)* (1./_Steps) * 100.*distMult/(lengthPos*lengthPos);
+ //    }  
+ 
+ //    o.rgb = clamp(o.rgb - 0.005, 0., 1.);
+ //    return o ;        //
+    }
+
+
+
+
+
+
+
+
+
+    return vec4f(1.0, 1.0, 1.0, 0.0); // no disk 
+}
+
+
+
+
+
 
 
 fn background(ray: vec3f, texture: vec4f) -> vec4f {
@@ -75,10 +174,10 @@ fn background(ray: vec3f, texture: vec4f) -> vec4f {
     nebulae += (nebulae.xxx + nebulae.yyy + nebulae.zzz);
     nebulae *= 0.25;
 
+    // nebulae *= nebulae; //TODO loop, more pure math by multiplying a const?
     nebulae *= nebulae;
     nebulae *= nebulae;
-    nebulae *= nebulae;
-    nebulae *= nebulae; // Yep.. they do it 4 times.
+    nebulae *= nebulae; // Yep.. they do it 4 times, which basically makes it darker
 
 
     nebulae += stars;
