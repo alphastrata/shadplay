@@ -1,6 +1,6 @@
 use bevy::{
     prelude::*,
-    window::{RequestRedraw, Window, WindowLevel},
+    window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
@@ -47,6 +47,14 @@ pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>
 #[derive(Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
+pub fn mouse_motion(q_windows: Query<&Window, With<PrimaryWindow>>) {
+    // Games typically only have one window (the primary window)
+    if let Some(position) = q_windows.single().cursor_position() {
+        debug!("Cursor is inside the primary window, at {:?}", position);
+    } else {
+        debug!("Cursor is not in the game window.");
+    }
+}
 /// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<Input<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::R) {
@@ -300,7 +308,10 @@ pub fn setup_2d(
             mesh: meshes
                 .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
-            material: your_shader.add(YourShader2D { img: texture }),
+            material: your_shader.add(YourShader2D {
+                img: texture,
+                mouse_pos: Vec2 { x: 0.0, y: 0.0 }, // Gotta init it with something...
+            }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
             // .with_rotation(Quat::from_rotation_x(180.0)),

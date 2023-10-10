@@ -109,13 +109,14 @@ fn hextile(p: vec2f) -> vec2f {
 fn hash(x: f32) -> f32 {
     return (fract(sin(x) * 152754.742));
 }
-// 2 in 1 out hash
-fn hash21(co: vec2f) -> f32 {
-    // Add a constant
-    let co: vec2f = co + 1.234;
-    // Calculate and return the fractal part of a sine function
-    return fract(sin(dot(co.xy, vec2f(12.9898, 58.233))) * 13758.5453);
-}
+
+// // 2 in 1 out hash
+// fn hash21(co: vec2f) -> f32 {
+//     // Add a constant
+//     let co: vec2f = co + 1.234;
+//     // Calculate and return the fractal part of a sine function
+//     return fract(sin(dot(co.xy, vec2f(12.9898, 58.233))) * 13758.5453);
+// }
 
 
 /// Signed distance field for a Bezier curve.

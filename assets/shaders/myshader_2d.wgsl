@@ -1,3 +1,8 @@
+/// ***************************** ///
+/// THIS IS THE DEFAULT 2D SHADER ///
+/// You can always get back to this with `python3 scripts/reset-2d.py` ///
+/// ***************************** ///
+
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, shaderToyDefault, rotate2D
@@ -18,3 +23,4 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
     return vec4f(shaderToyDefault(t, uv), 1.0);
 }    
+    

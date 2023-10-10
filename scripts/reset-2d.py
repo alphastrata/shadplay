@@ -1,6 +1,4 @@
-TWO2_SHADER_STARTER = """
-
-/// ***************************** ///
+TWO2_SHADER_STARTER = """/// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
 /// You can always get back to this with `python3 scripts/reset-2d.py` ///
 /// ***************************** ///
