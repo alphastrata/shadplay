@@ -12,9 +12,12 @@
 
 const SPEED:f32 = 0.25;
 const CAM_DISTANCE: f32 = -2.;
+
 const DISK_ROTATION_SPEED: f32 = 3.0;
 const DISK_TEXTURE_LAYERS: f32 = 12.0;
 const BLACK_HOLE_SIZE:f32 = 0.3; //QUESTION: % of screen occupied???
+
+const ANTI_ALIASING: i32 = 2;
 
 
 // Porting https://www.shadertoy.com/view/tsBXW3 by set111:https://www.shadertoy.com/user/set111
@@ -45,9 +48,9 @@ fn fragment(
     let disk = raymarch_disk(ray, zero_position);
 
 
-
-
-    return bg;
+    // return bg;
+    // return tex;
+    return disk;
 }
 
 fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
@@ -55,8 +58,8 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
 
     // Probably the disk and its sizing?
     var position = zero_position;
-    let len_pos:f32 = length(position.xz);
-    let dist:f32 = min(1., len_pos * (1. / BLACK_HOLE_SIZE) * 0.5) * BLACK_HOLE_SIZE * 0.4 * (1. / BLACK_HOLE_SIZE) / (abs(ray.y)); //TODO break this up.
+    let len_pos: f32 = length(position.xz);
+    let dist: f32 = min(1., len_pos * (1. / BLACK_HOLE_SIZE) * 0.5) * BLACK_HOLE_SIZE * 0.4 * (1. / BLACK_HOLE_SIZE) / (abs(ray.y)); //TODO break this up.
 
     position += dist * DISK_TEXTURE_LAYERS * ray * 0.5; // why 0.5
 
@@ -68,7 +71,7 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
 
 
     // Does what?
-    var parallel:f32 = dot(ray.xz, delta_pos); // what does the dot do again?
+    var parallel: f32 = dot(ray.xz, delta_pos); // what does the dot do again?
     parallel /= sqrt(len_pos);
     parallel *= 0.5;
     var red_shift = parallel + 0.3;
@@ -77,13 +80,14 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
 
     var dis_mix = clamp((len_pos - BLACK_HOLE_SIZE * 2.0) * (1.0 / BLACK_HOLE_SIZE) * 0.25, 0.0, 1.0); // TODO: break this up.
 
-    var inside_col:vec3f = mix(vec3f(1.0, 0.8, 0.0), vec3(1.6, 2.4, 4.0), red_shift);
+    var inside_col: vec3f = mix(vec3f(1.0, 0.8, 0.0), vec3(1.6, 2.4, 4.0), red_shift);
     inside_col *= mix(vec3(0.4, 0.2, 0.1), vec3(1.6, 2.4, 4.0), red_shift);
     inside_col *= 1.25;
     red_shift += 0.12;
     red_shift *= red_shift;
 
-    var out = vec4(0.); // Initialise a blank to draw onto.
+    var out = vec4(0.0); // Initialise blanks to draw into.
+    var o_rgb = vec3f(0.0);
 
     for (var i: f32 = 0.0; i < DISK_TEXTURE_LAYERS; i += 1.0) {
         //
@@ -93,16 +97,16 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
         var length_pos_local = length(position.xz);
         var dist_mult = 1.0;
 
-        dist_mult *= clamp((length_pos_local - DISK_TEXTURE_LAYERS * 0.75) * (1. / DISK_TEXTURE_LAYERS) * 1.5, 0., 1.); // TODO: wtf these numbers do?
-        dist_mult *= clamp((DISK_TEXTURE_LAYERS * 10. - length_pos_local) * (1. / DISK_TEXTURE_LAYERS) * 0.20, 0., 1.);  // TODO: wtf these numbers do?
+        dist_mult *= clamp((length_pos_local - DISK_TEXTURE_LAYERS * 0.75) * (1.0 / DISK_TEXTURE_LAYERS) * 1.5, 0.0, 1.); // TODO: wtf these numbers do?
+        dist_mult *= clamp((DISK_TEXTURE_LAYERS * 10. - length_pos_local) * (1.0 / DISK_TEXTURE_LAYERS) * 0.20, 0.0, 1.);  // TODO: wtf these numbers do?
         dist_mult *= dist_mult;
 
         let u = length_pos_local + t * DISK_TEXTURE_LAYERS * 0.3 + intensity * DISK_TEXTURE_LAYERS * 0.2;
 
         // -sin + cos, and sin cos is usually a rotation...
         let rot = t * (DISK_ROTATION_SPEED % 8192.0); //QUESTION: suspicious power of 2...
-        let x = -position.z * sin(rot) + position.x * cos(rot);
-        let y = position.x * sin(rot) + position.z * cos(rot);
+        let x:f32 = -position.z * sin(rot) + position.x * cos(rot);
+        let y:f32 = position.x * sin(rot) + position.z * cos(rot);
         let xy = vec2f(x, y);
 
 
@@ -115,32 +119,28 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
         noise = noise * 0.66 + 0.33 * value_noise(lhs, f * 2.); //QUESTION: this lhs was hard-coded in -- perhaps for good reason?
 
 
-        let extra_width:f32 = noise * 1. * (1. - clamp(i * (1.0 / DISK_TEXTURE_LAYERS) * 2. - 1., 0., 1.)); // TODO: (1.0/BLABLACK_HOLE_SIZE is used so many times we should just do it once...)
+        let extra_width: f32 = noise * 1.0 * (1.0 - clamp(i * (1.0 / DISK_TEXTURE_LAYERS) * 2.0 - 1.0, 0.0, 1.0)); // TODO: (1.0/BLABLACK_HOLE_SIZE is used so many times we should just do it once...)
 
-        let lhs_clamp:f32 = noise * (intensity + extra_width) * ((1. / BLACK_HOLE_SIZE) * 10. + 0.01) * dist * dist_mult;
+        let lhs_clamp: f32 = noise * (intensity + extra_width) * ((1.0 / BLACK_HOLE_SIZE) * 10.0 + 0.01) * dist * dist_mult;
+        // let alpha = clamp(20.0, 0.0, 1.0);
         // let alpha:f32 = clamp(lhs, 0.0, 1.0);
 
- //        vec3 col = 2.*mix(vec3(0.3,0.2,0.15)*insideCol, insideCol, min(1.,intensity*2.));
- //        o = clamp(vec4(col*alpha + o.rgb*(1.-alpha), o.a*(1.-alpha) + alpha), vec4(0.), vec4(1.));
+        // var col = 2. * mix(vec3(0.3, 0.2, 0.15) * inside_col, inside_col, min(1., intensity * 2.));
+        // out = clamp(vec4(col*alpha + o.rgb*(1.-alpha), o.a*(1.-alpha) + alpha), vec4(0.), vec4(1.));
 
- //        lengthPos *= (1./_Size);
-   
- //        o.rgb+= redShift*(intensity*1. + 0.5)* (1./_Steps) * 100.*distMult/(lengthPos*lengthPos);
- //    }  
- 
- //    o.rgb = clamp(o.rgb - 0.005, 0., 1.);
- //    return o ;        //
+        // length_pos_local *= (1. / BLACK_HOLE_SIZE);
+
+        // o_rgb += red_shift * (intensity * 1. + 0.5) * (1. / DISK_TEXTURE_LAYERS) * 100. * dist_mult / (length_pos_local * length_pos_local);
     }
 
+    o_rgb += 0.205;
+    // o_rgb = clamp(o_rgb, 0., 1.);
 
+    out.a = 0.222; //DEBUG:
+    // return out;
+    return (vec4f(o_rgb, 1.0));        
 
-
-
-
-
-
-
-    return vec4f(1.0, 1.0, 1.0, 0.0); // no disk 
+    // return vec4f(1.0, 1.0, 1.0, 0.0); // no disk 
 }
 
 
