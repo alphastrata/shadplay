@@ -279,7 +279,10 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
+    asset_server: Res<AssetServer>,
 ) {
+    let texture: Handle<Image> = asset_server.load("textures/space.jpg");
+
     // 2D camera
     commands.spawn((
         Camera2dBundle { ..default() },
@@ -297,7 +300,7 @@ pub fn setup_2d(
             mesh: meshes
                 .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
-            material: your_shader.add(YourShader2D {}),
+            material: your_shader.add(YourShader2D { img: texture }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
             // .with_rotation(Quat::from_rotation_x(180.0)),

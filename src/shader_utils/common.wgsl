@@ -26,12 +26,12 @@ fn hsv2rgb(c: vec3f) -> vec3f {
 }
 
 // Signed distance field for a 2D circle
-fn sdCircle(pt: vec2f, radius: f32)->f32{
-    return length(pt)-radius;
+fn sdCircle(pt: vec2f, radius: f32) -> f32 {
+    return length(pt) - radius;
 }
 
 /// This is the default (and rather pretty) shader you start with in ShaderToy
-fn shaderToyDefault(t: f32, uv: vec2f)-> vec3f{
+fn shaderToyDefault(t: f32, uv: vec2f) -> vec3f {
     var col = vec3f(0.0);
     let v = vec3(t) + vec3(uv.xyx) + vec3(0., 2., 4.);
     return 0.5 + 0.5 * cos(v);
@@ -105,11 +105,14 @@ fn hextile(p: vec2f) -> vec2f {
     return round(n * 2.0) * 0.5;
 } 
 
+// From : https://www.shadertoy.com/view/tsBXW3
+fn hash(x: f32) -> f32 {
+    return (fract(sin(x) * 152754.742));
+}
 // 2 in 1 out hash
-fn hash(co: vec2f) -> f32 {
+fn hash21(co: vec2f) -> f32 {
     // Add a constant
     let co: vec2f = co + 1.234;
-
     // Calculate and return the fractal part of a sine function
     return fract(sin(dot(co.xy, vec2f(12.9898, 58.233))) * 13758.5453);
 }

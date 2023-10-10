@@ -26,7 +26,11 @@ impl Material for YourShader {
 
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
-pub struct YourShader2D {}
+pub struct YourShader2D {
+    #[texture(0, dimension = "2d")]
+    #[sampler(1)]
+    pub img: Handle<Image>,
+}
 // Requires a seperate impl for 2d
 impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
