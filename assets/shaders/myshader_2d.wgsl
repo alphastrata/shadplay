@@ -122,15 +122,18 @@ fn raymarch_disk(ray: vec3f, zero_position: vec3f) -> vec4f {
         let extra_width: f32 = noise * 1.0 * (1.0 - clamp(i * (1.0 / DISK_TEXTURE_LAYERS) * 2.0 - 1.0, 0.0, 1.0)); // TODO: (1.0/BLABLACK_HOLE_SIZE is used so many times we should just do it once...)
 
         let lhs_clamp: f32 = noise * (intensity + extra_width) * ((1.0 / BLACK_HOLE_SIZE) * 10.0 + 0.01) * dist * dist_mult;
-        // let alpha = clamp(20.0, 0.0, 1.0);
-        // let alpha:f32 = clamp(lhs, 0.0, 1.0);
+        //DEBUGGING LHS_CLAMP SOMEHOW IT'S A VEC2f???
+        // let veclhs2:vec2f = vec2f(lhs_clamp);
+        // let veclhs3:vec3f = vec3f(lhs_clamp);
+        // let test_alpha = clamp(20.0, 0.0, 1.0);
+        let alpha:f32 = clamp(lhs.x, 0.0, 1.0);
 
-        // var col = 2. * mix(vec3(0.3, 0.2, 0.15) * inside_col, inside_col, min(1., intensity * 2.));
-        // out = clamp(vec4(col*alpha + o.rgb*(1.-alpha), o.a*(1.-alpha) + alpha), vec4(0.), vec4(1.));
+        var col = 2.0 * mix(vec3(0.3, 0.2, 0.15) * inside_col, inside_col, min(1., intensity * 2.));
+        out = clamp(vec4(col*alpha + out.rgb*(1.-alpha), out.a*(1.-alpha) + alpha), vec4(0.), vec4(1.));
 
-        // length_pos_local *= (1. / BLACK_HOLE_SIZE);
+        length_pos_local *= (1.0 / BLACK_HOLE_SIZE);
 
-        // o_rgb += red_shift * (intensity * 1. + 0.5) * (1. / DISK_TEXTURE_LAYERS) * 100. * dist_mult / (length_pos_local * length_pos_local);
+        o_rgb += red_shift * (intensity * 1.0 + 0.5) * (1.0 / DISK_TEXTURE_LAYERS) * 100.0 * dist_mult / (length_pos_local * length_pos_local);
     }
 
     o_rgb += 0.205;
