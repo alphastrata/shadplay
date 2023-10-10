@@ -13,7 +13,7 @@
 @group(1) @binding(0) var my_array_texture: texture_2d<f32>;
 @group(1) @binding(1) var my_array_texture_sampler: sampler;
 
-const SPEED:f32 = 1.0;
+const SPEED:f32 = 0.25;
 const CAM_DISTANCE: f32 = -2.;
 
 
@@ -23,26 +23,34 @@ fn fragment(
     @builtin(front_facing) is_front: bool,
     in: MeshVertexOutput
 ) -> @location(0) vec4<f32> {
-    var uv = (in.uv * 2.0) - 1.0;
-    let resolution = view.viewport.zw;
     let t = globals.time * SPEED;
+    let resolution = view.viewport.zw;
+
+    var texture_uvs = in.uv;
+    texture_uvs *= rotate2D(1.0+t);
+
+    let tex:vec4f = textureSample(my_array_texture, my_array_texture_sampler, texture_uvs); // Shadertoy's ones don't seem to be affected by uvs modified in the scope of the functions that folk are writing so we take the uvs early do get around that.
+    
+    var uv = (in.uv * 2.0) - 1.0;
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(PI / -2.0);
     var col = vec3f(0.0);
-    // col.b = value_noise(uv, t);
+    // col.b = value_noise(uv, t); // Test the noise!
 
     let ro = vec3f(0.0);
-    let bg = background(ro);
+    let bg = background(ro, tex);
 
     let fragColor = vec4<f32>(col, 1.0);
-    // return fragColor;
 
 
-    return textureSample(my_array_texture, my_array_texture_sampler, uv);
+
+
+    return bg;
+    
 }
 
 
-fn background(ray: vec3f) -> vec4f {
+fn background(ray: vec3f, texture: vec4f) -> vec4f {
     var uv = ray.xy;
     if abs(ray.x) > 0.5 {
         uv.x = ray.z;
@@ -62,19 +70,21 @@ fn background(ray: vec3f) -> vec4f {
     var stars: vec3f = brightness * mix(vec3f(1.0, 0.6, 0.2), vec3f(0.2, 0.6, 1.0), colour); // what happens when you mess with these vec3's values?
 
     // var nebulae = textuxe(iChannel10, (uv*1.5)); // We have no textures so... have a think on that one.. (the shadertoy kid is using a galazy img.)
-    // nebulae.xyz += nebulae.xxx + nebulae.yyy + nebulae.zzz // averaging the colour
-    // nebulae.xyz *= 0.25;
+    var nebulae = texture.xyz;
+    let nebulae_alpha = texture.a; // Keep this as we cannot swizzle with it
+    nebulae += (nebulae.xxx + nebulae.yyy + nebulae.zzz);
+    nebulae *= 0.25;
 
-    // nebulae *= nebulae;
-    // nebulae *= nebulae;
-    // nebulae *= nebulae;
-    // nebulae *= nebulae; // Yep.. they do it 4 times.
+    nebulae *= nebulae;
+    nebulae *= nebulae;
+    nebulae *= nebulae;
+    nebulae *= nebulae; // Yep.. they do it 4 times.
 
 
-    // nebulae.xyz += stars;
+    nebulae += stars;
 
 
-    return vec4f(stars, 1.0);
+    return vec4f(nebulae, 1.0);
 }
 
 // Creates a pretty even noise (I have no idea how...)
