@@ -89,12 +89,14 @@ pub fn update_mouse_pos(
             let x = (((msd.0.x - (msd.0.x * 0.5)) / mouse_xy.x) - 0.5).clamp(-0.5, 0.5);
             let y = (((msd.0.y * 0.5) / mouse_xy.y) - 0.5).clamp(-0.5, 0.5);
 
-            println!("MSD\t     x:{}, y:{}", msd.0.x, msd.0.y);
-            println!("nhw\t     x:{}, y:{}", n_w, n_h);
-            println!(
-                "Shader mouse x:{}, y:{}\nmade to   x:{:?} y:{:?}",
-                &mouse_xy.x, &mouse_xy.y, x, y
-            );
+            //DEBUG
+            //FIXME: remove these after above todo is taken care of.
+            // println!("MSD\t     x:{}, y:{}", msd.0.x, msd.0.y);
+            // println!("nhw\t     x:{}, y:{}", n_w, n_h);
+            // println!(
+            //     "Shader mouse x:{}, y:{}\nmade to   x:{:?} y:{:?}",
+            //     &mouse_xy.x, &mouse_xy.y, x, y
+            // );
             shad_mat.mouse_pos = MousePos { x, y };
         } else {
             return;
