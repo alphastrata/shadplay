@@ -1,8 +1,10 @@
 use bevy::{
     prelude::*,
+    render::render_resource::AsBindGroupShaderType,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
 };
 use bevy_panorbit_camera::PanOrbitCamera;
+use winit::monitor::MonitorHandle;
 
 use crate::shader_utils::{MousePos, YourShader, YourShader2D};
 
@@ -34,6 +36,16 @@ pub struct Cam3D;
 /// Used by: the CamSwitch event.
 #[derive(Component)]
 pub struct Cam2D;
+
+/// Resource: Holds the current monitor, and a list of the others' [`winit::monitor::MonitorHandle`](s), info, we go outside of bevy to get these,
+/// pre-startup so, they cannot be reasonably updated yet..
+#[derive(Resource)]
+pub struct MonitorsSpecs {
+    // Index of the current monitor (at app startup)
+    current: usize,
+    // (index, (width, height)) pairings of all available monitors at time of startup.
+    monitors: (usize, (f32, f32)),
+}
 
 /// Resource: Used for toggling on/off the transparency of the app.
 #[derive(Resource, DerefMut, Deref)]
@@ -339,12 +351,14 @@ pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
     mut msd: ResMut<MaxScreenDims>,
+    // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
         .get_single()
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
+    // let (max_width, max_height) = possy.get_single()
 
     query.iter_mut().for_each(|mut transform| {
         *msd = MaxScreenDims {

@@ -48,9 +48,7 @@ pub struct YourShader2D {
 
 #[derive(ShaderType, Debug, Clone)]
 pub struct MousePos {
-    #[align(16)]
     pub x: f32,
-    #[align(16)]
     pub y: f32,
 }
 

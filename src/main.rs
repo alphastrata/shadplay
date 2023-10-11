@@ -18,6 +18,19 @@ use shadplay::{
 };
 
 fn main() {
+    // Get mon max dims because bevy's impls on this are impenetrable //TODO: make a PR to make em nicer
+    // let (current_monitor, monitors) = {
+    //     use winit::{event_loop::EventLoop, window::Window};
+
+    //     let mut event_loop = EventLoop::new();
+    //     let window = Window::new(&event_loop).unwrap();
+
+    //     let monitors: Vec<winit::monitor::MonitorHandle> = window.available_monitors().collect();
+    //     let current_monitor: winit::monitor::MonitorHandle = window.current_monitor().unwrap();
+
+    //     drop(event_loop);
+    // };
+
     let mut app = App::new();
 
     let shadplay = app
@@ -72,6 +85,7 @@ fn main() {
         .add_systems(
             Update,
             (
+                // utils::max_mon_res,
                 shader_utils::update_mouse_pos,
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
