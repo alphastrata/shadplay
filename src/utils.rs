@@ -310,7 +310,7 @@ pub fn setup_2d(
                 .into(),
             material: your_shader.add(YourShader2D {
                 img: texture,
-                mouse_pos: Vec2 { x: 0.0, y: 0.0 }, // Gotta init it with something...
+                mouse_pos: Vec2 { x: 1.0, y: 1.0 },
             }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),

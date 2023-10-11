@@ -35,15 +35,15 @@ impl Material for YourShader {
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
-    /// to replicate iChannel
-    #[texture(0, dimension = "2d")]
-    #[sampler(1)]
-    pub img: Handle<Image>,
-
     /// Mouse X and Mouse Y
-    #[uniform(2)]
-    pub(crate) mouse_pos: Vec2, // vec2f()
+    #[uniform(0)]
+    pub(crate) mouse_pos: Vec2,
+    // /// to replicate iChannel
+    #[texture(1, dimension = "2d")]
+    #[sampler(2)]
+    pub img: Handle<Image>,
 }
+
 impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader_2d.wgsl".into()
@@ -65,8 +65,8 @@ pub fn update_mouse_pos(
             return;
         };
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-            shad_mat.mouse_pos = mouse_xy;
-            bevy::log::debug!("Shader mouse should have been updated...");
+            shad_mat.mouse_pos = mouse_xy.into();
+            println!("Shader mouse should have been updated...");
         } else {
             return;
         }
