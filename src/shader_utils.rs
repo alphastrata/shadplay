@@ -9,7 +9,6 @@ use bevy::{
     window::PrimaryWindow,
 };
 
-use crate::utils::BillBoardQuad;
 pub mod common;
 
 // ************************************ //
@@ -67,6 +66,7 @@ pub fn update_mouse_pos(
         };
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
             shad_mat.mouse_pos = mouse_xy;
+            bevy::log::debug!("Shader mouse should have been updated...");
         } else {
             return;
         }
