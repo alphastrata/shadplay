@@ -1,4 +1,4 @@
-/// ***************************** ///
+TWO2_SHADER_STARTER = """/// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
 /// You can always get back to this with `python3 scripts/reset-2d.py` ///
 /// ***************************** ///
@@ -24,3 +24,13 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     return vec4f(shaderToyDefault(t, uv), 1.0);
 }    
     
+"""
+
+# Define the file path
+file_path = "./assets/shaders/myshader_2d.wgsl"
+
+# Open the file in write mode and replace its contents
+with open(file_path, "w") as file:
+    file.write(TWO2_SHADER_STARTER)
+
+print(f"Content in {file_path} has been replaced with the provided shader code.")

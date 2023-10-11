@@ -17,6 +17,7 @@ bevy = { version = "0.11.3", features = [
   "filesystem_watcher",
   "dynamic_linking",
   "bevy_dylib",
+  "jpeg",
 ] }
 bevy_egui = { version = "0.21.0" }
 bevy_panorbit_camera = "0.8.*"

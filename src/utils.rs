@@ -1,10 +1,10 @@
 use bevy::{
     prelude::*,
-    window::{RequestRedraw, Window, WindowLevel},
+    window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::shader_utils::{YourShader, YourShader2D};
+use crate::shader_utils::{MousePos, YourShader, YourShader2D};
 
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
@@ -38,6 +38,10 @@ pub struct Cam2D;
 /// Resource: Used for toggling on/off the transparency of the app.
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
+
+/// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
+#[derive(Resource, DerefMut, Deref, Default)]
+pub struct MaxScreenDims(pub Vec2);
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
@@ -279,17 +283,33 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
+    mut msd: ResMut<MaxScreenDims>,
+    asset_server: Res<AssetServer>,
+
+    windows: Query<&Window>,
 ) {
+    let texture: Handle<Image> = asset_server.load("textures/space.jpg");
+
     // 2D camera
     commands.spawn((
         Camera2dBundle { ..default() },
         // PanOrbitCamera::default(),
         Cam2D,
     ));
-
     trace!("Spawned 2d Cam");
-    // Spawn the giant screen consuming rect.
-    // add the myshader.wgsl to it...?
+
+    let win = windows
+        .get_single()
+        .expect("Should be impossible to NOT get a window");
+    let (width, height) = (win.width(), win.height());
+
+    *msd = MaxScreenDims {
+        0: Vec2 {
+            x: width / 2.0,
+            y: height / 2.0,
+        },
+    };
+    trace!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
     commands.spawn((
@@ -297,7 +317,13 @@ pub fn setup_2d(
             mesh: meshes
                 .add(shape::Quad::new(Vec2::new(1., 1.)).into())
                 .into(),
-            material: your_shader.add(YourShader2D {}),
+            material: your_shader.add(YourShader2D {
+                img: texture,
+                mouse_pos: MousePos {
+                    x: 100.0f32,
+                    y: 128.0f32,
+                },
+            }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
             // .with_rotation(Quat::from_rotation_x(180.0)),
@@ -309,7 +335,11 @@ pub fn setup_2d(
 
 /// System: Runs only when in [`AppState::TwoD`]
 /// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
-pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>) {
+pub fn size_quad(
+    windows: Query<&Window>,
+    mut query: Query<&mut Transform, With<BillBoardQuad>>,
+    mut msd: ResMut<MaxScreenDims>,
+) {
     let win = windows
         .get_single()
         .expect("Should be impossible to NOT get a window");
@@ -317,6 +347,12 @@ pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<
     let (width, height) = (win.width(), win.height());
 
     query.iter_mut().for_each(|mut transform| {
+        *msd = MaxScreenDims {
+            0: Vec2 {
+                x: width,
+                y: height,
+            },
+        };
         // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
