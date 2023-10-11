@@ -9,6 +9,8 @@ use bevy::{
     window::PrimaryWindow,
 };
 
+use crate::utils::MaxScreenDims;
+
 pub mod common;
 
 // ************************************ //
@@ -66,16 +68,33 @@ pub fn update_mouse_pos(
     // meshes: Query<Entity, With<BillBoardQuad>>,
     mouse_pos: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
+    msd: Res<MaxScreenDims>,
 ) {
-    //TODO: run condition this so we can just unwrap() everywhere.
-    if let Some(mouse_xy) = mouse_pos.single().cursor_position() {
+    if let Some(mouse_xy) = mouse_pos.single().physical_cursor_position() {
         let Ok(handle) = shader_hndl.get_single() else {
             return;
         };
+        // TODO: fix the normalisation of the mouse coords to match the screen ones.
+        /* From the bevy cheatbook
+        The origin is at the top left corner of the screen
+        The Y axis points downwards
+        X goes from 0.0 (left screen edge) to the number of screen pixels (right screen edge)
+        Y goes from 0.0 (top screen edge) to the number of screen pixels (bottom screen edge)
+
+        */
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-            let x: f32 = mouse_xy.x.clamp(0.0, 1.0);
-            let y: f32 = mouse_xy.y.clamp(0.0, 1.0);
-            println!("Shader mouse {:#?}, clamped to x:{x} y:{y}", &mouse_xy);
+            let n_w = (msd.0.x / 3880.0) - 0.5;
+            let n_h = (msd.0.y / 1600.0) - 0.5;
+
+            let x = (((msd.0.x - (msd.0.x * 0.5)) / mouse_xy.x) - 0.5).clamp(-0.5, 0.5);
+            let y = (((msd.0.y * 0.5) / mouse_xy.y) - 0.5).clamp(-0.5, 0.5);
+
+            println!("MSD\t     x:{}, y:{}", msd.0.x, msd.0.y);
+            println!("nhw\t     x:{}, y:{}", n_w, n_h);
+            println!(
+                "Shader mouse x:{}, y:{}\nmade to   x:{:?} y:{:?}",
+                &mouse_xy.x, &mouse_xy.y, x, y
+            );
             shad_mat.mouse_pos = MousePos { x, y };
         } else {
             return;

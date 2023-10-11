@@ -43,14 +43,16 @@ fn main() {
         .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
+        // Resources
+        .insert_resource(utils::MaxScreenDims::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
         .insert_resource(Rotating(false))
         .add_plugins(PanOrbitCameraPlugin)
-        //
+        // 3D
         .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
         .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
-        //
+        // 2D
         .add_systems(OnEnter(AppState::TwoD), utils::setup_2d)
         .add_systems(OnExit(AppState::TwoD), utils::cleanup_2d)
         // All the time

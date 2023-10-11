@@ -40,7 +40,7 @@ pub struct Cam2D;
 pub struct TransparencySet(pub bool);
 
 /// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
-#[derive(Resource, DerefMut, Deref)]
+#[derive(Resource, DerefMut, Deref, Default)]
 pub struct MaxScreenDims(pub Vec2);
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
@@ -51,14 +51,6 @@ pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>
 #[derive(Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
-pub fn mouse_motion(q_windows: Query<&Window, With<PrimaryWindow>>) {
-    // Games typically only have one window (the primary window)
-    if let Some(position) = q_windows.single().cursor_position() {
-        debug!("Cursor is inside the primary window, at {:?}", position);
-    } else {
-        debug!("Cursor is not in the game window.");
-    }
-}
 /// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<Input<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::R) {
@@ -291,7 +283,10 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
+    mut msd: ResMut<MaxScreenDims>,
     asset_server: Res<AssetServer>,
+
+    windows: Query<&Window>,
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
 
@@ -301,10 +296,20 @@ pub fn setup_2d(
         // PanOrbitCamera::default(),
         Cam2D,
     ));
-
     trace!("Spawned 2d Cam");
-    // Spawn the giant screen consuming rect.
-    // add the myshader.wgsl to it...?
+
+    let win = windows
+        .get_single()
+        .expect("Should be impossible to NOT get a window");
+    let (width, height) = (win.width(), win.height());
+
+    *msd = MaxScreenDims {
+        0: Vec2 {
+            x: width / 2.0,
+            y: height / 2.0,
+        },
+    };
+    trace!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
     commands.spawn((
@@ -333,7 +338,7 @@ pub fn setup_2d(
 pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
-    msd: ResMut<MaxScreenDims>,
+    mut msd: ResMut<MaxScreenDims>,
 ) {
     let win = windows
         .get_single()
@@ -342,6 +347,12 @@ pub fn size_quad(
     let (width, height) = (win.width(), win.height());
 
     query.iter_mut().for_each(|mut transform| {
+        *msd = MaxScreenDims {
+            0: Vec2 {
+                x: width,
+                y: height,
+            },
+        };
         // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
