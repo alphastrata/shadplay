@@ -70,7 +70,7 @@ fn main() {
         .add_systems(
             Update,
             (
-                utils::mouse_motion,
+                shader_utils::update_mouse_pos,
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,

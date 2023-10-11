@@ -37,11 +37,19 @@ impl Material for YourShader {
 pub struct YourShader2D {
     /// Mouse X and Mouse Y
     #[uniform(0)]
-    pub(crate) mouse_pos: Vec2,
+    pub(crate) mouse_pos: MousePos,
     // /// to replicate iChannel
     #[texture(1, dimension = "2d")]
     #[sampler(2)]
     pub img: Handle<Image>,
+}
+
+#[derive(ShaderType, Debug, Clone)]
+pub struct MousePos {
+    #[align(16)]
+    pub x: f32,
+    #[align(16)]
+    pub y: f32,
 }
 
 impl Material2d for YourShader2D {
@@ -65,8 +73,10 @@ pub fn update_mouse_pos(
             return;
         };
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-            shad_mat.mouse_pos = mouse_xy.into();
-            println!("Shader mouse should have been updated...");
+            let x: f32 = mouse_xy.x.clamp(0.0, 1.0);
+            let y: f32 = mouse_xy.y.clamp(0.0, 1.0);
+            println!("Shader mouse {:#?}, clamped to x:{x} y:{y}", &mouse_xy);
+            shad_mat.mouse_pos = MousePos { x, y };
         } else {
             return;
         }

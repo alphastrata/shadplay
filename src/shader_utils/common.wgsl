@@ -1,11 +1,11 @@
 #define_import_path shadplay::shader_utils::common
 
-const TAU:f32 =  6.28318530718;
-const PI:f32  =  3.14159265359;
 const HALF_PI = 1.57079632679;
 const NEG_HALF_PI = -1.57079632679;
 const NEG_QUARTER_PI = -0.78539816339;
+const PI:f32  =  3.14159265359;
 const QUARTER_PI = -0.78539816339;
+const TAU:f32 =  6.28318530718;
 
 
 /// Clockwise by `theta`

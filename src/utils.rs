@@ -4,7 +4,7 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::shader_utils::{YourShader, YourShader2D};
+use crate::shader_utils::{MousePos, YourShader, YourShader2D};
 
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
@@ -38,6 +38,10 @@ pub struct Cam2D;
 /// Resource: Used for toggling on/off the transparency of the app.
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
+
+/// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
+#[derive(Resource, DerefMut, Deref)]
+pub struct MaxScreenDims(pub Vec2);
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
@@ -310,7 +314,10 @@ pub fn setup_2d(
                 .into(),
             material: your_shader.add(YourShader2D {
                 img: texture,
-                mouse_pos: Vec2 { x: 1.0, y: 1.0 },
+                mouse_pos: MousePos {
+                    x: 100.0f32,
+                    y: 128.0f32,
+                },
             }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
@@ -323,7 +330,11 @@ pub fn setup_2d(
 
 /// System: Runs only when in [`AppState::TwoD`]
 /// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
-pub fn size_quad(windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>) {
+pub fn size_quad(
+    windows: Query<&Window>,
+    mut query: Query<&mut Transform, With<BillBoardQuad>>,
+    msd: ResMut<MaxScreenDims>,
+) {
     let win = windows
         .get_single()
         .expect("Should be impossible to NOT get a window");
