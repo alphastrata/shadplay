@@ -22,18 +22,18 @@ const SPEED: f32 = 1.0;
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var uv = (in.uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
+    // let mouse = vec2f(clamp(myshader.mouse_pos.x - 2.0, 0.0, 1.0), clamp(myshader.mouse_pos.y,0.0, 1.0));
+    let mouse = myshader.mouse_pos;
     let t = globals.time * SPEED;
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(NEG_HALF_PI);
 
-    var col: vec4f = vec4f(0.0);
-    col.b = uv.x;
-    col.r = uv.y;
-    col.g = fract(uv.y) * fract(uv.x);
+    var col: vec4f = vec4f(0.012);
+    // col.b = uv.x;
+    // col.r = uv.y;
+    col.a = 0.0;
 
-    
-    col.a = myshader.mouse_pos.x;
-
+    col.a -= mouse.x- 0.5;
     return col;
 }    
     

@@ -42,9 +42,9 @@ pub struct Cam2D;
 #[derive(Resource)]
 pub struct MonitorsSpecs {
     // Index of the current monitor (at app startup)
-    current: usize,
-    // (index, (width, height)) pairings of all available monitors at time of startup.
-    monitors: (usize, (f32, f32)),
+    pub current: (u32, u32), // max-width, max-height
+                             // // (index, (width, height)) pairings of all available monitors at time of startup.
+                             // monitors: (usize, (f32, f32)),
 }
 
 /// Resource: Used for toggling on/off the transparency of the app.
@@ -53,7 +53,7 @@ pub struct TransparencySet(pub bool);
 
 /// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
 #[derive(Resource, DerefMut, Deref, Default)]
-pub struct MaxScreenDims(pub Vec2);
+pub struct ShadplayWindowDims(pub Vec2);
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
@@ -295,7 +295,7 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
-    mut msd: ResMut<MaxScreenDims>,
+    mut msd: ResMut<ShadplayWindowDims>,
     asset_server: Res<AssetServer>,
 
     windows: Query<&Window>,
@@ -315,7 +315,7 @@ pub fn setup_2d(
         .expect("Should be impossible to NOT get a window");
     let (width, height) = (win.width(), win.height());
 
-    *msd = MaxScreenDims {
+    *msd = ShadplayWindowDims {
         0: Vec2 {
             x: width / 2.0,
             y: height / 2.0,
@@ -350,7 +350,7 @@ pub fn setup_2d(
 pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
-    mut msd: ResMut<MaxScreenDims>,
+    mut msd: ResMut<ShadplayWindowDims>,
     // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
@@ -361,7 +361,7 @@ pub fn size_quad(
     // let (max_width, max_height) = possy.get_single()
 
     query.iter_mut().for_each(|mut transform| {
-        *msd = MaxScreenDims {
+        *msd = ShadplayWindowDims {
             0: Vec2 {
                 x: width,
                 y: height,
