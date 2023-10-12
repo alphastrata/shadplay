@@ -360,12 +360,11 @@ pub fn setup_2d(
         .expect("Should be impossible to NOT get a window");
     let (width, height) = (win.width(), win.height());
 
-    *msd = ShadplayWindowDims {
-        0: Vec2 {
-            x: width / 2.0,
-            y: height / 2.0,
-        },
-    };
+    *msd = ShadplayWindowDims(Vec2 {
+        x: width / 2.0,
+        y: height / 2.0,
+    });
+
     trace!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
@@ -406,12 +405,11 @@ pub fn size_quad(
     // let (max_width, max_height) = possy.get_single()
 
     query.iter_mut().for_each(|mut transform| {
-        *msd = ShadplayWindowDims {
-            0: Vec2 {
-                x: width,
-                y: height,
-            },
-        };
+        *msd = ShadplayWindowDims(Vec2 {
+            x: width,
+            y: height,
+        });
+
         // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
@@ -445,14 +443,6 @@ pub fn update_mouse_pos(
     let Ok(handle) = shader_hndl.get_single() else {
         return;
     };
-    // TODO: fix the normalisation of the mouse coords to match the screen ones.
-    /* From the bevy cheatbook
-    The origin is at the top left corner of the screen
-    The Y axis points downwards
-    X goes from 0.0 (left screen edge) to the number of screen pixels (right screen edge)
-    Y goes from 0.0 (top screen edge) to the number of screen pixels (bottom screen edge)
-
-    */
     let Some(mouse_xy) = win.physical_cursor_position() else {
         return;
         // full monitor width/height
@@ -467,7 +457,6 @@ pub fn update_mouse_pos(
 
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
             // Shadplay window's size
-
             #[cfg(debug_assertions)] //FIXME:
             bevy::log::debug!("mouseIN : {:?}", mouse_xy);
 
@@ -477,8 +466,6 @@ pub fn update_mouse_pos(
             #[cfg(debug_assertions)] //FIXME:
             bevy::log::debug!("mouseOUT:{:?}", shad_mat.mouse_pos);
         }
-    } else {
-        return;
     }
 }
 

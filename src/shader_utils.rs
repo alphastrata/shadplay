@@ -6,10 +6,8 @@ use bevy::{
     reflect::{TypePath, TypeUuid},
     render::render_resource::*,
     sprite::Material2d,
-    window::PrimaryWindow,
+    // window::PrimaryWindow,
 };
-
-use crate::utils::{MonitorsSpecs, ShadplayWindowDims};
 
 pub mod common;
 
@@ -57,6 +55,7 @@ impl Material2d for YourShader2D {
         "shaders/myshader_2d.wgsl".into()
     }
 }
+
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
 // For an example of how you can pass larger ammounts of data from bevy -> yourshadercode
 // You need to use this sort of structure, for example with the dotted_line.wgsl shader.
