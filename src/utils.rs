@@ -72,7 +72,7 @@ impl MonitorsSpecs {
 pub struct TransparencySet(pub bool);
 
 /// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
-#[derive(Resource, DerefMut, Deref, Default)]
+#[derive(Resource, DerefMut, Deref, Default, Debug)]
 pub struct ShadplayWindowDims(pub Vec2);
 impl ShadplayWindowDims {
     // is the mouse 'in' the shadplay window?
@@ -90,10 +90,14 @@ impl ShadplayWindowDims {
     }
 
     /// Normalise the width (0) and height (1) on Self, to -0.5, to 0.5
-    pub(crate) fn normalise(&self) -> (f32, f32) {
-        let x = self.x / (self.x / 2.0) - 1.0;
-        let y = self.y / (self.y / 2.0) - 1.0;
-        (x, y)
+    pub(crate) fn to_uv(&self, xy: Vec2) -> Vec2 {
+        #[cfg(debug_assertions)] //FIXME:
+        bevy::log::debug!("pre norm: {:?}", self);
+
+        Vec2 {
+            x: xy.x / (self.x / 2.0) - 1.0,
+            y: xy.y / (self.y / 2.0) - 1.0,
+        }
     }
 }
 
@@ -339,7 +343,6 @@ pub fn setup_2d(
     mut your_shader: ResMut<Assets<YourShader2D>>,
     mut msd: ResMut<ShadplayWindowDims>,
     asset_server: Res<AssetServer>,
-
     windows: Query<&Window>,
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
@@ -452,27 +455,38 @@ pub fn update_mouse_pos(
     */
     let Some(mouse_xy) = win.physical_cursor_position() else {
         return;
+        // full monitor width/height
+        // let mon_full_w = mon_spec.xy().x;
+        // let mon_full_h = mon_spec.xy().y;
     };
+
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy) {
+        #[cfg(debug_assertions)] //FIXME:
+        bevy::log::debug!("hittest = true");
+
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
             // Shadplay window's size
-            let (sh_x, sh_y) = (*shadplay_win_dims).normalise();
 
-            // full monitor width/height
-            // let mon_full_w = mon_spec.xy().x;
-            // let mon_full_h = mon_spec.xy().y;
+            #[cfg(debug_assertions)] //FIXME:
+            bevy::log::debug!("mouseIN : {:?}", mouse_xy);
 
-            // current x/y ( full_xy / 2.0 ) -1.0;
-            let mx_norm = (mouse_xy.x / (sh_x / 2.0)) - 1.0;
-            let my_norm = (mouse_xy.y / (sh_y / 2.0)) - 1.0;
+            let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
+            shad_mat.mouse_pos = sh_xy.into();
 
-            shad_mat.mouse_pos = MousePos {
-                x: mx_norm,
-                y: my_norm,
-            };
+            #[cfg(debug_assertions)] //FIXME:
+            bevy::log::debug!("mouseOUT:{:?}", shad_mat.mouse_pos);
         }
     } else {
         return;
+    }
+}
+
+impl From<Vec2> for MousePos {
+    fn from(value: Vec2) -> Self {
+        MousePos {
+            x: value.x,
+            y: value.y,
+        }
     }
 }
