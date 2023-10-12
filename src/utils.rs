@@ -1,10 +1,9 @@
 use bevy::{
     prelude::*,
-    render::render_resource::AsBindGroupShaderType,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
+    winit::WinitWindows,
 };
 use bevy_panorbit_camera::PanOrbitCamera;
-use winit::monitor::MonitorHandle;
 
 use crate::shader_utils::{MousePos, YourShader, YourShader2D};
 
@@ -39,12 +38,33 @@ pub struct Cam2D;
 
 /// Resource: Holds the current monitor, and a list of the others' [`winit::monitor::MonitorHandle`](s), info, we go outside of bevy to get these,
 /// pre-startup so, they cannot be reasonably updated yet..
-#[derive(Resource)]
+#[derive(Resource, Default, Deref, DerefMut)]
 pub struct MonitorsSpecs {
-    // Index of the current monitor (at app startup)
+    // Index of the current primary monitor (at app startup)
     pub current: (u32, u32), // max-width, max-height
-                             // // (index, (width, height)) pairings of all available monitors at time of startup.
-                             // monitors: (usize, (f32, f32)),
+}
+impl MonitorsSpecs {
+    pub fn get(&self) -> (f32, f32) {
+        (self.current.0 as f32, self.current.1 as f32)
+    }
+
+    // self.x as f32
+    pub fn x(&self) -> f32 {
+        self.current.0 as f32
+    }
+
+    // self.y as f32
+    pub fn y(&self) -> f32 {
+        self.current.1 as f32
+    }
+
+    // self.xy as Vec2
+    pub fn xy(&self) -> Vec2 {
+        Vec2 {
+            x: self.x(),
+            y: self.y(),
+        }
+    }
 }
 
 /// Resource: Used for toggling on/off the transparency of the app.
@@ -54,6 +74,28 @@ pub struct TransparencySet(pub bool);
 /// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
 #[derive(Resource, DerefMut, Deref, Default)]
 pub struct ShadplayWindowDims(pub Vec2);
+impl ShadplayWindowDims {
+    // is the mouse 'in' the shadplay window?
+    pub(crate) fn hittest(&self, mouse_in: Vec2) -> bool {
+        std::ops::Range {
+            start: 0.0,
+            end: self.x,
+        }
+        .contains(&mouse_in.x)
+            || std::ops::Range {
+                start: 0.0,
+                end: self.y,
+            }
+            .contains(&mouse_in.y)
+    }
+
+    /// Normalise the width (0) and height (1) on Self, to -0.5, to 0.5
+    pub(crate) fn normalise(&self) -> (f32, f32) {
+        let x = self.x / (self.x / 2.0) - 1.0;
+        let y = self.y / (self.y / 2.0) - 1.0;
+        (x, y)
+    }
+}
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
@@ -351,7 +393,7 @@ pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
     mut msd: ResMut<ShadplayWindowDims>,
-    // monitors: Res<MonitorsSpecs>,
+    monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
         .get_single()
@@ -371,4 +413,69 @@ pub fn size_quad(
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
     });
+}
+
+// Monitor Maximum Res.
+pub fn max_mon_res(
+    window_query: Query<Entity, With<Window>>,
+    winit_windows: NonSend<WinitWindows>,
+    mut mon_specs: ResMut<MonitorsSpecs>,
+) {
+    let entity = window_query.single();
+    if let Some(winit_window) = winit_windows.get_window(entity) {
+        let current_monitor = winit_window.current_monitor().unwrap();
+        let (w, h) = (current_monitor.size().width, current_monitor.size().height);
+        *mon_specs = MonitorsSpecs { current: (w, h) };
+    }
+}
+
+/// Update mouse_pos for the 2D shader
+pub fn update_mouse_pos(
+    shader_hndl: Query<&Handle<YourShader2D>>,
+    window: Query<&Window, With<PrimaryWindow>>,
+    mut shader_mat: ResMut<Assets<YourShader2D>>,
+    mon_spec: Res<MonitorsSpecs>,
+    shadplay_win_dims: Res<ShadplayWindowDims>,
+) {
+    let win = window.single();
+
+    let Ok(handle) = shader_hndl.get_single() else {
+        return;
+    };
+    // TODO: fix the normalisation of the mouse coords to match the screen ones.
+    /* From the bevy cheatbook
+    The origin is at the top left corner of the screen
+    The Y axis points downwards
+    X goes from 0.0 (left screen edge) to the number of screen pixels (right screen edge)
+    Y goes from 0.0 (top screen edge) to the number of screen pixels (bottom screen edge)
+
+    */
+    let Some(mouse_xy) = win.physical_cursor_position() else {
+        return;
+    };
+
+    if let Some(shad_mat) = shader_mat.get_mut(handle) {
+        // Is the mouse on our window?
+        if (*shadplay_win_dims).hittest(mouse_xy) {
+            // Shadplay window's size
+            let (sh_x, sh_y) = (*shadplay_win_dims).normalise();
+
+            // full
+            let mon_full_wh = mon_spec.xy();
+
+            // current x/y ( full_xy / 2.0 ) -1.0;
+            let mouse_x = mouse_xy.x;
+            let mouse_y = mouse_xy.y;
+
+            let mx_norm = (mouse_x / (sh_x / 2.0)) - 1.0;
+            let my_norm = (mouse_y / (sh_y / 2.0)) - 1.0;
+
+            shad_mat.mouse_pos = MousePos {
+                x: mx_norm,
+                y: mx_norm,
+            };
+        }
+    } else {
+        return;
+    }
 }

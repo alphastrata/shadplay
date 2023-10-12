@@ -7,7 +7,6 @@ use bevy::{
     utils::Duration,
     window::WindowLevel,
     window::{Window, WindowPlugin, WindowResized},
-    winit::WinitWindows,
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
@@ -19,108 +18,81 @@ use shadplay::{
 };
 
 fn main() {
-    // Get mon max dims because bevy's impls on this are impenetrable //TODO: make a PR to make em nicer
-    // let monitor_specs_res = {
-    //     use winit::{event_loop::EventLoop, window::Window};
+    let mut app = App::new();
 
-    //     let event_loop = EventLoop::new();
-    //     let window = Window::new(&event_loop).unwrap();
-
-    //     let current_monitor: winit::monitor::MonitorHandle = window.current_monitor().unwrap();
-    //     let (w, h) = (current_monitor.size().width, current_monitor.size().height);
-    //     drop(event_loop);
-
-    //     MonitorsSpecs { current: (w, h) }
-    // };
-
-    {
-        let mut app = App::new();
-
-        let shadplay = app
-            .add_state::<AppState>()
-            .add_plugins((DefaultPlugins
-                .set(AssetPlugin {
-                    watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
+    let shadplay = app
+        .add_state::<AppState>()
+        .add_plugins((DefaultPlugins
+            .set(AssetPlugin {
+                watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
+                ..default()
+            })
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    title: "shadplay".into(),
+                    resolution: (720.0, 480.0).into(),
+                    transparent: true,
+                    decorations: false,
+                    #[cfg(target_os = "macos")]
+                    composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
+                    window_level: WindowLevel::AlwaysOnTop,
                     ..default()
-                })
-                .set(WindowPlugin {
-                    primary_window: Some(Window {
-                        title: "shadplay".into(),
-                        resolution: (720.0, 480.0).into(),
-                        transparent: true,
-                        decorations: false,
-                        #[cfg(target_os = "macos")]
-                        composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
-                        window_level: WindowLevel::AlwaysOnTop,
-                        ..default()
-                    }),
-                    ..default()
-                }),))
-            .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
-            .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
-            .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
-            // Resources
-            // .insert_resource(monitor_specs_res)
-            .insert_resource(utils::ShadplayWindowDims::default())
-            .insert_resource(ShapeOptions::default())
-            .insert_resource(TransparencySet(true))
-            .insert_resource(Rotating(false))
-            .add_plugins(PanOrbitCameraPlugin)
-            // 3D
-            .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
-            .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
-            // 2D
-            .add_systems(OnEnter(AppState::TwoD), utils::setup_2d)
-            .add_systems(OnExit(AppState::TwoD), utils::cleanup_2d)
-            // All the time
-            .insert_resource(ClearColor(Color::NONE))
-            .add_systems(PreStartup, utils::init_shapes)
-            // 3d Cam Systems
-            .add_systems(
-                Update,
-                (
-                    utils::rotate
-                        .run_if(resource_equals::<Rotating>(shadplay::utils::Rotating(true))),
-                    utils::switch_shape,
-                    utils::toggle_rotate,
-                )
-                    .run_if(in_state(AppState::ThreeD)),
+                }),
+                ..default()
+            }),))
+        .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
+        .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
+        .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
+        // Resources
+        .insert_resource(MonitorsSpecs::default())
+        .insert_resource(utils::ShadplayWindowDims::default())
+        .insert_resource(ShapeOptions::default())
+        .insert_resource(TransparencySet(true))
+        .insert_resource(Rotating(false))
+        .add_plugins(PanOrbitCameraPlugin)
+        // 3D
+        .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
+        .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
+        // 2D
+        .add_systems(OnEnter(AppState::TwoD), utils::setup_2d)
+        .add_systems(OnExit(AppState::TwoD), utils::cleanup_2d)
+        // All the time
+        .insert_resource(ClearColor(Color::NONE))
+        .add_systems(PreStartup, utils::init_shapes)
+        // 3d Cam Systems
+        .add_systems(
+            Update,
+            (
+                utils::rotate.run_if(resource_equals::<Rotating>(shadplay::utils::Rotating(true))),
+                utils::switch_shape,
+                utils::toggle_rotate,
             )
-            // All the time systems
-            .add_systems(
-                Update,
-                (
-                    // utils::max_mon_res,
-                    shader_utils::update_mouse_pos,
-                    screenshot::screenshot_and_version_shader_on_spacebar,
-                    utils::cam_switch_system,
-                    utils::quit,
-                    utils::switch_level,
-                    utils::toggle_transparency,
-                    utils::toggle_window_passthrough,
-                ),
-            )
-            // 2d Only Sytsems
-            .add_systems(
-                Update,
-                utils::size_quad
-                    .run_if(in_state(AppState::TwoD))
-                    .run_if(on_event::<WindowResized>()),
-            );
+                .run_if(in_state(AppState::ThreeD)),
+        )
+        // All the time systems
+        .add_systems(
+            Update,
+            (
+                utils::max_mon_res,
+                utils::update_mouse_pos,
+                screenshot::screenshot_and_version_shader_on_spacebar,
+                utils::cam_switch_system,
+                utils::quit,
+                utils::switch_level,
+                utils::toggle_transparency,
+                utils::toggle_window_passthrough,
+            ),
+        )
+        // 2d Only Sytsems
+        .add_systems(
+            Update,
+            utils::size_quad
+                .run_if(in_state(AppState::TwoD))
+                .run_if(on_event::<WindowResized>()),
+        );
 
-        #[cfg(feature = "ui")]
-        shadplay.add_plugins(HelpUIPlugin);
+    #[cfg(feature = "ui")]
+    shadplay.add_plugins(HelpUIPlugin);
 
-        shadplay.run();
-    }
-}
-
-// Monitor Maximum Res.
-fn test(window_query: Query<Entity, With<Window>>, winit_windows: NonSend<WinitWindows>) {
-    let entity = window_query.single();
-    if let Some(winit_window) = winit_windows.get_window(entity) {
-        let current_monitor = winit_window.current_monitor().unwrap();
-        let (w, h) = (current_monitor.size().width, current_monitor.size().height);
-        dbg!(w, h);
-    }
+    shadplay.run();
 }
