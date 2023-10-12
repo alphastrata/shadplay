@@ -393,7 +393,7 @@ pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
     mut msd: ResMut<ShadplayWindowDims>,
-    monitors: Res<MonitorsSpecs>,
+    // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
         .get_single()
@@ -434,7 +434,7 @@ pub fn update_mouse_pos(
     shader_hndl: Query<&Handle<YourShader2D>>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
-    mon_spec: Res<MonitorsSpecs>,
+    // mon_spec: Res<MonitorsSpecs>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
     let win = window.single();
@@ -453,26 +453,23 @@ pub fn update_mouse_pos(
     let Some(mouse_xy) = win.physical_cursor_position() else {
         return;
     };
-
-    if let Some(shad_mat) = shader_mat.get_mut(handle) {
-        // Is the mouse on our window?
-        if (*shadplay_win_dims).hittest(mouse_xy) {
+    // Is the mouse on our window?
+    if shadplay_win_dims.hittest(mouse_xy) {
+        if let Some(shad_mat) = shader_mat.get_mut(handle) {
             // Shadplay window's size
             let (sh_x, sh_y) = (*shadplay_win_dims).normalise();
 
-            // full
-            let mon_full_wh = mon_spec.xy();
+            // full monitor width/height
+            // let mon_full_w = mon_spec.xy().x;
+            // let mon_full_h = mon_spec.xy().y;
 
             // current x/y ( full_xy / 2.0 ) -1.0;
-            let mouse_x = mouse_xy.x;
-            let mouse_y = mouse_xy.y;
-
-            let mx_norm = (mouse_x / (sh_x / 2.0)) - 1.0;
-            let my_norm = (mouse_y / (sh_y / 2.0)) - 1.0;
+            let mx_norm = (mouse_xy.x / (sh_x / 2.0)) - 1.0;
+            let my_norm = (mouse_xy.y / (sh_y / 2.0)) - 1.0;
 
             shad_mat.mouse_pos = MousePos {
                 x: mx_norm,
-                y: mx_norm,
+                y: my_norm,
             };
         }
     } else {
