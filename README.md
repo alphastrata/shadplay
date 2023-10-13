@@ -30,7 +30,7 @@ ______________________________________________________________________
 
 ```shell
  screenshots
-└──  01-10-23
+└── &#x1F4C1 01-10-23
     └──  09-23-29
         ├──  screenshot.png // Your screenshot
         └──  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
