@@ -1,11 +1,11 @@
 #define_import_path shadplay::shader_utils::common
 
-const HALF_PI = 1.57079632679;
-const NEG_HALF_PI = -1.57079632679;
+const HALF_PI =         1.57079632679;
+const NEG_HALF_PI =    -1.57079632679;
 const NEG_QUARTER_PI = -0.78539816339;
-const PI:f32  =  3.14159265359;
-const QUARTER_PI = -0.78539816339;
-const TAU:f32 =  6.28318530718;
+const PI:f32  =         3.14159265359;
+const QUARTER_PI =     -0.78539816339;
+const TAU:f32 =         6.28318530718;
 
 
 /// Clockwise by `theta`
@@ -58,8 +58,6 @@ fn sdTorus(p: vec3f, t: vec2f) -> f32 {
     return length(q) - t.y;
 }
 
-
-
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 fn sdHexagon(p: vec2f, r: f32) -> f32 {
     let k = vec3f(-0.866025404, 0.5, 0.577350269);
@@ -109,15 +107,6 @@ fn hextile(p: vec2f) -> vec2f {
 fn hash(x: f32) -> f32 {
     return (fract(sin(x) * 152754.742));
 }
-
-// // 2 in 1 out hash
-// fn hash21(co: vec2f) -> f32 {
-//     // Add a constant
-//     let co: vec2f = co + 1.234;
-//     // Calculate and return the fractal part of a sine function
-//     return fract(sin(dot(co.xy, vec2f(12.9898, 58.233))) * 13758.5453);
-// }
-
 
 /// Signed distance field for a Bezier curve.
 fn sdBezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
