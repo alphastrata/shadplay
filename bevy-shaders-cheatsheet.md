@@ -156,7 +156,7 @@ cca52d9e-2bd4-4fc0-b058-7bd3ddd1aba5
 fd9ec163-e144-478d-a085-702d028f1149
 ```
 
-or, you can use [`quiddy`](https://github.com/alphastrata/quuidy):
+or, you can use [`quuidy`](https://github.com/alphastrata/quuidy):
 
 ```shell
 cargo install quuidy
@@ -214,7 +214,7 @@ ______________________________________________________________________
 smoothstep interpolates between two 'edges', `leftedge`, sometimes called `edge0` and `rightedge`, sometimes called `edge1`, for a given `x`.
 i.e make the shape of the _below_ graph, where all values are clamped between those two edges.
 So if your `x` is \<= to leftedge smoothstep returns you a 0.
-if your `x` is >= to the rightedge, smoothstep retuns you a 1.
+if your `x` is >= to the rightedge, smoothstep returns you a 1.
 
 ![smoothstep](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Smoothstep_and_Smootherstep.svg/220px-Smoothstep_and_Smootherstep.svg.png)
 
@@ -278,4 +278,42 @@ ______________________________________________________________________
 
 # importable
 
-> TODO
+> [_how I came about this knowledge_](https://github.com/bevyengine/naga_oil/issues/60#issuecomment-1748414091)
+
+A few things to note on imports:
+1. There are multiple syntaxes supported (I do not know for how long this will stay the case)
+2. The 'new' way, will throw _`false`_ errors in `wgsl-analyzer`, which if you're not already using--YOU SHOULD BE!
+
+### Example importing:
+
+- In the shader code YOU ARE WRITING:
+> source file: `src/shader_utils/common.wgsl`
+```rust
+#import shadplay::shader_utils::common NEG_HALF_PI, shaderToyDefault, rotate2D
+```
+NOTE: this shader source (i.e the `.wgsl` code you are wanting to be importable), MUST live inside your crate, it cannot live above the `src` directory your `main.rs`/`lib.rs` etc live in.
+- In the shader code that is your library ( the stuff you want to define, and import into the above)
+```rust
+#define_import_path shadplay::shader_utils::common
+```
+_it appears, that you can basically name these whatever you like, the convention observed in the bevy engine's codebase is what I've done above.-
+
+The other way:
+- Say the `common.wgsl` was alongside your shader, in the shadplay repo that may look like this:
+```shell
+/shaders
+├──/common.wgsl      <<< YOUR LIBRARY
+├──/myshader.wgsl    <<< THAT YOU WANT TO IMPORT HERE
+├──/myshader_2d.wgsl <<< THAT YOU WANT TO IMPORT HERE
+```
+The asset-path syntax can be used:
+- In the shader code YOU ARE WRITING:
+> source file: `src/shader_utils/common.wgsl`
+```rust
+import it using asset-path syntax: #import "shaders/common.wgsl"
+```
+- You don't need to do the `#define` shinnenagans in the `common.wgsl`.
+
+- one _may_ prefer this style if you have the `assets/shaders/*.wgsl` layout in your project.
+
+
