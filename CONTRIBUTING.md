@@ -44,7 +44,8 @@ ______________________________________________________________________
 
 # Contributing Shaders
 
-**Note:** If you create a ShaderToy port, make sure to add it to the gallery using the screenshotting functionality. You can take a screenshot of your shader using `SPACEBAR`. This will also version the shader in the `assets/shaders` directory for you.
+**Note:** If you create a ShaderToy port, make sure to add it to the gallery using the screenshotting functionality.
+You can take a screenshot of your shader using <kbd>SPACEBAR</kbd>. This will also version the shader in the `assets/shaders` directory for you.
 
 If you'd like to add your ShaderToy port to the gallery, please follow these steps:
 

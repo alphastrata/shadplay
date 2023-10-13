@@ -24,7 +24,7 @@ ______________________________________________________________________
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor)
-- Screenshot the shader you're working on with <SPACEBAR>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
+- Screenshot the shader you're working on with <kbd>SPACEBAR</kbd>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
 - \[WIP\] Textures, see `assets/shaders/howto-texture.wgsl` (drag and drop is coming...)
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
 
@@ -42,15 +42,15 @@ The app has some simple hotkeys:
 
 | Hotkey   | Action                                                                |
 | -------- | --------------------------------------------------------------------- |
-| q        | Quit                                                                  |
-| s        | Change Shape in 3D                                                    |
-| t        | Switch to 2D/ShaderToy Mode                                           |
-| h        | Switch to 3D                                                          |
-| l        | Window-Level                                                          |
-| d        | Toggle Decorations                                                    |
-| t        | Toggle Transparency (returning to fully transparent is not supported) |
-| r        | Toggle Rotating shape                                                 |
-| spacebar | Takes a screenshot && versions the current `.wgsl`                    |
+| <kbd>q</kbd>| Quit                                                                  |
+| <kbd>s</kbd>| Change Shape in 3D                                                    |
+| <kbd>t</kbd>| Switch to 2D/ShaderToy Mode                                           |
+| <kbd>h</kbd>| Switch to 3D                                                          |
+| <kbd>l</kbd>| Window-Level                                                          |
+| <kbd>d</kbd>| Toggle Decorations                                                    |
+| <kbd>t</kbd>| Toggle Transparency (returning to fully transparent is not supported) |
+| <kbd>r</kbd>| Toggle Rotating shape                                                 |
+| <kbd>spacebar </kbd>| Takes a screenshot && versions the current `.wgsl`                    |
 
 ______________________________________________________________________
 
