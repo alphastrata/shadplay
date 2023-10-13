@@ -12,7 +12,6 @@ use crate::utils::AppState;
 const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wgsl";
 const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 
-
 /// Saves a screenshot && versions the shader (from [`DEFAULT_SHADER`]) that was active when screenshotting.
 /// giving you something like this:
 ///```shell
@@ -30,7 +29,7 @@ pub fn screenshot_and_version_shader_on_spacebar(
 ) {
     if input.just_pressed(KeyCode::Space) {
         let target = PathBuf::from(format!(
-            "screenshots/{}/{}/screeenshot.png",
+            "screenshots/{}/{}/screenshot.png",
             today(),
             timestamper()
         ));
@@ -46,7 +45,6 @@ pub fn screenshot_and_version_shader_on_spacebar(
                     AppState::ThreeD => DEFAULT_SHADER_3D,
                 };
                 version_current_shader(Path::new(shader_path), &target);
-               
             }
         }
     }
