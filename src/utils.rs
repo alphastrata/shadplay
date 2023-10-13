@@ -1,6 +1,7 @@
 use bevy::{
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
+    winit::WinitWindows,
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
@@ -35,13 +36,70 @@ pub struct Cam3D;
 #[derive(Component)]
 pub struct Cam2D;
 
+/// Resource: Holds the current monitor, and a list of the others' [`winit::monitor::MonitorHandle`](s), info, we go outside of bevy to get these,
+/// pre-startup so, they cannot be reasonably updated yet..
+#[derive(Resource, Default, Deref, DerefMut)]
+pub struct MonitorsSpecs {
+    // Index of the current primary monitor (at app startup)
+    pub current: (u32, u32), // max-width, max-height
+}
+impl MonitorsSpecs {
+    pub fn get(&self) -> (f32, f32) {
+        (self.current.0 as f32, self.current.1 as f32)
+    }
+
+    // self.x as f32
+    pub fn x(&self) -> f32 {
+        self.current.0 as f32
+    }
+
+    // self.y as f32
+    pub fn y(&self) -> f32 {
+        self.current.1 as f32
+    }
+
+    // self.xy as Vec2
+    pub fn xy(&self) -> Vec2 {
+        Vec2 {
+            x: self.x(),
+            y: self.y(),
+        }
+    }
+}
+
 /// Resource: Used for toggling on/off the transparency of the app.
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
 
 /// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
-#[derive(Resource, DerefMut, Deref, Default)]
-pub struct MaxScreenDims(pub Vec2);
+#[derive(Resource, DerefMut, Deref, Default, Debug)]
+pub struct ShadplayWindowDims(pub Vec2);
+impl ShadplayWindowDims {
+    // is the mouse 'in' the shadplay window?
+    pub(crate) fn hittest(&self, mouse_in: Vec2) -> bool {
+        std::ops::Range {
+            start: 0.0,
+            end: self.x,
+        }
+        .contains(&mouse_in.x)
+            || std::ops::Range {
+                start: 0.0,
+                end: self.y,
+            }
+            .contains(&mouse_in.y)
+    }
+
+    /// Normalise the width (0) and height (1) on Self, to -0.5, to 0.5
+    pub(crate) fn to_uv(&self, xy: Vec2) -> Vec2 {
+        #[cfg(debug_assertions)] //FIXME:
+        bevy::log::debug!("pre norm: {:?}", self);
+
+        Vec2 {
+            x: xy.x / (self.x / 2.0) - 1.0,
+            y: xy.y / (self.y / 2.0) - 1.0,
+        }
+    }
+}
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
@@ -283,9 +341,8 @@ pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
-    mut msd: ResMut<MaxScreenDims>,
+    mut msd: ResMut<ShadplayWindowDims>,
     asset_server: Res<AssetServer>,
-
     windows: Query<&Window>,
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
@@ -303,12 +360,11 @@ pub fn setup_2d(
         .expect("Should be impossible to NOT get a window");
     let (width, height) = (win.width(), win.height());
 
-    *msd = MaxScreenDims {
-        0: Vec2 {
-            x: width / 2.0,
-            y: height / 2.0,
-        },
-    };
+    *msd = ShadplayWindowDims(Vec2 {
+        x: width / 2.0,
+        y: height / 2.0,
+    });
+
     trace!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
@@ -338,23 +394,86 @@ pub fn setup_2d(
 pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
-    mut msd: ResMut<MaxScreenDims>,
+    mut msd: ResMut<ShadplayWindowDims>,
+    // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
         .get_single()
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
+    // let (max_width, max_height) = possy.get_single()
 
     query.iter_mut().for_each(|mut transform| {
-        *msd = MaxScreenDims {
-            0: Vec2 {
-                x: width,
-                y: height,
-            },
-        };
+        *msd = ShadplayWindowDims(Vec2 {
+            x: width,
+            y: height,
+        });
+
         // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
     });
+}
+
+// Monitor Maximum Res.
+pub fn max_mon_res(
+    window_query: Query<Entity, With<Window>>,
+    winit_windows: NonSend<WinitWindows>,
+    mut mon_specs: ResMut<MonitorsSpecs>,
+) {
+    let entity = window_query.single();
+    if let Some(winit_window) = winit_windows.get_window(entity) {
+        let current_monitor = winit_window.current_monitor().unwrap();
+        let (w, h) = (current_monitor.size().width, current_monitor.size().height);
+        *mon_specs = MonitorsSpecs { current: (w, h) };
+    }
+}
+
+/// Update mouse_pos for the 2D shader
+pub fn update_mouse_pos(
+    shader_hndl: Query<&Handle<YourShader2D>>,
+    window: Query<&Window, With<PrimaryWindow>>,
+    mut shader_mat: ResMut<Assets<YourShader2D>>,
+    // mon_spec: Res<MonitorsSpecs>,
+    shadplay_win_dims: Res<ShadplayWindowDims>,
+) {
+    let win = window.single();
+
+    let Ok(handle) = shader_hndl.get_single() else {
+        return;
+    };
+    let Some(mouse_xy) = win.physical_cursor_position() else {
+        return;
+        // full monitor width/height
+        // let mon_full_w = mon_spec.xy().x;
+        // let mon_full_h = mon_spec.xy().y;
+    };
+
+    // Is the mouse on our window?
+    if shadplay_win_dims.hittest(mouse_xy) {
+        #[cfg(debug_assertions)] //FIXME:
+        bevy::log::debug!("hittest = true");
+
+        if let Some(shad_mat) = shader_mat.get_mut(handle) {
+            // Shadplay window's size
+            #[cfg(debug_assertions)] //FIXME:
+            bevy::log::debug!("mouseIN : {:?}", mouse_xy);
+
+            let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
+            shad_mat.mouse_pos = sh_xy.into();
+
+            #[cfg(debug_assertions)] //FIXME:
+            bevy::log::debug!("mouseOUT:{:?}", shad_mat.mouse_pos);
+        }
+    }
+}
+
+impl From<Vec2> for MousePos {
+    fn from(value: Vec2) -> Self {
+        MousePos {
+            x: value.x,
+            y: value.y,
+        }
+    }
 }

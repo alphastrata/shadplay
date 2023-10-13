@@ -14,7 +14,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 use shadplay::ui::HelpUIPlugin;
 use shadplay::{
     screenshot, shader_utils,
-    utils::{self, AppState, Rotating, ShapeOptions, TransparencySet},
+    utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
 
 fn main() {
@@ -44,7 +44,8 @@ fn main() {
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         // Resources
-        .insert_resource(utils::MaxScreenDims::default())
+        .insert_resource(MonitorsSpecs::default())
+        .insert_resource(utils::ShadplayWindowDims::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
         .insert_resource(Rotating(false))
@@ -72,7 +73,6 @@ fn main() {
         .add_systems(
             Update,
             (
-                shader_utils::update_mouse_pos,
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,
@@ -84,9 +84,13 @@ fn main() {
         // 2d Only Sytsems
         .add_systems(
             Update,
-            utils::size_quad
-                .run_if(in_state(AppState::TwoD))
-                .run_if(on_event::<WindowResized>()),
+            (
+                // utils::max_mon_res, // We're currently not using the maximum resolution of the primary monitor.
+                utils::update_mouse_pos,
+                utils::size_quad
+                    .run_if(in_state(AppState::TwoD))
+                    .run_if(on_event::<WindowResized>()),
+            ),
         );
 
     #[cfg(feature = "ui")]
