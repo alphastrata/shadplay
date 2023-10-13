@@ -107,6 +107,6 @@ ______________________________________________________________________
 - Any shaders in the `assets/shaders` _not_ by the repo's owner contain links to the original work, and obviously their original glsl code is, still theirs.
 - Some of those can be seen below
 
-|                                                                          |                                                                                            |                                                                                |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+|          |            |            |
+| -------------------- | -------------------- | -------------------- |
 | <img src="assets/screenshots/w10/screeenshot.png" alt="w10" width="50%"> | <img src="assets/screenshots/kishimisu-pallete/screeenshot.png" alt="pallete" width="50%"> | <img src="assets/screenshots/lines/screeenshot.png" alt="pallete" width="50%"> |
