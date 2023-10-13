@@ -48,13 +48,13 @@ ______________________________________________________________________
 
 If you'd like to add your ShaderToy port to the gallery, please follow these steps:
 
-0. use `wgsl-analyzer`, especially to format your `wgsl`
-1. Press the <kbd>SPACEBAR</kbd> when your shader is 'complete' (versioning it with a screenshot and the `wgsl` that made it.)
-1. The savepath will print to your terminal (the one you ran shadplay from)
-1. The shader will also be versioned, alongside that screenshot
-1. Rename and move the screenshot to `assets/screenshots/YOURSHOT.png`
-1. Rename and move the versioned shader to `assets/shaders/YOURSHADER.wgsl`
-1. Screenshots should **share the name** of the `wgsl` that creates them
+- use `wgsl-analyzer`, especially to format your `wgsl`
+- Press the <kbd>SPACEBAR</kbd> when your shader is 'complete' (versioning it with a screenshot and the `wgsl` that made it.)
+- The savepath will print to your terminal (the one you ran shadplay from)
+- The shader will also be versioned, alongside that screenshot
+- Rename and move the screenshot to `assets/screenshots/YOURSHOT.png`
+- Rename and move the versioned shader to `assets/shaders/YOURSHADER.wgsl`
+- Screenshots should **share the name** of the `wgsl` that creates them
 
 ______________________________________________________________________
 
