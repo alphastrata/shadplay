@@ -102,7 +102,7 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
-# Shadertoy Ports:
+# Gallery:
 
 - Any shaders in the `assets/shaders` _not_ by the repo's owner contain links to the original work, and obviously their original glsl code is, still theirs.
 - Some of those can be seen below
