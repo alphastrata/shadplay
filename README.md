@@ -25,7 +25,7 @@ ______________________________________________________________________
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it ontop of your editor)
 - Screenshot the shader you're working on with <SPACEBAR>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
-- [WIP] Textures, see `assets/shaders/howto-texture.wgsl` (drag and drop is coming...)
+- \[WIP\] Textures, see `assets/shaders/howto-texture.wgsl` (drag and drop is coming...)
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
 
 ```shell
