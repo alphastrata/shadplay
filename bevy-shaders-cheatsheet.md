@@ -15,7 +15,6 @@ ______________________________________________________________________
 - [get data into your shader from bevy](#get-data-into-your-shader)
 - [smoothstep](#smoothstep)
 - [step](#step)
-- [smoothstep](#smoothstep)
 - [glow](#glow)
 - [glsl syntax differences](#syntax-diffs)
 - [importable from bevy](#importable)
@@ -221,7 +220,7 @@ if your `x` is >= to the rightedge, smoothstep retuns you a 1.
 
 or,
 
-![smoothstep](assets/screenshots/smootstep-concept.png)
+![smoothstep](readme_assets/screenshots/smootstep-concept.png)
 
 or,
 The smoothstep function takes three parameters:
