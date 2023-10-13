@@ -29,11 +29,11 @@ ______________________________________________________________________
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
 
 ```shell
- screenshots
-└── &#x1F4C1 01-10-23
-    └── &#128193 09-23-29
-        ├──  screenshot.png // Your screenshot
-        └──  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
+ screenshots
+└──|  01-10-23
+    └──| 09-23-29
+        ├──|  screenshot.png // Your screenshot
+        └──|  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
 ```
 
 ### Keybindings:
