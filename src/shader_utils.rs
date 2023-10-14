@@ -9,6 +9,8 @@ use bevy::{
     // window::PrimaryWindow,
 };
 
+use crate::drag_n_drop::TexHandleQueue;
+
 pub mod common;
 
 // ************************************ //
@@ -35,10 +37,9 @@ impl Material for YourShader {
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
-    /// Mouse X and Mouse Y
     #[uniform(0)]
     pub(crate) mouse_pos: MousePos,
-    // /// to replicate iChannel
+
     #[texture(1, dimension = "2d")]
     #[sampler(2)]
     pub img: Handle<Image>,
@@ -54,6 +55,19 @@ impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader_2d.wgsl".into()
     }
+}
+
+/// Helper to set/override the current texture on the 2d Shader
+pub(crate) fn set_current_tex(
+    shader_mat: &mut YourShader2D,
+    idx: usize,
+    user_added_textures: &TexHandleQueue,
+) {
+    let Some(new_tex) = user_added_textures.0.get(&idx) else {
+        error!("Expected a texture at idx: {}, but none was found.", idx);
+        return;
+    };
+    shader_mat.img = new_tex.clone(); // Cloning handles is fine.
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
