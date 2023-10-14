@@ -4,6 +4,7 @@ pub mod ui;
 pub mod utils;
 
 pub mod drag_n_drop {
+    use crate::shader_utils::set_current_tex;
     #[allow(unused_imports)] //FIXME: after implementing texture on 3d...
     use crate::shader_utils::{YourShader, YourShader2D};
     use bevy::input::keyboard::KeyboardInput;
@@ -85,16 +86,16 @@ pub mod drag_n_drop {
                     ButtonState::Pressed => {
                         match ev.key_code {
                             Some(v) => match v {
-                                KeyCode::Key1 => shad_mat.set_current_tex(1),
-                                KeyCode::Key2 => shad_mat.set_current_tex(2),
-                                KeyCode::Key3 => shad_mat.set_current_tex(3),
-                                KeyCode::Key4 => shad_mat.set_current_tex(4),
-                                KeyCode::Key5 => shad_mat.set_current_tex(5),
-                                KeyCode::Key6 => shad_mat.set_current_tex(6),
-                                KeyCode::Key7 => shad_mat.set_current_tex(7),
-                                KeyCode::Key8 => shad_mat.set_current_tex(8),
-                                KeyCode::Key9 => shad_mat.set_current_tex(9),
-                                KeyCode::Key0 => shad_mat.set_current_tex(0),
+                                KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
+                                KeyCode::Key2 => set_current_tex(shad_mat, 2, &user_textures),
+                                KeyCode::Key3 => set_current_tex(shad_mat, 3, &user_textures),
+                                KeyCode::Key4 => set_current_tex(shad_mat, 4, &user_textures),
+                                KeyCode::Key5 => set_current_tex(shad_mat, 5, &user_textures),
+                                KeyCode::Key6 => set_current_tex(shad_mat, 6, &user_textures),
+                                KeyCode::Key7 => set_current_tex(shad_mat, 7, &user_textures),
+                                KeyCode::Key8 => set_current_tex(shad_mat, 8, &user_textures),
+                                KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
+                                KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
                                 _ => return,
                             },
                             _ => return,
