@@ -71,7 +71,6 @@ pub fn add_and_set_dropped_file(
                     }
                 } else {
                     error!("Unable to get a handle to the 3d shader");
-                    return;
                 }
             }
         }
