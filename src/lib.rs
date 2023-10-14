@@ -19,8 +19,8 @@ pub mod drag_n_drop {
     pub struct TexHandleQueue(pub HashMap<usize, Handle<Image>>);
 
     /// Event: used to store user defined textures that we allow them to drop onto the window.
-    /// TX:
-    /// RX:
+    /// TX: [`file_drag_and_drop_listener`] system.
+    /// RX: [swap_tex_to_idx] system.
     #[derive(Event, Deref, DerefMut, Clone, Debug)]
     pub struct UserAddedTexture(PathBuf);
 
@@ -33,12 +33,10 @@ pub mod drag_n_drop {
         mut events: EventReader<FileDragAndDrop>,
         mut texture_tx: EventWriter<UserAddedTexture>,
     ) {
-        events.into_iter().for_each(|event| match event {
-            FileDragAndDrop::DroppedFile { path_buf, .. } => {
+        events.into_iter().for_each(|event| {
+            if let FileDragAndDrop::DroppedFile { path_buf, .. } = event {
                 texture_tx.send(UserAddedTexture(path_buf.clone()));
-                debug!("TX: {:?}", event);
             }
-            _ => {}
         });
     }
 
@@ -54,56 +52,51 @@ pub mod drag_n_drop {
                     .extension()
                     .is_some_and(|x| x.to_string_lossy().contains(fmt))
             }) {
-                debug!("RX: {:?}", tex_path.display());
-            } else {
-                //FIXME: remove this branch entirely, we won't need it.
-                debug!("ANY FAIL ON: {:?}", tex_path.display());
+                let texture: Handle<Image> = asset_server.load(tex_path.as_path());
+
+                let new_idx = handle_queue.keys().count(); // TODO: make the default texture at 0
+                handle_queue.insert(new_idx, texture);
+
+                #[cfg(debug_assertions)]
+                debug!("New Tex @ IDX:{}", new_idx);
             };
-            let texture: Handle<Image> = asset_server.load(tex_path.as_path());
-
-            let new_idx = handle_queue.keys().count(); // TODO: make the default texture at 0
-            handle_queue.insert(new_idx, texture);
-
-            debug!("New Tex @{}", new_idx);
         });
     }
 
     /// System: using the keys 0-9, swap the current texture to that idx.
-    pub fn swap_tex_to_idx_2d(
+    pub fn swap_tex_to_idx(
         mut key_evr: EventReader<KeyboardInput>,
         shader_hndl: Query<&Handle<YourShader2D>>,
         mut shader_mat: ResMut<Assets<YourShader2D>>,
         user_textures: Res<TexHandleQueue>,
-        // mut shader_mat_3d: ResMut<Assets<YourShader>>, // FIXME: Support this.
+        // mut shader_mat_3d: ResMut<Assets<YourShader>>, // FIXME: Support this do a 3d one? or just use this... idkrn
     ) {
         let Ok(handle) = shader_hndl.get_single() else {
             return;
         };
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-            for ev in key_evr.iter() {
-                match ev.state {
-                    ButtonState::Pressed => {
-                        debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);
-                        match ev.key_code {
-                            Some(v) => match v {
-                                KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
-                                KeyCode::Key2 => set_current_tex(shad_mat, 2, &user_textures),
-                                KeyCode::Key3 => set_current_tex(shad_mat, 3, &user_textures),
-                                KeyCode::Key4 => set_current_tex(shad_mat, 4, &user_textures),
-                                KeyCode::Key5 => set_current_tex(shad_mat, 5, &user_textures),
-                                KeyCode::Key6 => set_current_tex(shad_mat, 6, &user_textures),
-                                KeyCode::Key7 => set_current_tex(shad_mat, 7, &user_textures),
-                                KeyCode::Key8 => set_current_tex(shad_mat, 8, &user_textures),
-                                KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
-                                KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
-                                _ => return,
-                            },
+            key_evr.iter().for_each(|ev| match ev.state {
+                ButtonState::Pressed => {
+                    debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);
+                    match ev.key_code {
+                        Some(v) => match v {
+                            KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
+                            KeyCode::Key2 => set_current_tex(shad_mat, 2, &user_textures),
+                            KeyCode::Key3 => set_current_tex(shad_mat, 3, &user_textures),
+                            KeyCode::Key4 => set_current_tex(shad_mat, 4, &user_textures),
+                            KeyCode::Key5 => set_current_tex(shad_mat, 5, &user_textures),
+                            KeyCode::Key6 => set_current_tex(shad_mat, 6, &user_textures),
+                            KeyCode::Key7 => set_current_tex(shad_mat, 7, &user_textures),
+                            KeyCode::Key8 => set_current_tex(shad_mat, 8, &user_textures),
+                            KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
+                            KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
                             _ => return,
-                        };
-                    }
-                    _ => return,
+                        },
+                        _ => return,
+                    };
                 }
-            }
+                _ => return,
+            });
         }
     }
 }
