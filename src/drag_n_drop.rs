@@ -1,5 +1,6 @@
 use crate::shader_utils::YourShader;
 use crate::shader_utils::YourShader2D;
+use crate::texture_tooling::SetNewTexture;
 use bevy::input::keyboard::KeyboardInput;
 use bevy::input::ButtonState;
 use bevy::prelude::*;
@@ -54,7 +55,7 @@ pub fn add_and_set_dropped_file(
 
             if let Ok(handle) = shader_hndl.get_single() {
                 if let Some(shad_mat) = shader_mat.get_mut(handle) {
-                    set_current_tex(shad_mat, new_idx, &tex_handles);
+                    YourShader2D::set_current_tex(shad_mat, new_idx, &tex_handles);
 
                     #[cfg(debug_assertions)]
                     debug!("New Tex @ IDX:{}", new_idx);
@@ -64,40 +65,4 @@ pub fn add_and_set_dropped_file(
             };
         };
     });
-}
-
-/// System: using the keys 0-9, swap the current texture to that idx.
-pub fn swap_tex_to_idx(
-    mut key_evr: EventReader<KeyboardInput>,
-    shader_hndl: Query<&Handle<YourShader2D>>,
-    mut shader_mat2d: ResMut<Assets<YourShader2D>>,
-    user_textures: Res<TexHandleQueue>,
-    mut shader_mat_3d: ResMut<Assets<YourShader>>, // FIXME: Support this do a 3d one? or just use this... idkrn
-) {
-    let Ok(handle) = shader_hndl.get_single() else {
-        error!("TODO!");
-    };
-
-    if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
-        key_evr.iter().for_each(|ev| {
-            if let ButtonState::Pressed = ev.state {
-                debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);
-                if let Some(v) = ev.key_code {
-                    match v {
-                        KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
-                        KeyCode::Key2 => set_current_tex(shad_mat, 2, &user_textures),
-                        KeyCode::Key3 => set_current_tex(shad_mat, 3, &user_textures),
-                        KeyCode::Key4 => set_current_tex(shad_mat, 4, &user_textures),
-                        KeyCode::Key5 => set_current_tex(shad_mat, 5, &user_textures),
-                        KeyCode::Key6 => set_current_tex(shad_mat, 6, &user_textures),
-                        KeyCode::Key7 => set_current_tex(shad_mat, 7, &user_textures),
-                        KeyCode::Key8 => set_current_tex(shad_mat, 8, &user_textures),
-                        KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
-                        KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
-                        _ => (),
-                    }
-                }
-            }
-        });
-    }
 }
