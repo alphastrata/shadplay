@@ -5,7 +5,10 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::shader_utils::{MousePos, YourShader, YourShader2D};
+use crate::{
+    drag_n_drop::TexHandleQueue,
+    shader_utils::{MousePos, YourShader, YourShader2D},
+};
 
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
@@ -337,15 +340,20 @@ pub fn cam_switch_system(
 }
 
 /// System: initialises 2d Camera. Called on entry of [`AppState::TwoD`]
+/// NOTE: this also initialises the [`TexHandleQueue`], the default texture is bound to 0 by this system on startup.
 pub fn setup_2d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut your_shader: ResMut<Assets<YourShader2D>>,
     mut msd: ResMut<ShadplayWindowDims>,
+    mut user_textures: ResMut<TexHandleQueue>,
     asset_server: Res<AssetServer>,
     windows: Query<&Window>,
 ) {
+    //FIXME:
+    // TODO: hoist this into its own startup initialiser.
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
+    user_textures.insert(0, texture.clone());
 
     // 2D camera
     commands.spawn((

@@ -14,7 +14,8 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 use shadplay::ui::HelpUIPlugin;
 use shadplay::{
     drag_n_drop::{
-        add_dropped_file, file_drag_and_drop_listener, TexHandleQueue, UserAddedTexture,
+        add_dropped_file, file_drag_and_drop_listener, swap_tex_to_idx_2d, TexHandleQueue,
+        UserAddedTexture,
     },
     screenshot, shader_utils,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
@@ -80,7 +81,8 @@ fn main() {
             Update,
             (
                 file_drag_and_drop_listener,
-                add_dropped_file, //.run_if(on_event::<UserAddedTexture>()),
+                add_dropped_file.run_if(on_event::<UserAddedTexture>()),
+                swap_tex_to_idx_2d, //.run_if(resource_changed::<TexHandleQueue>()), //FIXME:
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,

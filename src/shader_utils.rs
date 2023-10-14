@@ -58,7 +58,7 @@ impl Material2d for YourShader2D {
 }
 
 /// Helper to set/override the current texture on the 2d Shader
-pub fn set_current_tex(
+pub(crate) fn set_current_tex(
     shader_mat: &mut YourShader2D,
     idx: usize,
     user_added_textures: &TexHandleQueue,

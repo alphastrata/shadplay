@@ -61,9 +61,9 @@ pub mod drag_n_drop {
             };
             let texture: Handle<Image> = asset_server.load(tex_path.as_path());
 
-            let new_idx = handle_queue.keys().count();
-            //TODO: log
+            let new_idx = handle_queue.keys().count(); // TODO: make the default texture at 0
             handle_queue.insert(new_idx, texture);
+
             debug!("New Tex @{}", new_idx);
         });
     }
@@ -81,9 +81,9 @@ pub mod drag_n_drop {
         };
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
             for ev in key_evr.iter() {
-                // debug!("{} pressed, moving to that Tex idx.", keynum);
                 match ev.state {
                     ButtonState::Pressed => {
+                        debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);
                         match ev.key_code {
                             Some(v) => match v {
                                 KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
