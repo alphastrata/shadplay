@@ -94,9 +94,6 @@ impl ShadplayWindowDims {
 
     /// Normalise the width (0) and height (1) on Self, to -0.5, to 0.5
     pub(crate) fn to_uv(&self, xy: Vec2) -> Vec2 {
-        #[cfg(debug_assertions)] //FIXME:
-        bevy::log::debug!("pre norm: {:?}", self);
-
         Vec2 {
             x: xy.x / (self.x / 2.0) - 1.0,
             y: xy.y / (self.y / 2.0) - 1.0,
@@ -390,7 +387,7 @@ pub fn setup_2d(
             }),
 
             transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
-            // .with_rotation(Quat::from_rotation_x(180.0)),
+            // .with_rotation(Quat::from_rotation_x(180.0)), //FIXME to avoid the rotate2D call in all shaders..
             ..default()
         },
         BillBoardQuad,
@@ -410,7 +407,6 @@ pub fn size_quad(
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
-    // let (max_width, max_height) = possy.get_single()
 
     query.iter_mut().for_each(|mut transform| {
         *msd = ShadplayWindowDims(Vec2 {
@@ -418,7 +414,6 @@ pub fn size_quad(
             y: height,
         });
 
-        // transform.translation = Vec3::new(0.0, 0.0, 0.0);
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
         trace!("Window Resized, resizing quad");
     });
@@ -453,26 +448,13 @@ pub fn update_mouse_pos(
     };
     let Some(mouse_xy) = win.physical_cursor_position() else {
         return;
-        // full monitor width/height
-        // let mon_full_w = mon_spec.xy().x;
-        // let mon_full_h = mon_spec.xy().y;
     };
 
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy) {
-        #[cfg(debug_assertions)] //FIXME:
-        bevy::log::debug!("hittest = true");
-
         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-            // Shadplay window's size
-            #[cfg(debug_assertions)] //FIXME:
-            bevy::log::debug!("mouseIN : {:?}", mouse_xy);
-
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
-
-            #[cfg(debug_assertions)] //FIXME:
-            bevy::log::debug!("mouseOUT:{:?}", shad_mat.mouse_pos);
         }
     }
 }

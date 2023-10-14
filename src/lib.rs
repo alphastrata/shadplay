@@ -5,8 +5,7 @@ pub mod utils;
 
 pub mod drag_n_drop {
     use crate::shader_utils::set_current_tex;
-    #[allow(unused_imports)] //FIXME: after implementing texture on 3d...
-    use crate::shader_utils::{YourShader, YourShader2D};
+    use crate::shader_utils::YourShader2D;
     use bevy::input::keyboard::KeyboardInput;
     use bevy::input::ButtonState;
     use bevy::prelude::*;
