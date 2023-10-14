@@ -1,5 +1,6 @@
 #[cfg(target_os = "macos")]
 use bevy::window::CompositeAlphaMode;
+
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
@@ -12,6 +13,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 #[cfg(feature = "ui")]
 use shadplay::ui::HelpUIPlugin;
+
 use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
     screenshot, shader_utils, texture_tooling,
@@ -78,6 +80,10 @@ fn main() {
         .add_systems(
             Update,
             (
+                // DEBUG:
+                // #[cfg(debug_assertions)]
+                // drag_n_drop::debug_tex_keys,
+                //
                 drag_n_drop::file_drag_and_drop_listener,
                 drag_n_drop::add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
                 screenshot::screenshot_and_version_shader_on_spacebar,

@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::shader_utils::YourShader2D;
+use crate::shader_utils::{YourShader, YourShader2D};
 use crate::texture_tooling::SetNewTexture;
 
 /// Resource: Representing the index (the default texture will be at 0), and a Texture handle that we can pass to a shader
@@ -34,11 +34,12 @@ pub fn file_drag_and_drop_listener(
 /// System: Add the user's dropped file to our available textures, set that texture to the current one (because that's what I'd expect!)
 pub fn add_and_set_dropped_file(
     asset_server: Res<AssetServer>,
+    mut shader_mat_3d: ResMut<Assets<YourShader>>,
+    mut shader_mat_2d: ResMut<Assets<YourShader2D>>,
+    shader_hndl_2d: Query<&Handle<YourShader2D>>,
+    shader_hndl_3d: Query<&Handle<YourShader>>,
     mut tex_handles: ResMut<TexHandleQueue>,
-    // TODO: 3d -- both need to be handled in this impl.
-    mut shader_mat: ResMut<Assets<YourShader2D>>,
     mut user_textures: EventReader<UserAddedTexture>,
-    shader_hndl: Query<&Handle<YourShader2D>>,
 ) {
     user_textures.into_iter().for_each(|tex_path| {
         if AVAILABLE_TEX_FORMATS.iter().any(|fmt| {
@@ -48,19 +49,36 @@ pub fn add_and_set_dropped_file(
         }) {
             let texture: Handle<Image> = asset_server.load(tex_path.as_path());
 
-            let new_idx = tex_handles.keys().count() + 1; // Because comp sci counting.
+            let new_idx = tex_handles.keys().count(); // Because comp sci counting.
             tex_handles.insert(new_idx, texture);
 
-            if let Ok(handle) = shader_hndl.get_single() {
-                if let Some(shad_mat) = shader_mat.get_mut(handle) {
+            if let Ok(handle) = shader_hndl_2d.get_single() {
+                if let Some(shad_mat) = shader_mat_2d.get_mut(handle) {
                     YourShader2D::set_current_tex(shad_mat, new_idx, &tex_handles);
 
                     #[cfg(debug_assertions)]
                     debug!("New Tex @ IDX:{}", new_idx);
                 }
             } else {
-                error!("Unable to get handle to the currently active shader!");
-            };
-        };
+                error!("Unable to get a handle to the 2D shader, trying 3D.");
+
+                if let Ok(handle) = shader_hndl_3d.get_single() {
+                    if let Some(shad_mat) = shader_mat_3d.get_mut(handle) {
+                        YourShader::set_current_tex(shad_mat, new_idx, &tex_handles);
+
+                        #[cfg(debug_assertions)]
+                        debug!("New Tex @ IDX:{}", new_idx);
+                    }
+                } else {
+                    error!("Unable to get a handle to the 3d shader");
+                    return;
+                }
+            }
+        }
     });
+}
+
+#[cfg(debug_assertions)]
+pub fn debug_tex_keys(tex_handles: Res<TexHandleQueue>) {
+    debug!("Num Textures: {}", tex_handles.len());
 }
