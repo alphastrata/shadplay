@@ -1,4 +1,4 @@
-use crate::shader_utils::set_current_tex;
+use crate::shader_utils::YourShader;
 use crate::shader_utils::YourShader2D;
 use bevy::input::keyboard::KeyboardInput;
 use bevy::input::ButtonState;
@@ -70,14 +70,15 @@ pub fn add_and_set_dropped_file(
 pub fn swap_tex_to_idx(
     mut key_evr: EventReader<KeyboardInput>,
     shader_hndl: Query<&Handle<YourShader2D>>,
-    mut shader_mat: ResMut<Assets<YourShader2D>>,
+    mut shader_mat2d: ResMut<Assets<YourShader2D>>,
     user_textures: Res<TexHandleQueue>,
-    // mut shader_mat_3d: ResMut<Assets<YourShader>>, // FIXME: Support this do a 3d one? or just use this... idkrn
+    mut shader_mat_3d: ResMut<Assets<YourShader>>, // FIXME: Support this do a 3d one? or just use this... idkrn
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        return;
+        error!("TODO!");
     };
-    if let Some(shad_mat) = shader_mat.get_mut(handle) {
+
+    if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
         key_evr.iter().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);

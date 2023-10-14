@@ -1,5 +1,6 @@
 #[cfg(target_os = "macos")]
 use bevy::window::CompositeAlphaMode;
+
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
@@ -13,10 +14,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 #[cfg(feature = "ui")]
 use shadplay::ui::HelpUIPlugin;
 use shadplay::{
-    drag_n_drop::{
-        add_and_set_dropped_file, file_drag_and_drop_listener, swap_tex_to_idx, TexHandleQueue,
-        UserAddedTexture,
-    },
+    drag_n_drop::{TexHandleQueue, UserAddedTexture},
     screenshot, shader_utils,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
@@ -26,24 +24,28 @@ fn main() {
 
     let shadplay = app
         .add_state::<AppState>()
-        .add_plugins((DefaultPlugins
-            .set(AssetPlugin {
-                watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
-                ..default()
-            })
-            .set(WindowPlugin {
-                primary_window: Some(Window {
-                    title: "shadplay".into(),
-                    resolution: (720.0, 480.0).into(),
-                    transparent: true,
-                    decorations: false,
-                    #[cfg(target_os = "macos")]
-                    composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
-                    window_level: WindowLevel::AlwaysOnTop,
+        .add_plugins((
+            DefaultPlugins
+                .set(AssetPlugin {
+                    watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
+                    ..default()
+                })
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "shadplay".into(),
+                        resolution: (720.0, 480.0).into(),
+                        transparent: true,
+                        #[cfg(not(target_os = "macos"))]
+                        decorations: false,
+                        #[cfg(target_os = "macos")]
+                        composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
+                        window_level: WindowLevel::Normal, // I'd like to start always on top, but it's not supported on all platforms.
+                        ..default()
+                    }),
                     ..default()
                 }),
-                ..default()
-            }),))
+            //
+        ))
         .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())

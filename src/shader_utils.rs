@@ -6,10 +6,7 @@ use bevy::{
     reflect::{TypePath, TypeUuid},
     render::render_resource::*,
     sprite::Material2d,
-    // window::PrimaryWindow,
 };
-
-use crate::drag_n_drop::TexHandleQueue;
 
 pub mod common;
 
@@ -22,6 +19,10 @@ pub mod common;
 pub struct YourShader {
     #[uniform(0)]
     pub color: Color, //RGBA
+
+    #[texture(1, dimension = "2d")]
+    #[sampler(2)]
+    pub img: Handle<Image>,
 }
 // 3d impl
 impl Material for YourShader {
@@ -55,19 +56,6 @@ impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader_2d.wgsl".into()
     }
-}
-
-/// Helper to set/override the current texture on the 2d Shader
-pub(crate) fn set_current_tex(
-    shader_mat: &mut YourShader2D,
-    idx: usize,
-    user_added_textures: &TexHandleQueue,
-) {
-    let Some(new_tex) = user_added_textures.0.get(&idx) else {
-        error!("Expected a texture at idx: {}, but none was found.", idx);
-        return;
-    };
-    shader_mat.img = new_tex.clone(); // Cloning handles is fine.
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
