@@ -225,7 +225,12 @@ pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,
     mut shape_options: ResMut<ShapeOptions>,
+    mut user_textures: ResMut<TexHandleQueue>,
+    asset_server: Res<AssetServer>,
 ) {
+    let texture: Handle<Image> = asset_server.load("textures/space.jpg");
+    user_textures.insert(0, texture.clone());
+
     shape_options.0.push((
         false,
         (
@@ -241,6 +246,7 @@ pub fn init_shapes(
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
+                    img: texture.clone(),
                 }),
                 ..default()
             },
@@ -256,6 +262,7 @@ pub fn init_shapes(
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
+                    img: texture.clone(),
                 }),
                 ..default()
             },
@@ -278,6 +285,7 @@ pub fn init_shapes(
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
+                    img: texture.clone(),
                 }),
                 ..default()
             },

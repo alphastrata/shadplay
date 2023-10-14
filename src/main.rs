@@ -1,5 +1,6 @@
 #[cfg(target_os = "macos")]
 use bevy::window::CompositeAlphaMode;
+
 use bevy::{
     asset::ChangeWatcher,
     prelude::*,
@@ -12,12 +13,10 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 #[cfg(feature = "ui")]
 use shadplay::ui::HelpUIPlugin;
+
 use shadplay::{
-    drag_n_drop::{
-        add_dropped_file, file_drag_and_drop_listener, swap_tex_to_idx, TexHandleQueue,
-        UserAddedTexture,
-    },
-    screenshot, shader_utils,
+    drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
+    screenshot, shader_utils, texture_tooling,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
 
@@ -72,6 +71,7 @@ fn main() {
             (
                 utils::rotate.run_if(resource_equals::<Rotating>(shadplay::utils::Rotating(true))),
                 utils::switch_shape,
+                texture_tooling::swap_3d_tex_from_idx,
                 utils::toggle_rotate,
             )
                 .run_if(in_state(AppState::ThreeD)),
@@ -80,9 +80,12 @@ fn main() {
         .add_systems(
             Update,
             (
-                file_drag_and_drop_listener,
-                add_dropped_file.run_if(on_event::<UserAddedTexture>()),
-                swap_tex_to_idx, //.run_if(resource_changed::<TexHandleQueue>()), //FIXME:
+                // DEBUG:
+                // #[cfg(debug_assertions)]
+                // drag_n_drop::debug_tex_keys,
+                //
+                drag_n_drop::file_drag_and_drop_listener,
+                drag_n_drop::add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,
@@ -97,6 +100,7 @@ fn main() {
             (
                 // utils::max_mon_res, // We're currently not using the maximum resolution of the primary monitor.
                 utils::update_mouse_pos,
+                texture_tooling::swap_2d_tex_from_idx,
                 utils::size_quad
                     .run_if(in_state(AppState::TwoD))
                     .run_if(on_event::<WindowResized>()),
