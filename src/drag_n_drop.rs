@@ -78,11 +78,11 @@ pub fn swap_tex_to_idx(
         return;
     };
     if let Some(shad_mat) = shader_mat.get_mut(handle) {
-        key_evr.iter().for_each(|ev| match ev.state {
-            ButtonState::Pressed => {
+        key_evr.iter().for_each(|ev| {
+            if let ButtonState::Pressed = ev.state {
                 debug!("{:?} pressed, moving to that Tex idx.", ev.key_code);
-                match ev.key_code {
-                    Some(v) => match v {
+                if let Some(v) = ev.key_code {
+                    match v {
                         KeyCode::Key1 => set_current_tex(shad_mat, 1, &user_textures),
                         KeyCode::Key2 => set_current_tex(shad_mat, 2, &user_textures),
                         KeyCode::Key3 => set_current_tex(shad_mat, 3, &user_textures),
@@ -94,11 +94,9 @@ pub fn swap_tex_to_idx(
                         KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
                         KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
                         _ => (),
-                    },
-                    _ => (),
+                    }
                 }
             }
-            _ => (),
         });
     }
 }
