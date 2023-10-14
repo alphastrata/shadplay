@@ -89,12 +89,12 @@ pub mod drag_n_drop {
                             KeyCode::Key8 => set_current_tex(shad_mat, 8, &user_textures),
                             KeyCode::Key9 => set_current_tex(shad_mat, 9, &user_textures),
                             KeyCode::Key0 => set_current_tex(shad_mat, 0, &user_textures),
-                            _ => return,
+                            _ => (),
                         },
-                        _ => return,
-                    };
+                        _ => (),
+                    }
                 }
-                _ => return,
+                _ => (),
             });
         }
     }
