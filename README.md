@@ -40,17 +40,17 @@ ______________________________________________________________________
 
 The app has some simple hotkeys:
 
-| Hotkey   | Action                                                                |
-| -------- | --------------------------------------------------------------------- |
-| <kbd>q</kbd>| Quit                                                                  |
-| <kbd>s</kbd>| Change Shape in 3D                                                    |
-| <kbd>t</kbd>| Switch to 2D/ShaderToy Mode                                           |
-| <kbd>h</kbd>| Switch to 3D                                                          |
-| <kbd>l</kbd>| Window-Level                                                          |
-| <kbd>d</kbd>| Toggle Decorations                                                    |
-| <kbd>t</kbd>| Toggle Transparency (returning to fully transparent is not supported) |
-| <kbd>r</kbd>| Toggle Rotating shape                                                 |
-| <kbd>spacebar </kbd>| Takes a screenshot && versions the current `.wgsl`                    |
+| Hotkey               | Action                                                                |
+| -------------------- | --------------------------------------------------------------------- |
+| <kbd>q</kbd>         | Quit                                                                  |
+| <kbd>s</kbd>         | Change Shape in 3D                                                    |
+| <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                           |
+| <kbd>h</kbd>         | Switch to 3D                                                          |
+| <kbd>l</kbd>         | Window-Level                                                          |
+| <kbd>d</kbd>         | Toggle Decorations                                                    |
+| <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported) |
+| <kbd>r</kbd>         | Toggle Rotating shape                                                 |
+| <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                    |
 
 ______________________________________________________________________
 
@@ -105,6 +105,17 @@ ______________________________________________________________________
 - Any shaders in the `assets/shaders` _not_ by the repo's owner contain links to the original work, and obviously their original glsl code is, still theirs.
 - Some of those can be seen below
 
-|                                                                          |                                                                                            |                                                                                |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| <img src="assets/screenshots/w10/screenshot.png" alt="w10" width="50%"> | <img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="palette" width="50%"> | <img src="assets/screenshots/lines/screenshot.png" alt="palette" width="50%"> |
+<table>
+  <tr>
+    <td><img src="assets/screenshots/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%"></td>
+    <td><img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/lines/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/smoothstep-colouring-a-2dCircle/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+</table>

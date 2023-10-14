@@ -1,6 +1,6 @@
 #### fragment
 
-![photo](screeenshot.png)
+![photo](screenshot.png)
 
 ```rust
 @fragment
@@ -10,7 +10,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var col = vec3f(0.0);
     let x = uv.x;
 
-    var y = clamp(x, 0.0, 1.0);
+    var y = floor(x);
     col = vec3f(y);
 
 
@@ -33,6 +33,6 @@ fn plot(st: vec2f, pct: f32) -> f32 {
 
 ### Summary
 
-#### y = clamp(x, 0.0, 1.0);
+#### y = floor(x);
 
-Constrain x to lie between 0.0 and 1.0
+Return the nearest integer less than or equal to x

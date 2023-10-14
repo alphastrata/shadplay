@@ -1,6 +1,6 @@
 #### fragment
 
-![photo](screeenshot.png)
+![photo](screenshot.png)
 
 ```rust
 @fragment

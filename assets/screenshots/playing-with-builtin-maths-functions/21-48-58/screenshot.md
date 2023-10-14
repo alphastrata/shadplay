@@ -1,6 +1,6 @@
 #### fragment
 
-![photo](screeenshot.png)
+![photo](screenshot.png)
 
 ```rust
 @fragment
@@ -10,7 +10,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var col = vec3f(0.0);
     let x = uv.x;
 
-    var y = fract(x);
+    var y = sign(x);
     col = vec3f(y);
 
 
@@ -33,6 +33,6 @@ fn plot(st: vec2f, pct: f32) -> f32 {
 
 ### Summary
 
-#### y = fract(x);
+#### y = sign(x);
 
-Return only the fraction part of a number
+Extract the sign of x
