@@ -9,13 +9,13 @@ A secondary goal is to flesh out a relatively comprehensive 'port' of existing c
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
-______________________________________________________________________
+---
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
-______________________________________________________________________
+---
 
 ## Features
 
@@ -40,19 +40,19 @@ ______________________________________________________________________
 
 The app has some simple hotkeys:
 
-| Hotkey   | Action                                                                |
-| -------- | --------------------------------------------------------------------- |
-| <kbd>q</kbd>| Quit                                                                  |
-| <kbd>s</kbd>| Change Shape in 3D                                                    |
-| <kbd>t</kbd>| Switch to 2D/ShaderToy Mode                                           |
-| <kbd>h</kbd>| Switch to 3D                                                          |
-| <kbd>l</kbd>| Window-Level                                                          |
-| <kbd>d</kbd>| Toggle Decorations                                                    |
-| <kbd>t</kbd>| Toggle Transparency (returning to fully transparent is not supported) |
-| <kbd>r</kbd>| Toggle Rotating shape                                                 |
-| <kbd>spacebar </kbd>| Takes a screenshot && versions the current `.wgsl`                    |
+| Hotkey               | Action                                                                |
+| -------------------- | --------------------------------------------------------------------- |
+| <kbd>q</kbd>         | Quit                                                                  |
+| <kbd>s</kbd>         | Change Shape in 3D                                                    |
+| <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                           |
+| <kbd>h</kbd>         | Switch to 3D                                                          |
+| <kbd>l</kbd>         | Window-Level                                                          |
+| <kbd>d</kbd>         | Toggle Decorations                                                    |
+| <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported) |
+| <kbd>r</kbd>         | Toggle Rotating shape                                                 |
+| <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                    |
 
-______________________________________________________________________
+---
 
 To run shadplay, you'll need the following:
 
@@ -69,13 +69,13 @@ To run shadplay, you'll need the following:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
 
-______________________________________________________________________
+---
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
-______________________________________________________________________
+---
 
 ## TODO:
 
@@ -89,7 +89,7 @@ ______________________________________________________________________
 - \[\] hotkey menu display
 - \[\] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
 
-______________________________________________________________________
+---
 
 ## Resources:
 
@@ -98,7 +98,7 @@ ______________________________________________________________________
 - [Shaded by embark](https://github.com/EmbarkStudios/shaded)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
-______________________________________________________________________
+---
 
 # Gallery:
 
@@ -112,10 +112,10 @@ ______________________________________________________________________
   </tr>
   <tr>
     <td><img src="assets/screenshots/lines/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/smoothstep-colouring-a-2dCircle/screeenshot.png" alt="screeenshot" width="50%"></td>
+    <td><img src="assets/screenshots/smoothstep-colouring-a-2dCircle/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/using-textures/screeenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
     <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
