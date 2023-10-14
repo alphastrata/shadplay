@@ -1,9 +1,9 @@
-use crate::shader_utils::YourShader2D;
-use crate::texture_tooling::SetNewTexture;
 use bevy::prelude::*;
-
 use std::collections::HashMap;
 use std::path::PathBuf;
+
+use crate::shader_utils::YourShader2D;
+use crate::texture_tooling::SetNewTexture;
 
 /// Resource: Representing the index (the default texture will be at 0), and a Texture handle that we can pass to a shader
 #[derive(Default, Resource, Deref, DerefMut, Clone, Debug)]
@@ -27,9 +27,6 @@ pub fn file_drag_and_drop_listener(
     events.into_iter().for_each(|event| {
         if let FileDragAndDrop::DroppedFile { path_buf, .. } = event {
             texture_tx.send(UserAddedTexture(path_buf.clone()));
-
-            #[cfg(debug_assertions)]
-            debug!("TX: {}", path_buf.display());
         }
     });
 }
@@ -37,8 +34,9 @@ pub fn file_drag_and_drop_listener(
 /// System: Add the user's dropped file to our available textures, set that texture to the current one (because that's what I'd expect!)
 pub fn add_and_set_dropped_file(
     asset_server: Res<AssetServer>,
-    mut shader_mat: ResMut<Assets<YourShader2D>>,
     mut tex_handles: ResMut<TexHandleQueue>,
+    // TODO: 3d -- both need to be handled in this impl.
+    mut shader_mat: ResMut<Assets<YourShader2D>>,
     mut user_textures: EventReader<UserAddedTexture>,
     shader_hndl: Query<&Handle<YourShader2D>>,
 ) {
