@@ -13,6 +13,9 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 #[cfg(feature = "ui")]
 use shadplay::ui::HelpUIPlugin;
 use shadplay::{
+    drag_n_drop::{
+        add_dropped_file, file_drag_and_drop_listener, TexHandleQueue, UserAddedTexture,
+    },
     screenshot, shader_utils,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
@@ -45,11 +48,14 @@ fn main() {
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         // Resources
         .insert_resource(MonitorsSpecs::default())
+        .insert_resource(TexHandleQueue::default())
         .insert_resource(utils::ShadplayWindowDims::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
         .insert_resource(Rotating(false))
         .add_plugins(PanOrbitCameraPlugin)
+        //events:
+        .add_event::<UserAddedTexture>()
         // 3D
         .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
         .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
@@ -73,6 +79,8 @@ fn main() {
         .add_systems(
             Update,
             (
+                file_drag_and_drop_listener,
+                add_dropped_file, //.run_if(on_event::<UserAddedTexture>()),
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,
