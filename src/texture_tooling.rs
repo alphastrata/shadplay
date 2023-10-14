@@ -47,81 +47,17 @@ impl SetNewTexture for YourShader2D {
             return;
         };
         shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+
+        #[cfg(debug_assertions)]
+        debug!("Should be set to {}", idx);
     }
 }
 
-// /// System: using the keys 0-9, swap the current texture to that idx.
-// pub fn swap_2D_tex_from_idx(
-//     mut key_evr: EventReader<KeyboardInput>,
-//     shader_hndl: Query<&Handle<YourShader2D>>,
-//     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
-//     user_textures: Res<TexHandleQueue>,
-// ) {
-//     let Ok(handle) = shader_hndl.get_single() else {
-//         error!("TODO!");
-//         return;
-//     };
-
-//     if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
-//         key_evr.iter().for_each(|ev| {
-//             if let ButtonState::Pressed = ev.state {
-//                 if let Some(v) = ev.key_code {
-//                     match v {
-//                         KeyCode::Key1 => YourShader2D::set_current_tex(shad_mat, 1, &user_textures),
-//                         KeyCode::Key2 => YourShader2D::set_current_tex(shad_mat, 2, &user_textures),
-//                         KeyCode::Key3 => YourShader2D::set_current_tex(shad_mat, 3, &user_textures),
-//                         KeyCode::Key4 => YourShader2D::set_current_tex(shad_mat, 4, &user_textures),
-//                         KeyCode::Key5 => YourShader2D::set_current_tex(shad_mat, 5, &user_textures),
-//                         KeyCode::Key6 => YourShader2D::set_current_tex(shad_mat, 6, &user_textures),
-//                         KeyCode::Key7 => YourShader2D::set_current_tex(shad_mat, 7, &user_textures),
-//                         KeyCode::Key8 => YourShader2D::set_current_tex(shad_mat, 8, &user_textures),
-//                         KeyCode::Key9 => YourShader2D::set_current_tex(shad_mat, 9, &user_textures),
-//                         KeyCode::Key0 => YourShader2D::set_current_tex(shad_mat, 0, &user_textures),
-//                         _ => (),
-//                     }
-//                 }
-//             }
-//         });
-//     }
-// }
-
-// pub fn swap_2D_tex_from_idx(
-//     mut key_evr: EventReader<KeyboardInput>,
-//     shader_hndl: Query<&Handle<YourShader2D>>,
-//     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
-//     user_textures: Res<TexHandleQueue>,
-// ) {
-//     let Ok(handle) = shader_hndl.get_single() else {
-//         error!("TODO!");
-//         return;
-//     };
-
-//     if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
-//         key_evr.iter().for_each(|ev| {
-//             if let ButtonState::Pressed = ev.state {
-//                 if let Some(v) = ev.key_code {
-//                     match v {
-//                         KeyCode::Key1 => YourShader2D::set_current_tex(shad_mat, 1, &user_textures),
-//                         KeyCode::Key2 => YourShader2D::set_current_tex(shad_mat, 2, &user_textures),
-//                         KeyCode::Key3 => YourShader2D::set_current_tex(shad_mat, 3, &user_textures),
-//                         KeyCode::Key4 => YourShader2D::set_current_tex(shad_mat, 4, &user_textures),
-//                         KeyCode::Key5 => YourShader2D::set_current_tex(shad_mat, 5, &user_textures),
-//                         KeyCode::Key6 => YourShader2D::set_current_tex(shad_mat, 6, &user_textures),
-//                         KeyCode::Key7 => YourShader2D::set_current_tex(shad_mat, 7, &user_textures),
-//                         KeyCode::Key8 => YourShader2D::set_current_tex(shad_mat, 8, &user_textures),
-//                         KeyCode::Key9 => YourShader2D::set_current_tex(shad_mat, 9, &user_textures),
-//                         KeyCode::Key0 => YourShader2D::set_current_tex(shad_mat, 0, &user_textures),
-//                         _ => (),
-//                     }
-//                 }
-//             }
-//         });
-//     }
-// }
-
+/// Implements the swap_2d/3d_texture_from_index for YOUR new shaders.
 #[macro_export]
 macro_rules! impl_swap_from_idx {
     ($function_name:ident, $shader:ident) => {
+        /// Swaps the current texture on our live shader.
         pub fn $function_name(
             mut key_evr: EventReader<KeyboardInput>,
             shader_hndl: Query<&Handle<$shader>>,
@@ -137,6 +73,7 @@ macro_rules! impl_swap_from_idx {
                 key_evr.iter().for_each(|ev| {
                     if let ButtonState::Pressed = ev.state {
                         if let Some(v) = ev.key_code {
+                            debug!("KEY: {:?}", v);
                             match v {
                                 KeyCode::Key1 => {
                                     $shader::set_current_tex(shad_mat, 1, &user_textures)
@@ -178,5 +115,38 @@ macro_rules! impl_swap_from_idx {
     };
 }
 
-impl_swap_from_idx!(swap_2d_tex_from_idx, YourShader2D);
 impl_swap_from_idx!(swap_3d_tex_from_idx, YourShader);
+
+pub fn swap_2d_tex_from_idx(
+    mut key_evr: EventReader<KeyboardInput>,
+    shader_hndl: Query<&Handle<YourShader2D>>,
+    mut shader_mat2d: ResMut<Assets<YourShader2D>>,
+    user_textures: Res<TexHandleQueue>,
+) {
+    let Ok(handle) = shader_hndl.get_single() else {
+        error!("TODO!");
+        return;
+    };
+
+    if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
+        key_evr.iter().for_each(|ev| {
+            if let ButtonState::Pressed = ev.state {
+                if let Some(v) = ev.key_code {
+                    match v {
+                        KeyCode::Key1 => YourShader2D::set_current_tex(shad_mat, 1, &user_textures),
+                        KeyCode::Key2 => YourShader2D::set_current_tex(shad_mat, 2, &user_textures),
+                        KeyCode::Key3 => YourShader2D::set_current_tex(shad_mat, 3, &user_textures),
+                        KeyCode::Key4 => YourShader2D::set_current_tex(shad_mat, 4, &user_textures),
+                        KeyCode::Key5 => YourShader2D::set_current_tex(shad_mat, 5, &user_textures),
+                        KeyCode::Key6 => YourShader2D::set_current_tex(shad_mat, 6, &user_textures),
+                        KeyCode::Key7 => YourShader2D::set_current_tex(shad_mat, 7, &user_textures),
+                        KeyCode::Key8 => YourShader2D::set_current_tex(shad_mat, 8, &user_textures),
+                        KeyCode::Key9 => YourShader2D::set_current_tex(shad_mat, 9, &user_textures),
+                        KeyCode::Key0 => YourShader2D::set_current_tex(shad_mat, 0, &user_textures),
+                        _ => (),
+                    }
+                }
+            }
+        });
+    }
+}

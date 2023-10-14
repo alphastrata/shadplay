@@ -15,7 +15,7 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 use shadplay::ui::HelpUIPlugin;
 use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
-    screenshot, shader_utils,
+    screenshot, shader_utils, texture_tooling,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
 
@@ -74,6 +74,7 @@ fn main() {
             (
                 utils::rotate.run_if(resource_equals::<Rotating>(shadplay::utils::Rotating(true))),
                 utils::switch_shape,
+                texture_tooling::swap_3d_tex_from_idx.run_if(resource_changed::<TexHandleQueue>()), //FIXME:
                 utils::toggle_rotate,
             )
                 .run_if(in_state(AppState::ThreeD)),
@@ -84,11 +85,6 @@ fn main() {
             (
                 drag_n_drop::file_drag_and_drop_listener,
                 drag_n_drop::add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
-                // shader_utils::YourShader2D
-                // shader_utils::YourShader3D
-                
-                
-                , //.run_if(resource_changed::<TexHandleQueue>()), //FIXME:
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,
@@ -102,6 +98,7 @@ fn main() {
             Update,
             (
                 // utils::max_mon_res, // We're currently not using the maximum resolution of the primary monitor.
+                texture_tooling::swap_2d_tex_from_idx.run_if(resource_changed::<TexHandleQueue>()), //FIXME:
                 utils::update_mouse_pos,
                 utils::size_quad
                     .run_if(in_state(AppState::TwoD))
