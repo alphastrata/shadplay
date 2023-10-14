@@ -4,7 +4,7 @@
 
 I wasn't able to get the colour, or the rotation/direction of the rays correct.
 
-![photo](screeenshot.png)
+![photo](screenshot.png)
 
 # code:
 

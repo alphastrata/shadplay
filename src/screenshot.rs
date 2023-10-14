@@ -18,8 +18,8 @@ const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 /// screenshots
 ///└──  01-2-23
 ///    └──  09-23-29
-///        ├──  screeenshot.png
-///        └──  screeenshot.wgsl
+///        ├──  screenshot.png
+///        └──  screenshot.wgsl
 ///```
 pub fn screenshot_and_version_shader_on_spacebar(
     input: Res<Input<KeyCode>>,

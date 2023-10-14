@@ -2,7 +2,7 @@
 
 This one turned out really, really well.
 
-![photo](screeenshot.png)
+![photo](screenshot.png)
 
 ### fragment
 
