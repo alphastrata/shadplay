@@ -107,4 +107,18 @@ ______________________________________________________________________
 
 |                                                                          |                                                                                            |                                                                                |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| <img src="assets/screenshots/w10/screenshot.png" alt="w10" width="50%"> | <img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="palette" width="50%"> | <img src="assets/screenshots/lines/screenshot.png" alt="palette" width="50%"> |
+| <img src="assets/screenshots/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%">  
+| <img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="screenshot" width="50%">  
+| <img src="assets/screenshots/lines/screenshot.png" alt="screenshot" width="50%">  
+| <img src="assets/screenshots/smoothstep-colouring-a-2dCircle/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/using-textures/screeenshot.png" alt="screeenshot" width="50%">  |
+| <img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%">  |
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-48-16/screeenshot.png" alt="screeenshot" width="50%">  |
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-48-43/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-48-52/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-48-58/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-49-02/screeenshot.png" alt="screeenshot" width="50%">  |
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-49-07/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-49-23/screeenshot.png" alt="screeenshot" width="50%">  
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-49-33/screeenshot.png" alt="screeenshot" width="50%">  |
+| <img src="assets/screenshots/playing-with-builtin-maths-functions/21-49-38/screeenshot.png" alt="screeenshot" width="50%">  
