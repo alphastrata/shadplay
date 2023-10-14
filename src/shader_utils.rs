@@ -9,6 +9,8 @@ use bevy::{
     // window::PrimaryWindow,
 };
 
+use crate::drag_n_drop::UserAddedTexture;
+
 pub mod common;
 
 // ************************************ //
@@ -32,7 +34,7 @@ impl Material for YourShader {
 //                2D                    //
 // ************************************ //
 /// The 2D shadertoy like shader
-#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone, Deref)]
 #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
     /// Mouse X and Mouse Y
@@ -53,6 +55,12 @@ pub struct MousePos {
 impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader_2d.wgsl".into()
+    }
+}
+
+impl YourShader2D {
+    pub fn set_current_tex(&self, idx: usize, user_added_textures: &UserAddedTexture) {
+        todo!()
     }
 }
 
