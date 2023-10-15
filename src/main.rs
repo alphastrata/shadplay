@@ -17,6 +17,7 @@ use shadplay::ui::HelpUIPlugin;
 use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
     screenshot, shader_utils, texture_tooling,
+    ui::colour_picker_plugin,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
 
@@ -44,6 +45,7 @@ fn main() {
                 ..default()
             }),))
         .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
+        .add_plugins(colour_picker_plugin::ColourPickerPlugin)
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         // Resources

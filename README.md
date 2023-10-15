@@ -44,12 +44,13 @@ The app has some simple hotkeys:
 | -------------------- | --------------------------------------------------------------------- |
 | <kbd>q</kbd>         | Quit                                                                  |
 | <kbd>s</kbd>         | Change Shape in 3D                                                    |
+| <kbd>tab</kbd>       | Toggles the colour picker  (should be supported on most systems...)   |
 | <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                           |
 | <kbd>h</kbd>         | Switch to 3D                                                          |
 | <kbd>l</kbd>         | Window-Level                                                          |
-| <kbd>d</kbd>         | Toggle Decorations                                                    |
+| <kbd>d</kbd>         | Toggle Decorations  (not all OSes)                                    |
 | <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported) |
-| <kbd>r</kbd>         | Toggle Rotating shape                                                 |
+| <kbd>r</kbd>         | Toggle Rotating shape (3d only)                                       |
 | <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                    |
 | <kbd>0</kbd>         | Select the `texture` at index 0                                       |
 | <kbd>1</kbd>         | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay)|
