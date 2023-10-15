@@ -4,10 +4,13 @@ use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
 use bevy_egui::{egui, EguiContexts, EguiPlugin};
 
 pub mod colour_picker_plugin {
+
     use bevy::prelude::*;
     use bevy_egui::egui::epaint::Shadow;
-    use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
+    use bevy_egui::egui::{Align2, Color32, Rounding, Vec2};
     use bevy_egui::{egui, EguiContexts, EguiPlugin};
+
+    use crate::system_clipboard::SystemClipboard;
 
     #[derive(Resource, Default, Debug, PartialEq)]
     pub struct ColourPickerTool {
@@ -32,8 +35,9 @@ pub mod colour_picker_plugin {
         fn build(&self, app: &mut App) {
             app.add_plugins(EguiPlugin);
 
-            app.insert_resource(ColourPickerTool::default());
-            app.insert_resource(Toggle::default());
+            app.insert_resource(ColourPickerTool::default())
+                .insert_resource(SystemClipboard::default())
+                .insert_resource(Toggle::default());
 
             app.add_systems(
                 Update,
@@ -48,8 +52,14 @@ pub mod colour_picker_plugin {
     }
 
     impl ColourPickerTool {
-        fn draw_ui(mut picker: ResMut<ColourPickerTool>, mut ctx: EguiContexts) {
-            egui::Window::new("Colour Picker")
+        /// Draws the colour picking UI.
+        /// Which will, once you make a colour automatically copy it to your system clipboard.
+        fn draw_ui(
+            mut picker: ResMut<ColourPickerTool>,
+            mut ctx: EguiContexts,
+            mut sys_clip: ResMut<SystemClipboard>,
+        ) {
+            egui::Window::new("QuickCol")
                 .collapsible(false)
                 .resizable(false)
                 .frame(egui::Frame {
@@ -72,9 +82,13 @@ pub mod colour_picker_plugin {
                 })
                 .anchor(Align2::RIGHT_BOTTOM, Vec2::new(-35.0, -30.0))
                 .show(ctx.ctx_mut(), |ui| {
-                    ui.label(RichText::new("Colour Picker").color(Color32::WHITE));
-                    ui.color_edit_button_rgb(&mut picker.colour);
-                    debug!("{:?}", picker.colour);
+                    if ui.color_edit_button_rgb(&mut picker.colour).changed() {
+                        #[cfg(debug_assertions)]
+                        debug!("{:?}", picker.colour);
+
+                        let (r, g, b) = (picker.colour[0], picker.colour[1], picker.colour[1]);
+                        (*sys_clip).set_from(format!("vec3f({}, {}, {})", r, g, b));
+                    }
                 });
         }
     }
