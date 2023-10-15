@@ -1,7 +1,6 @@
 # shadplay
 
 ![ferris-adam.png](readme_assets/ferris-adam.png)
-
 <center>artwork by Maz with SD</center>
 
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
@@ -29,9 +28,6 @@ ______________________________________________________________________
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor)
 - Screenshot the shader you're working on with <kbd>SPACEBAR</kbd>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
-- \[WIP\] Textures, see `assets/shaders/howto-texture.wgsl` (drag and drop is coming...)
-- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
-
 ```shell
  screenshots
 └──|  01-10-23
@@ -39,6 +35,10 @@ ______________________________________________________________________
         ├──|  screenshot.png // Your screenshot
         └──|  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
 ```
+- Textures, see `assets/shaders/howto-texture.wgsl`
+- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
+- Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` directy available for quick pasta action.
+
 
 ### Keybindings:
 
