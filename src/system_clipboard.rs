@@ -26,6 +26,7 @@ impl SystemClipboard {
     /// Reads the contents of the system clipboard (it may have stuff in there that's not from shadplay, so private.)
     //TODO: we probably never actually need this.. so maybe remove?
     // it would maybe be nice though to be able to take an image for the texture system from the clipboard tho~....
+    #[cfg(debug_assertions)]
     pub(super) fn read_current(&mut self) -> Option<String> {
         match self.most_recent_copypasta.get_contents() {
             Ok(v) => Some(v.into()),

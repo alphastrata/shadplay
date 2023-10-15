@@ -1,5 +1,8 @@
 # shadplay
 
+![ferris-adam.png](readme_assets/ferris-adam.png)
+<center>artwork by Maz with SD</center>
+
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
 Shadplay is a simple app designed to allow easy and fast prototyping and work on `wgsl` code specifically for how you'd want to do that with Bevy.
