@@ -1,6 +1,7 @@
 # shadplay
 
 ![ferris-adam.png](readme_assets/ferris-adam.png)
+
 <center>artwork by Maz with SD</center>
 
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
