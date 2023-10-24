@@ -111,8 +111,9 @@ ______________________________________________________________________
 ## Resources:
 
 - [Fantastic implementations of some sdf composed shapes](https://gist.github.com/munrocket/f247155fc22ecb8edf974d905c677de1)
+- [GM Shaders](https://mini.gmshaders.com)
+- [glsl sandbox](https://glslsandbox.com/)
 - [Shadertoy](https://www.shadertoy.com/)
-- [Shaded by embark](https://github.com/EmbarkStudios/shaded)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
 ______________________________________________________________________
