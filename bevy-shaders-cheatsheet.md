@@ -2,6 +2,9 @@
 
 I've found the whole 'shader-land' story around Bevy to be pretty impenetrable, this is a small attempt to collect some of my notes -- made public in the hope it will alleviate the potential suffering of others.
 
+
+You will see single-letter-variables in shaders everywhere! Don't contribute to the problem, be part of the solution.
+
 ______________________________________________________________________
 
 ## Contents:
@@ -273,6 +276,10 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 ```
 
 which you cal call like this `testing(&uv)`.
+
+- You may be tempted to do multipart assignments on the rhs, like this:
+`O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+
 
 ______________________________________________________________________
 
