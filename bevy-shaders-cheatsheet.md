@@ -108,7 +108,9 @@ ______________________________________________________________________
 # pixels
 
 - Want to get a line the width of a single pixel?
+
 > from `assets/shaders/shadertoy-ports/water-caustic-tileable.wgsl`
+
 ```rust
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
