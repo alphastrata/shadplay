@@ -24,9 +24,9 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     // p = uv * TAU * 2.0 % TAU - 250.0;  // show TILING
     p = uv * TAU % TAU - 250.0;           // hide TILING
 
-    var i: vec2<f32> = vec2<f32>(p);
-    var c: f32 = 1.0;
-    let inten: f32 = 0.005;
+    var i: vec2<f32> = vec2<f32>(p); // iterator position
+    var c: f32 = 1.0; // colour intensity
+    let inten: f32 = 0.005; // Intensity factor
 
     for (var n: i32 = 0; n < MAX_ITER; n = n + 1) {
         let t: f32 = time * (1.0 - (3.5 / f32(n + 1)));
@@ -34,6 +34,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         c += 1.0 / length(vec2<f32>(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
     }
 
+    // c = colour intensity
     c /= f32(MAX_ITER);
     c = 1.17 - pow(c, 1.4);
     var colour: vec3<f32> = vec3<f32>(pow(abs(c), 8.0));
@@ -43,8 +44,8 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     // Show grid:
     // let pixel: vec2<f32> = vec2<f32>(2.0) / view.viewport.zw;
     // uv *= 2.0;
-    // let f: f32 = floor(globals.time * 0.5 % 2.0);
-    // let first: vec2<f32> = step(pixel, uv) * f;
+    // let flash: f32 = floor(globals.time * 0.5 % 2.0);
+    // let first: vec2<f32> = step(pixel, uv) * flash;
     // uv = step(fract(uv), pixel);
     // colour = mix(colour, vec3<f32>(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y);
 
