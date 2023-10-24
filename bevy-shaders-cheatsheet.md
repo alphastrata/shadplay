@@ -273,20 +273,20 @@ fn testing (uv: ptr<function, vec2<f32>>) {
     (*uv).x = 4.0;
 }
 ```
+
 which you cal call like this `testing(&uv)`.
 
-
 - You may be tempted to do multipart assignments on the rhs, like this:
-<<<<<<< HEAD
+  \<\<\<\<\<\<\< HEAD
   `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
-||||||| parent of ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
+  ||||||| parent of ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
+  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+
+\=======
 `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
 
+> > > > > > > ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
 
-=======
-  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
-
->>>>>>> ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
 ______________________________________________________________________
 
 # importable
