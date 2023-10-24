@@ -12,6 +12,7 @@ ______________________________________________________________________
 - [resolution](#resolution)
 - [sdf-shapes](#sdf-shapes)
 - [time](#time)
+- [pixels](#pixels)
 - [uvs](#uvs)
 - [uuid-generation](#uuid-generation)
 - [get data into your shader from bevy](#get-data-into-your-shader)
@@ -101,6 +102,35 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 ```
 
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
+
+______________________________________________________________________
+
+# pixels
+
+- Want to get a line the width of a single pixel?
+
+> from `assets/shaders/shadertoy-ports/water-caustic-tileable.wgsl`
+
+```rust
+#import bevy_render::view  View
+@group(0) @binding(0) var<uniform> view: View;
+    
+@fragment
+fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+    let time: f32 = globals.time;
+    var uv: vec2<f32> = in.uv;
+   
+    // Shows a yellow grid, where the lines are 1px, calculated by looking at your the available uvs.
+    let pixel: vec2<f32> = vec2<f32>(2.0) / view.viewport.zw;
+    uv *= 2.0;
+    let f: f32 = floor(time * 0.5 % 2.0);
+    let first: vec2<f32> = step(pixel, uv) * f;
+    uv = step(fract(uv), pixel);
+    colour = mix(colour, vec3<f32>(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y);
+
+    return vec4<f32>(colour, 1.0);
+}
+```
 
 ______________________________________________________________________
 
@@ -277,7 +307,15 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 which you cal call like this `testing(&uv)`.
 
 - You may be tempted to do multipart assignments on the rhs, like this:
+  \<\<\<\<\<\<\< HEAD
   `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+  ||||||| parent of ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
+  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+
+\=======
+`O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+
+> > > > > > > ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
 
 ______________________________________________________________________
 
