@@ -6,20 +6,20 @@
 
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
-Shadplay is a simple app designed to allow easy and fast prototyping and work on `wgsl` code specifically for how you'd want to do that with Bevy.
+Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for Bevy.
 The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing glsl asap, and provide a library of examples showing how some things are done, can be done etc.
 
 A secondary goal is to flesh out a relatively comprehensive 'port' of existing cool shader work from places like shadertoy etc -- because there's a few 'gotchas' around the differences in `glsl` and `wgsl` syntax, their respective builtins.
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
-______________________________________________________________________
+---
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
-______________________________________________________________________
+---
 
 ## Features
 
@@ -40,36 +40,36 @@ ______________________________________________________________________
 
 - Textures, see `assets/shaders/howto-texture.wgsl`
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
-- Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` directy available for quick pasta action.
+- Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` immediately available for quick pasta action.
 
 ### Keybindings:
 
 The app has some simple hotkeys:
 
-| Hotkey               | Action                                                                |
-| -------------------- | --------------------------------------------------------------------- |
-| <kbd>q</kbd>         | Quit                                                                  |
-| <kbd>s</kbd>         | Change Shape in 3D                                                    |
-| <kbd>tab</kbd>       | Toggles the colour picker  (should be supported on most systems...)   |
-| <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                           |
-| <kbd>h</kbd>         | Switch to 3D                                                          |
-| <kbd>l</kbd>         | Window-Level                                                          |
-| <kbd>d</kbd>         | Toggle Decorations  (not all OSes)                                    |
-| <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported) |
-| <kbd>r</kbd>         | Toggle Rotating shape (3d only)                                       |
-| <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                    |
-| <kbd>0</kbd>         | Select the `texture` at index 0                                       |
-| <kbd>1</kbd>         | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay)|
-| <kbd>2</kbd>         | Select the `texture` at index 2                                       |
-| <kbd>3</kbd>         | Select the `texture` at index 3                                       |
-| <kbd>4</kbd>         | Select the `texture` at index 4                                       |
-| <kbd>5</kbd>         | Select the `texture` at index 5                                       |
-| <kbd>6</kbd>         | Select the `texture` at index 6                                       |
-| <kbd>7</kbd>         | Select the `texture` at index 7                                       |
-| <kbd>8</kbd>         | Select the `texture` at index 8                                       |
-| <kbd>9</kbd>         | Select the `texture` at index 9                                       |
+| Hotkey               | Action                                                                            |
+| -------------------- | --------------------------------------------------------------------------------- |
+| <kbd>q</kbd>         | Quit                                                                              |
+| <kbd>s</kbd>         | Change Shape in 3D                                                                |
+| <kbd>tab</kbd>       | Toggles the colour picker (should be supported on most systems...)                |
+| <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                                       |
+| <kbd>h</kbd>         | Switch to 3D                                                                      |
+| <kbd>l</kbd>         | Window-Level                                                                      |
+| <kbd>d</kbd>         | Toggle Decorations (not all OSes)                                                 |
+| <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported)             |
+| <kbd>r</kbd>         | Toggle Rotating shape (3d only)                                                   |
+| <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                                |
+| <kbd>0</kbd>         | Select the `texture` at index 0                                                   |
+| <kbd>1</kbd>         | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay) |
+| <kbd>2</kbd>         | Select the `texture` at index 2                                                   |
+| <kbd>3</kbd>         | Select the `texture` at index 3                                                   |
+| <kbd>4</kbd>         | Select the `texture` at index 4                                                   |
+| <kbd>5</kbd>         | Select the `texture` at index 5                                                   |
+| <kbd>6</kbd>         | Select the `texture` at index 6                                                   |
+| <kbd>7</kbd>         | Select the `texture` at index 7                                                   |
+| <kbd>8</kbd>         | Select the `texture` at index 8                                                   |
+| <kbd>9</kbd>         | Select the `texture` at index 9                                                   |
 
-______________________________________________________________________
+---
 
 To run shadplay, you'll need the following:
 
@@ -86,13 +86,13 @@ To run shadplay, you'll need the following:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
 
-______________________________________________________________________
+---
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
-______________________________________________________________________
+---
 
 ## TODO:
 
@@ -106,7 +106,7 @@ ______________________________________________________________________
 - \[\] hotkey menu display
 - \[\] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
 
-______________________________________________________________________
+---
 
 ## Resources:
 
@@ -115,7 +115,7 @@ ______________________________________________________________________
 - [Shaded by embark](https://github.com/EmbarkStudios/shaded)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
-______________________________________________________________________
+---
 
 # Gallery:
 
