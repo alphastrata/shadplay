@@ -124,6 +124,10 @@ ______________________________________________________________________
 
 <table>
   <tr>
+    <td><img src="assets/screenshots/semi-circle-waves/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/cosmic/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
     <td><img src="assets/screenshots/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%"></td>
     <td><img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
