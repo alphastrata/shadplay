@@ -13,13 +13,13 @@ A secondary goal is to flesh out a relatively comprehensive 'port' of existing c
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
-______________________________________________________________________
+---
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
-______________________________________________________________________
+---
 
 ## Features
 
@@ -69,7 +69,7 @@ The app has some simple hotkeys:
 | <kbd>8</kbd>         | Select the `texture` at index 8                                                   |
 | <kbd>9</kbd>         | Select the `texture` at index 9                                                   |
 
-______________________________________________________________________
+---
 
 To run shadplay, you'll need the following:
 
@@ -86,13 +86,13 @@ To run shadplay, you'll need the following:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
 
-______________________________________________________________________
+---
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
-______________________________________________________________________
+---
 
 ## TODO:
 
@@ -106,7 +106,7 @@ ______________________________________________________________________
 - \[\] hotkey menu display
 - \[\] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
 
-______________________________________________________________________
+---
 
 ## Resources:
 
@@ -115,7 +115,7 @@ ______________________________________________________________________
 - [Shaded by embark](https://github.com/EmbarkStudios/shaded)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
-______________________________________________________________________
+---
 
 # Gallery:
 
