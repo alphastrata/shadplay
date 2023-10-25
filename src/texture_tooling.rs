@@ -28,7 +28,7 @@ impl SetNewTexture for YourShader {
         user_added_textures: &TexHandleQueue,
     ) {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
-            error!("Expected a texture at idx: {}, but none was found.", idx);
+            error!("No handle, it could still be loading your texture into the ECS!");
             return;
         };
         shader_mat.img = new_tex.clone(); // Cloning handles is fine.
@@ -42,7 +42,7 @@ pub fn swap_3d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        error!("No Texture handle available, this is unexpected!");
+        error!("No handle, it could still be loading your texture into the ECS!");
         return;
     };
 
@@ -96,7 +96,7 @@ pub fn swap_2d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        error!("TODO!");
+        error!("No handle, it could still be loading your texture into the ECS!");
         return;
     };
 
