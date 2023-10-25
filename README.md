@@ -129,6 +129,10 @@ ______________________________________________________________________
     <td><img src="assets/screenshots/cosmic/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
+    <td><img src="assets/screenshots/flame/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/sailing-beyond/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
     <td><img src="assets/screenshots/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%"></td>
     <td><img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
@@ -139,8 +143,5 @@ ______________________________________________________________________
   <tr>
     <td><img src="assets/screenshots/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
     <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/flame/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
