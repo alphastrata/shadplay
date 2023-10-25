@@ -140,4 +140,7 @@ ______________________________________________________________________
     <td><img src="assets/screenshots/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
     <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
+  <tr>
+    <td><img src="assets/screenshots/flame/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
 </table>
