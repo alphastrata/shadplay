@@ -42,7 +42,7 @@ pub fn swap_3d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     let Ok(handle) = shader_hndl.get_single() else {
-        error!("TODO!");
+        error!("No Texture handle available, this is unexpected!");
         return;
     };
 
