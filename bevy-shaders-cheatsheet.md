@@ -305,12 +305,15 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 ```
 
 - You'll often see glsl functions that take a value to mutate, and they return nothing: this is invalid in wgsl so this:
+
 ```glsl
 void pR(inout vec2 p, float a) {
 	p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
 }
 ```
+
 becomes:
+
 ```rust
 fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
     var point = out_point;
@@ -318,17 +321,19 @@ fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
     return point;
 }
 ```
+
 > from https://www.shadertoy.com/view/4t2cR1
 
 - in `glsl`, when declaring structs, you terminate the lines of the fields with `;`, in wgsl you use `,`so:
-this: ```glsl
-struct geometry {
-    float dist;
-    vec3 hit;
-    int iterations;
-};
-``
-becomes:
+  this: \`\`\`glsl
+  struct geometry {
+  float dist;
+  vec3 hit;
+  int iterations;
+  };
+  \`\`
+  becomes:
+
 ```rust
 struct Geometry {
     dist: f32,
@@ -350,6 +355,7 @@ which you cal call like this `testing(&uv)`.
 ```
 
 -- single inlined if/else's with an assignment i.e, `let functionSign: f32 = if mp.dist < 0.0 { -1.0 } else { 1.0 };`, are not allowed, you need to do this instead:
+
 ```rust
     var functionSign: f32;
     if mp.dist < 0.0 {
