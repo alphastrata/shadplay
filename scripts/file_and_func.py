@@ -1,3 +1,8 @@
+"""
+ This is a script that pulls the filenames/function pairings from the bevy sourcecode.
+ It is run along with the make_bevy_shaderdoc.py script.
+"""
+
 import os
 import re
 import glob

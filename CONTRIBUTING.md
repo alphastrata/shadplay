@@ -4,7 +4,9 @@
 - [Contributing Rust](#contributing-rust)
 
 ______________________________________________________________________
+
 ## What should I do?
+
 - if you're stuck, checkout existing [Issues](https://github.com/alphastrata/shadplay/issues), if it's your first time contributing to an OS project, or you're feeling like some help may be required try stuff tagged with 'good first issue'!
 
 ______________________________________________________________________

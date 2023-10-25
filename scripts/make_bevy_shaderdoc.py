@@ -1,3 +1,9 @@
+"""
+ This is a script that builds a markdown file of every function named in any of the bevy sourcecode.
+ It assumes you've got the bevy repo where you run it (so it can glob everything out).
+ The output, is a `bevy_shader_book.md` which is, a handly thing to have around when looking for the stuff you may want to #import into your own work.
+"""
+
 import argparse
 from pathlib import Path
 

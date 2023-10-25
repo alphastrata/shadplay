@@ -25,6 +25,9 @@ ______________________________________________________________________
 
 - A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl` specifically focusing on `wgsl`.
 - Live preview of shader code on Bevy mesh geometry.
+- Scripts to format your `wgsl` work, so it looks more rusty.
+- Scripts to pull _all_ the functions from the bevy codebase's shader code so you can easily lookup what's available for import.
+- Scripts to search the bevy sourcecode (opening your browser) for specific keywords.
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor)
