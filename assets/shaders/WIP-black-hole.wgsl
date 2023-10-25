@@ -29,7 +29,7 @@ fn fragment(
     var texture_uvs = in.uv;
     // texture_uvs *= rotate2D(1.0 + t); // Play with this to rotate the stars in the background.
 
-    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); // Shadertoy's ones don't seem to be affected by uvs modified in the scope of the functions that folk are writing so we take the uvs early do get around that.
+    let tex: vec4f = texture_sample(texture, texture_sampler, texture_uvs); // Shadertoy's ones don't seem to be affected by uvs modified in the scope of the functions that folk are writing so we take the uvs early do get around that.
 
     var uv = (in.uv * 2.0) - 1.0;
     uv.x *= resolution.x / resolution.y;
@@ -62,19 +62,19 @@ fn fragment(
 
         var col: vec4f = vec4(0.0);
         var glow: vec4f = vec4(0.0);
-        var outCol: vec4f = vec4(100.0);
+        var out_col: vec4f = vec4(100.0);
         var dotpos: f32 = dot(pos, pos);
-        var invDist: f32 = 1.0/sqrt(dotpos);
-        var centDist: f32 = dotpos * invDist; 	// distance to BH
-        var stepDist: f32 = 0.92 * abs(pos.y / (ray.y));  //conservative distance to disk (y==0)   
-        var farLimit: f32 = centDist * 0.5; //limit step size far from to BH
-        var closeLimit: f32 = centDist * 0.1 + 0.05 * centDist * centDist * (1.0 / BLACK_HOLE_SIZE); //limit step size closse to BH
-        stepDist = min(stepDist, min(farLimit, closeLimit));
+        var inv_dist: f32 = 1.0/sqrt(dotpos);
+        var cent_dist: f32 = dotpos * inv_dist; 	// distance to BH
+        var step_dist: f32 = 0.92 * abs(pos.y / (ray.y));  //conservative distance to disk (y==0)   
+        var far_limit: f32 = cent_dist * 0.5; //limit step size far from to BH
+        var close_limit: f32 = cent_dist * 0.1 + 0.05 * cent_dist * cent_dist * (1.0 / BLACK_HOLE_SIZE); //limit step size closse to BH
+        step_dist = min(step_dist, min(far_limit, close_limit));
 
-        var invDistSqr: f32 = invDist * invDist;
-        var bendForce: f32 = stepDist * invDistSqr * BLACK_HOLE_SIZE * 0.625;  //bending force
-        ray = normalize(ray - (bendForce * invDist) * pos);  //bend ray towards BH
-        pos += stepDist * ray;
+        var inv_dist_sqr: f32 = inv_dist * inv_dist;
+        var bend_force: f32 = step_dist * inv_dist_sqr * BLACK_HOLE_SIZE * 0.625;  //bending force
+        ray = normalize(ray - (bend_force * inv_dist) * pos);  //bend ray towards BH
+        pos += step_dist * ray;
 
         // glow += vec4f(1.2, 1.1, 1, 1.0);
         // glow *= (0.01 * stepDist * invDistSqr * invDistSqr);
@@ -85,27 +85,27 @@ fn fragment(
 
             if dist2 < BLACK_HOLE_SIZE * 0.1 { 
                 //ray sucked in to BH 
-                outCol = vec4(col.rgb * col.a + glow.rgb * (1.0 - col.a), 1.0) ;
+                out_col = vec4(col.rgb * col.a + glow.rgb * (1.0 - col.a), 1.0) ;
                 break;
 
             } else if dist2 > BLACK_HOLE_SIZE * 1000.0 { 
                 // ray escaped
                 var bg = background(ray, tex);
-                outCol = vec4f(col.rgb * col.a + bg.rgb * (1.0 - col.a) + glow.rgb * (1.0 - col.a), 1.0);       
+                out_col = vec4f(col.rgb * col.a + bg.rgb * (1.0 - col.a) + glow.rgb * (1.0 - col.a), 1.0);       
             } else if abs(pos.y) <= BLACK_HOLE_SIZE * 0.002 { 
                 //ray hit accretion disk 
-                var diskCol = raymarch_disk(ray, pos,t);   //render disk
+                var disk_col = raymarch_disk(ray, pos,t);   //render disk
                 pos.y = 0.0;
                 pos += abs(BLACK_HOLE_SIZE * 0.001 / ray.y) * ray;
-                col = vec4(diskCol.rgb * (1.0 - col.a) + col.rgb, col.a + diskCol.a * (1.0 - col.a));
+                col = vec4(disk_col.rgb * (1.0 - col.a) + col.rgb, col.a + disk_col.a * (1.0 - col.a));
             }
         }
 
         //if the ray never escaped or got sucked in
-        if outCol.r == 100.0 {
-            outCol = vec4(col.rgb + glow.rgb * (col.a + glow.a), 1.);
+        if out_col.r == 100.0 {
+            out_col = vec4(col.rgb + glow.rgb * (col.a + glow.a), 1.);
 
-            col = outCol;
+            col = out_col;
             let col_rgb = pow(col.rgb, vec3(0.6));
 
             frag_out = vec4f(col_rgb, col.a) ;// / (f32(ANTI_ALIASING) * f32(ANTI_ALIASING));

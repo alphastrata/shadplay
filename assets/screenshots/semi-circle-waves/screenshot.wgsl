@@ -35,19 +35,19 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
     var p: vec2f = vec2f(atan2(uv.y, uv.x) / TAU, length(uv));
 
     // Constants for radial repetition
-    let lNum: f32 = 12.0; // The number of lines
+    let l_num: f32 = 12.0; // The number of lines
     p.y = clamp(p.y, 0.0, 1.0);
-    let iy: f32 = floor(p.y * lNum);
-    p.y -= (iy + 0.5) / lNum;
+    let iy: f32 = floor(p.y * l_num);
+    p.y -= (iy + 0.5) / l_num;
 
     // Calculate the restricted arc rendering angle
-    let ang: f32 = (sin(time + iy * PI / lNum * HALF_PI) * 0.9 + 1.0) / 4.0;
+    let ang: f32 = (sin(time + iy * PI / l_num * HALF_PI) * 0.9 + 1.0) / 4.0;
 
     var d: f32;
     if p.x < ang {
         d = 1e5;
     } else {
-        d = abs(p.y) - LINE_GIRTH / lNum;
+        d = abs(p.y) - LINE_GIRTH / l_num;
     }
 
     // Add rounded line ends
@@ -59,13 +59,13 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
     let s: f32 = sin(ang2);
     p = vec2f(c * uv.x + s * uv.y, -s * uv.x + c * uv.y);
     p.y = clamp(p.y, 0.0, 1.0);
-    let iy2: f32 = floor(p.y * lNum);
-    p.y -= (iy2 + 0.5) / lNum;
-    d = min(d, length(p) - 0.2 / lNum);
+    let iy2: f32 = floor(p.y * l_num);
+    p.y -= (iy2 + 0.5) / l_num;
+    d = min(d, length(p) - 0.2 / l_num);
 
     // Assign colors to individual arcs
-    let sCol: vec3<f32> = 0.5 + 0.5 * cos(TAU * iy / lNum * 0.8 + vec3<f32>(0.0, 2.0, 4.0) + 2.0);
-    let col: vec3<f32> = mix(vec3<f32>(0.0), sCol, 1.0 - smoothstep(0.0, 3.0 / resolution.y, d));
+    let s_col: vec3<f32> = 0.5 + 0.5 * cos(TAU * iy / l_num * 0.8 + vec3<f32>(0.0, 2.0, 4.0) + 2.0);
+    let col: vec3<f32> = mix(vec3<f32>(0.0), s_col, 1.0 - smoothstep(0.0, 3.0 / resolution.y, d));
 
     // Apply rough gamma correction and return the final color
     return vec4<f32>(sqrt(col), 1.0); // Remove the sqrt() to see a more 'saturated' image.

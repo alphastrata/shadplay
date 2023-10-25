@@ -15,7 +15,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     uv *= 2.5659 - sin(t); // Scale UV coordinates for the desired shape size
 
     // Create an SDF shape:
-    let d = sdOctogon(uv, 18.5); // What this really is is a distance from the 'in.uv - 0.5' we slap into 'uv' above.
+    let d = sd_octogon(uv, 18.5); // What this really is is a distance from the 'in.uv - 0.5' we slap into 'uv' above.
 
     // Calculate a step based on the signed distance value
     let st = smoothstep(0.0, 0.05, abs(d)); // try removing the abs (absolute makes negative numbers positive, and positive numbers going in will be as they were.)
@@ -45,7 +45,7 @@ fn palette(t: f32) -> vec3<f32> {
 }
 
 // This number is from munrocket
-fn sdOctogon(p: vec2<f32>, r: f32) -> f32 {
+fn sd_octogon(p: vec2<f32>, r: f32) -> f32 {
   let k = vec3<f32>(-0.9238795325, 0.3826834323, 0.4142135623);
   var q: vec2<f32> = abs(p);
   q = q - 2. * min(dot(vec2<f32>(k.x, k.y), q), 0.) * vec2<f32>(k.x, k.y);

@@ -18,7 +18,7 @@ fn fragment(
     // the material members
     var pbr_input: fns::PbrInput = fns::pbr_input_new();
 
-    pbr_input.material.base_color = textureSample(my_array_texture, my_array_texture_sampler, mesh.uv, layer);
+    pbr_input.material.base_color = texture_sample(my_array_texture, my_array_texture_sampler, mesh.uv, layer);
 #ifdef VERTEX_COLORS
     pbr_input.material.base_color = pbr_input.material.base_color * mesh.color;
 #endif
@@ -84,7 +84,7 @@ fn fragment(
     mesh: MeshVertexOutput,
 ) -> @location(0) vec4<f32> {
     let viewport_uv = coords_to_viewport_uv(mesh.position.xy, view.viewport);
-    let color = textureSample(texture, texture_sampler, viewport_uv);
+    let color = texture_sample(texture, texture_sampler, viewport_uv);
     return color;
 }
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
@@ -101,7 +101,7 @@ struct CustomMaterial {
 fn fragment(
     mesh: MeshVertexOutput,
 ) -> @location(0) vec4<f32> {
-    return material.color * textureSample(base_color_texture, base_color_sampler, mesh.uv);
+    return material.color * texture_sample(base_color_texture, base_color_sampler, mesh.uv);
 }
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
@@ -126,9 +126,9 @@ fn color_sweep(uv: vec2<f32>) -> vec3<f32> {
     var color = vec3(0.0);
     if uv.y < 1.0 { 
         color = cos(h + vec3(0.0, 1.0, 2.0) * PI * 2.0 / 3.0);
-        let maxRGB = max(color.r, max(color.g, color.b));
-        let minRGB = min(color.r, min(color.g, color.b));
-        color = exp(15.0 * L) * (color - minRGB) / (maxRGB - minRGB);
+        let max_rgb = max(color.r, max(color.g, color.b));
+        let min_rgb = min(color.r, min(color.g, color.b));
+        color = exp(15.0 * L) * (color - min_rgb) / (max_rgb - min_rgb);
     } else {
         color = vec3(exp(15.0 * L));
     }
@@ -244,9 +244,9 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
     // Sample each color channel with an arbitrary shift
     return vec4<f32>(
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(offset_strength, -offset_strength)).r,
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(-offset_strength, 0.0)).g,
-        textureSample(screen_texture, texture_sampler, in.uv + vec2<f32>(0.0, offset_strength)).b,
+        texture_sample(screen_texture, texture_sampler, in.uv + vec2<f32>(offset_strength, -offset_strength)).r,
+        texture_sample(screen_texture, texture_sampler, in.uv + vec2<f32>(-offset_strength, 0.0)).g,
+        texture_sample(screen_texture, texture_sampler, in.uv + vec2<f32>(0.0, offset_strength)).b,
         1.0
     );
 }
@@ -282,7 +282,7 @@ fn hash(value: u32) -> u32 {
     return state;
 }
 
-fn randomFloat(value: u32) -> f32 {
+fn random_float(value: u32) -> f32 {
     return f32(hash(value)) / 4294967295.0;
 }
 
@@ -290,15 +290,15 @@ fn randomFloat(value: u32) -> f32 {
 fn init(@builtin(global_invocation_id) invocation_id: vec3<u32>, @builtin(num_workgroups) num_workgroups: vec3<u32>) {
     let location = vec2<i32>(i32(invocation_id.x), i32(invocation_id.y));
 
-    let randomNumber = randomFloat(invocation_id.y * num_workgroups.x + invocation_id.x);
-    let alive = randomNumber > 0.9;
+    let random_number = random_float(invocation_id.y * num_workgroups.x + invocation_id.x);
+    let alive = random_number > 0.9;
     let color = vec4<f32>(f32(alive));
 
-    textureStore(texture, location, color);
+    texture_store(texture, location, color);
 }
 
 fn is_alive(location: vec2<i32>, offset_x: i32, offset_y: i32) -> i32 {
-    let value: vec4<f32> = textureLoad(texture, location + vec2<i32>(offset_x, offset_y));
+    let value: vec4<f32> = texture_load(texture, location + vec2<i32>(offset_x, offset_y));
     return i32(value.x);
 }
 
@@ -330,9 +330,9 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
     }
     let color = vec4<f32>(f32(alive));
 
-    storageBarrier();
+    storage_barrier();
 
-    textureStore(texture, location, color);
+    texture_store(texture, location, color);
 }#import bevy_pbr::mesh_vertex_output MeshVertexOutput
 
 #ifdef CUBEMAP_ARRAY
@@ -348,7 +348,7 @@ fn fragment(
     mesh: MeshVertexOutput,
 ) -> @location(0) vec4<f32> {
     let fragment_position_view_lh = mesh.world_position.xyz * vec3<f32>(1.0, 1.0, -1.0);
-    return textureSample(
+    return texture_sample(
         base_color_texture,
         base_color_sampler,
         fragment_position_view_lh
@@ -420,7 +420,7 @@ fn fragment(
     let coords = clamp(vec2<u32>(mesh.uv * 4.0), vec2<u32>(0u), vec2<u32>(3u));
     let index = coords.y * 4u + coords.x;
     let inner_uv = fract(mesh.uv * 4.0);
-    return textureSample(textures[index], nearest_sampler, inner_uv);
+    return texture_sample(textures[index], nearest_sampler, inner_uv);
 }
 #import bevy_pbr::mesh_types
 #import bevy_pbr::mesh_view_bindings  globals
@@ -495,11 +495,11 @@ const tangent_offset: u32 = 6u;
 const total_component_count: u32 = 9u;
 
 fn layer_count() -> u32 {
-    let dimensions = textureDimensions(morph_targets);
+    let dimensions = texture_dimensions(morph_targets);
     return u32(dimensions.z);
 }
 fn component_texture_coord(vertex_index: u32, component_offset: u32) -> vec2<u32> {
-    let width = u32(textureDimensions(morph_targets).x);
+    let width = u32(texture_dimensions(morph_targets).x);
     let component_index = total_component_count * vertex_index + component_offset;
     return vec2<u32>(component_index % width, component_index / width);
 }
@@ -512,7 +512,7 @@ fn morph_pixel(vertex: u32, component: u32, weight: u32) -> f32 {
     // Due to https://gpuweb.github.io/gpuweb/wgsl/#texel-formats
     // While the texture stores a f32, the textureLoad returns a vec4<>, where
     // only the first component is set.
-    return textureLoad(morph_targets, vec3(coord, weight), 0).r;
+    return texture_load(morph_targets, vec3(coord, weight), 0).r;
 }
 fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f32> {
     return vec3<f32>(
@@ -855,7 +855,7 @@ fn fragment(
 #endif
 #ifdef VERTEX_UVS
     if ((pbr_bindings::material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_BASE_COLOR_TEXTURE_BIT) != 0u) {
-        output_color = output_color * textureSampleBias(pbr_bindings::base_color_texture, pbr_bindings::base_color_sampler, uv, view.mip_bias);
+        output_color = output_color * texture_sample_bias(pbr_bindings::base_color_texture, pbr_bindings::base_color_sampler, uv, view.mip_bias);
     }
 #endif
 
@@ -874,7 +874,7 @@ fn fragment(
         var emissive: vec4<f32> = pbr_bindings::material.emissive;
 #ifdef VERTEX_UVS
         if ((pbr_bindings::material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_EMISSIVE_TEXTURE_BIT) != 0u) {
-            emissive = vec4<f32>(emissive.rgb * textureSampleBias(pbr_bindings::emissive_texture, pbr_bindings::emissive_sampler, uv, view.mip_bias).rgb, 1.0);
+            emissive = vec4<f32>(emissive.rgb * texture_sample_bias(pbr_bindings::emissive_texture, pbr_bindings::emissive_sampler, uv, view.mip_bias).rgb, 1.0);
         }
 #endif
         pbr_input.material.emissive = emissive;
@@ -883,7 +883,7 @@ fn fragment(
         var perceptual_roughness: f32 = pbr_bindings::material.perceptual_roughness;
 #ifdef VERTEX_UVS
         if ((pbr_bindings::material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_METALLIC_ROUGHNESS_TEXTURE_BIT) != 0u) {
-            let metallic_roughness = textureSampleBias(pbr_bindings::metallic_roughness_texture, pbr_bindings::metallic_roughness_sampler, uv, view.mip_bias);
+            let metallic_roughness = texture_sample_bias(pbr_bindings::metallic_roughness_texture, pbr_bindings::metallic_roughness_sampler, uv, view.mip_bias);
             // Sampling from GLTF standard channels for now
             metallic = metallic * metallic_roughness.b;
             perceptual_roughness = perceptual_roughness * metallic_roughness.g;
@@ -896,11 +896,11 @@ fn fragment(
         var occlusion: vec3<f32> = vec3(1.0);
 #ifdef VERTEX_UVS
         if ((pbr_bindings::material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_OCCLUSION_TEXTURE_BIT) != 0u) {
-            occlusion = vec3(textureSampleBias(pbr_bindings::occlusion_texture, pbr_bindings::occlusion_sampler, uv, view.mip_bias).r);
+            occlusion = vec3(texture_sample_bias(pbr_bindings::occlusion_texture, pbr_bindings::occlusion_sampler, uv, view.mip_bias).r);
         }
 #endif
 #ifdef SCREEN_SPACE_AMBIENT_OCCLUSION
-        let ssao = textureLoad(screen_space_ambient_occlusion_texture, vec2<i32>(in.position.xy), 0i).r;
+        let ssao = texture_load(screen_space_ambient_occlusion_texture, vec2<i32>(in.position.xy), 0i).r;
         let ssao_multibounce = gtao_multibounce(ssao, pbr_input.material.base_color.rgb);
         occlusion = min(occlusion, ssao_multibounce);
 #endif
@@ -1250,7 +1250,7 @@ fn apply_normal_mapping(
 #ifdef VERTEX_UVS
 #ifdef STANDARDMATERIAL_NORMAL_MAP
     // Nt is the tangent-space normal.
-    var Nt = textureSampleBias(pbr_bindings::normal_map_texture, pbr_bindings::normal_map_sampler, uv, mip_bias).rgb;
+    var Nt = texture_sample_bias(pbr_bindings::normal_map_texture, pbr_bindings::normal_map_sampler, uv, mip_bias).rgb;
     if (standard_material_flags & pbr_types::STANDARD_MATERIAL_FLAGS_TWO_COMPONENT_NORMAL_MAP) != 0u {
         // Only use the xy components and derive z for 2-component normal maps.
         Nt = vec3<f32>(Nt.rg * 2.0 - 1.0, 0.0);
@@ -1342,7 +1342,7 @@ fn pbr(
     // calculate non-linear roughness from linear perceptualRoughness
     let metallic = in.material.metallic;
     let perceptual_roughness = in.material.perceptual_roughness;
-    let roughness = lighting::perceptualRoughnessToRoughness(perceptual_roughness);
+    let roughness = lighting::perceptual_roughness_to_roughness(perceptual_roughness);
 
     let occlusion = in.occlusion;
 
@@ -1761,7 +1761,7 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 
 @fragment
 fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
-    return textureSample(in_texture, in_sampler, in.uv);
+    return texture_sample(in_texture, in_sampler, in.uv);
 }
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
 //
@@ -1788,14 +1788,14 @@ struct CASUniforms {
     sharpness: f32,
 };
 
-@group(0) @binding(0) var screenTexture: texture_2d<f32>;
+@group(0) @binding(0) var screen_texture: texture_2d<f32>;
 @group(0) @binding(1) var samp: sampler;
 @group(0) @binding(2) var<uniform> uniforms: CASUniforms;
 
 // This is set at the limit of providing unnatural results for sharpening.
 const FSR_RCAS_LIMIT = 0.1875;
 // -4.0 instead of -1.0 to avoid issues with MSAA.
-const peakC = vec2<f32>(10.0, -40.0);
+const peak_c = vec2<f32>(10.0, -40.0);
 
 // Robust Contrast Adaptive Sharpening (RCAS)
 // Based on the following implementation:
@@ -1827,31 +1827,31 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     //    b
     //  d e f
     //    h
-    let b = textureSample(screenTexture, samp, in.uv, vec2<i32>(0, -1)).rgb;
-    let d = textureSample(screenTexture, samp, in.uv, vec2<i32>(-1, 0)).rgb;
+    let b = texture_sample(screen_texture, samp, in.uv, vec2<i32>(0, -1)).rgb;
+    let d = texture_sample(screen_texture, samp, in.uv, vec2<i32>(-1, 0)).rgb;
     // We need the alpha value of the pixel we're working on for the output
-    let e = textureSample(screenTexture, samp, in.uv).rgbw;
-    let f = textureSample(screenTexture, samp, in.uv, vec2<i32>(1, 0)).rgb;
-    let h = textureSample(screenTexture, samp, in.uv, vec2<i32>(0, 1)).rgb;
+    let e = texture_sample(screen_texture, samp, in.uv).rgbw;
+    let f = texture_sample(screen_texture, samp, in.uv, vec2<i32>(1, 0)).rgb;
+    let h = texture_sample(screen_texture, samp, in.uv, vec2<i32>(0, 1)).rgb;
     // Min and max of ring.
     let mn4 = min(min(b, d), min(f, h));
     let mx4 = max(max(b, d), max(f, h));
     // Limiters
     // 4.0 to avoid issues with MSAA.
-    let hitMin = mn4 / (4.0 * mx4);
-    let hitMax = (peakC.x - mx4) / (peakC.y + 4.0 * mn4);
-    let lobeRGB = max(-hitMin, hitMax);
-    var lobe = max(-FSR_RCAS_LIMIT, min(0.0, max(lobeRGB.r, max(lobeRGB.g, lobeRGB.b)))) * uniforms.sharpness;
+    let hit_min = mn4 / (4.0 * mx4);
+    let hit_max = (peak_c.x - mx4) / (peak_c.y + 4.0 * mn4);
+    let lobe_rgb = max(-hit_min, hit_max);
+    var lobe = max(-FSR_RCAS_LIMIT, min(0.0, max(lobe_rgb.r, max(lobe_rgb.g, lobe_rgb.b)))) * uniforms.sharpness;
 #ifdef RCAS_DENOISE
     // Luma times 2.
-    let bL = b.b * 0.5 + (b.r * 0.5 + b.g);
-    let dL = d.b * 0.5 + (d.r * 0.5 + d.g);
-    let eL = e.b * 0.5 + (e.r * 0.5 + e.g);
-    let fL = f.b * 0.5 + (f.r * 0.5 + f.g);
-    let hL = h.b * 0.5 + (h.r * 0.5 + h.g);
+    let b_l = b.b * 0.5 + (b.r * 0.5 + b.g);
+    let d_l = d.b * 0.5 + (d.r * 0.5 + d.g);
+    let e_l = e.b * 0.5 + (e.r * 0.5 + e.g);
+    let f_l = f.b * 0.5 + (f.r * 0.5 + f.g);
+    let h_l = h.b * 0.5 + (h.r * 0.5 + h.g);
     // Noise detection.
-    var noise = 0.25 * bL + 0.25 * dL + 0.25 * fL + 0.25 * hL - eL;;
-    noise = saturate(abs(noise) / (max(max(bL, dL), max(fL, hL)) - min(min(bL, dL), min(fL, hL))));
+    var noise = 0.25 * b_l + 0.25 * d_l + 0.25 * f_l + 0.25 * h_l - e_l;;
+    noise = saturate(abs(noise) / (max(max(b_l, d_l), max(f_l, h_l)) - min(min(b_l, d_l), min(f_l, h_l))));
     noise = 1.0 - 0.5 * noise;
     // Apply noise removal.
     lobe *= noise;
@@ -1905,7 +1905,7 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // position, to the fragment world position on the near clipping plane
     let ray_direction = in.world_position - view.world_position;
     // cube maps are left-handed so we negate the z coordinate
-    return textureSample(skybox, skybox_sampler, ray_direction * vec3(1.0, 1.0, -1.0));
+    return texture_sample(skybox, skybox_sampler, ray_direction * vec3(1.0, 1.0, -1.0));
 }
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
 // You then downsample each mip (starting with the original texture) to the lower resolution mip under it, going in order.
@@ -1961,19 +1961,19 @@ fn karis_average(color: vec3<f32>) -> f32 {
 
 // [COD] slide 153
 fn sample_input_13_tap(uv: vec2<f32>) -> vec3<f32> {
-    let a = textureSample(input_texture, s, uv, vec2<i32>(-2, 2)).rgb;
-    let b = textureSample(input_texture, s, uv, vec2<i32>(0, 2)).rgb;
-    let c = textureSample(input_texture, s, uv, vec2<i32>(2, 2)).rgb;
-    let d = textureSample(input_texture, s, uv, vec2<i32>(-2, 0)).rgb;
-    let e = textureSample(input_texture, s, uv).rgb;
-    let f = textureSample(input_texture, s, uv, vec2<i32>(2, 0)).rgb;
-    let g = textureSample(input_texture, s, uv, vec2<i32>(-2, -2)).rgb;
-    let h = textureSample(input_texture, s, uv, vec2<i32>(0, -2)).rgb;
-    let i = textureSample(input_texture, s, uv, vec2<i32>(2, -2)).rgb;
-    let j = textureSample(input_texture, s, uv, vec2<i32>(-1, 1)).rgb;
-    let k = textureSample(input_texture, s, uv, vec2<i32>(1, 1)).rgb;
-    let l = textureSample(input_texture, s, uv, vec2<i32>(-1, -1)).rgb;
-    let m = textureSample(input_texture, s, uv, vec2<i32>(1, -1)).rgb;
+    let a = texture_sample(input_texture, s, uv, vec2<i32>(-2, 2)).rgb;
+    let b = texture_sample(input_texture, s, uv, vec2<i32>(0, 2)).rgb;
+    let c = texture_sample(input_texture, s, uv, vec2<i32>(2, 2)).rgb;
+    let d = texture_sample(input_texture, s, uv, vec2<i32>(-2, 0)).rgb;
+    let e = texture_sample(input_texture, s, uv).rgb;
+    let f = texture_sample(input_texture, s, uv, vec2<i32>(2, 0)).rgb;
+    let g = texture_sample(input_texture, s, uv, vec2<i32>(-2, -2)).rgb;
+    let h = texture_sample(input_texture, s, uv, vec2<i32>(0, -2)).rgb;
+    let i = texture_sample(input_texture, s, uv, vec2<i32>(2, -2)).rgb;
+    let j = texture_sample(input_texture, s, uv, vec2<i32>(-1, 1)).rgb;
+    let k = texture_sample(input_texture, s, uv, vec2<i32>(1, 1)).rgb;
+    let l = texture_sample(input_texture, s, uv, vec2<i32>(-1, -1)).rgb;
+    let m = texture_sample(input_texture, s, uv, vec2<i32>(1, -1)).rgb;
 
 #ifdef FIRST_DOWNSAMPLE
     // [COD] slide 168
@@ -2009,17 +2009,17 @@ fn sample_input_3x3_tent(uv: vec2<f32>) -> vec3<f32> {
     let x = 0.004 / uniforms.aspect;
     let y = 0.004;
 
-    let a = textureSample(input_texture, s, vec2<f32>(uv.x - x, uv.y + y)).rgb;
-    let b = textureSample(input_texture, s, vec2<f32>(uv.x, uv.y + y)).rgb;
-    let c = textureSample(input_texture, s, vec2<f32>(uv.x + x, uv.y + y)).rgb;
+    let a = texture_sample(input_texture, s, vec2<f32>(uv.x - x, uv.y + y)).rgb;
+    let b = texture_sample(input_texture, s, vec2<f32>(uv.x, uv.y + y)).rgb;
+    let c = texture_sample(input_texture, s, vec2<f32>(uv.x + x, uv.y + y)).rgb;
 
-    let d = textureSample(input_texture, s, vec2<f32>(uv.x - x, uv.y)).rgb;
-    let e = textureSample(input_texture, s, vec2<f32>(uv.x, uv.y)).rgb;
-    let f = textureSample(input_texture, s, vec2<f32>(uv.x + x, uv.y)).rgb;
+    let d = texture_sample(input_texture, s, vec2<f32>(uv.x - x, uv.y)).rgb;
+    let e = texture_sample(input_texture, s, vec2<f32>(uv.x, uv.y)).rgb;
+    let f = texture_sample(input_texture, s, vec2<f32>(uv.x + x, uv.y)).rgb;
 
-    let g = textureSample(input_texture, s, vec2<f32>(uv.x - x, uv.y - y)).rgb;
-    let h = textureSample(input_texture, s, vec2<f32>(uv.x, uv.y - y)).rgb;
-    let i = textureSample(input_texture, s, vec2<f32>(uv.x + x, uv.y - y)).rgb;
+    let g = texture_sample(input_texture, s, vec2<f32>(uv.x - x, uv.y - y)).rgb;
+    let h = texture_sample(input_texture, s, vec2<f32>(uv.x, uv.y - y)).rgb;
+    let i = texture_sample(input_texture, s, vec2<f32>(uv.x + x, uv.y - y)).rgb;
 
     var sample = e * 0.25;
     sample += (b + d + f + h) * 0.125;
@@ -2066,7 +2066,7 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
 #import bevy_core_pipeline::fullscreen_vertex_shader  FullscreenVertexOutput
 
-@group(0) @binding(0) var screenTexture: texture_2d<f32>;
+@group(0) @binding(0) var screen_texture: texture_2d<f32>;
 @group(0) @binding(1) var samp: sampler;
 
 // Trims the algorithm from processing darks.
@@ -2132,137 +2132,137 @@ fn rgb2luma(rgb: vec3<f32>) -> f32 {
 // Performs FXAA post-process anti-aliasing as described in the Nvidia FXAA white paper and the associated shader code.
 @fragment
 fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
-    let resolution = vec2<f32>(textureDimensions(screenTexture));
-    let inverseScreenSize = 1.0 / resolution.xy;
-    let texCoord = in.position.xy * inverseScreenSize;
+    let resolution = vec2<f32>(texture_dimensions(screen_texture));
+    let inverse_screen_size = 1.0 / resolution.xy;
+    let tex_coord = in.position.xy * inverse_screen_size;
 
-    let centerSample = textureSampleLevel(screenTexture, samp, texCoord, 0.0);
-    let colorCenter = centerSample.rgb;
+    let center_sample = texture_sample_level(screen_texture, samp, tex_coord, 0.0);
+    let color_center = center_sample.rgb;
 
     // Luma at the current fragment
-    let lumaCenter = rgb2luma(colorCenter);
+    let luma_center = rgb2luma(color_center);
 
     // Luma at the four direct neighbors of the current fragment.
-    let lumaDown = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(0, -1)).rgb);
-    let lumaUp = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(0, 1)).rgb);
-    let lumaLeft = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(-1, 0)).rgb);
-    let lumaRight = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(1, 0)).rgb);
+    let luma_down = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(0, -1)).rgb);
+    let luma_up = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(0, 1)).rgb);
+    let luma_left = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(-1, 0)).rgb);
+    let luma_right = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(1, 0)).rgb);
 
     // Find the maximum and minimum luma around the current fragment.
-    let lumaMin = min(lumaCenter, min(min(lumaDown, lumaUp), min(lumaLeft, lumaRight)));
-    let lumaMax = max(lumaCenter, max(max(lumaDown, lumaUp), max(lumaLeft, lumaRight)));
+    let luma_min = min(luma_center, min(min(luma_down, luma_up), min(luma_left, luma_right)));
+    let luma_max = max(luma_center, max(max(luma_down, luma_up), max(luma_left, luma_right)));
 
     // Compute the delta.
-    let lumaRange = lumaMax - lumaMin;
+    let luma_range = luma_max - luma_min;
 
     // If the luma variation is lower that a threshold (or if we are in a really dark area), we are not on an edge, don't perform any AA.
-    if (lumaRange < max(EDGE_THRESHOLD_MIN, lumaMax * EDGE_THRESHOLD_MAX)) {
-        return centerSample;
+    if (luma_range < max(EDGE_THRESHOLD_MIN, luma_max * EDGE_THRESHOLD_MAX)) {
+        return center_sample;
     }
 
     // Query the 4 remaining corners lumas.
-    let lumaDownLeft  = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(-1, -1)).rgb);
-    let lumaUpRight   = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(1, 1)).rgb);
-    let lumaUpLeft    = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(-1, 1)).rgb);
-    let lumaDownRight = rgb2luma(textureSampleLevel(screenTexture, samp, texCoord, 0.0, vec2<i32>(1, -1)).rgb);
+    let luma_down_left  = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(-1, -1)).rgb);
+    let luma_up_right   = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(1, 1)).rgb);
+    let luma_up_left    = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(-1, 1)).rgb);
+    let luma_down_right = rgb2luma(texture_sample_level(screen_texture, samp, tex_coord, 0.0, vec2<i32>(1, -1)).rgb);
 
     // Combine the four edges lumas (using intermediary variables for future computations with the same values).
-    let lumaDownUp = lumaDown + lumaUp;
-    let lumaLeftRight = lumaLeft + lumaRight;
+    let luma_down_up = luma_down + luma_up;
+    let luma_leftRight = luma_left + luma_right;
 
     // Same for corners
-    let lumaLeftCorners = lumaDownLeft + lumaUpLeft;
-    let lumaDownCorners = lumaDownLeft + lumaDownRight;
-    let lumaRightCorners = lumaDownRight + lumaUpRight;
-    let lumaUpCorners = lumaUpRight + lumaUpLeft;
+    let luma_left_corners = luma_down_left + luma_up_left;
+    let luma_down_corners = luma_down_left + luma_down_right;
+    let luma_right_corners = luma_down_right + luma_up_right;
+    let luma_up_corners = luma_up_right + luma_up_left;
 
     // Compute an estimation of the gradient along the horizontal and vertical axis.
-    let edgeHorizontal = abs(-2.0 * lumaLeft   + lumaLeftCorners)  + 
-                         abs(-2.0 * lumaCenter + lumaDownUp) * 2.0 + 
-                         abs(-2.0 * lumaRight  + lumaRightCorners);
+    let edge_horizontal = abs(-2.0 * luma_left   + luma_left_corners)  + 
+                         abs(-2.0 * luma_center + luma_down_up) * 2.0 + 
+                         abs(-2.0 * luma_right  + luma_rightCorners);
 
-    let edgeVertical =   abs(-2.0 * lumaUp     + lumaUpCorners)       + 
-                         abs(-2.0 * lumaCenter + lumaLeftRight) * 2.0 + 
-                         abs(-2.0 * lumaDown   + lumaDownCorners);
+    let edge_vertical =   abs(-2.0 * luma_up     + luma_up_corners)       + 
+                         abs(-2.0 * luma_center + luma_left_right) * 2.0 + 
+                         abs(-2.0 * luma_down   + luma_downCorners);
 
     // Is the local edge horizontal or vertical ?
-    let isHorizontal = (edgeHorizontal >= edgeVertical);
+    let is_horizontal = (edge_horizontal >= edge_vertical);
 
     // Choose the step size (one pixel) accordingly.
-    var stepLength = select(inverseScreenSize.x, inverseScreenSize.y, isHorizontal);
+    var step_length = select(inverse_screen_size.x, inverse_screen_size.y, is_horizontal);
 
     // Select the two neighboring texels lumas in the opposite direction to the local edge.
-    var luma1 = select(lumaLeft, lumaDown, isHorizontal);
-    var luma2 = select(lumaRight, lumaUp, isHorizontal);
+    var luma1 = select(luma_left, luma_down, is_horizontal);
+    var luma2 = select(luma_right, luma_up, is_horizontal);
 
     // Compute gradients in this direction.
-    let gradient1 = luma1 - lumaCenter;
-    let gradient2 = luma2 - lumaCenter;
+    let gradient1 = luma1 - luma_center;
+    let gradient2 = luma2 - luma_center;
 
     // Which direction is the steepest ?
     let is1Steepest = abs(gradient1) >= abs(gradient2);
 
     // Gradient in the corresponding direction, normalized.
-    let gradientScaled = 0.25 * max(abs(gradient1), abs(gradient2));
+    let gradient_scaled = 0.25 * max(abs(gradient1), abs(gradient2));
 
     // Average luma in the correct direction.
-    var lumaLocalAverage = 0.0;
+    var luma_local_average = 0.0;
     if (is1Steepest) {
         // Switch the direction
-        stepLength = -stepLength;
-        lumaLocalAverage = 0.5 * (luma1 + lumaCenter);
+        step_length = -step_length;
+        luma_local_average = 0.5 * (luma1 + luma_center);
     } else {
-        lumaLocalAverage = 0.5 * (luma2 + lumaCenter);
+        luma_local_average = 0.5 * (luma2 + luma_center);
     }
 
     // Shift UV in the correct direction by half a pixel.
     // Compute offset (for each iteration step) in the right direction.
-    var currentUv = texCoord;
+    var current_uv = tex_coord;
     var offset = vec2<f32>(0.0, 0.0);
-    if (isHorizontal) {
-        currentUv.y = currentUv.y + stepLength * 0.5;
-        offset.x = inverseScreenSize.x;
+    if (is_horizontal) {
+        current_uv.y = current_uv.y + step_length * 0.5;
+        offset.x = inverse_screen_size.x;
     } else {
-        currentUv.x = currentUv.x + stepLength * 0.5;
-        offset.y = inverseScreenSize.y;
+        current_uv.x = current_uv.x + step_length * 0.5;
+        offset.y = inverse_screen_size.y;
     }
 
     // Compute UVs to explore on each side of the edge, orthogonally. The QUALITY allows us to step faster.
-    var uv1 = currentUv - offset; // * QUALITY(0); // (quality 0 is 1.0)
-    var uv2 = currentUv + offset; // * QUALITY(0); // (quality 0 is 1.0)
+    var uv1 = current_uv - offset; // * QUALITY(0); // (quality 0 is 1.0)
+    var uv2 = current_uv + offset; // * QUALITY(0); // (quality 0 is 1.0)
 
     // Read the lumas at both current extremities of the exploration segment, and compute the delta wrt to the local average luma.
-    var lumaEnd1 = rgb2luma(textureSampleLevel(screenTexture, samp, uv1, 0.0).rgb);
-    var lumaEnd2 = rgb2luma(textureSampleLevel(screenTexture, samp, uv2, 0.0).rgb);
-    lumaEnd1 = lumaEnd1 - lumaLocalAverage;
-    lumaEnd2 = lumaEnd2 - lumaLocalAverage;
+    var luma_end1 = rgb2luma(texture_sample_level(screen_texture, samp, uv1, 0.0).rgb);
+    var luma_end2 = rgb2luma(texture_sample_level(screen_texture, samp, uv2, 0.0).rgb);
+    luma_end1 = luma_end1 - luma_local_average;
+    luma_end2 = luma_end2 - luma_local_average;
 
     // If the luma deltas at the current extremities is larger than the local gradient, we have reached the side of the edge.
-    var reached1 = abs(lumaEnd1) >= gradientScaled;
-    var reached2 = abs(lumaEnd2) >= gradientScaled;
-    var reachedBoth = reached1 && reached2;
+    var reached1 = abs(luma_end1) >= gradient_scaled;
+    var reached2 = abs(luma_end2) >= gradient_scaled;
+    var reached_both = reached1 && reached2;
 
     // If the side is not reached, we continue to explore in this direction.
     uv1 = select(uv1 - offset, uv1, reached1); // * QUALITY(1); // (quality 1 is 1.0)
     uv2 = select(uv2 - offset, uv2, reached2); // * QUALITY(1); // (quality 1 is 1.0)
 
     // If both sides have not been reached, continue to explore.
-    if (!reachedBoth) {
+    if (!reached_both) {
         for (var i: i32 = 2; i < ITERATIONS; i = i + 1) {
             // If needed, read luma in 1st direction, compute delta.
             if (!reached1) { 
-                lumaEnd1 = rgb2luma(textureSampleLevel(screenTexture, samp, uv1, 0.0).rgb);
-                lumaEnd1 = lumaEnd1 - lumaLocalAverage;
+                luma_end1 = rgb2luma(texture_sample_level(screen_texture, samp, uv1, 0.0).rgb);
+                luma_end1 = luma_end1 - luma_local_average;
             }
             // If needed, read luma in opposite direction, compute delta.
             if (!reached2) { 
-                lumaEnd2 = rgb2luma(textureSampleLevel(screenTexture, samp, uv2, 0.0).rgb);
-                lumaEnd2 = lumaEnd2 - lumaLocalAverage;
+                luma_end2 = rgb2luma(texture_sample_level(screen_texture, samp, uv2, 0.0).rgb);
+                luma_end2 = luma_end2 - luma_local_average;
             }
             // If the luma deltas at the current extremities is larger than the local gradient, we have reached the side of the edge.
-            reached1 = abs(lumaEnd1) >= gradientScaled;
-            reached2 = abs(lumaEnd2) >= gradientScaled;
-            reachedBoth = reached1 && reached2;
+            reached1 = abs(luma_end1) >= gradient_scaled;
+            reached2 = abs(luma_end2) >= gradient_scaled;
+            reached_both = reached1 && reached2;
 
             // If the side is not reached, we continue to explore in this direction, with a variable quality.
             if (!reached1) {
@@ -2273,62 +2273,62 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
             }
 
             // If both sides have been reached, stop the exploration.
-            if (reachedBoth) { 
+            if (reached_both) { 
                 break; 
             }
         }
     }
 
     // Compute the distances to each side edge of the edge (!).
-    var distance1 = select(texCoord.y - uv1.y, texCoord.x - uv1.x, isHorizontal);
-    var distance2 = select(uv2.y - texCoord.y, uv2.x - texCoord.x, isHorizontal);
+    var distance1 = select(tex_coord.y - uv1.y, tex_coord.x - uv1.x, is_horizontal);
+    var distance2 = select(uv2.y - tex_coord.y, uv2.x - tex_coord.x, is_horizontal);
 
     // In which direction is the side of the edge closer ?
-    let isDirection1 = distance1 < distance2;
-    let distanceFinal = min(distance1, distance2);
+    let is_direction1 = distance1 < distance2;
+    let distance_final = min(distance1, distance2);
 
     // Thickness of the edge.
-    let edgeThickness = (distance1 + distance2);
+    let edge_thickness = (distance1 + distance2);
 
     // Is the luma at center smaller than the local average ?
-    let isLumaCenterSmaller = lumaCenter < lumaLocalAverage;
+    let is_luma_center_smaller = luma_center < luma_local_average;
 
     // If the luma at center is smaller than at its neighbor, the delta luma at each end should be positive (same variation).
-    let correctVariation1 = (lumaEnd1 < 0.0) != isLumaCenterSmaller;
-    let correctVariation2 = (lumaEnd2 < 0.0) != isLumaCenterSmaller;
+    let correct_variation1 = (luma_end1 < 0.0) != is_luma_center_smaller;
+    let correct_variation2 = (luma_end2 < 0.0) != is_luma_center_smaller;
 
     // Only keep the result in the direction of the closer side of the edge.
-    var correctVariation = select(correctVariation2, correctVariation1, isDirection1);
+    var correct_variation = select(correct_variation2, correct_variation1, is_direction1);
 
     // UV offset: read in the direction of the closest side of the edge.
-    let pixelOffset = - distanceFinal / edgeThickness + 0.5;
+    let pixel_offset = - distance_final / edge_thickness + 0.5;
 
     // If the luma variation is incorrect, do not offset.
-    var finalOffset = select(0.0, pixelOffset, correctVariation);
+    var final_offset = select(0.0, pixel_offset, correct_variation);
 
     // Sub-pixel shifting
     // Full weighted average of the luma over the 3x3 neighborhood.
-    let lumaAverage = (1.0 / 12.0) * (2.0 * (lumaDownUp + lumaLeftRight) + lumaLeftCorners + lumaRightCorners);
+    let luma_average = (1.0 / 12.0) * (2.0 * (luma_down_up + luma_left_right) + luma_left_corners + luma_right_corners);
     // Ratio of the delta between the global average and the center luma, over the luma range in the 3x3 neighborhood.
-    let subPixelOffset1 = clamp(abs(lumaAverage - lumaCenter) / lumaRange, 0.0, 1.0);
-    let subPixelOffset2 = (-2.0 * subPixelOffset1 + 3.0) * subPixelOffset1 * subPixelOffset1;
+    let sub_pixel_offset1 = clamp(abs(luma_average - luma_center) / luma_range, 0.0, 1.0);
+    let sub_pixel_offset2 = (-2.0 * sub_pixel_offset1 + 3.0) * sub_pixel_offset1 * sub_pixel_offset1;
     // Compute a sub-pixel offset based on this delta.
-    let subPixelOffsetFinal = subPixelOffset2 * subPixelOffset2 * SUBPIXEL_QUALITY;
+    let sub_pixel_offset_final = sub_pixel_offset2 * sub_pixel_offset2 * SUBPIXEL_QUALITY;
 
     // Pick the biggest of the two offsets.
-    finalOffset = max(finalOffset, subPixelOffsetFinal);
+    final_offset = max(final_offset, sub_pixel_offset_final);
 
     // Compute the final UV coordinates.
-    var finalUv = texCoord;
-    if (isHorizontal) {
-        finalUv.y = finalUv.y + finalOffset * stepLength;
+    var final_uv = tex_coord;
+    if (is_horizontal) {
+        final_uv.y = final_uv.y + final_offset * step_length;
     } else {
-        finalUv.x = finalUv.x + finalOffset * stepLength;
+        final_uv.x = final_uv.x + final_offset * step_length;
     }
 
     // Read the color at the new UV coordinates, and use it.
-    var finalColor = textureSampleLevel(screenTexture, samp, finalUv, 0.0).rgb;
-    return vec4<f32>(finalColor, centerSample.a);
+    var final_color = texture_sample_level(screen_texture, samp, final_uv, 0.0).rgb;
+    return vec4<f32>(final_color, center_sample.a);
 }
 #define TONEMAPPING_PASS
 
@@ -2347,7 +2347,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 @fragment
 fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
-    let hdr_color = textureSample(hdr_texture, hdr_sampler, in.uv);
+    let hdr_color = texture_sample(hdr_texture, hdr_sampler, in.uv);
 
     var output_rgb = tone_mapping(hdr_color, view.color_grading).rgb;
 
@@ -2378,11 +2378,11 @@ fn sample_current_lut(p: vec3<f32>) -> vec3<f32> {
     // Don't include code that will try to sample from LUTs if tonemap method doesn't require it
     // Allows this file to be imported without necessarily needing the lut texture bindings
 #ifdef TONEMAP_METHOD_AGX
-    return textureSampleLevel(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
+    return texture_sample_level(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
 #else ifdef TONEMAP_METHOD_TONY_MC_MAPFACE
-    return textureSampleLevel(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
+    return texture_sample_level(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
 #else ifdef TONEMAP_METHOD_BLENDER_FILMIC
-    return textureSampleLevel(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
+    return texture_sample_level(dt_lut_texture, dt_lut_sampler, p, 0.0).rgb;
 #else 
     return vec3(1.0, 0.0, 1.0);
  #endif
@@ -2519,13 +2519,13 @@ fn powsafe(color: vec3<f32>, power: f32) -> vec3<f32> {
 
 /*
     Increase color saturation of the given color data.
-    :param color: expected sRGB primaries input
-    :param saturationAmount: expected 0-1 range with 1=neutral, 0=no saturation.
+    :param color: expected s_rgb primaries input
+    :param saturation_amount: expected 0-1 range with 1=neutral, 0=no saturation.
     -- ref[2] [4]
 */
-fn saturation(color: vec3<f32>, saturationAmount: f32) -> vec3<f32> {
+fn saturation(color: vec3<f32>, saturation_amount: f32) -> vec3<f32> {
     let luma = tonemapping_luminance(color);
-    return mix(vec3(luma), color, vec3(saturationAmount));
+    return mix(vec3(luma), color, vec3(saturation_amount));
 }
 
 /*
@@ -2551,7 +2551,7 @@ fn convertOpenDomainToNormalizedLog2_(color: vec3<f32>, minimum_ev: f32, maximum
 }
 
 // Inverse of above
-fn convertNormalizedLog2ToOpenDomain(color: vec3<f32>, minimum_ev: f32, maximum_ev: f32) -> vec3<f32> {
+fn convert_normalized_log2_to_open_domain(color: vec3<f32>, minimum_ev: f32, maximum_ev: f32) -> vec3<f32> {
     var open_color = color;
     let in_midgray = 0.18;
     let total_exposure = maximum_ev - minimum_ev;
@@ -2569,7 +2569,7 @@ fn convertNormalizedLog2ToOpenDomain(color: vec3<f32>, minimum_ev: f32, maximum_
 =================*/
 
 // Prepare the data for display encoding. Converted to log domain.
-fn applyAgXLog(Image: vec3<f32>) -> vec3<f32> {
+fn apply_ag_x_log(Image: vec3<f32>) -> vec3<f32> {
     var prepared_image = max(vec3(0.0), Image); // clamp negatives
     let r = dot(prepared_image, vec3(0.84247906, 0.0784336, 0.07922375));
     let g = dot(prepared_image, vec3(0.04232824, 0.87846864, 0.07916613));
@@ -2582,7 +2582,7 @@ fn applyAgXLog(Image: vec3<f32>) -> vec3<f32> {
     return prepared_image;
 }
 
-fn applyLUT3D(Image: vec3<f32>, block_size: f32) -> vec3<f32> {
+fn apply_lut3_d(Image: vec3<f32>, block_size: f32) -> vec3<f32> {
     return sample_current_lut(Image * ((block_size - 1.0) / block_size) + 0.5 / block_size).rgb;
 }
 
@@ -2593,7 +2593,7 @@ fn applyLUT3D(Image: vec3<f32>, block_size: f32) -> vec3<f32> {
 fn sample_blender_filmic_lut(stimulus: vec3<f32>) -> vec3<f32> {
     let block_size = 64.0;
     let normalized = saturate(convertOpenDomainToNormalizedLog2_(stimulus, -11.0, 12.0));
-    return applyLUT3D(normalized, block_size);
+    return apply_lut3_d(normalized, block_size);
 }
 
 // from https://64.github.io/tonemapping/
@@ -2663,8 +2663,8 @@ fn tone_mapping(in: vec4<f32>, color_grading: ColorGrading) -> vec4<f32> {
 #else ifdef TONEMAP_METHOD_ACES_FITTED
     color = ACESFitted(color.rgb);
 #else ifdef TONEMAP_METHOD_AGX
-    color = applyAgXLog(color);
-    color = applyLUT3D(color, 32.0);
+    color = apply_ag_x_log(color);
+    color = apply_lut3_d(color, 32.0);
 #else ifdef TONEMAP_METHOD_SOMEWHAT_BORING_DISPLAY_TRANSFORM
     color = somewhat_boring_display_transform(color.rgb);
 #else ifdef TONEMAP_METHOD_TONY_MC_MAPFACE
@@ -2720,7 +2720,7 @@ fn fragment(
     output_color = output_color * mesh.color;
 #endif
     if ((material.flags & COLOR_MATERIAL_FLAGS_TEXTURE_BIT) != 0u) {
-        output_color = output_color * textureSample(texture, texture_sampler, mesh.uv);
+        output_color = output_color * texture_sample(texture, texture_sampler, mesh.uv);
     }
 #ifdef TONEMAP_IN_SHADER
     output_color = bevy_core_pipeline::tonemapping::tone_mapping(output_color, view.color_grading);
@@ -2780,7 +2780,7 @@ fn vertex(in: VertexInput) -> VertexOutput {
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
-    var color = in.color * textureSample(sprite_texture, sprite_sampler, in.uv);
+    var color = in.color * texture_sample(sprite_texture, sprite_sampler, in.uv);
 
 #ifdef TONEMAP_IN_SHADER
     color = bevy_core_pipeline::tonemapping::tone_mapping(color, view.color_grading);
@@ -2943,7 +2943,7 @@ fn vertex(
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // textureSample can only be called in unform control flow, not inside an if branch.
-    var color = textureSample(sprite_texture, sprite_sampler, in.uv);
+    var color = texture_sample(sprite_texture, sprite_sampler, in.uv);
     if in.mode == TEXTURED_QUAD {
         color = in.color * color;
     } else {

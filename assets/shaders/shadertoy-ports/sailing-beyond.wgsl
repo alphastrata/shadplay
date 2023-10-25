@@ -37,23 +37,23 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     let vuv: vec3<f32> = normalize(vec3<f32>(cos(globals.time), sin(globals.time * 0.11), sin(globals.time * 0.41))); // up
     var ro: vec3<f32> = vec3<f32>(0.0, 30.0 + globals.time * 100.0, -0.1);
 
-    ro.x += yC(ro.y * 0.1) * 3.0;
-    ro.z -= yC(ro.y * 0.01) * 4.0;
+    ro.x += y_c(ro.y * 0.1) * 3.0;
+    ro.z -= y_c(ro.y * 0.01) * 4.0;
 
     var vrp: vec3<f32> = vec3<f32>(0.0, 50.0 + globals.time * 100.0, 2.0);
 
-    vrp.x += yC(vrp.y * 0.1) * 3.0;
-    vrp.z -= yC(vrp.y * 0.01) * 4.0;
+    vrp.x += y_c(vrp.y * 0.1) * 3.0;
+    vrp.z -= y_c(vrp.y * 0.01) * 4.0;
 
     let vpn: vec3<f32> = normalize(vrp - ro);
     let u: vec3<f32> = normalize(cross(vuv, vpn));
     let v: vec3<f32> = cross(vpn, u);
     let vcv: vec3<f32> = ro + vpn;
-    let scrCoord: vec3<f32> = vcv + uv.x * u * resolution.x / resolution.y + uv.y * v;
-    let rd: vec3<f32> = normalize(scrCoord - ro);
+    let scr_coord: vec3<f32> = vcv + uv.x * u * resolution.x / resolution.y + uv.y * v;
+    let rd: vec3<f32> = normalize(scr_coord - ro);
     let oro: vec3<f32> = ro;
 
-    var sceneColor: vec3<f32> = vec3<f32>(0.0);
+    var scene_color: vec3<f32> = vec3<f32>(0.0);
 
     var tr: Geometry = trace(ro, rd);
 
@@ -62,34 +62,34 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var col: vec3<f32> = vec3<f32>(1.0, 0.5, 0.4) * fbm(tr.hit.xzy * 0.01) * 20.0;
     col.b *= fbm(tr.hit * 0.01) * 10.0;
 
-    sceneColor += min(0.8, f32(tr.iterations) / 90.0) * col + col * 0.03;
-    sceneColor *= 1.0 + 0.9 * (abs(fbm(tr.hit * 0.002 + 3.0) * 10.0) * fbm(vec3<f32>(0.0, 0.0, globals.time * 0.05) * 2.0)) * 1.0;
-    sceneColor = pow(sceneColor, vec3<f32>(1.0)) * 0.6; // Adjusted the iChannelTime logic
+    scene_color += min(0.8, f32(tr.iterations) / 90.0) * col + col * 0.03;
+    scene_color *= 1.0 + 0.9 * (abs(fbm(tr.hit * 0.002 + 3.0) * 10.0) * fbm(vec3<f32>(0.0, 0.0, globals.time * 0.05) * 2.0)) * 1.0;
+    scene_color = pow(scene_color, vec3<f32>(1.0)) * 0.6; // Adjusted the i_channel_time logic
 
-    var steamColor1: vec3<f32> = vec3<f32>(0.0, 0.4, 0.5);
+    var steam_color1: vec3<f32> = vec3<f32>(0.0, 0.4, 0.5);
     var rro: vec3<f32> = oro;
 
     ro = tr.hit;
 
-    var distC: f32 = tr.dist;
+    var dist_c: f32 = tr.dist;
     var f: f32 = 0.0;
     let st: f32 = 0.9;
 
     for (var i: i32 = 0; i < 24; i = i + 1) {
-        rro = ro - rd * distC;
+        rro = ro - rd * dist_c;
         f += fbm(rro * vec3<f32>(0.1, 0.1, 0.1) * 0.3) * 0.1;
-        distC -= 3.0;
-        if (distC < 3.0) {
+        dist_c -= 3.0;
+        if (dist_c < 3.0) {
             break;
         }
     }
 
-    steamColor1 *= 1.0; 
-    sceneColor += steamColor1 * pow(abs(f * 1.5), 3.0) * 4.0;
+    steam_color1 *= 1.0; 
+    scene_color += steam_color1 * pow(abs(f * 1.5), 3.0) * 4.0;
 
-    var fragColor: vec4<f32> = vec4<f32>(clamp(sceneColor * (1.0 - length(uv) / 2.0), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0)), 1.0);
-    fragColor = pow(abs(fragColor / tr.dist * 130.0), vec4<f32>(0.8));
-    return fragColor;
+    var frag_color: vec4<f32> = vec4<f32>(clamp(scene_color * (1.0 - length(uv) / 2.0), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0)), 1.0);
+    frag_color = pow(abs(frag_color / tr.dist * 130.0), vec4<f32>(0.8));
+    return frag_color;
 }
 
 // Hash 2 into 1
@@ -136,7 +136,7 @@ fn fbm(position: vec3<f32>) -> f32 {
 }
 
 // Computes the y-coordinate based on x
-fn yC(x: f32) -> f32 {
+fn y_c(x: f32) -> f32 {
     let cosine_val: f32 = cos(x * -0.134);
     let sine_val: f32 = sin(x * 0.13);
     let fbm_val: f32 = fbm(vec3<f32>(x * 0.1, 0.0, 0.0) * 55.4);
@@ -144,7 +144,7 @@ fn yC(x: f32) -> f32 {
 }
 
 // Rotates a 2D point by an angle
-fn pR(out_point: vec2<f32>, angle: f32) -> vec2f {
+fn p_r(out_point: vec2<f32>, angle: f32) -> vec2f {
     var point = out_point;
     point = cos(angle) * point + sin(angle) * vec2<f32>(point.y, -point.x);
     return point;
@@ -158,8 +158,8 @@ fn f_cylinder_inf(p: vec3<f32>, r: f32) -> f32 {
 // Maps the geometry based on the input position
 fn map(p: vec3<f32>) -> Geometry {
     var position = p;
-    position.x -= yC(position.y * 0.1) * 3.0;
-    position.z += yC(position.y * 0.01) * 4.0;
+    position.x -= y_c(position.y * 0.1) * 3.0;
+    position.z += y_c(position.y * 0.01) * 4.0;
 
     let noise_val: f32 = pow(abs(fbm(position * 0.06)) * 12.0, 1.3);
     let s: f32 = fbm(position * 0.01 + vec3<f32>(0.0, globals.time * 0.14, 0.0)) * 128.0;
@@ -183,53 +183,53 @@ fn trace(o: vec3<f32>, d: vec3<f32>) -> Geometry {
     var t: f32 = t_min;
     var candidate_error: f32 = INFINITY;
     var candidate_t: f32 = t_min;
-    var previousRadius: f32 = 0.0;
-    var stepLength: f32 = 0.0;
-    let pixelRadius: f32 = 1.0 / 1000.0;
+    var previous_radius: f32 = 0.0;
+    var step_length: f32 = 0.0;
+    let pixel_radius: f32 = 1.0 / 1000.0;
 
     var mp: Geometry = map(o);
 
-    var functionSign: f32;
+    var function_sign: f32;
     if mp.dist < 0.0 {
-        functionSign = -1.0;
+        function_sign = -1.0;
     } else {
-        functionSign = 1.0;
+        function_sign = 1.0;
     };
 
-    var minDist: f32 = FAR;
+    var min_dist: f32 = FAR;
 
     for (var i: i32 = 0; i < MAX_ITERATIONS; i = i + 1) {
         mp = map(d * t + o);
         mp.iterations = i;
 
-        let signedRadius: f32 = functionSign * mp.dist;
-        let radius: f32 = abs(signedRadius);
-        let sorFail: bool = omega > 1.0 && (radius + previousRadius) < stepLength;
+        let signed_radius: f32 = function_sign * mp.dist;
+        let radius: f32 = abs(signed_radius);
+        let sor_fail: bool = omega > 1.0 && (radius + previous_radius) < step_length;
 
-        if sorFail {
-            stepLength -= omega * stepLength;
+        if sor_fail {
+            step_length -= omega * step_length;
             omega = 1.0;
         } else {
-            stepLength = signedRadius * omega;
+            step_length = signed_radius * omega;
         }
-        previousRadius = radius;
+        previous_radius = radius;
         let error: f32 = radius / t;
 
-        if !sorFail && error < candidate_error {
+        if !sor_fail && error < candidate_error {
             candidate_t = t;
             candidate_error = error;
         }
 
-        if !sorFail && error < pixelRadius || t > t_max {
+        if !sor_fail && error < pixel_radius || t > t_max {
             break;
         }
 
-        t += stepLength * 0.5;
+        t += step_length * 0.5;
     }
 
     mp.dist = candidate_t;
 
-    if t > t_max || candidate_error > pixelRadius {
+    if t > t_max || candidate_error > pixel_radius {
         mp.dist = INFINITY;
     }
 

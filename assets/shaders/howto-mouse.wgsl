@@ -1,7 +1,7 @@
 /// How to use the mouse, in shadplay.
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
-#import shadplay::shader_utils::common NEG_HALF_PI, shaderToyDefault, rotate2D
+#import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D
 
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
@@ -23,7 +23,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(NEG_HALF_PI);
 
-    var col =vec4f(shaderToyDefault(t, uv), 1.0);
+    var col =vec4f(shader_toy_default(t, uv), 1.0);
     col.a *= abs(mouse.y);
     col.a *= abs(mouse.x);
     col.a *= 0.225; // prevent us from ever going truly transparent.

@@ -16,13 +16,13 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     uv.x *= resolution.x / resolution.y;
 
     var col = vec3f(0.0);
-    col = shaderToyDefault(t, uv);
+    col = shader_toy_default(t, uv);
 
     return vec4<f32>(col, 1.0);
 }
 
 /// This is the default (and rather pretty) shader you start with in ShaderToy
-fn shaderToyDefault(t: f32, uv: vec2f) -> vec3f {
+fn shader_toy_default(t: f32, uv: vec2f) -> vec3f {
     var col = vec3f(0.0);
     let v = vec3(t) + vec3(uv.xyx) + vec3(0., 2., 4.);
     return 0.5 + 0.5 * cos(v);
