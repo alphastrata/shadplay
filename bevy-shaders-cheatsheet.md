@@ -304,18 +304,66 @@ fn testing (uv: ptr<function, vec2<f32>>) {
 }
 ```
 
+- You'll often see glsl functions that take a value to mutate, and they return nothing: this is invalid in wgsl so this:
+
+```glsl
+void pR(inout vec2 p, float a) {
+	p = cos(a)*p + sin(a)*vec2(p.y, -p.x);
+}
+```
+
+becomes:
+
+```rust
+fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
+    var point = out_point;
+    point = cos(angle) * point + sin(angle) * vec2<f32>(point.y, -point.x);
+    return point;
+}
+```
+
+> from https://www.shadertoy.com/view/4t2cR1
+
+- in `glsl`, when declaring structs, you terminate the lines of the fields with `;`, in wgsl you use `,`so:
+  this: \`\`\`glsl
+  struct geometry {
+  float dist;
+  vec3 hit;
+  int iterations;
+  };
+  \`\`
+  becomes:
+
+```rust
+struct Geometry {
+    dist: f32,
+    hit: vec3<f32>,
+    iterations: i32,
+}
+```
+
 which you cal call like this `testing(&uv)`.
 
 - You may be tempted to do multipart assignments on the rhs, like this:
-  \<\<\<\<\<\<\< HEAD
-  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
-  ||||||| parent of ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
   `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
 
-\=======
-`O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+- `	vec3 u = 1.-(--f)*f*f*f*-f;` Note, the `--` is not legal in wgsl, so don't do it instead do:
 
-> > > > > > > ebc4f19 (feat: updates to cheatsheet re: glsl syntax diffs)
+```rust
+    f -= vec3<f32>(1.0, 1.0, 1.0); // Decrement each component of the vector by 1
+    var u: vec3<f32> = 1.0 - f * f * f * f * -f;
+```
+
+-- single inlined if/else's with an assignment i.e, `let functionSign: f32 = if mp.dist < 0.0 { -1.0 } else { 1.0 };`, are not allowed, you need to do this instead:
+
+```rust
+    var functionSign: f32;
+    if mp.dist < 0.0 {
+        functionSign = -1.0;
+    } else {
+        functionSign = 1.0;
+    };
+```
 
 ______________________________________________________________________
 
