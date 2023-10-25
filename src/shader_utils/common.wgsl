@@ -26,40 +26,40 @@ fn hsv2rgb(c: vec3f) -> vec3f {
 }
 
 // Signed distance field for a 2D circle
-fn sdCircle(pt: vec2f, radius: f32) -> f32 {
+fn sd_circle(pt: vec2f, radius: f32) -> f32 {
     return length(pt) - radius;
 }
 
 /// This is the default (and rather pretty) shader you start with in ShaderToy
-fn shaderToyDefault(t: f32, uv: vec2f) -> vec3f {
+fn shader_toy_default(t: f32, uv: vec2f) -> vec3f {
     var col = vec3f(0.0);
     let v = vec3(t) + vec3(uv.xyx) + vec3(0., 2., 4.);
     return 0.5 + 0.5 * cos(v);
 }
 
-fn distLine(ray_origin: vec3f, ray_dir: vec3f, pt: vec3f) -> f32 {
+fn dist_line(ray_origin: vec3f, ray_dir: vec3f, pt: vec3f) -> f32 {
     return length(cross(pt - ray_origin, ray_dir)) / length(ray_dir);
 }
 
-fn sdCapsule(p: vec3f, a: vec3f, b: vec3f, r: f32) -> f32 {
+fn sd_capsule(p: vec3f, a: vec3f, b: vec3f, r: f32) -> f32 {
     let pa = p - a;
     let ba = b - a;
     let h = clamp(dot(pa, ba) / dot(ba, ba), 0., 1.);
     return length(pa - ba * h) - r;
 }
 
-fn sdCappedCylinder(p: vec3f, h: vec2f) -> f32 {
+fn sd_capped_cylinder(p: vec3f, h: vec2f) -> f32 {
     let d: vec2f = abs(vec2f(length(p.xz), p.y)) - h;
     return min(max(d.x, d.y), 0.0) + length(max(d, vec2f(0.0)));
 }
 
-fn sdTorus(p: vec3f, t: vec2f) -> f32 {
+fn sd_torus(p: vec3f, t: vec2f) -> f32 {
     let q: vec2f = vec2f(length(p.xz) - t.x, p.y);
     return length(q) - t.y;
 }
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-fn sdHexagon(p: vec2f, r: f32) -> f32 {
+fn sd_hexagon(p: vec2f, r: f32) -> f32 {
     let k = vec3f(-0.866025404, 0.5, 0.577350269);
     var q: vec2f = abs(p);
     q = q - 2. * min(dot(k.xy, q), 0.) * k.xy;
@@ -68,7 +68,7 @@ fn sdHexagon(p: vec2f, r: f32) -> f32 {
 }
 
 /// Signed distance field for a Sphere (3d)
-fn sdSphere(p: vec3f, radius: f32) -> f32 {
+fn sd_sphere(p: vec3f, radius: f32) -> f32 {
     return (length(p) - radius);
 }
 
@@ -109,7 +109,7 @@ fn hash(x: f32) -> f32 {
 }
 
 /// Signed distance field for a Bezier curve.
-fn sdBezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
+fn sd_bezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
     let a = B - A;
     let b = A - 2. * B + C;
     let c = a * 2.;

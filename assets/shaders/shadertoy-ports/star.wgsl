@@ -24,7 +24,7 @@ fn palette(t: f32) -> vec3<f32> {
 }
 
 // courtesy of : https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4
-fn sdStar(p: vec2<f32>, r: f32, n: i32, m: f32) -> f32 {
+fn sd_star(p: vec2<f32>, r: f32, n: i32, m: f32) -> f32 {
   let an = 3.141593 / f32(n);
   let en = 3.141593 / m;
 

@@ -5,7 +5,7 @@
 
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
-#import shadplay::shader_utils::common NEG_HALF_PI, shaderToyDefault, rotate2D, TAU
+#import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D, TAU
 
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;

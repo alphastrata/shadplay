@@ -17,9 +17,9 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     var col = vec3f(0.);
     uv *= fract(uv);
 
-    let toCenter = vec2(0.25) - uv;
-    let angle = atan2(toCenter.y, toCenter.x);
-    let radius = length(toCenter) * 2.0;
+    let to_center = vec2(0.25) - uv;
+    let angle = atan2(to_center.y, to_center.x);
+    let radius = length(to_center) * 2.0;
 
     col = hsv_to_srgb(vec3f((angle / TAU) + globals.time / 3.0, radius, 1.0));
 

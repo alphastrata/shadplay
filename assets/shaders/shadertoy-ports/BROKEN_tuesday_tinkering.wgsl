@@ -70,7 +70,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
         let h2: f32 = h0 + h1;
         let p2: vec2<f32> = 0.5 * (p1 + p0) + coff(h2, time);
-        let dd: f32 = sdBezier(hp, p0, p2, p1).x; //FIXME: this is not what the original does.
+        let dd: f32 = sd_bezier(hp, p0, p2, p1).x; //FIXME: this is not what the original does.
         var gd: f32 = abs(dd);
         gd *= sqrt(gd);
         gd = max(gd, mx);
@@ -85,7 +85,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     col += 0.0025 * sqrt(bcol) / gd2;
 
     // Calculate additional color contribution based on hexagon pattern
-    let hd: f32 = sdHexagon(hp, 0.485);
+    let hd: f32 = sd_hexagon(hp, 0.485);
     gd2 = abs(hd);
     gd2 = max(gd2, mx * 10.0);
     col += 0.0005 * bcol * bcol / gd2;
@@ -103,7 +103,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
 
 // License: MIT, author: Inigo Quilez, found: https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
-fn sdHexagon(p: vec2f, r: f32) -> f32 {
+fn sd_hexagon(p: vec2f, r: f32) -> f32 {
     let k = vec3f(-0.866025404, 0.5, 0.577350269);
     var q: vec2f = abs(p);
     q = q - 2. * min(dot(k.xy, q), 0.) * k.xy;
@@ -161,7 +161,7 @@ fn off6(n: f32) -> vec2<f32> {
     return vec2<f32>(1.0, 0.0) * rotate2D(n * TAU / 6.0);
 }
 
-fn sdBezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
+fn sd_bezier(p: vec2f, A: vec2f, B: vec2f, C: vec2f) -> vec2f {
     let a = B - A;
     let b = A - 2. * B + C;
     let c = a * 2.;
@@ -222,14 +222,14 @@ fn aces_approx(v: vec3<f32>) -> vec3<f32> {
     return clamp((v * (a * v + b)) / (v * (c * v + d) + e), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0));
 }
 
-fn toSmith(p: vec2<f32>) -> vec2<f32> {
+fn to_smith(p: vec2<f32>) -> vec2<f32> {
     let d: f32 = (1.0 - p.x) * (1.0 - p.x) + p.y * p.y;
     let x: f32 = (1.0 + p.x) * (1.0 - p.x) - p.y * p.y;
     let y: f32 = 2.0 * p.y;
     return vec2<f32>(x, y) / d;
 }
 
-fn fromSmith(p: vec2<f32>) -> vec2<f32> {
+fn from_smith(p: vec2<f32>) -> vec2<f32> {
     let d: f32 = (p.x + 1.0) * (p.x + 1.0) + p.y * p.y;
     let x: f32 = (p.x + 1.0) * (p.x - 1.0) + p.y * p.y;
     let y: f32 = 2.0 * p.y;
@@ -247,9 +247,9 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 
 fn transform(p: vec2<f32>, TIME: f32) -> vec2<f32> {
     var p = p * 2.0;
-    let sp0: vec2<f32> = toSmith(p - vec2<f32>(0.0, 0.0));
-    let sp1: vec2<f32> = toSmith(p + vec2<f32>(1.0) * rotate2D(0.12 * TIME));
-    let sp2: vec2<f32> = toSmith(p - vec2<f32>(1.0) * rotate2D(0.23 * TIME));
-    p = fromSmith(sp0 + sp1 - sp2);
+    let sp0: vec2<f32> = to_smith(p - vec2<f32>(0.0, 0.0));
+    let sp1: vec2<f32> = to_smith(p + vec2<f32>(1.0) * rotate2D(0.12 * TIME));
+    let sp2: vec2<f32> = to_smith(p - vec2<f32>(1.0) * rotate2D(0.23 * TIME));
+    p = from_smith(sp0 + sp1 - sp2);
     return p;
 }

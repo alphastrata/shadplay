@@ -10,7 +10,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     let texture_uvs = in.uv;
 
-    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); 
+    let tex: vec4f = texture_sample(texture, texture_sampler, texture_uvs); 
 
     return tex;
 }    

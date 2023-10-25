@@ -17,7 +17,7 @@ const WBCOL2: vec3f = vec3f(0.15, 0.8, 1.7);
 // this is an attempted port of 'w10'  https://www.shadertoy.com/view/lllSR2 by https://www.shadertoy.com/user/gyabo
 @fragment
 fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
-    var fragColor: vec4<f32> = vec4<f32>(0.0080);
+    var frag_color: vec4<f32> = vec4<f32>(0.0080);
     var uv = (in.uv.xy * 2.0)- 1.0;
     uv.y -= 0.55; // To keep the logo centered.
 
@@ -90,14 +90,14 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
         col = pow(col, vec3<f32>(0.717));
 
          // Add the result to fragColor
-        fragColor = fragColor + vec4<f32>(col, 1.0 / t);
+        frag_color = frag_color + vec4<f32>(col, 1.0 / t);
     }
 
     // Divide fragColor by 2.0
-    fragColor = fragColor / 2.0;
-    fragColor.b += 0.7;
+    frag_color = frag_color / 2.0;
+    frag_color.b += 0.7;
 
-    return fragColor;
+    return frag_color;
 }
 
 
@@ -124,7 +124,7 @@ fn d2r(x: f32) -> f32 {
 }
 
 // Generates noise based on a 2D vector 'p'
-fn gennoise(_p: vec2f, iTime: f32) -> f32 {
+fn gennoise(_p: vec2f, i_time: f32) -> f32 {
     var p = _p;
     var d: f32 = 0.5;
     var h: mat2x2f = mat2x2f(
@@ -134,7 +134,7 @@ fn gennoise(_p: vec2f, iTime: f32) -> f32 {
 
     var color: f32 = 0.0;
     for (var i: i32 = 0; i < 2; i = i + 1) {
-        color = color + d * noise(p * 5.0 + iTime);
+        color = color + d * noise(p * 5.0 + i_time);
         p = p * h;
         d = d / 2.0;
     }
@@ -182,9 +182,9 @@ fn recta(_p: vec3f, F: vec3f, o: vec3f) -> f32 {
     var p = _p;
     var R: f32 = 0.0001;
     p += o;
-    var absP: vec3f = abs(p);
-    var maxAbs = max(absP - F, vec3f(0.0));
-    return length(maxAbs) - R;
+    var abs_p: vec3f = abs(p);
+    var max_abs = max(abs_p - F, vec3f(0.0));
+    return length(max_abs) - R;
 }
 
 
@@ -194,8 +194,8 @@ fn by(_p: vec3f, F: f32, o: vec3f) -> f32 {
     p += o;
     var R: f32 = 0.0001;
     var m: vec2f = p.xy % vec2f(3.0);
-    var maxAbs = max(abs(m) - F, vec2f(0.0));
-    return length(maxAbs) - R;
+    var max_abs = max(abs(m) - F, vec2f(0.0));
+    return length(max_abs) - R;
 }
 
 // Computes a mapping function
@@ -223,6 +223,6 @@ fn nac(_p: vec3f, F: vec2f, o: vec3f) -> f32 {
     var p = _p;
     p += o;
     var R: f32 = 0.0001;
-    var maxAbs = max(abs(p.xy) - F, vec2f(0.0));
-    return length(maxAbs) - R;
+    var max_abs = max(abs(p.xy) - F, vec2f(0.0));
+    return length(max_abs) - R;
 }
