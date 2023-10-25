@@ -75,8 +75,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Generate markdown summaries for WGSL code files."
     )
-    parser.add_argument(
-        "input_folder", help="Input folder containing .wgsl files")
+    parser.add_argument("input_folder", help="Input folder containing .wgsl files")
     parser.add_argument(
         "--save", action="store_true", help="Save markdown summaries in the same folder"
     )

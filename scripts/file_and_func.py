@@ -67,7 +67,7 @@ def extract_uniform_declarations(file_path):
 
 
 # Directory where you have your .wgsl files
-directory_path = "."    
+directory_path = "."
 
 # Create a parser for command-line arguments
 parser = argparse.ArgumentParser(

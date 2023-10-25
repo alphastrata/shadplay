@@ -6,10 +6,10 @@ def collect_wgsl_contents(directory):
     wgsl_contents = {}
 
     # Recursively search for .wgsl files
-    for wgsl_file in directory.glob('**/*.wgsl'):
+    for wgsl_file in directory.glob("**/*.wgsl"):
         # Extract the relative path without the file extension
-        relative_path = wgsl_file.relative_to(directory).with_suffix('')
-        with open(wgsl_file, 'r') as file:
+        relative_path = wgsl_file.relative_to(directory).with_suffix("")
+        with open(wgsl_file, "r") as file:
             wgsl_contents[relative_path] = file.read()
 
     return wgsl_contents
@@ -18,7 +18,8 @@ def collect_wgsl_contents(directory):
 def write_script_header(output_file):
     output_file.write("# All the BevyEngine Shaders\n\n")
     output_file.write(
-        "This document is really to give you an easy, one-stop-shop to reference all the Bevy Engine's shaders -- as they're not well documented.\n\n")
+        "This document is really to give you an easy, one-stop-shop to reference all the Bevy Engine's shaders -- as they're not well documented.\n\n"
+    )
     output_file.write("## Table of Contents\n\n")
 
 
@@ -35,7 +36,7 @@ def write_wgsl_contents(output_file, wgsl_contents):
 
 
 def write_to_markdown(wgsl_contents, output_path):
-    with open(output_path, 'w') as markdown_file:
+    with open(output_path, "w") as markdown_file:
         write_script_header(markdown_file)
         write_table_of_contents(markdown_file, wgsl_contents)
         write_wgsl_contents(markdown_file, wgsl_contents)
@@ -43,11 +44,20 @@ def write_to_markdown(wgsl_contents, output_path):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convert .wgsl files to a markdown document.')
-    parser.add_argument('--input', type=str, default='.',
-                        help='Input directory containing .wgsl files (default: current directory)')
-    parser.add_argument('--output', type=str, default='bevy_shader_book.md',
-                        help='Output markdown file (default: bevy_shader_book.md)')
+        description="Convert .wgsl files to a markdown document."
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        default=".",
+        help="Input directory containing .wgsl files (default: current directory)",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="bevy_shader_book.md",
+        help="Output markdown file (default: bevy_shader_book.md)",
+    )
 
     args = parser.parse_args()
 
@@ -56,17 +66,19 @@ def main():
 
     if not input_directory.exists() or not input_directory.is_dir():
         raise ValueError(
-            f"The input directory '{input_directory}' does not exist or is not a directory.")
+            f"The input directory '{input_directory}' does not exist or is not a directory."
+        )
 
     wgsl_contents = collect_wgsl_contents(input_directory)
 
     if not wgsl_contents:
         raise ValueError(
-            f"No .wgsl files found in the '{input_directory}' directory or its subdirectories.")
+            f"No .wgsl files found in the '{input_directory}' directory or its subdirectories."
+        )
 
     write_to_markdown(wgsl_contents, output_path)
     print(f"Markdown file '{output_path}' created successfully.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
