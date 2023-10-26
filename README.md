@@ -148,5 +148,3 @@ ______________________________________________________________________
     <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
-
-
