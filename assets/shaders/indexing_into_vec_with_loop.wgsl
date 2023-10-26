@@ -1,13 +1,11 @@
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals  // for 2D
-// #import bevy_pbr::mesh_view_bindings globals // for 3D
 #import bevy_render::view View
 #import bevy_pbr::utils PI
 
 @group(0) @binding(0) var<uniform> view: View;
 
 const SPEED:f32 = 0.22;
-
 
 // Working out how to use the vec2f[idx] indexing with loops.
 @fragment
