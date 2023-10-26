@@ -68,6 +68,7 @@ ______________________________________________________________________
 - Add it to the #Gallery in the `README.md`
 
 # Shadertoy ports:
+
 - Include a link to the original shader, and note its authour. If it has a license add that info at the top of the source.
 
 ______________________________________________________________________
@@ -82,4 +83,3 @@ ______________________________________________________________________
 - use `run_if()`s [see bevy docs](https://docs.rs/bevy/latest/bevy/prelude/trait.IntoSystemConfigs.html#method.run_if)
 
 Please note that contributions should follow the [Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct).
-
