@@ -16,7 +16,9 @@ use shadplay::ui::HelpUIPlugin;
 
 use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
-    screenshot, shader_utils, texture_tooling,
+    screenshot,
+    shader_utils::{self, DragNDropShader},
+    texture_tooling,
     ui::colour_picker_plugin,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
@@ -58,6 +60,7 @@ fn main() {
         .add_plugins(PanOrbitCameraPlugin)
         //events:
         .add_event::<UserAddedTexture>()
+        .add_event::<DragNDropShader>()
         // 3D
         .add_systems(OnEnter(AppState::ThreeD), utils::setup_3d)
         .add_systems(OnExit(AppState::ThreeD), utils::cleanup_3d)
@@ -88,6 +91,7 @@ fn main() {
                 //
                 drag_n_drop::file_drag_and_drop_listener,
                 drag_n_drop::add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
+                drag_n_drop::override_current_shader.run_if(on_event::<DragNDropShader>()),
                 screenshot::screenshot_and_version_shader_on_spacebar,
                 utils::cam_switch_system,
                 utils::quit,

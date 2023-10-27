@@ -3,28 +3,19 @@ import os
 import argparse
 
 
-def pascal_to_snake(name):
-    """Convert a pascalCase string to snake_case."""
+def snake_to_camel(name: str) -> str:
+    """Convert a snake_case string to camelCase."""
+    components = name.split("_")
+    return components[0] + "".join(x.title() for x in components[1:])
+
+
+def camel_to_snake(name: str) -> str:
+    """Convert a camelCase string to snake_case."""
     s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
     return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
 
-def colorize(text, color_code):
-    """Return text wrapped in an ANSI color code."""
-    return f"\033[{color_code}m{text}\033[0m"
-
-
-def orange(text):
-    """Return text in orange."""
-    return colorize(text, "33")  # ANSI code for orange
-
-
-def cyan(text):
-    """Return text in cyan."""
-    return colorize(text, "36")  # ANSI code for cyan
-
-
-def process_file(file_path, preview):
+def process_file(file_path: str, preview: bool, mode: str):
     """Process a single WGSL file."""
     with open(file_path, "r") as file:
         lines = file.readlines()
@@ -36,29 +27,51 @@ def process_file(file_path, preview):
             modified_lines.append(line)
             continue
 
-        # Find all pascalCase variable names
-        pascal_names = re.findall(r"\b([a-z]+[A-Z][a-zA-Z0-9]*)\b", line)
-
-        # Convert each found name to snake_case and replace in line
-        for name in set(pascal_names):  # Using set to avoid processing duplicates
-            snake_name = pascal_to_snake(name)
-            line = line.replace(name, snake_name)
-
-            if preview:
-                print(f"{orange(name)} -> {cyan(snake_name)}")
+        if mode == "snake":
+            # Convert camelCase to snake_case
+            camel_names = re.findall(r"\b([a-z]+[A-Z][a-zA-Z0-9]*)\b", line)
+            for name in set(camel_names):
+                snake_name = camel_to_snake(name)
+                line = line.replace(name, snake_name)
+                if preview:
+                    print(f"{orange(name)} -> {cyan(snake_name)}")
+        else:
+            # Convert snake_case to camelCase
+            snake_names = re.findall(r"\b([a-z]+_[a-z0-9_]+)\b", line)
+            for name in set(snake_names):
+                camel_name = snake_to_camel(name)
+                line = line.replace(name, camel_name)
+                if preview:
+                    print(f"{orange(name)} -> {cyan(camel_name)}")
 
         modified_lines.append(line)
 
+    # If preview is False, save the modified content back to the file
     if not preview:
         with open(file_path, "w") as file:
             file.writelines(modified_lines)
     else:
-        print(f"Processed (preview): {file_path}")
+        print(f"Processed (dry run): {file_path}")
+
+
+def colorize(text: str, color_code: str) -> str:
+    """Return text wrapped in an ANSI color code."""
+    return f"\033[{color_code}m{text}\033[0m"
+
+
+def orange(text: str) -> str:
+    """Return text in orange."""
+    return colorize(text, "33")  # ANSI code for orange
+
+
+def cyan(text: str) -> str:
+    """Return text in cyan."""
+    return colorize(text, "36")  # ANSI code for cyan
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Convert pascalCase variable names in WGSL files to snake_case."
+        description="Convert variable names in WGSL files between snake_case and camelCase."
     )
     parser.add_argument(
         "--preview",
@@ -71,12 +84,19 @@ def main():
         default=".",
         help="Target directory to process. Default is current directory.",
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["snake", "camel"],
+        required=True,
+        help="Conversion mode: 'snake' for camelCase to snake_case, 'camel' for snake_case to camelCase.",
+    )
     args = parser.parse_args()
 
     for root, dirs, files in os.walk(args.target):
         for file in files:
             if file.endswith(".wgsl"):
-                process_file(os.path.join(root, file), args.preview)
+                process_file(os.path.join(root, file), args.preview, args.mode)
 
 
 if __name__ == "__main__":

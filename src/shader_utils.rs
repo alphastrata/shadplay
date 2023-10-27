@@ -1,6 +1,8 @@
 //!
 //! Most of the boilerplate to make a custom shader work lives here.
 //!
+use std::path::PathBuf;
+
 use bevy::{
     prelude::*,
     reflect::{TypePath, TypeUuid},
@@ -9,6 +11,12 @@ use bevy::{
 };
 
 pub mod common;
+
+/// Event: for facilitating the drag-n-drop of a .wgsl shader onto Shadplay.
+#[derive(Event, Debug, Deref, DerefMut)]
+pub struct DragNDropShader {
+    pub path: PathBuf,
+}
 
 // ************************************ //
 //                3D                    //

@@ -15,6 +15,12 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+## What should I do?
+
+- if you're stuck, checkout existing [Issues](https://github.com/alphastrata/shadplay/issues), if it's your first time contributing to an OS project, or you're feeling like some help may be required try stuff tagged with 'good first issue'!
+
+______________________________________________________________________
+
 ## How to Contribute
 
 Here's how you can get started:
@@ -54,11 +60,6 @@ ______________________________________________________________________
 
 # Contributing Shaders
 
-**Note:** If you create a ShaderToy port, make sure to add it to the gallery using the screenshotting functionality.
-You can take a screenshot of your shader using <kbd>SPACEBAR</kbd>. This will also version the shader in the `assets/shaders` directory for you.
-
-If you'd like to add your ShaderToy port to the gallery, please follow these steps:
-
 - use `wgsl-analyzer`, especially to format your `wgsl`
 - use the rust naming conventions for `structs`, `functions`, `variables`, `constants` etc.
 - use the `scrpits/custom-wgsl-format.py` on the root dir, or specifically the directory you're working on a shader in...
@@ -69,6 +70,10 @@ If you'd like to add your ShaderToy port to the gallery, please follow these ste
 - Rename and move the versioned shader to `assets/shaders/<NAME YOUR OWN DIR/YOURSHADER.wgsl`
 - Screenshots should **share the name** of the `wgsl` that creates them
 - Add it to the #Gallery in the `README.md`
+
+# Shadertoy ports:
+
+- Include a link to the original shader, and note its authour. If it has a license add that info at the top of the source.
 
 ______________________________________________________________________
 
