@@ -25,12 +25,17 @@ ______________________________________________________________________
 
 - A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl` specifically focusing on `wgsl`.
 - Live preview of shader code on Bevy mesh geometry.
+- Textures, see `assets/shaders/howto-texture.wgsl`.
+- Drag and drop `.png` or `.jpg` files onto the window to use as said textures.
+- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`.
+- Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` immediately available for quick pasta action.
+- Drag and drop (valid `wgsl`) shaders onto the app.
 - Scripts to format your `wgsl` work, so it looks more rusty.
 - Scripts to pull _all_ the functions from the bevy codebase's shader code so you can easily lookup what's available for import.
 - Scripts to search the bevy sourcecode (opening your browser) for specific keywords.
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
-- Transparent background, with always-on-top (so you can have it on top of your editor)
+- Transparent background, with always-on-top (so you can have it on top of your editor, most OSes should be supported).
 - Screenshot the shader you're working on with <kbd>SPACEBAR</kbd>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
 
 ```shell
@@ -41,9 +46,6 @@ ______________________________________________________________________
         └──|  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
 ```
 
-- Textures, see `assets/shaders/howto-texture.wgsl`
-- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`
-- Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` immediately available for quick pasta action.
 
 ### Keybindings:
 
@@ -74,11 +76,12 @@ The app has some simple hotkeys:
 
 ______________________________________________________________________
 
-To run shadplay, you'll need the following:
+### To run shadplay, you'll need the following:
 
 - Rust (stable) - Make sure you have Rust installed on your system. You can find installation instructions at [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
   _We assume you can follow their instructions to clear that hurdle_
 
+then:
 ### Installation
 
 ```shell
@@ -87,7 +90,7 @@ To run shadplay, you'll need the following:
  $ cargo run --release
 ```
 
-- Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time.
+- Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
 
 ______________________________________________________________________
 
@@ -99,15 +102,9 @@ ______________________________________________________________________
 
 ## TODO:
 
-- \[\] drag n drop obj/stl/gltf opening?
-- \[\] material swap to ours system (drag n drop a shader onto the window)
-- \[\] hotkey menu display (egui? eframe?)
 - \[\] More shader examples (the entirety of shadertoy ported!)
-- \[\] demo images (of all shaders in the library)
+- \[\] drag n drop obj/stl/gltf opening?
 - \[\] left/right arrows to swap between shaders from the assets' dir
-- \[\] buttons to spin/swap the geometry your shader is currently being applied to.
-- \[\] hotkey menu display
-- \[\] drag n drop shadering ( swap existing MyShader with one that someone drops on.)
 
 ______________________________________________________________________
 
