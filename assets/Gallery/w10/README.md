@@ -1,5 +1,4 @@
 ## w10
-                 
 
 ![photo](screenshot.png)
 
@@ -238,4 +237,3 @@ fn nac(_p: vec3f, F: vec2f, o: vec3f) -> f32 {
 ```
 
 your comments go here...
-

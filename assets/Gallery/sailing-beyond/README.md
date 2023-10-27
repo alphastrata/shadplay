@@ -1,5 +1,4 @@
 ## sailing-beyond
-                 
 
 ![photo](screenshot.png)
 
@@ -247,4 +246,3 @@ fn trace(o: vec3<f32>, d: vec3<f32>) -> Geometry {
 ```
 
 your comments go here...
-

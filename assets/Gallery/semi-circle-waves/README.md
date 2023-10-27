@@ -1,5 +1,4 @@
 ## semi-circle-waves
-                 
 
 ![photo](screenshot.png)
 
@@ -82,4 +81,3 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
 ```
 
 your comments go here...
-

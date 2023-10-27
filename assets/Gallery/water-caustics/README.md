@@ -1,5 +1,4 @@
 ## water-caustics
-                 
 
 ![photo](screenshot.png)
 
@@ -63,4 +62,3 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 ```
 
 your comments go here...
-

@@ -1,5 +1,4 @@
 ## 21-49-07
-                 
 
 ![photo](screenshot.png)
 
@@ -49,4 +48,3 @@ fn plot(st: vec2f, pct: f32) -> f32 {
 ```
 
 your comments go here...
-

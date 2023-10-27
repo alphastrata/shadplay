@@ -1,5 +1,4 @@
 ## flame
-                 
 
 ![photo](screenshot.png)
 
@@ -88,4 +87,3 @@ fn raymarch(org: vec3<f32>, dir: vec3<f32>) -> vec4<f32> {
 ```
 
 your comments go here...
-

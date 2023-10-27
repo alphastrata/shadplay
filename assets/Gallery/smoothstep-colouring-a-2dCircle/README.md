@@ -1,5 +1,4 @@
 ## smoothstep-colouring-a-2dCircle
-                 
 
 ![photo](screenshot.png)
 
@@ -64,4 +63,3 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 ```
 
 your comments go here...
-

@@ -1,5 +1,4 @@
 ## kishimisu-palette
-                 
 
 ![photo](screenshot.png)
 
@@ -51,4 +50,3 @@ fn palette(t: f32) -> vec3<f32> {
 ```
 
 your comments go here...
-

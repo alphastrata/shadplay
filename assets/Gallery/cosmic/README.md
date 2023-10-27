@@ -1,5 +1,4 @@
 ## cosmic
-                 
 
 ![photo](screenshot.png)
 
@@ -60,4 +59,3 @@ fn cosmic(uv: vec2f, r: vec2f) -> vec4f {
 ```
 
 your comments go here...
-

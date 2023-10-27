@@ -1,5 +1,4 @@
 ## warp
-                 
 
 ![photo](screenshot.png)
 
@@ -81,4 +80,3 @@ fn warp_with_aa(uv: vec2f, resolution: vec2f, time: f32) -> vec4f {
 ```
 
 your comments go here...
-
