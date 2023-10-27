@@ -13,13 +13,13 @@ A secondary goal is to flesh out a relatively comprehensive 'port' of existing c
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
-______________________________________________________________________
+---
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
-______________________________________________________________________
+---
 
 ## Features
 
@@ -50,30 +50,30 @@ ______________________________________________________________________
 
 The app has some simple hotkeys:
 
-| Hotkey               | Action                                                                            |
-| -------------------- | --------------------------------------------------------------------------------- |
-| <kbd>q</kbd>         | Quit                                                                              |
-| <kbd>s</kbd>         | Change Shape in 3D                                                                |
-| <kbd>tab</kbd>       | Toggles the colour picker (should be supported on most systems...)                |
-| <kbd>t</kbd>         | Switch to 2D/ShaderToy Mode                                                       |
-| <kbd>h</kbd>         | Switch to 3D                                                                      |
-| <kbd>l</kbd>         | Window-Level                                                                      |
-| <kbd>d</kbd>         | Toggle Decorations (not all OSes)                                                 |
-| <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported)             |
-| <kbd>r</kbd>         | Toggle Rotating shape (3d only)                                                   |
-| <kbd>spacebar</kbd>  | Takes a screenshot && versions the current `.wgsl`                                |
-| <kbd>0</kbd>         | Select the `texture` at index 0                                                   |
-| <kbd>1</kbd>         | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay) |
-| <kbd>2</kbd>         | Select the `texture` at index 2                                                   |
-| <kbd>3</kbd>         | Select the `texture` at index 3                                                   |
-| <kbd>4</kbd>         | Select the `texture` at index 4                                                   |
-| <kbd>5</kbd>         | Select the `texture` at index 5                                                   |
-| <kbd>6</kbd>         | Select the `texture` at index 6                                                   |
-| <kbd>7</kbd>         | Select the `texture` at index 7                                                   |
-| <kbd>8</kbd>         | Select the `texture` at index 8                                                   |
-| <kbd>9</kbd>         | Select the `texture` at index 9                                                   |
+| Hotkey              | Action                                                                            |
+| ------------------- | --------------------------------------------------------------------------------- |
+| <kbd>q</kbd>        | Quit                                                                              |
+| <kbd>s</kbd>        | Change Shape in 3D                                                                |
+| <kbd>tab</kbd>      | Toggles the colour picker (should be supported on most systems...)                |
+| <kbd>t</kbd>        | Switch to 2D/ShaderToy Mode                                                       |
+| <kbd>h</kbd>        | Switch to 3D                                                                      |
+| <kbd>l</kbd>        | Window-Level                                                                      |
+| <kbd>d</kbd>        | Toggle Decorations (not all OSes)                                                 |
+| <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)             |
+| <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                   |
+| <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                |
+| <kbd>0</kbd>        | Select the `texture` at index 0                                                   |
+| <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay) |
+| <kbd>2</kbd>        | Select the `texture` at index 2                                                   |
+| <kbd>3</kbd>        | Select the `texture` at index 3                                                   |
+| <kbd>4</kbd>        | Select the `texture` at index 4                                                   |
+| <kbd>5</kbd>        | Select the `texture` at index 5                                                   |
+| <kbd>6</kbd>        | Select the `texture` at index 6                                                   |
+| <kbd>7</kbd>        | Select the `texture` at index 7                                                   |
+| <kbd>8</kbd>        | Select the `texture` at index 8                                                   |
+| <kbd>9</kbd>        | Select the `texture` at index 9                                                   |
 
-______________________________________________________________________
+---
 
 ### To run shadplay, you'll need the following:
 
@@ -92,13 +92,13 @@ then:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
 
-______________________________________________________________________
+---
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
-______________________________________________________________________
+---
 
 ## TODO:
 
@@ -106,7 +106,7 @@ ______________________________________________________________________
 - \[\] drag n drop obj/stl/gltf opening?
 - \[\] left/right arrows to swap between shaders from the assets' dir
 
-______________________________________________________________________
+---
 
 ## Resources:
 
@@ -116,7 +116,7 @@ ______________________________________________________________________
 - [Shadertoy](https://www.shadertoy.com/)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 
-______________________________________________________________________
+---
 
 # Gallery:
 
@@ -127,6 +127,10 @@ ______________________________________________________________________
   <tr>
     <td><img src="assets/screenshots/semi-circle-waves/screenshot.png" alt="screenshot" width="50%"></td>
     <td><img src="assets/screenshots/cosmic/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/warp/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/screenshots/water-caustics/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
     <td><img src="assets/screenshots/flame/screenshot.png" alt="screenshot" width="50%"></td>
@@ -146,7 +150,7 @@ ______________________________________________________________________
   </tr>
 </table>
 
-______________________________________________________________________
+---
 
 # LICENSE:
 
