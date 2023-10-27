@@ -1,3 +1,11 @@
+## semi-circle-waves
+                 
+
+![photo](screenshot.png)
+
+### fragment
+
+```rust
 //
 // This is a port of the Semi-circle Wave Animation by Shane https://www.shadertoy.com/view/cdycRt
 //
@@ -70,3 +78,8 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
     // Apply rough gamma correction and return the final color
     return vec4<f32>(sqrt(col), 1.0); // Remove the sqrt() to see a more 'saturated' image.
 }
+
+```
+
+your comments go here...
+
