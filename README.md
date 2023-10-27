@@ -46,7 +46,6 @@ ______________________________________________________________________
         └──|  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
 ```
 
-
 ### Keybindings:
 
 The app has some simple hotkeys:
@@ -82,6 +81,7 @@ ______________________________________________________________________
   _We assume you can follow their instructions to clear that hurdle_
 
 then:
+
 ### Installation
 
 ```shell
