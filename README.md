@@ -62,7 +62,7 @@ The app has some simple hotkeys:
 | <kbd>d</kbd>         | Toggle Decorations (not all OSes)                                                 |
 | <kbd>t</kbd>         | Toggle Transparency (returning to fully transparent is not supported)             |
 | <kbd>r</kbd>         | Toggle Rotating shape (3d only)                                                   |
-| <kbd>spacebar </kbd> | Takes a screenshot && versions the current `.wgsl`                                |
+| <kbd>spacebar</kbd>  | Takes a screenshot && versions the current `.wgsl`                                |
 | <kbd>0</kbd>         | Select the `texture` at index 0                                                   |
 | <kbd>1</kbd>         | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay) |
 | <kbd>2</kbd>         | Select the `texture` at index 2                                                   |
