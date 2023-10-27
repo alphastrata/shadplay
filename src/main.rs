@@ -37,8 +37,12 @@ fn main() {
                 primary_window: Some(Window {
                     title: "shadplay".into(),
                     resolution: (720.0, 480.0).into(),
+
                     transparent: true,
+                    #[cfg(not(target_os = "macos"))]
                     decorations: false,
+                    #[cfg(target_os = "macos")]
+                    decorations: true,
                     #[cfg(target_os = "macos")]
                     composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
                     window_level: WindowLevel::AlwaysOnTop,
