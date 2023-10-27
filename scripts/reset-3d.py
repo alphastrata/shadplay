@@ -31,4 +31,5 @@ file_path = "./assets/shaders/myshader.wgsl"
 with open(file_path, "w") as file:
     file.write(THREE3_SHADER_STARTER)
 
-print(f"Content in {file_path} has been replaced with the provided shader code.")
+print(
+    f"Content in {file_path} has been replaced with the provided shader code.")
