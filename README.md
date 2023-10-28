@@ -125,28 +125,28 @@ ______________________________________________________________________
 
 <table>
   <tr>
-    <td><img src="assets/screenshots/semi-circle-waves/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/cosmic/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/semi-circle-waves/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/cosmic/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/warp/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/water-caustics/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/warp/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/water-caustics/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/flame/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/sailing-beyond/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/flame/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/sailing-beyond/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%"></td>
-    <td><img src="assets/screenshots/kishimisu-palette/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/cyber-anim-arrowX/cyber-anim-arrowX.png" alt="cyber-anim-arrowX" width="50%"></td>
+    <td><img src="assets/Gallery/kishimisu-palette/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/lines/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/smoothstep-colouring-a-2dCircle/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/lines/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/smoothstep-colouring-a-2dCircle/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
-    <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
+    <td><img src="assets/Gallery/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
 
