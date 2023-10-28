@@ -149,9 +149,15 @@ ______________________________________________________________________
     <td><img src="assets/screenshots/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
+<<<<<<< HEAD
 
 ______________________________________________________________________
 
 # LICENSE:
 
 This repository is licensed MIT, with the exception of code within the `assets/shaders/shadertoy-ports` directory, see those individual files' and the links to the original `glsl` code to ascertain their licensing requirements.
+||||||| parent of ca707f6 (chore: formatting)
+=======
+
+
+>>>>>>> ca707f6 (chore: formatting)
