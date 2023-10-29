@@ -12,7 +12,7 @@ use bevy::{
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 #[cfg(feature = "ui")]
-use shadplay::ui::HelpUIPlugin;
+use shadplay::ui::help_ui::HelpUIPlugin;
 
 use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
@@ -37,14 +37,17 @@ fn main() {
                 primary_window: Some(Window {
                     title: "shadplay".into(),
                     resolution: (720.0, 480.0).into(),
-
                     transparent: true,
-                    #[cfg(not(target_os = "macos"))]
-                    decorations: false,
-                    #[cfg(target_os = "macos")]
+                    // Not well supported on these OSes
+                    #[cfg(any(target_os = "macos", target_os = "windows"))]
                     decorations: true,
+                    #[cfg(target_os = "linux")]
+                    decorations: false,
+                    // Mac only
                     #[cfg(target_os = "macos")]
                     composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
+
+                    // Sensible default
                     window_level: WindowLevel::AlwaysOnTop,
                     ..default()
                 }),
