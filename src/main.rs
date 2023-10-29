@@ -39,13 +39,11 @@ fn main() {
                     resolution: (720.0, 480.0).into(),
 
                     transparent: true,
-                    #[cfg(not(target_os = "macos"))]
-                    decorations: false,
-                    #[cfg(target_os = "macos")]
+
                     decorations: true,
                     #[cfg(target_os = "macos")]
                     composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
-                    window_level: WindowLevel::AlwaysOnTop,
+                    window_level: WindowLevel::Normal,
                     ..default()
                 }),
                 ..default()
@@ -102,6 +100,7 @@ fn main() {
                 utils::switch_level,
                 utils::toggle_transparency,
                 utils::toggle_window_passthrough,
+                utils::toggle_decorations,
             ),
         )
         // 2d Only Sytsems
