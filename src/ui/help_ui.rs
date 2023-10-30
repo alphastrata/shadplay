@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
-use bevy_egui::{egui, EguiContexts, EguiPlugin};
+use bevy_egui::{egui, EguiContexts};
 
 /// Plugin:
 /// Systems/Resources etc to facilitate the help UI which will show the hotkey bindings.
@@ -17,8 +17,6 @@ pub struct HelpUIToggle {
 
 impl Plugin for HelpUIPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(EguiPlugin);
-
         app.insert_resource(HelpUIToggle { open: false });
 
         app.add_systems(
