@@ -10,7 +10,8 @@ Shadplay is a simple, (WIP) application that provides a window where shader code
 """
 
 [features]
-default = []
+default = ["ui"]
+ui = []
 
 [dependencies]
 bevy = { version = "0.11.3", features = [
