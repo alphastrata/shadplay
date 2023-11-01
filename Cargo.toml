@@ -24,6 +24,8 @@ bevy_egui = { version = "0.21.0" }
 bevy_panorbit_camera = "0.8.*"
 chrono = "0.4.31"
 copypasta = "0.10.0"
+directories = "5.0.1"
+serde = { version = "1.0.190", features = ["derive"] }
 
 [profile.dev] # A little bit of optimisation for dev builds
 opt-level = 1
