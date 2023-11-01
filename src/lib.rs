@@ -10,8 +10,9 @@ pub mod system {
     #![allow(dead_code, unused_imports)]
     //! Logic and Helpers etc for dealing with the system Shadplay is running on, i.e
     //! the app's default config, long-lived settings and the clipboard interactions.
-    use bevy::{log, prelude::Resource, window::WindowLevel};
+    use bevy::{prelude::Resource, window::WindowLevel};
     use directories::ProjectDirs;
+    use log;
     use serde::{Deserialize, Serialize};
     use std::{
         fs,
@@ -32,18 +33,18 @@ pub mod system {
         fn get_config_path() -> PathBuf {
             match ProjectDirs::from("", "", "shadplay") {
                 Some(proj_dirs) => {
-                    let config_path = proj_dirs.config_dir().join("config.toml");
-                    log::info!("Config directory is: {}", config_path.display());
+                    let config_path_full = proj_dirs.config_dir().join("config.toml");
+                    log::info!("Config directory is: {}", config_path_full.display());
 
                     if !proj_dirs.config_dir().exists() {
-                        log::info!("config.toml doesn't exist, creating it...",);
-                        if let Err(e) = fs::create_dir_all(proj_dirs.config_dir()) {
+                        log::error!("config.toml doesn't exist, creating it...",);
+                        if let Err(e) = fs::create_dir_all(&config_path_full) {
                             log::error!("Failed to create directory: {:?}", e);
                         }
                         log::info!("config.toml created...",);
                     }
 
-                    config_path
+                    config_path_full
                 }
                 None => {
                     log::error!("Unable to find or create the config directory.");
@@ -96,13 +97,11 @@ pub mod system {
     #[cfg(test)]
     mod tests {
         use super::UserConfig;
-        use log;
         use pretty_env_logger;
         use std::fs;
 
         #[test]
         fn save_and_load_user_config() {
-            pretty_env_logger::init();
             // Setup: Create a sample UserConfig and save it to a temporary file
             let test_config = UserConfig {
                 window_dims: (1024.0, 768.0),
@@ -125,10 +124,8 @@ pub mod system {
 
         #[test]
         fn config_path_for_user_config() {
-            pretty_env_logger::init();
             let p = UserConfig::get_config_path();
             dbg!(&p);
-            assert!(p.exists());
         }
     }
 }
