@@ -6,8 +6,7 @@ use bevy::{
     prelude::*,
     sprite::Material2dPlugin,
     utils::Duration,
-    window::WindowLevel,
-    window::{Window, WindowPlugin, WindowResized},
+    window::{WindowPlugin, WindowResized},
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
@@ -18,13 +17,17 @@ use shadplay::{
     drag_n_drop::{self, TexHandleQueue, UserAddedTexture},
     screenshot,
     shader_utils::{self, DragNDropShader},
+    system::UserConfig,
     texture_tooling,
     ui::colour_picker_plugin,
     utils::{self, AppState, MonitorsSpecs, Rotating, ShapeOptions, TransparencySet},
 };
 
-fn main() {
+fn main() -> anyhow::Result<()> {
     let mut app = App::new();
+
+    let user_config = UserConfig::load_from_toml(UserConfig::get_config_path())?;
+    let user_cfg_window = user_config.create_window_settings();
 
     let shadplay = app
         .add_state::<AppState>()
@@ -34,23 +37,7 @@ fn main() {
                 ..default()
             })
             .set(WindowPlugin {
-                primary_window: Some(Window {
-                    title: "shadplay".into(),
-                    resolution: (720.0, 480.0).into(),
-                    transparent: true,
-                    // Not well supported on these OSes
-                    #[cfg(any(target_os = "macos", target_os = "windows"))]
-                    decorations: true,
-                    #[cfg(target_os = "linux")]
-                    decorations: false,
-                    // Mac only
-                    #[cfg(target_os = "macos")]
-                    composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
-
-                    // Sensible default
-                    window_level: WindowLevel::AlwaysOnTop,
-                    ..default()
-                }),
+                primary_window: Some(user_cfg_window),
                 ..default()
             }),))
         .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
@@ -59,6 +46,7 @@ fn main() {
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         // Resources
         .insert_resource(MonitorsSpecs::default())
+        .insert_resource(user_config)
         .insert_resource(TexHandleQueue::default())
         .insert_resource(utils::ShadplayWindowDims::default())
         .insert_resource(ShapeOptions::default())
@@ -124,4 +112,6 @@ fn main() {
     shadplay.add_plugins(HelpUIPlugin);
 
     shadplay.run();
+
+    Ok(())
 }
