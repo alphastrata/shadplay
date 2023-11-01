@@ -24,34 +24,39 @@ use shadplay::{
 };
 
 fn main() -> anyhow::Result<()> {
-    let mut app = App::new();
-
+    // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
     let user_config = UserConfig::load_from_toml(UserConfig::get_config_path())?;
     let user_cfg_window = user_config.create_window_settings();
 
+    let mut app = App::new();
+
     let shadplay = app
         .add_state::<AppState>()
-        .add_plugins((DefaultPlugins
-            .set(AssetPlugin {
-                watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
-                ..default()
-            })
-            .set(WindowPlugin {
-                primary_window: Some(user_cfg_window),
-                ..default()
-            }),))
+        .add_plugins((
+            DefaultPlugins
+                .set(AssetPlugin {
+                    watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
+                    ..default()
+                })
+                .set(WindowPlugin {
+                    primary_window: Some(user_cfg_window), // From UserConfig
+                    ..default()
+                }),
+            //
+        ))
         .add_plugins(shader_utils::common::ShadplayShaderLibrary) // Something of a library with common functions.
         .add_plugins(colour_picker_plugin::ColourPickerPlugin)
         .add_plugins(MaterialPlugin::<shader_utils::YourShader>::default())
         .add_plugins(Material2dPlugin::<shader_utils::YourShader2D>::default())
         // Resources
         .insert_resource(MonitorsSpecs::default())
-        .insert_resource(user_config)
+        .insert_resource(user_config) //UserConfig
         .insert_resource(TexHandleQueue::default())
         .insert_resource(utils::ShadplayWindowDims::default())
         .insert_resource(ShapeOptions::default())
         .insert_resource(TransparencySet(true))
         .insert_resource(Rotating(false))
+        .insert_resource(ClearColor(Color::NONE))
         .add_plugins(PanOrbitCameraPlugin)
         //events:
         .add_event::<UserAddedTexture>()
@@ -62,8 +67,7 @@ fn main() -> anyhow::Result<()> {
         // 2D
         .add_systems(OnEnter(AppState::TwoD), utils::setup_2d)
         .add_systems(OnExit(AppState::TwoD), utils::cleanup_2d)
-        // All the time
-        .insert_resource(ClearColor(Color::NONE))
+        // Setups.
         .add_systems(PreStartup, utils::init_shapes)
         // 3d Cam Systems
         .add_systems(
@@ -93,6 +97,7 @@ fn main() -> anyhow::Result<()> {
                 utils::switch_level,
                 utils::toggle_transparency,
                 utils::toggle_window_passthrough,
+                UserConfig::runtime_updater.run_if(on_event::<WindowResized>()),
             ),
         )
         // 2d Only Sytsems

@@ -11,7 +11,7 @@ pub mod system {
     //! the app's default config, long-lived settings and the clipboard interactions.
     use bevy::{
         log,
-        prelude::Resource,
+        prelude::{Query, ResMut, Resource},
         window::{Window, WindowLevel},
     };
     use directories::ProjectDirs;
@@ -91,6 +91,21 @@ pub mod system {
             match self.always_on_top {
                 true => WindowLevel::AlwaysOnTop,
                 _ => WindowLevel::Normal,
+            }
+        }
+
+        /// System: When the screen dims change, we update the Self we have in the bevy [`Resource`]s.
+        pub fn runtime_updater(mut user_config: ResMut<UserConfig>, windows: Query<&Window>) {
+            let win = windows
+                .get_single()
+                .expect("Should be impossible to NOT get a window");
+
+            let (width, height) = (win.width(), win.height());
+            user_config.window_dims = (width, height);
+
+            match user_config.save_to_toml(Self::get_config_path()) {
+                Ok(_) => log::info!("User's config.toml's screen dims were updated."),
+                Err(e) => log::error!("Failed to update user's config {}", e),
             }
         }
     }
