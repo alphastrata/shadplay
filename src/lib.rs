@@ -28,7 +28,7 @@ pub mod system {
         window_dims: (f32, f32),
         decorations: bool,
         always_on_top: bool,
-        last_updated: u64,
+        last_updated: u64, //Toml doesn't supprot u128
     }
 
     impl UserConfig {
@@ -102,6 +102,10 @@ pub mod system {
 
             let (width, height) = (win.width(), win.height());
             user_config.window_dims = (width, height);
+            user_config.last_updated = std::time::SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_secs();
 
             match user_config.save_to_toml(Self::get_config_path()) {
                 Ok(_) => log::info!("User's config.toml's screen dims were updated."),
