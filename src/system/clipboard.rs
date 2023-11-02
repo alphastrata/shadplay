@@ -27,6 +27,7 @@ impl SystemClipboard {
     //TODO: we probably never actually need this.. so maybe remove?
     // it would maybe be nice though to be able to take an image for the texture system from the clipboard tho~....
     #[cfg(debug_assertions)]
+    #[allow(dead_code)]
     pub(super) fn read_current(&mut self) -> Option<String> {
         match self.most_recent_copypasta.get_contents() {
             Ok(v) => Some(v),

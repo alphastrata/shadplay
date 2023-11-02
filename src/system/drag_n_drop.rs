@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use crate::prelude::*;
+use crate::shader_utils::texture_tooling::SetNewTexture;
 
 /// Resource: Representing the index (the default texture will be at 0), and a Texture handle that we can pass to a shader
 #[derive(Default, Resource, Deref, DerefMut, Clone, Debug)]

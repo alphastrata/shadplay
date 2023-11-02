@@ -1,3 +1,6 @@
+///
+/// ShadPlay
+///
 use bevy::{
     asset::ChangeWatcher,
     input::keyboard::KeyboardInput,
@@ -5,7 +8,8 @@ use bevy::{
     utils::Duration,
     window::{WindowPlugin, WindowResized},
 };
-use shadplay::{plugin::ShadPlay, system::UserConfig, utils::AppState};
+
+use shadplay::{plugin::ShadPlayPlugin, system::config::UserConfig, utils::AppState};
 
 fn main() -> anyhow::Result<()> {
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
@@ -28,7 +32,7 @@ fn main() -> anyhow::Result<()> {
                     primary_window: Some(user_cfg_window), // From UserConfig
                     ..default()
                 }),
-            ShadPlay,
+            ShadPlayPlugin,
         ))
         .add_systems(
             Update,

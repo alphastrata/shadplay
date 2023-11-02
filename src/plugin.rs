@@ -4,9 +4,9 @@ use bevy_panorbit_camera::PanOrbitCameraPlugin;
 use crate::prelude::*;
 
 /// Plugin: The main ShadPlay plugin
-pub struct ShadPlay;
+pub struct ShadPlayPlugin;
 
-impl Plugin for ShadPlay {
+impl Plugin for ShadPlayPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
             .add_plugins(ColourPickerPlugin)

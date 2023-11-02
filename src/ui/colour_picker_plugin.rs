@@ -3,7 +3,7 @@ use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
 use bevy_egui::{egui, EguiContexts, EguiPlugin};
 
-use crate::system_clipboard::SystemClipboard;
+use crate::system::clipboard::SystemClipboard;
 
 #[derive(Resource, Default, Debug, PartialEq)]
 pub struct ColourPickerTool {
