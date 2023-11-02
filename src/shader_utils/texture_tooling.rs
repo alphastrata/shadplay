@@ -2,9 +2,7 @@ use bevy::input::keyboard::KeyboardInput;
 use bevy::input::ButtonState;
 use bevy::prelude::*;
 
-use crate::drag_n_drop::TexHandleQueue;
-use crate::shader_utils::YourShader;
-use crate::shader_utils::YourShader2D;
+use crate::prelude::*;
 
 /// Implement this on your own shaders you create, should you want them to take advantage of the texture updater system(s).
 /// It's exteremly easy to do, just see the examples in `src/texture_tooling.rs`
@@ -28,7 +26,10 @@ impl SetNewTexture for YourShader {
         user_added_textures: &TexHandleQueue,
     ) {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
-            error!("No handle, it could still be loading your texture into the ECS!");
+            let num_texs = user_added_textures.0.len();
+            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+                num_texs, num_texs.min(9));
+
             return;
         };
         shader_mat.img = new_tex.clone(); // Cloning handles is fine.
@@ -53,7 +54,7 @@ pub fn swap_3d_tex_from_idx(
                     match v {
                         KeyCode::Key0 => YourShader::set_current_tex(shad_mat, 0, &user_textures),
                         KeyCode::Key1 => YourShader::set_current_tex(shad_mat, 1, &user_textures),
-                        KeyCode::Key2 => YourShader::set_current_tex(shad_mat, 1, &user_textures),
+                        KeyCode::Key2 => YourShader::set_current_tex(shad_mat, 2, &user_textures),
                         KeyCode::Key3 => YourShader::set_current_tex(shad_mat, 3, &user_textures),
                         KeyCode::Key4 => YourShader::set_current_tex(shad_mat, 4, &user_textures),
                         KeyCode::Key5 => YourShader::set_current_tex(shad_mat, 5, &user_textures),
@@ -80,6 +81,10 @@ impl SetNewTexture for YourShader2D {
     ) {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
             error!("Expected a texture at idx: {}, but none was found.", idx);
+            let num_texs = user_added_textures.0.len();
+            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+                num_texs, num_texs.min(9));
+
             return;
         };
         shader_mat.img = new_tex.clone(); // Cloning handles is fine.

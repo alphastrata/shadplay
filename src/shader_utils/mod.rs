@@ -2,6 +2,7 @@
 //! Most of the boilerplate to make a custom shader work lives here.
 //!
 use std::path::PathBuf;
+pub mod texture_tooling;
 
 use bevy::{
     prelude::*,
