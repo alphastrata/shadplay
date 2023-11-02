@@ -16,14 +16,16 @@ pub mod prelude {
             TexHandleQueue, UserAddedTexture,
         },
         screenshot::screenshot_and_version_shader_on_spacebar,
-        shader_utils::{common::ShadplayShaderLibrary, DragNDropShader, YourShader, YourShader2D},
-        texture_tooling::{self, swap_3d_tex_from_idx},
+        shader_utils::{
+            common::ShadplayShaderLibrary, DragNDropShader, MousePos, YourShader, YourShader2D,
+        },
+        texture_tooling::{self, swap_2d_tex_from_idx, swap_3d_tex_from_idx, SetNewTexture},
         ui::colour_picker_plugin::ColourPickerPlugin,
         utils::{
             self, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes, quit, rotate, setup_2d,
-            setup_3d, switch_level, switch_shape, toggle_rotate, toggle_transparency,
-            toggle_window_passthrough, AppState, MonitorsSpecs, Rotating, ShadplayWindowDims,
-            ShapeOptions, TransparencySet,
+            setup_3d, size_quad, switch_level, switch_shape, toggle_rotate, toggle_transparency,
+            toggle_window_passthrough, update_mouse_pos, AppState, MonitorsSpecs, Rotating,
+            ShadplayWindowDims, ShapeOptions, TransparencySet,
         },
     };
 }

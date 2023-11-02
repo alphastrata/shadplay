@@ -5,7 +5,7 @@ use bevy::{
     utils::Duration,
     window::{WindowPlugin, WindowResized},
 };
-use shadplay::{system::UserConfig, utils::AppState};
+use shadplay::{plugin::ShadPlay, system::UserConfig, utils::AppState};
 
 fn main() -> anyhow::Result<()> {
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
@@ -28,7 +28,7 @@ fn main() -> anyhow::Result<()> {
                     primary_window: Some(user_cfg_window), // From UserConfig
                     ..default()
                 }),
-            shadplay::plugin::Shadplay,
+            ShadPlay,
         ))
         .add_systems(
             Update,
