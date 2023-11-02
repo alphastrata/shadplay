@@ -29,7 +29,7 @@ impl SystemClipboard {
     #[cfg(debug_assertions)]
     pub(super) fn read_current(&mut self) -> Option<String> {
         match self.most_recent_copypasta.get_contents() {
-            Ok(v) => Some(v.into()),
+            Ok(v) => Some(v),
             Err(e) => {
                 error!("{e}");
                 None

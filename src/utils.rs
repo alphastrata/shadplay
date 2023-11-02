@@ -5,10 +5,7 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::{
-    drag_n_drop::TexHandleQueue,
-    shader_utils::{MousePos, YourShader, YourShader2D},
-};
+use crate::prelude::*;
 
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot

@@ -2,9 +2,7 @@ use bevy::input::keyboard::KeyboardInput;
 use bevy::input::ButtonState;
 use bevy::prelude::*;
 
-use crate::drag_n_drop::TexHandleQueue;
-use crate::shader_utils::YourShader;
-use crate::shader_utils::YourShader2D;
+use crate::prelude::*;
 
 /// Implement this on your own shaders you create, should you want them to take advantage of the texture updater system(s).
 /// It's exteremly easy to do, just see the examples in `src/texture_tooling.rs`

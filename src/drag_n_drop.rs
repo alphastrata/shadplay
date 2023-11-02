@@ -2,9 +2,7 @@ use bevy::prelude::*;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::shader_utils::{DragNDropShader, YourShader, YourShader2D};
-use crate::texture_tooling::SetNewTexture;
-use crate::utils::AppState;
+use crate::prelude::*;
 
 /// Resource: Representing the index (the default texture will be at 0), and a Texture handle that we can pass to a shader
 #[derive(Default, Resource, Deref, DerefMut, Clone, Debug)]
