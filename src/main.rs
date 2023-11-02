@@ -3,10 +3,11 @@ use bevy::window::CompositeAlphaMode;
 
 use bevy::{
     asset::ChangeWatcher,
+    input::keyboard::KeyboardInput,
     prelude::*,
     sprite::Material2dPlugin,
     utils::Duration,
-    window::{WindowPlugin, WindowResized},
+    window::{WindowLevel, WindowPlugin, WindowResized},
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
@@ -97,6 +98,7 @@ fn main() -> anyhow::Result<()> {
                 utils::switch_level,
                 utils::toggle_transparency,
                 utils::toggle_window_passthrough,
+                UserConfig::runtime_updater.run_if(on_event::<KeyboardInput>()),
                 UserConfig::runtime_updater.run_if(on_event::<WindowResized>()),
             ),
         )

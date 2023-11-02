@@ -101,6 +101,12 @@ pub mod system {
                 .expect("Should be impossible to NOT get a window");
 
             let (width, height) = (win.width(), win.height());
+
+            user_config.decorations = win.decorations;
+            user_config.always_on_top = match win.window_level {
+                WindowLevel::AlwaysOnTop => true,
+                _ => false,
+            };
             user_config.window_dims = (width, height);
             user_config.last_updated = std::time::SystemTime::now()
                 .duration_since(UNIX_EPOCH)
