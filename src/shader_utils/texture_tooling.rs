@@ -26,6 +26,10 @@ impl SetNewTexture for YourShader {
         user_added_textures: &TexHandleQueue,
     ) {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
+            let num_texs = user_added_textures.0.len();
+            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+                num_texs, num_texs.min(9));
+
             return;
         };
         shader_mat.img = new_tex.clone(); // Cloning handles is fine.
