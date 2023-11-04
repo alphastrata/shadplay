@@ -3283,7 +3283,6 @@ dependencies = [
 name = "shadplay"
 version = "0.0.1"
 dependencies = [
- "anyhow",
  "bevy",
  "bevy_egui",
  "bevy_panorbit_camera",
