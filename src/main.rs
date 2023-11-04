@@ -11,7 +11,7 @@ use bevy::{
 
 use shadplay::{plugin::ShadPlayPlugin, system::config::UserConfig, utils::AppState};
 
-fn main() -> anyhow::Result<()> {
+fn main() {
     let path = UserConfig::get_config_path();
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
     let user_config = match UserConfig::load_from_toml(&path) {

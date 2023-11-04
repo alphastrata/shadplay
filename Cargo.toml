@@ -14,7 +14,6 @@ default = ["ui"]
 ui = []
 
 [dependencies]
-anyhow = "1.0.75"
 bevy = { version = "0.11.3", features = [
   "filesystem_watcher",
   "dynamic_linking",
