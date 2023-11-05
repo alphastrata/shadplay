@@ -1,7 +1,7 @@
 //
 // This is a port of the Semi-circle Wave Animation by Shane https://www.shadertoy.com/view/cdycRt
 //
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, rotate2D, HALF_PI, PI, TAU
 

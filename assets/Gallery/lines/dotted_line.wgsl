@@ -1,5 +1,5 @@
 #import bevy_pbr::mesh_view_bindings globals 
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 // If you're passing this in from bevy declare them over there.
 struct DottedLineShader {

@@ -1,7 +1,7 @@
 ///
 /// This is a port of "WARP" by Alro https://www.shadertoy.com/view/ttlGDf
 ///
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput;
+#import bevy_pbr::forward_io::VertexOutput;
 #import bevy_sprite::mesh2d_view_bindings globals;
 #import bevy_render::view View;
 

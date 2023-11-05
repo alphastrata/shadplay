@@ -1,5 +1,5 @@
 #import bevy_pbr::mesh_view_bindings globals view
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_pbr::utils PI HALF_PI
 #import bevy_pbr::mesh_functions 
 

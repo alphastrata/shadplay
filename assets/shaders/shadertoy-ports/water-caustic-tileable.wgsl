@@ -3,7 +3,7 @@
 /// I have been unable to find the original.
 /// ***************************** ///
 
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D, TAU
 

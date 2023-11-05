@@ -50,7 +50,7 @@ fn fragment(
 }
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var test_texture_1d: texture_1d<f32>;
 @group(1) @binding(1) var test_texture_1d_sampler: sampler;
@@ -87,7 +87,7 @@ fn fragment(
     let color = texture_sample(texture, texture_sampler, viewport_uv);
     return color;
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -251,7 +251,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     );
 }
 
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -333,7 +333,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
     storage_barrier();
 
     texture_store(texture, location, color);
-}#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+}#import bevy_pbr::forward_io::VertexOutput
 
 #ifdef CUBEMAP_ARRAY
 @group(1) @binding(0) var base_color_texture: texture_cube_array<f32>;
@@ -354,7 +354,7 @@ fn fragment(
         fragment_position_view_lh
     );
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct LineMaterial {
     color: vec4<f32>,
@@ -405,7 +405,7 @@ fn vertex(vertex: Vertex) -> VertexOutput {
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return in.color;
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var textures: binding_array<texture_2d<f32>>;
 @group(1) @binding(1) var nearest_sampler: sampler;

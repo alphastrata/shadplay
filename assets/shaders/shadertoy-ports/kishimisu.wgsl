@@ -1,5 +1,5 @@
 #import bevy_pbr::mesh_view_bindings globals
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 
 @fragment

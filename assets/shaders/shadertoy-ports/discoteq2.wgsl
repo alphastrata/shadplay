@@ -1,4 +1,4 @@
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals
 
 const HEIGHT:f32 = 4.0;
