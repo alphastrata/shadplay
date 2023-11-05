@@ -32,10 +32,10 @@ fn main() {
         .insert_resource(ClearColor(Color::NONE))
         .add_plugins((
             DefaultPlugins
-                .set(AssetPlugin {
-                    watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
-                    ..default()
-                })
+                // .set(AssetPlugin {
+                //     watch_for_changes: ChangeWatcher::with_delay(Duration::from_millis(200)),
+                //     ..default()
+                // })
                 .set(WindowPlugin {
                     primary_window: Some(user_cfg_window), // From UserConfig
                     ..default()

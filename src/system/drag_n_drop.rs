@@ -26,7 +26,7 @@ pub fn file_drag_and_drop_listener(
     mut texture_tx: EventWriter<UserAddedTexture>,
     mut shader_tx: EventWriter<DragNDropShader>,
 ) {
-    events.into_iter().for_each(|event| {
+    events.read().for_each(|event| {
         if let FileDragAndDrop::DroppedFile { path_buf, .. } = event {
             if AVAILABLE_TEX_FORMATS.iter().any(|fmt| {
                 path_buf
@@ -53,7 +53,7 @@ pub fn override_current_shader(
     mut dropped_shader: EventReader<DragNDropShader>,
     app_state: Res<State<AppState>>,
 ) {
-    dropped_shader.into_iter().for_each(|pb| {
+    dropped_shader.read().for_each(|pb| {
         trace!("A wgsl shader was dropped on with path: {}", pb.display());
         let Ok(shader_as_string) = std::fs::read_to_string(pb.as_path()) else {
             return;
@@ -89,7 +89,7 @@ pub fn add_and_set_dropped_file(
     mut tex_handles: ResMut<TexHandleQueue>,
     mut user_textures: EventReader<UserAddedTexture>,
 ) {
-    user_textures.into_iter().for_each(|tex_path| {
+    user_textures.read().for_each(|tex_path| {
         let texture: Handle<Image> = asset_server.load(tex_path.as_path());
 
         let new_idx = tex_handles.keys().count(); // Because comp sci counting.
