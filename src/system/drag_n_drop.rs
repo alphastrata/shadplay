@@ -28,6 +28,7 @@ pub fn file_drag_and_drop_listener(
 ) {
     events.read().for_each(|event| {
         if let FileDragAndDrop::DroppedFile { path_buf, .. } = event {
+            info!("{}", path_buf.display());
             if AVAILABLE_TEX_FORMATS.iter().any(|fmt| {
                 path_buf
                     .extension()

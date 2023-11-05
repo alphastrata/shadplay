@@ -11,16 +11,17 @@ Shadplay is a simple, (WIP) application that provides a window where shader code
 
 [features]
 default = ["ui"]
+wayland = []
 ui = []
 
 [dependencies]
 bevy = { version = "0.12.0", features = [
   "file_watcher",
   "dynamic_linking",
-  # "bevy_dylib",
+  "wayland",
   "jpeg",
 ] }
-bevy_egui = { git = "https://github.com/raffaeleragni/bevy_egui", branch = "bevy_0_12" } #, version = "0.22.0" }
+bevy_egui = { git = "https://github.com/raffaeleragni/bevy_egui", branch = "bevy_0_12" }               #, version = "0.22.0" }
 bevy_panorbit_camera = { git = "https://github.com/Plonq/bevy_panorbit_camera", branch = "bevy-0.12" } #, version= "0.9.0"}
 chrono = "0.4.31"
 copypasta = "0.10.0"
@@ -28,22 +29,11 @@ directories = "5.0.1"
 serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.6"
 
-[dev-dependencies]
-
 [profile.dev] # A little bit of optimisation for dev builds
 opt-level = 1
 
 [profile.dev.package."*"] # Always build dependencies with the highest level of optimisations possible.
 opt-level = 3
-
-# No dynamic linking for production releases.
-[profile.production]
-inherits = "release"
-
-[profile.production.bevy]
-version = "0.12.0"
-features = ["filesystem_watcher"]
-
 
 [build-dependencies]
 glob = "0.3.1"
