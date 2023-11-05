@@ -73,10 +73,10 @@ fn sd_sphere(p: vec3f, radius: f32) -> f32 {
 }
 
 // Hexagonal tiling
-fn hextile(p: vec2f) -> vec2f {
+fn hextile(_p: vec2f) -> vec2f {
     // See Art of Code: Hexagonal Tiling Explained!
     // https://www.youtube.com/watch?v=VmrIDyYiJBA
-    var p = p;
+    var p = _p;
 
     // Define constants
     let sz: vec2f = vec2f(1.0, sqrt(3.0));
@@ -161,8 +161,8 @@ fn coff(h: f32, time: f32) -> vec2<f32> {
 }
 
 /// approx aces colour-space
-fn aces_approx(v: vec3<f32>) -> vec3<f32> {
-    var v = max(v, vec3<f32>(0.0, 0.0, 0.0));
+fn aces_approx(_v: vec3<f32>) -> vec3<f32> {
+    var v = max(_v, vec3<f32>(0.0, 0.0, 0.0));
     v *= 0.6;
     let a: f32 = 2.51;
     let b: f32 = 0.03;

@@ -89,10 +89,11 @@ pub fn add_and_set_dropped_file(
     mut tex_handles: ResMut<TexHandleQueue>,
     mut user_textures: EventReader<UserAddedTexture>,
 ) {
-    user_textures.read().for_each(|tex_path| {
-        let texture: Handle<Image> = asset_server.load(tex_path.as_path());
+    let new_idx = tex_handles.keys().count(); // Because comp sci counting.
 
-        let new_idx = tex_handles.keys().count(); // Because comp sci counting.
+    for tex_path in user_textures.read() {
+        let texture: Handle<Image> =
+            asset_server.load(tex_path.as_path().to_string_lossy().to_string());
         tex_handles.insert(new_idx, texture);
 
         if let Ok(handle) = shader_hndl_2d.get_single() {
@@ -116,7 +117,7 @@ pub fn add_and_set_dropped_file(
                 error!("Unable to get a handle to the 3d shader");
             }
         }
-    });
+    }
 }
 
 #[cfg(debug_assertions)]

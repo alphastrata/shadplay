@@ -48,7 +48,7 @@ pub fn swap_3d_tex_from_idx(
     };
 
     if let Some(shad_mat) = shader_mat3d.get_mut(handle) {
-        key_evr.iter().for_each(|ev| {
+        key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 if let Some(v) = ev.key_code {
                     match v {
@@ -106,7 +106,7 @@ pub fn swap_2d_tex_from_idx(
     };
 
     if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
-        key_evr.iter().for_each(|ev| {
+        key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 if let Some(v) = ev.key_code {
                     match v {

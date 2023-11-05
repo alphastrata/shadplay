@@ -15,13 +15,13 @@ ui = []
 
 [dependencies]
 bevy = { version = "0.12.0", features = [
-  # "filesystem_watcher",
+  "file_watcher",
   "dynamic_linking",
   # "bevy_dylib",
   "jpeg",
 ] }
-bevy_egui = { git = "https://github.com/raffaeleragni/bevy_egui" , branch = "bevy_0_12"}#, version = "0.22.0" }
-bevy_panorbit_camera = {git = "https://github.com/Plonq/bevy_panorbit_camera", branch = "bevy-0.12" }#, version= "0.9.0"}
+bevy_egui = { git = "https://github.com/raffaeleragni/bevy_egui", branch = "bevy_0_12" } #, version = "0.22.0" }
+bevy_panorbit_camera = { git = "https://github.com/Plonq/bevy_panorbit_camera", branch = "bevy-0.12" } #, version= "0.9.0"}
 chrono = "0.4.31"
 copypasta = "0.10.0"
 directories = "5.0.1"
