@@ -13,7 +13,7 @@ const CIRCLE_SIZE:f32 = 0.4;
 const BEAM_ROT_SPEED:f32 = 0.2; 
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     var uv = in.uv;
     uv *= rotate2D(PI);

@@ -15,7 +15,7 @@ const ICONST: i32 = 2;
 
 // This is a port of "Tuesday tinkering" https://www.shadertoy.com/view/DsccRS by mrange https://www.shadertoy.com/user/mrange
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let uv = (in.uv * 2.0) - 1.0;
     var col = vec3f(0.0);
     let resolution = view.viewport.xy;

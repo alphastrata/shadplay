@@ -6,14 +6,14 @@
 //
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // just comment in/out the one you want to see and save this file!
 
     return non_simple(in);
     // return simple_non_uniform(in);
 }
 
-fn non_simple(in: MeshVertexOutput) -> vec4<f32>{
+fn non_simple(in: VertexOutput) -> vec4<f32>{
     var uv: vec2<f32> = in.uv;
     var m = 0.;
     let t = globals.time / 10.0;
@@ -56,7 +56,7 @@ fn non_simple(in: MeshVertexOutput) -> vec4<f32>{
     return vec4(col, 1.0);
 }
 
-fn simple_non_uniform(in: MeshVertexOutput) -> vec4<f32> {
+fn simple_non_uniform(in: VertexOutput) -> vec4<f32> {
     let uv: vec2<f32> = in.uv;
 
     var m = 0.;

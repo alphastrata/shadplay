@@ -2,7 +2,7 @@
 #import bevy_pbr::forward_io::VertexOutput
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let uv: vec2<f32> = in.uv;
     return fbm_lightning(uv);
 }

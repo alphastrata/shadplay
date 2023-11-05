@@ -13,7 +13,7 @@ const NUM_ITERATIONS: f32 = 14.0;
 const LINE_GIRTH:f32 = 0.4;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv = (in.uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
     let time = globals.time * SPEED;

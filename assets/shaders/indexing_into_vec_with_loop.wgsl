@@ -9,7 +9,7 @@ const SPEED:f32 = 0.22;
 
 // Working out how to use the vec2f[idx] indexing with loops.
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv = in.uv.xy;
 
     var col = vec4f(0.0);

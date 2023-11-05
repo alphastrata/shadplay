@@ -1,4 +1,4 @@
-#import bevy_pbr::mesh_vertex_output      MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output      VertexOutput
 #import bevy_pbr::utils                   PI
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import bevy_render::view                 View
@@ -21,7 +21,7 @@ const ANTI_ALIASING: i32 = 2;
 // Porting https://www.shadertoy.com/view/tsBXW3 by set111:https://www.shadertoy.com/user/set111
 @fragment
 fn fragment(
-    in: MeshVertexOutput
+    in: VertexOutput
 ) -> @location(0) vec4<f32> {
     let t = globals.time * SPEED;
     let resolution = view.viewport.zw;

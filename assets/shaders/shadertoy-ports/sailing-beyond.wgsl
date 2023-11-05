@@ -28,7 +28,7 @@ fn d2r(angle: f32) -> f32 {
 }
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let resolution = view.viewport.zw;
     var uv = (in.uv * 2.0) - 1.0;
 

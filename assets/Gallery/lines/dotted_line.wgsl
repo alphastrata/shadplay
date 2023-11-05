@@ -14,7 +14,7 @@ struct DottedLineShader {
 var<uniform> material: DottedLineShader;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv: vec2<f32> = (in.uv * 2.0) - 1.0; // normalize uvs to [-1..1]
     let t = globals.time; //TODO: animate.
     var col: vec4<f32> = vec4(0.0); // Initialize to transparent

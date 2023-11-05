@@ -14,7 +14,7 @@ const MAX_ITER: i32 = 3;
 const SPEED:f32 = 1.0;
     
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let time: f32 = globals.time * 0.5 + 23.0;
     var uv: vec2<f32> = in.uv;
 

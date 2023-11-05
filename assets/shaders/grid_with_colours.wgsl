@@ -7,7 +7,7 @@ const GRID_RATIO:f32 = 40.;
 
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let t = globals.time;
 
     var uv = in.uv - 0.5;
