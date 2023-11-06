@@ -32,8 +32,5 @@ toml = "0.8.6"
 [profile.dev] # A little bit of optimisation for dev builds
 opt-level = 1
 
-[profile.dev.package."*"] # Always build dependencies with the highest level of optimisations possible.
-opt-level = 3
-
 [build-dependencies]
 glob = "0.3.1"
