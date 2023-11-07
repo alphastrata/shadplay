@@ -1,4 +1,4 @@
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import bevy_render::view View
 #import bevy_pbr::utils PI
@@ -16,7 +16,7 @@ const WBCOL2: vec3f = vec3f(0.15, 0.8, 1.7);
 
 // this is an attempted port of 'w10'  https://www.shadertoy.com/view/lllSR2 by https://www.shadertoy.com/user/gyabo
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var frag_color: vec4<f32> = vec4<f32>(0.0080);
     var uv = (in.uv.xy * 2.0)- 1.0;
     uv.y -= 0.55; // To keep the logo centered.

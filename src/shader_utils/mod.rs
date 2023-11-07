@@ -23,7 +23,7 @@ pub struct DragNDropShader {
 //                3D                    //
 // ************************************ //
 /// The 3D shader.
-#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
     #[uniform(0)]
@@ -44,7 +44,7 @@ impl Material for YourShader {
 //                2D                    //
 // ************************************ //
 /// The 2D shadertoy like shader
-#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
     #[uniform(0)]
@@ -72,7 +72,7 @@ impl Material2d for YourShader2D {
 // You need to use this sort of structure, for example with the dotted_line.wgsl shader.
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
-#[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
+#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct DottedLineShader {
     #[uniform(0)]

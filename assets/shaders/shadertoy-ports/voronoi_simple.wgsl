@@ -1,19 +1,19 @@
 #import bevy_pbr::mesh_view_bindings globals
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 //
 // Two simple voronoi shaders from https://www.youtube.com/watch?v=l-07BXzNdPw&t=19s&ab_channel=TheArtofCode
 // Ported here to wgsl, I've tried to use the same varnames etc so you can benefit from Martien's fantastic videos.
 //
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // just comment in/out the one you want to see and save this file!
 
     return non_simple(in);
     // return simple_non_uniform(in);
 }
 
-fn non_simple(in: MeshVertexOutput) -> vec4<f32>{
+fn non_simple(in: VertexOutput) -> vec4<f32>{
     var uv: vec2<f32> = in.uv;
     var m = 0.;
     let t = globals.time / 10.0;
@@ -56,7 +56,7 @@ fn non_simple(in: MeshVertexOutput) -> vec4<f32>{
     return vec4(col, 1.0);
 }
 
-fn simple_non_uniform(in: MeshVertexOutput) -> vec4<f32> {
+fn simple_non_uniform(in: VertexOutput) -> vec4<f32> {
     let uv: vec2<f32> = in.uv;
 
     var m = 0.;

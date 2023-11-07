@@ -1,7 +1,7 @@
 ///
 /// This is a port of "WARP" by Alro https://www.shadertoy.com/view/ttlGDf
 ///
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput;
+#import bevy_pbr::forward_io::VertexOutput;
 #import bevy_sprite::mesh2d_view_bindings globals;
 #import bevy_render::view View;
 
@@ -11,7 +11,7 @@ const STRENGTH: f32 = 0.4;  // Controls the strength of the waves
 const SPEED: f32 = 0.33333; // Controls the speed at which the waves run
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv: vec2<f32> = (in.uv * 2.0) - 1.0;
     let resolution: vec2<f32> = view.viewport.zw;
     let time: f32 = globals.time * SPEED;

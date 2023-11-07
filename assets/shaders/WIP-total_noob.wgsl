@@ -1,7 +1,7 @@
 /// This is a port of 'total noob' by dynamite
 /// Source material: https://www.shadertoy.com/view/XdlSDs
 /// Authour: https://www.shadertoy.com/user/dynamite
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D, TAU, PI
 
@@ -13,7 +13,7 @@ const CIRCLE_SIZE:f32 = 0.4;
 const BEAM_ROT_SPEED:f32 = 0.2; 
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     var uv = in.uv;
     uv *= rotate2D(PI);

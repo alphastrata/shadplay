@@ -1,7 +1,7 @@
 //
 // This is a port of the Semi-circle Wave Animation by Shane https://www.shadertoy.com/view/cdycRt
 //
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, rotate2D, HALF_PI, PI, TAU
 
@@ -13,7 +13,7 @@ const NUM_ITERATIONS: f32 = 14.0;
 const LINE_GIRTH:f32 = 0.4;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv = (in.uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
     let time = globals.time * SPEED;

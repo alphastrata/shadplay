@@ -1,4 +1,4 @@
-#import bevy_pbr::mesh_vertex_output    MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output    VertexOutput
 #import bevy_pbr::mesh_view_bindings    view
 #import bevy_pbr::pbr_types             STANDARD_MATERIAL_FLAGS_DOUBLE_SIDED_BIT
 #import bevy_core_pipeline::tonemapping tone_mapping
@@ -10,7 +10,7 @@
 @fragment
 fn fragment(
     @builtin(front_facing) is_front: bool,
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     let layer = i32(mesh.world_position.x) & 0x3;
 
@@ -50,7 +50,7 @@ fn fragment(
 }
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var test_texture_1d: texture_1d<f32>;
 @group(1) @binding(1) var test_texture_1d_sampler: sampler;
@@ -71,9 +71,9 @@ fn fragment(
 @group(1) @binding(11) var test_texture_3d_sampler: sampler;
 
 @fragment
-fn fragment(in: MeshVertexOutput) {}
+fn fragment(in: VertexOutput) {}
 #import bevy_pbr::mesh_view_bindings  view
-#import bevy_pbr::mesh_vertex_output  MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output  VertexOutput
 #import bevy_pbr::utils               coords_to_viewport_uv
 
 @group(1) @binding(0) var texture: texture_2d<f32>;
@@ -81,13 +81,13 @@ fn fragment(in: MeshVertexOutput) {}
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     let viewport_uv = coords_to_viewport_uv(mesh.position.xy, view.viewport);
     let color = texture_sample(texture, texture_sampler, viewport_uv);
     return color;
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -99,13 +99,13 @@ struct CustomMaterial {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     return material.color * texture_sample(base_color_texture, base_color_sampler, mesh.uv);
 }
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
-#import bevy_pbr::mesh_vertex_output  MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output  VertexOutput
 #import bevy_pbr::utils               PI
 
 #ifdef TONEMAP_IN_SHADER
@@ -148,7 +148,7 @@ fn continuous_hue(uv: vec2<f32>) -> vec3<f32> {
 
 @fragment
 fn fragment(
-    in: MeshVertexOutput,
+    in: VertexOutput,
 ) -> @location(0) vec4<f32> {
     var uv = in.uv;
     var out = vec3(0.0);
@@ -251,7 +251,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     );
 }
 
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -261,7 +261,7 @@ struct CustomMaterial {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
 #ifdef IS_RED
     return vec4<f32>(1.0, 0.0, 0.0, 1.0);
@@ -333,7 +333,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
     storage_barrier();
 
     texture_store(texture, location, color);
-}#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+}#import bevy_pbr::forward_io::VertexOutput
 
 #ifdef CUBEMAP_ARRAY
 @group(1) @binding(0) var base_color_texture: texture_cube_array<f32>;
@@ -345,7 +345,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     let fragment_position_view_lh = mesh.world_position.xyz * vec3<f32>(1.0, 1.0, -1.0);
     return texture_sample(
@@ -354,7 +354,7 @@ fn fragment(
         fragment_position_view_lh
     );
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct LineMaterial {
     color: vec4<f32>,
@@ -364,7 +364,7 @@ struct LineMaterial {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     return material.color;
 }
@@ -405,7 +405,7 @@ fn vertex(vertex: Vertex) -> VertexOutput {
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return in.color;
 }
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var textures: binding_array<texture_2d<f32>>;
 @group(1) @binding(1) var nearest_sampler: sampler;
@@ -414,7 +414,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     // Select the texture to sample from using non-uniform uv coordinates
     let coords = clamp(vec2<u32>(mesh.uv * 4.0), vec2<u32>(0u), vec2<u32>(3u));
@@ -425,7 +425,7 @@ fn fragment(
 #import bevy_pbr::mesh_types
 #import bevy_pbr::mesh_view_bindings  globals
 #import bevy_pbr::prepass_utils
-#import bevy_pbr::mesh_vertex_output  MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output  VertexOutput
 
 struct ShowPrepassSettings {
     show_depth: u32,
@@ -441,7 +441,7 @@ fn fragment(
 #ifdef MULTISAMPLED
     @builtin(sample_index) sample_index: u32,
 #endif
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
 #ifndef MULTISAMPLED
     let sample_index = 0u;
@@ -805,7 +805,7 @@ fn fragment() -> @location(0) vec4<f32> {
 #import bevy_pbr::pbr_types as pbr_types
 #import bevy_pbr::prepass_utils
 
-#import bevy_pbr::mesh_vertex_output       MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output       VertexOutput
 #import bevy_pbr::mesh_bindings            mesh
 #import bevy_pbr::mesh_view_bindings       view, fog, screen_space_ambient_occlusion_texture
 #import bevy_pbr::mesh_view_types          FOG_MODE_OFF
@@ -820,7 +820,7 @@ fn fragment() -> @location(0) vec4<f32> {
 
 @fragment
 fn fragment(
-    in: MeshVertexOutput,
+    in: VertexOutput,
     @builtin(front_facing) is_front: bool,
 ) -> @location(0) vec4<f32> {
     var output_color: vec4<f32> = pbr_bindings::material.base_color;
@@ -986,7 +986,7 @@ fn fragment(
 @group(1) @binding(12) var depth_map_sampler: sampler;
 #define_import_path bevy_pbr::mesh_vertex_output
 
-struct MeshVertexOutput {
+struct VertexOutput {
     // this is `clip position` when the struct is used as a vertex stage output
     // and `frag coord` when used as a fragment stage input
     @builtin(position) position: vec4<f32>,
@@ -1030,7 +1030,7 @@ struct MeshVertexOutput {
 #import bevy_pbr::skinning
 #import bevy_pbr::morph
 #import bevy_pbr::mesh_bindings       mesh
-#import bevy_pbr::mesh_vertex_output  MeshVertexOutput
+#import bevy_pbr::mesh_vertex_output  VertexOutput
 #import bevy_render::instance_index   get_instance_index
 
 struct Vertex {
@@ -1081,8 +1081,8 @@ fn morph_vertex(vertex_in: Vertex) -> Vertex {
 #endif
 
 @vertex
-fn vertex(vertex_no_morph: Vertex) -> MeshVertexOutput {
-    var out: MeshVertexOutput;
+fn vertex(vertex_no_morph: Vertex) -> VertexOutput {
+    var out: VertexOutput;
 
 #ifdef MORPH_TARGETS
     var vertex = morph_vertex(vertex_no_morph);
@@ -1145,7 +1145,7 @@ fn vertex(vertex_no_morph: Vertex) -> MeshVertexOutput {
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
 #ifdef VERTEX_COLORS
     return mesh.color;
@@ -2693,7 +2693,7 @@ fn tone_mapping(in: vec4<f32>, color_grading: ColorGrading) -> vec4<f32> {
 
 @group(0) @binding(1) var<uniform> globals: Globals;
 #import bevy_sprite::mesh2d_types          Mesh2d
-#import bevy_sprite::mesh2d_vertex_output  MeshVertexOutput
+#import bevy_sprite::mesh2d_vertex_output  VertexOutput
 #import bevy_sprite::mesh2d_view_bindings  view
 
 #ifdef TONEMAP_IN_SHADER
@@ -2713,7 +2713,7 @@ const COLOR_MATERIAL_FLAGS_TEXTURE_BIT: u32 = 1u;
 
 @fragment
 fn fragment(
-    mesh: MeshVertexOutput,
+    mesh: VertexOutput,
 ) -> @location(0) vec4<f32> {
     var output_color: vec4<f32> = material.color;
 #ifdef VERTEX_COLORS
