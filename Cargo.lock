@@ -572,14 +572,14 @@ dependencies = [
 
 [[package]]
 name = "bevy_egui"
-version = "0.22.0"
-source = "git+https://github.com/raffaeleragni/bevy_egui?branch=bevy_0_12#7314133c957581254a7eb4caa63e3c0a59db82fb"
+version = "0.23.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85450af551b7e1cb766f710763b60a12a82ffd6323945a8f776c6334c59ccdc1"
 dependencies = [
  "arboard",
  "bevy",
  "egui",
  "thread_local",
- "web-sys",
  "webbrowser",
 ]
 
@@ -777,8 +777,9 @@ dependencies = [
 
 [[package]]
 name = "bevy_panorbit_camera"
-version = "0.8.0"
-source = "git+https://github.com/Plonq/bevy_panorbit_camera?branch=bevy-0.12#b8cfd41d6587cd76fadd068495659a3bcaf3eded"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "346761a3e63bc54b658ed95c9714c50535f59419f075f87f605c8449bb67e57f"
 dependencies = [
  "bevy",
  "bevy_easings",
