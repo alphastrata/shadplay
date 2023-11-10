@@ -4,10 +4,21 @@
 
 <center>artwork by Maz with SD</center>
 
+[![Bevy tracking](https://img.shields.io/badge/Bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
+
+<!-- Badges to insert at some stage... 
+[![docs.rs](https://docs.rs/shadplay/badge.svg)](https://docs.rs/shadplay) SOME DAY...
+[![License](https://img.shields.io/badge/license-MIT.svg)](https://github.com/shadplay/bevy#license)
+[![Crates.io](https://img.shields.io/crates/v/bevy.svg)](https://crates.io/crates/bevy)
+[![Downloads](https://img.shields.io/crates/d/bevy.svg)](https://crates.io/crates/bevy)
+[![Docs](https://docs.rs/bevy/badge.svg)](https://docs.rs/bevy/latest/bevy/)
+[![CI](https://github.com/bevyengine/bevy/workflows/CI/badge.svg)](https://github.com/bevyengine/bevy/actions)
+-->
+
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
 Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for Bevy.
-The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing glsl asap, and provide a library of examples showing how some things are done, can be done etc.
+The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing `wgsl` asap, and provide a library of examples showing how some things are done, can be done etc.
 
 A secondary goal is to flesh out a relatively comprehensive 'port' of existing cool shader work from places like shadertoy etc -- because there's a few 'gotchas' around the differences in `glsl` and `wgsl` syntax, their respective builtins.
 
@@ -115,6 +126,8 @@ ______________________________________________________________________
 - [glsl sandbox](https://glslsandbox.com/)
 - [Shadertoy](https://www.shadertoy.com/)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
+- [GLSL2WGSL converter](https://eliotbo.github.io/glsl2wgsl/), it's a mixed bag..
+- [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
 
 ______________________________________________________________________
 
@@ -149,6 +162,16 @@ ______________________________________________________________________
     <td><img src="assets/Gallery/w10/screenshot.png" alt="screenshot" width="50%"></td>
   </tr>
 </table>
+
+______________________________________________________________________
+
+# FAQ:
+
+Q: I grabbed a shader from the examples, but it's not working!
+A: It could be that the shader was contributed some time ago and was, likely made with a bevy version \< 0.12.x so it's likely a formatting thing -- if the naga (the thing which parses and compiles the .wgsl code) error doesn't tell you how to solve the issue please make a bug report and we'll try to get it updated!
+
+Q: What version of bevy are you targeting?
+A: `{version = "*"}`
 
 ______________________________________________________________________
 

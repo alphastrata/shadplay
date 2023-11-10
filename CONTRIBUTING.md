@@ -58,7 +58,6 @@ ______________________________________________________________________
 - The shader will also be versioned, alongside that screenshot
 - Rename and move the screenshot to `assets/screenshots/<NAME YOUR OWN DIR>/screenshot.png`
 - Rename and move the versioned shader to `assets/shaders/<NAME YOUR OWN DIR/YOURSHADER.wgsl`
-- Screenshots should **share the name** of the `wgsl` that creates them
 - Add it to the #Gallery in the `README.md`
 
 # Shadertoy ports:
@@ -75,5 +74,6 @@ ______________________________________________________________________
 - put stuff in logical places.
 - use iterators
 - use `run_if()`s [see bevy docs](https://docs.rs/bevy/latest/bevy/prelude/trait.IntoSystemConfigs.html#method.run_if)
+- I use bevy at my dayjob sometimes so am pretty sure between the two of us we'll be able to get your contribution merged :wink
 
 Please note that contributions should follow the [Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct).
