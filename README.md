@@ -15,7 +15,6 @@
 [![CI](https://github.com/bevyengine/bevy/workflows/CI/badge.svg)](https://github.com/bevyengine/bevy/actions)
 -->
 
-
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
 Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for Bevy.
@@ -127,6 +126,8 @@ ______________________________________________________________________
 - [glsl sandbox](https://glslsandbox.com/)
 - [Shadertoy](https://www.shadertoy.com/)
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
+- [GLSL2WGSL converter](https://eliotbo.github.io/glsl2wgsl/), it's a mixed bag..
+- [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
 
 ______________________________________________________________________
 
