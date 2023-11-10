@@ -4,10 +4,22 @@
 
 <center>artwork by Maz with SD</center>
 
+[![Bevy tracking](https://img.shields.io/badge/Bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
+
+<!-- Badges to insert at some stage... 
+[![docs.rs](https://docs.rs/shadplay/badge.svg)](https://docs.rs/shadplay) SOME DAY...
+[![License](https://img.shields.io/badge/license-MIT.svg)](https://github.com/shadplay/bevy#license)
+[![Crates.io](https://img.shields.io/crates/v/bevy.svg)](https://crates.io/crates/bevy)
+[![Downloads](https://img.shields.io/crates/d/bevy.svg)](https://crates.io/crates/bevy)
+[![Docs](https://docs.rs/bevy/badge.svg)](https://docs.rs/bevy/latest/bevy/)
+[![CI](https://github.com/bevyengine/bevy/workflows/CI/badge.svg)](https://github.com/bevyengine/bevy/actions)
+-->
+
+
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
 Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for Bevy.
-The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing glsl asap, and provide a library of examples showing how some things are done, can be done etc.
+The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing `wgsl` asap, and provide a library of examples showing how some things are done, can be done etc.
 
 A secondary goal is to flesh out a relatively comprehensive 'port' of existing cool shader work from places like shadertoy etc -- because there's a few 'gotchas' around the differences in `glsl` and `wgsl` syntax, their respective builtins.
 
