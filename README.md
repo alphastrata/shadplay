@@ -152,6 +152,16 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+# FAQ:
+
+Q: I grabbed a shader from the examples, but it's not working!
+A: It could be that the shader was contributed some time ago and was, likely made with a bevy version \< 0.12.x so it's likely a formatting thing -- if the naga (the thing which parses and compiles the .wgsl code) error doesn't tell you how to solve the issue please make a bug report and we'll try to get it updated!
+
+Q: What version of bevy are you targeting?
+A: `{version = "*"}`
+
+______________________________________________________________________
+
 # LICENSE:
 
 This repository is licensed MIT, with the exception of code within the `assets/shaders/shadertoy-ports` directory, see those individual files' and the links to the original `glsl` code to ascertain their licensing requirements.
