@@ -3,6 +3,7 @@
 ![photo](screenshot.png)
 
 ### fragment
+
 // This is a port of `light spirals` by `felipetovarhenao` on shadertoy. https://www.shadertoy.com/view/DlccR7
 
 ```rust
@@ -126,4 +127,5 @@ fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
 ```
 
 # Notes:
+
 - The scale and gradient I think are really nice and useful little numbers to have!

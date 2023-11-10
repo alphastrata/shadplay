@@ -69,11 +69,11 @@ fn rand_overload_1(x: f32) -> f32 {
     return rand(x, 0);
 }
 
-fn rand_overload_2(uv: vec2f, seed: i32) -> f32 {
-    return fract(sin(dot(uv.xy, vec2f(12.9898, 78.233)) + f32(seed)) * 43758.5453123);
+fn rand_overload_2(uv: vec2<f32>, seed: i32) -> f32 {
+    return fract(sin(dot(uv.xy, vec2<f32>(12.9898, 78.233)) + f32(seed)) * 43758.5453123);
 }
 
-fn rand_overload_3(uv: vec2f) -> f32 {
+fn rand_overload_3(uv: vec2<f32>) -> f32 {
     return rand_overload_2(uv, 0);
 }
 
@@ -87,16 +87,16 @@ fn noise_overload_1(x: f32) -> f32 {
     return noise(x, 0);
 }
 
-fn noise_overload_2(p: vec2f, s: i32) -> f32 {
+fn noise_overload_2(p: vec2<f32>, s: i32) -> f32 {
     let pi = floor(p);
     let pf = fract(p);
 
     let bl = rand_overload_2(pi, s);
-    let br = rand_overload_2(pi + vec2f(1.0, 0.0), s);
-    let tl = rand_overload_2(pi + vec2f(0.0, 1.0), s);
-    let tr = rand_overload_2(pi + vec2f(1.0), s);
+    let br = rand_overload_2(pi + vec2<f32>(1.0, 0.0), s);
+    let tl = rand_overload_2(pi + vec2<f32>(0.0, 1.0), s);
+    let tr = rand_overload_2(pi + vec2<f32>(1.0), s);
 
-    let w = smoothstep(vec2f(0.0), vec2f(1.0), pf);
+    let w = smoothstep(vec2<f32>(0.0), vec2<f32>(1.0), pf);
 
     let t = mix(tl, tr, w.x);
     let b = mix(bl, br, w.x);
@@ -104,7 +104,7 @@ fn noise_overload_2(p: vec2f, s: i32) -> f32 {
     return mix(b, t, w.y);
 }
 
-fn noise_overload_3(p: vec2f) -> f32 {
+fn noise_overload_3(p: vec2<f32>) -> f32 {
     return noise_overload_2(p, 0);
 }
 
@@ -112,6 +112,6 @@ fn scale(x: f32, a: f32, b: f32, c: f32, d: f32) -> f32 {
     return (x - a) / (b - a) * (d - c) + c;
 }
 
-fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
+fn gradient(t: f32, a: vec3<f32>, b: vec3<f32>, c: vec3<f32>, d: vec3<f32>) -> vec3<f32> {
     return a + b * cos(TWO_PI * (c * t + d));
 }
