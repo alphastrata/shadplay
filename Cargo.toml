@@ -15,13 +15,9 @@ wayland = ["bevy/wayland"]
 ui = []
 
 [dependencies]
-bevy = { version = "*", features = [
-  "file_watcher",
-  "dynamic_linking",
-  "jpeg",
-] }
+bevy = { version = "*", features = ["file_watcher", "dynamic_linking", "jpeg"] }
 bevy_egui = { version = "0.23.0" }
-bevy_panorbit_camera = { version= "0.9.0"}
+bevy_panorbit_camera = { version = "0.9.0" }
 chrono = "0.4.31"
 copypasta = "0.10.0"
 directories = "5.0.1"
