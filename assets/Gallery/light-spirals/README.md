@@ -129,3 +129,39 @@ fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
 # Notes:
 
 - The scale and gradient I think are really nice and useful little numbers to have!
+
+
+### fn scale(x: f32, a: f32, b: f32, c: f32, d: f32) -> f32:
+Takes x from a range of a..b and returns it as a range from c..d
+This little python script may be more understandable:
+    ```py
+    # The same logic as our scale function above in the wgsl example
+    def scale(x, a, b, c, d):
+        return (x-a)/(b-a)*(d-c)+c
+
+    # Generate 10 values between 0 and 1
+    values = [i/10 for i in range(11)]
+
+    # Scale values of `x` from 0..1 to 0..100
+    scaled_values = [scale(x, 0, 1, 0, 100) for x in values]
+
+    # Print the scaled values
+    for i, val in enumerate(scaled_values):
+        print(f'Original: {values[i]}, Scaled: {val}')
+    ```
+    which gives you:
+    ```
+    Original: 0.0, Scaled: 0.0
+    Original: 0.1, Scaled: 10.0
+    Original: 0.2, Scaled: 20.0
+    Original: 0.3, Scaled: 30.0
+    Original: 0.4, Scaled: 40.0
+    Original: 0.5, Scaled: 50.0
+    Original: 0.6, Scaled: 60.0
+    Original: 0.7, Scaled: 70.0
+    Original: 0.8, Scaled: 80.0
+    Original: 0.9, Scaled: 90.0
+    Original: 1.0, Scaled: 100.0
+    ```
+it seems to work bidirectionally which is cool.
+
