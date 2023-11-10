@@ -3,10 +3,10 @@
 ![photo](screenshot.png)
 
 ### fragment
+// This is a port of `light spirals` by `felipetovarhenao` on shadertoy. https://www.shadertoy.com/view/DlccR7
 
 ```rust
 #import bevy_sprite::mesh2d_view_bindings::globals 
-#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
 #import bevy_render::view::View
 #import bevy_pbr::forward_io::VertexOutput;
 
@@ -125,5 +125,5 @@ fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
 	
 ```
 
-your comments go here...
-
+# Notes:
+- The scale and gradient I think are really nice and useful little numbers to have!
