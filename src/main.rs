@@ -16,7 +16,6 @@ fn main() {
         Ok(config) => config,
         Err(_) => {
             let default_config = UserConfig::default();
-            let _ = default_config.save_to_toml(path);
             default_config
         }
     };

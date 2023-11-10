@@ -16,10 +16,30 @@ use std::{
 
 #[derive(Resource, Debug, Serialize, PartialEq, PartialOrd, Deserialize)]
 pub struct UserConfig {
+    #[serde(default = "default_window_dims")]
     window_dims: (f32, f32),
+    #[serde(default = "neg")]
     decorations: bool,
+    #[serde(default = "neg")]
     always_on_top: bool,
+    #[serde(default = "default_last_updated")]
     last_updated: u64, //Toml doesn't supprot u128
+}
+// Provide a default function for window_dims
+fn default_window_dims() -> (f32, f32) {
+    (800.0, 600.0) // Default window dimensions
+}
+
+fn neg() -> bool {
+    false
+}
+
+// Provide a default function for last_updated
+fn default_last_updated() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs()
 }
 
 impl UserConfig {
@@ -64,6 +84,26 @@ impl UserConfig {
         Ok(config)
     }
 
+    pub fn config_is_valid(&self) -> bool {
+        // Check that the window dimensions are positive numbers
+        if self.window_dims.0 <= 0.0 || self.window_dims.1 <= 0.0 {
+            return false;
+        }
+
+        if self.last_updated >= 1 << 63 {
+            return false;
+        }
+
+        if self.decorations == true || self.decorations == false {
+            return false;
+        }
+
+        if self.always_on_top == true || self.always_on_top == false {
+            return false;
+        }
+
+        true
+    }
     pub fn create_window_settings(&self) -> Window {
         Window {
             title: "shadplay".into(),
