@@ -28,10 +28,10 @@ ______________________________________________________________________
 
 ```rust
 // 'uv's are in the MeshVertexOutput
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> vec4<f32> {
+fn fragment(in: VertexOutput) -> vec4<f32> {
 	// usually you'll see them used in your fragment shaders thusly:
 	let uv = in.uv;
   let normalised_uv = (in.uv.xy * 2.0) - 1.0; // If you want 0,0 to be at the 'center' of your Mesh's geometry.
@@ -55,7 +55,7 @@ You'll usually need this when you go to say, draw a `sdCircle` or other `sdf` sh
 @group(0) @binding(0) var<uniform> view: View;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> vec4<f32> {
+fn fragment(in: VertexOutput) -> vec4<f32> {
   	// example, shader-toyesk normalise and account for aspect ratio:
     var uv = (in.uv.xy * 2.0) - 1.0;
     let resolution = view.viewport.zw;
@@ -76,12 +76,12 @@ ______________________________________________________________________
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 const TAU:f32 =  6.28318530718;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv = (in.uv * 2.0) - 1.0;
     var col = vec3f(0.);
 
@@ -116,7 +116,7 @@ ______________________________________________________________________
 @group(0) @binding(0) var<uniform> view: View;
     
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let time: f32 = globals.time;
     var uv: vec2<f32> = in.uv;
    
