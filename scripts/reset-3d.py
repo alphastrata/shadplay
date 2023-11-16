@@ -16,7 +16,7 @@ THREE3_SHADER_STARTER = """//!
 const SPEED:f32 = 1.0;
 
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     let texture_uvs = in.uv;
 
