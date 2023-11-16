@@ -22,3 +22,8 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs);
     return tex;
 }
+
+
+fn circle(p: vec2<f32>, r: f32) -> f32 {
+	return smoothstep(0.1, 0., abs(length(p) - r));
+} 
