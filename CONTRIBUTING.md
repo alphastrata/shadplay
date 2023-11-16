@@ -58,6 +58,10 @@ ______________________________________________________________________
 - The shader will also be versioned, alongside that screenshot
 - Rename and move the screenshot to `assets/screenshots/<NAME YOUR OWN DIR>/screenshot.png`
 - Rename and move the versioned shader to `assets/shaders/<NAME YOUR OWN DIR/YOURSHADER.wgsl`
+- If renaming and moving things manually is not your style, you can use the provided script in `/scripts/`:
+```shell
+python scripts/screenshots-to-gallery.py "screenshots/17-11-23/06-10-55/screenshot.png" "Your Title"
+```
 - Add it to the #Gallery in the `README.md`
 
 # Shadertoy ports:
