@@ -5,7 +5,7 @@
 ### fragment
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import bevy_render::view View
 #import bevy_pbr::utils PI
@@ -20,7 +20,7 @@ const NEG_HALF_PI:f32 =  -1.57079632679;
 
 // From #05 in the little-book-of-shaders https://thebookofshaders.com/05/
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let resolution: vec2f = view.viewport.xy;
     var uv = in.uv.xy * -2.0 + 1.0; // either do uv.yx and then rotate or just flip em here..
     var col = vec3f(0.0);

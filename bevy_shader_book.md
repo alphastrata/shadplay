@@ -2227,7 +2227,7 @@ struct MeshVertexOutput {
 
 @fragment
 fn fragment(
-    in: MeshVertexOutput,
+    in: VertexOutput,
     @builtin(front_facing) is_front: bool,
 ) -> @location(0) vec4<f32> {
     var output_color: vec4<f32> = pbr_bindings::material.base_color;
@@ -2798,7 +2798,7 @@ fn fragment(
 ### assets/shaders/texture_binding_array
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var textures: binding_array<texture_2d<f32>>;
 @group(1) @binding(1) var nearest_sampler: sampler;
@@ -2864,7 +2864,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 ### assets/shaders/line_material
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct LineMaterial {
     color: vec4<f32>,
@@ -2884,7 +2884,7 @@ fn fragment(
 ### assets/shaders/cubemap_unlit
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 #ifdef CUBEMAP_ARRAY
 @group(1) @binding(0) var base_color_texture: texture_cube_array<f32>;
@@ -2981,7 +2981,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 ### assets/shaders/shader_defs
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -3149,7 +3149,7 @@ fn continuous_hue(uv: vec2<f32>) -> vec3<f32> {
 
 @fragment
 fn fragment(
-    in: MeshVertexOutput,
+    in: VertexOutput,
 ) -> @location(0) vec4<f32> {
     var uv = in.uv;
     var out = vec3(0.0);
@@ -3171,7 +3171,7 @@ fn fragment(
 ### assets/shaders/custom_material
 
 ```rust
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 struct CustomMaterial {
     color: vec4<f32>,
@@ -3216,7 +3216,7 @@ fn fragment(
 ```rust
 #import bevy_pbr::mesh_view_bindings
 #import bevy_pbr::mesh_bindings
-#import bevy_pbr::mesh_vertex_output MeshVertexOutput
+#import bevy_pbr::forward_io::VertexOutput
 
 @group(1) @binding(0) var test_texture_1d: texture_1d<f32>;
 @group(1) @binding(1) var test_texture_1d_sampler: sampler;
@@ -3237,7 +3237,7 @@ fn fragment(
 @group(1) @binding(11) var test_texture_3d_sampler: sampler;
 
 @fragment
-fn fragment(in: MeshVertexOutput) {}
+fn fragment(in: VertexOutput) {}
 
 ```
 

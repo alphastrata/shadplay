@@ -8,7 +8,7 @@ This one turned out really, really well.
 
 ```rust
 @fragment
-fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let uv = (in.uv * 2.0) - 1.0;
     var col = vec4f(0.0);
 
