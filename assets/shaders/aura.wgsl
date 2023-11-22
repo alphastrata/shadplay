@@ -43,21 +43,19 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var c = smoothstep(0.03, 0.9, m);
     var col = vec3f(c);
 
-
-    // Because % with floats is a baaaaaaaad idea.
-    //TODO: now the time issue is fixed try removing all the i32 casts..
-    let rate:f32 = time * SPIKE_SPEED; //TODO: const SPIK_SPEED
+    let rate:f32 = time * SPIKE_SPEED;
 
     let idx: i32 = i32(rate % (SPIKENUM * 2.0) - (SPIKENUM - 1.0)) ;
     var x_clamp = -floor(x);
     let isDifferent = step(0.5, abs(f32(idx) - x_clamp));
-    col *= mix(GOLD / 0.15, GOLD*0.54, isDifferent);
-
+    col *= mix(GOLD / 0.15, GOLD*0.54, isDifferent);       
 
     // Mask out the area around the character's feet..
     var out = vec4f(col, m);
     out *= smoothstep(0.0, 0.09, feet_mask);
 
+    // TODO: the index in the original's colour splashes either side of the other two indicies..
+    // we should brighten them too, have this spill available as const.
     return out;
 }
 
