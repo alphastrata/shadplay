@@ -1,13 +1,15 @@
-#![allow(unused_imports, dead_code, unused_variables)]
 use bevy::{
-    gltf::{Gltf, GltfMesh},
-    log::{self, LogPlugin},
-    pbr::{CascadeShadowConfigBuilder, DirectionalLightShadowMap},
+    gltf::Gltf,
+    log::{self},
+    pbr::{
+        CascadeShadowConfigBuilder, DirectionalLightShadowMap, ExtendedMaterial, MaterialExtension,
+        OpaqueRendererMethod,
+    },
     prelude::*,
     render::render_resource::{AsBindGroup, ShaderRef},
 };
-use bevy_editor_pls::prelude::*;
-use bevy_panorbit_camera::{PanOrbitCamera, PanOrbitCameraPlugin};
+
+use bevy_panorbit_camera::PanOrbitCamera;
 
 use std::f32::consts::*;
 
@@ -17,15 +19,9 @@ struct Knight {
     handle: Handle<Gltf>,
 }
 
+/// marker resource to track whether or not we can spawn the loaded knight asset
 #[derive(Resource, PartialEq, Eq)]
 struct WasLoaded(bool);
-
-/// A handle to the mesh we're going to attach our aura too
-#[derive(Resource, Default)]
-struct AuraMesh {
-    mesh: Option<Handle<GltfMesh>>,
-    mat: Option<Handle<AuraMaterial>>,
-}
 
 fn main() {
     App::new()
@@ -33,13 +29,12 @@ fn main() {
         .add_plugins((
             DefaultPlugins,
             #[cfg(debug_assertions)]
-            EditorPlugin::default(),
-            PanOrbitCameraPlugin,
+            bevy_editor_pls::EditorPlugin::default(),
+            bevy_panorbit_camera::PanOrbitCameraPlugin,
         ))
         .add_systems(Startup, setup)
-        .add_systems(Update, animate_light_direction)
+        .add_systems(Update, (animate_light_direction, quit_listener))
         // Our Systems:
-        .add_systems(Startup, setup_aura_mats)
         .add_systems(Startup, load_knight)
         .add_systems(
             Update,
@@ -48,16 +43,19 @@ fn main() {
                 .run_if(resource_exists::<Knight>())
                 .run_if(resource_exists_and_equals::<WasLoaded>(WasLoaded(false))),
         )
-        // All the times
-        // .add_systems(Update, update_aura_mat)
         // Our Materials
-        .add_plugins(MaterialPlugin::<AuraMaterial>::default())
-        // our resources
-        .insert_resource(AuraMesh::default())
+        .add_plugins(MaterialPlugin::<
+            ExtendedMaterial<StandardMaterial, AuraMaterial>,
+        >::default())
         .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+) {
     commands.spawn((
         Camera3dBundle {
             transform: Transform::from_xyz(2.0, 6.0, 6.0)
@@ -84,27 +82,46 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .into(),
         ..default()
     });
+
+    // ground plane
+    commands.spawn(PbrBundle {
+        mesh: meshes.add(shape::Plane::from_size(10.0).into()),
+        material: materials.add(StandardMaterial {
+            base_color: Color::BLACK,
+            perceptual_roughness: 1.0,
+            ..default()
+        }),
+        ..default()
+    });
 }
 
 // Loads our knight into the asset server, it isn't spawned.
 fn load_knight(mut commands: Commands, asset_server: Res<AssetServer>) {
-    // let hndl = asset_server.load("scenes/untitled.glb#Scene0");
-    let hndl = asset_server.load("scenes/untitled.glb");
+    let hndl = asset_server.load("scenes/knight.glb");
     commands.insert_resource(Knight { handle: hndl });
     commands.insert_resource(WasLoaded(false));
 
     log::info!("load_knight done.");
 }
+// Spawns the knight model in.
 fn spawn_knight(
     mut commands: Commands,
     knight: Res<Knight>,
     assets_gltf: Res<Assets<Gltf>>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut was_loaded: ResMut<WasLoaded>,
-    mut materials: ResMut<Assets<AuraMaterial>>,
+    mut materials: ResMut<Assets<ExtendedMaterial<StandardMaterial, AuraMaterial>>>,
 ) {
     if let Some(gltf) = assets_gltf.get(&knight.handle) {
         log::info!("Spawning scene...");
+
+        let disc = Mesh::from(shape::Cylinder {
+            radius: 1.2, //1.2 meters
+            height: 0.001,
+            resolution: 20,
+            segments: 1,
+        });
+
         commands
             .spawn(SceneBundle {
                 scene: gltf.scenes[0].clone(),
@@ -112,16 +129,18 @@ fn spawn_knight(
             })
             .with_children(|parent| {
                 parent.spawn(MaterialMeshBundle {
-                    mesh: meshes.add(Mesh::from(shape::Cylinder {
-                        radius: 1.2, //1.2 meters
-                        height: 0.001,
-                        resolution: 20,
-                        segments: 1,
-                    })),
-                    material: materials.add(AuraMaterial {
-                        color: Color::WHITE,
+                    mesh: meshes.add(disc),
+                    material: materials.add(ExtendedMaterial {
+                        base: StandardMaterial {
+                            base_color: Color::NONE,
+                            opaque_render_method: OpaqueRendererMethod::Auto,
+                            // Note: to run in deferred mode, you must also add a `DeferredPrepass` component to the camera and either
+                            // change the above to `OpaqueRendererMethod::Deferred` or add the `DefaultOpaqueRendererMethod` resource.
+                            ..default()
+                        },
+                        extension: AuraMaterial { inner: 0.0 },
                     }),
-                    ..Default::default()
+                    ..default()
                 });
             });
 
@@ -131,6 +150,7 @@ fn spawn_knight(
     }
 }
 
+// from the bevy load_gltf example
 fn animate_light_direction(
     time: Res<Time>,
     mut query: Query<&mut Transform, With<DirectionalLight>>,
@@ -145,32 +165,45 @@ fn animate_light_direction(
     }
 }
 
-/// Shield shader:
-#[derive(AsBindGroup, Debug, Clone, Asset, TypePath)]
+/// Our Aura shader:
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct AuraMaterial {
-    // Uniform bindings must implement `ShaderType`, which will be used to convert the value to
-    // its shader-compatible equivalent. Most core math types already implement `ShaderType`.
-    #[uniform(0)]
-    color: Color,
-    // Images can be bound as textures in shaders. If the Image's sampler is also needed, just
-    // add the sampler attribute with a different binding index.
-    // #[texture(1)]
-    // #[sampler(2)]
-    // color_texture: Handle<Image>,
+    /// This is currently unused but reserving for future use :wink
+    #[uniform(100)]
+    inner: f32,
 }
 
-// All functions on `Material` have default impls. You only need to implement the
-// functions that are relevant for your material.
-impl Material for AuraMaterial {
+impl MaterialExtension for AuraMaterial {
     fn fragment_shader() -> ShaderRef {
+        "shaders/aura.wgsl".into()
+    }
+
+    fn deferred_fragment_shader() -> ShaderRef {
         "shaders/aura.wgsl".into()
     }
 }
 
-//  Spawn an entity using `CustomMaterial`.
-fn setup_aura_mats(mut commands: Commands, mut materials: ResMut<Assets<AuraMaterial>>) {
-    commands.spawn(MaterialMeshBundle {
-        material: materials.add(AuraMaterial { color: Color::RED }),
-        ..Default::default()
-    });
+/// System: listening for `q` or `esc` to quit.
+fn quit_listener(input: Res<Input<KeyCode>>) {
+    if input.just_pressed(KeyCode::Q) || input.just_pressed(KeyCode::Escape) {
+        std::process::exit(0)
+    }
+}
+
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
+struct MyExtension {
+    // We need to ensure that the bindings of the base material and the extension do not conflict,
+    // so we start from binding slot 100, leaving slots 0-99 for the base material.
+    #[uniform(100)]
+    quantize_steps: u32,
+}
+
+impl MaterialExtension for MyExtension {
+    fn fragment_shader() -> ShaderRef {
+        "shaders/extended_material.wgsl".into()
+    }
+
+    fn deferred_fragment_shader() -> ShaderRef {
+        "shaders/extended_material.wgsl".into()
+    }
 }
