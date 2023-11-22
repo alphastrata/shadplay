@@ -1,9 +1,12 @@
 use bevy::{
     gltf::Gltf,
-    log::{self},
+    log,
     pbr::{
-        CascadeShadowConfigBuilder, DirectionalLightShadowMap, ExtendedMaterial, MaterialExtension,
-        OpaqueRendererMethod,
+        CascadeShadowConfigBuilder,
+        DirectionalLightShadowMap,
+        // At some stage in the future I'll want to use these!
+        //  ExtendedMaterial, MaterialExtension,
+        // OpaqueRendererMethod,
     },
     prelude::*,
     render::render_resource::{AsBindGroup, ShaderRef},
@@ -44,9 +47,7 @@ fn main() {
                 .run_if(resource_exists_and_equals::<WasLoaded>(WasLoaded(false))),
         )
         // Our Materials
-        .add_plugins(MaterialPlugin::<
-            ExtendedMaterial<StandardMaterial, AuraMaterial>,
-        >::default())
+        .add_plugins(MaterialPlugin::<AuraMaterial>::default())
         .run();
 }
 
@@ -110,7 +111,8 @@ fn spawn_knight(
     assets_gltf: Res<Assets<Gltf>>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut was_loaded: ResMut<WasLoaded>,
-    mut materials: ResMut<Assets<ExtendedMaterial<StandardMaterial, AuraMaterial>>>,
+    // mut materials: ResMut<Assets<ExtendedMaterial<StandardMaterial, AuraMaterial>>>,
+    mut materials: ResMut<Assets<AuraMaterial>>,
 ) {
     if let Some(gltf) = assets_gltf.get(&knight.handle) {
         log::info!("Spawning scene...");
@@ -122,6 +124,8 @@ fn spawn_knight(
             segments: 1,
         });
 
+        let as_custom_mat = AuraMaterial { inner: 0.0 };
+
         commands
             .spawn(SceneBundle {
                 scene: gltf.scenes[0].clone(),
@@ -130,16 +134,7 @@ fn spawn_knight(
             .with_children(|parent| {
                 parent.spawn(MaterialMeshBundle {
                     mesh: meshes.add(disc),
-                    material: materials.add(ExtendedMaterial {
-                        base: StandardMaterial {
-                            base_color: Color::NONE,
-                            opaque_render_method: OpaqueRendererMethod::Auto,
-                            // Note: to run in deferred mode, you must also add a `DeferredPrepass` component to the camera and either
-                            // change the above to `OpaqueRendererMethod::Deferred` or add the `DefaultOpaqueRendererMethod` resource.
-                            ..default()
-                        },
-                        extension: AuraMaterial { inner: 0.0 },
-                    }),
+                    material: materials.add(as_custom_mat),
                     ..default()
                 });
             });
@@ -173,13 +168,14 @@ pub struct AuraMaterial {
     inner: f32,
 }
 
-impl MaterialExtension for AuraMaterial {
+impl Material for AuraMaterial {
     fn fragment_shader() -> ShaderRef {
         "shaders/aura.wgsl".into()
     }
 
-    fn deferred_fragment_shader() -> ShaderRef {
-        "shaders/aura.wgsl".into()
+    // Available in StandardMaterial
+    fn alpha_mode(&self) -> AlphaMode {
+        AlphaMode::Blend
     }
 }
 
@@ -187,23 +183,5 @@ impl MaterialExtension for AuraMaterial {
 fn quit_listener(input: Res<Input<KeyCode>>) {
     if input.just_pressed(KeyCode::Q) || input.just_pressed(KeyCode::Escape) {
         std::process::exit(0)
-    }
-}
-
-#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
-struct MyExtension {
-    // We need to ensure that the bindings of the base material and the extension do not conflict,
-    // so we start from binding slot 100, leaving slots 0-99 for the base material.
-    #[uniform(100)]
-    quantize_steps: u32,
-}
-
-impl MaterialExtension for MyExtension {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/extended_material.wgsl".into()
-    }
-
-    fn deferred_fragment_shader() -> ShaderRef {
-        "shaders/extended_material.wgsl".into()
     }
 }
