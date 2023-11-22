@@ -14,8 +14,8 @@ struct AuraMaterial {
 // Darkish
 // #CEAA4F
 const GOLD = vec3f(0.807843, 0.666667, 0.309804);
-const SPIKENUM: f32 = 9.0;
-const SPIKELEN: f32 = 1.68;
+const SPIKE_NUM: f32 = 9.0;
+const SPIKE_LEN: f32 = 1.68;
 const SPIKE_SPEED:f32 = 32.0;
 const PI: f32 =  3.141592653589;
 
@@ -30,14 +30,13 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
     // Move into polar coordinates.
     var pc = vec2f(atan2(uv.x, uv.y), length(uv));
-    let x = (pc.x / PI) * SPIKENUM; // Divide the x coords by PI so they line up perfectly.
-
+    let x = (pc.x / PI) * SPIKE_NUM; // Divide the x coords by PI so they line up perfectly.
 
     // Make the spikes. 
     let f_x = fract(x);
     let f2_x = fract(1.0 - x);
     var m = min(f_x, f2_x);
-    m = m * SPIKELEN - pc.y;
+    m = m * SPIKE_LEN - pc.y;
     
     // Draw the spikes:
     var c = smoothstep(0.03, 0.9, m);
@@ -45,10 +44,10 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
     let rate:f32 = time * SPIKE_SPEED;
 
-    let idx: i32 = i32(rate % (SPIKENUM * 2.0) - (SPIKENUM - 1.0)) ;
+    let idx: f32 = rate % (SPIKE_NUM * 2.0) - (SPIKE_NUM - 1.0) ;
     var x_clamp = -floor(x);
-    let isDifferent = step(0.5, abs(f32(idx) - x_clamp));
-    col *= mix(GOLD / 0.15, GOLD*0.54, isDifferent);       
+    let is_focused_spike = step(0.5, abs(idx - x_clamp));
+    col *= mix(GOLD / 0.15, GOLD * 0.54, is_focused_spike);       
 
     // Mask out the area around the character's feet..
     var out = vec4f(col, m);
