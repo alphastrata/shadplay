@@ -29,15 +29,15 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let feet_mask = sdCircle(uv, 0.25); // Get a mask for the area around our feet.
 
     // Move into polar coordinates.
-    var st = vec2f(atan2(uv.x, uv.y), length(uv));
-    let x = (st.x / PI) * SPIKENUM; // Divide the x coords by PI so they line up perfectly.
+    var pc = vec2f(atan2(uv.x, uv.y), length(uv));
+    let x = (pc.x / PI) * SPIKENUM; // Divide the x coords by PI so they line up perfectly.
 
 
     // Make the spikes. 
     let f_x = fract(x);
     let f2_x = fract(1.0 - x);
     var m = min(f_x, f2_x);
-    m = m * SPIKELEN - st.y;
+    m = m * SPIKELEN - pc.y;
     
     // Draw the spikes:
     var c = smoothstep(0.03, 0.9, m);
@@ -46,12 +46,12 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
     // Because % with floats is a baaaaaaaad idea.
     //TODO: now the time issue is fixed try removing all the i32 casts..
-    let rate = i32(time * SPIKE_SPEED); //TODO: const SPIK_SPEED
+    let rate:f32 = time * SPIKE_SPEED; //TODO: const SPIK_SPEED
 
-    let idx: i32 = (rate % i32(SPIKENUM * 2.0)) - i32(SPIKENUM - 1.0) ;
+    let idx: i32 = i32(rate % (SPIKENUM * 2.0) - (SPIKENUM - 1.0)) ;
     var x_clamp = -floor(x);
     let isDifferent = step(0.5, abs(f32(idx) - x_clamp));
-    col *= mix(GOLD / 0.15, GOLD * 0.15, isDifferent);
+    col *= mix(GOLD / 0.15, GOLD*0.54, isDifferent);
 
 
     // Mask out the area around the character's feet..
