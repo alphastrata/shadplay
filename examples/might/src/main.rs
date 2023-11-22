@@ -31,8 +31,8 @@ fn main() {
     App::new()
         .insert_resource(DirectionalLightShadowMap { size: 4096 })
         .add_plugins((
-            // DefaultPlugins.build().disable::<LogPlugin>(),
             DefaultPlugins,
+            #[cfg(debug_assertions)]
             EditorPlugin::default(),
             PanOrbitCameraPlugin,
         ))
