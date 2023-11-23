@@ -27,6 +27,13 @@ struct Knight {
 struct WasLoaded(bool);
 
 fn main() {
+    // Check the knight model is available and if not, show where it can be got.
+    // The environment maps used, are automatically downloadable so the shadplay/build.rs fetches them for you.
+    let knight_model_path = std::path::Path::new("../assets/scenes/knight.glb");
+    if !knight_model_path.exists() {
+        dbg!("knight.glb does not exist at {:?}.\nThere's a free non-rigged version available of it here: https://sketchfab.com/3d-models/elysia-knight-d099f11914f445afbe727fe5c3ddd39d or,\nYou can a rigged version purchase here: https://www.artstation.com/marketplace/p/RGmbB/medieval-armor-set-unreal-engine-rigged", knight_model_path);
+    }
+
     App::new()
         .insert_resource(DirectionalLightShadowMap { size: 4096 })
         .add_plugins((
