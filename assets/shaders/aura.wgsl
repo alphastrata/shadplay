@@ -7,8 +7,8 @@ struct AuraMaterial {
     unused: f32,
 }
 
-@group(1) @binding(100) var<uniform> aura_mat: AuraMaterial;
 @group(0) @binding(0)   var<uniform> view: View;
+@group(1) @binding(100) var<uniform> aura_mat: AuraMaterial;
 
 // Colour picker tells us the values of the original..
 // Darkish
