@@ -9,6 +9,11 @@ description = """
 Shadplay is a simple, (WIP) application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
 """
 
+[[example]]
+name = "might"
+path = "examples/might/src/main.rs"
+description = "Might, is an attempt to recreate the legendary Pally aura of the same name from Diablo II"
+
 [features]
 default = ["ui"]
 wayland = ["bevy/wayland"]
@@ -24,8 +29,13 @@ directories = "5.0.1"
 serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.6"
 
-[profile.dev] # A little bit of optimisation for dev builds
-opt-level = 1
+[dev-dependencies]
+bevy_editor_pls = "0.6.0" # Required for Might
 
 [build-dependencies]
+reqwest = "0.11"                               # Required for Might 
+tokio = { version = "1", features = ["full"] } # Required for Might
 glob = "0.3.1"
+
+[profile.dev] # A little bit of optimisation for dev builds
+opt-level = 2

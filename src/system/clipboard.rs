@@ -1,4 +1,4 @@
-use bevy::prelude::error;
+use bevy::log;
 use copypasta::{ClipboardContext, ClipboardProvider};
 
 /// Resource: a [`copypasta::ClipboardContext`] wrapper
@@ -19,7 +19,7 @@ impl SystemClipboard {
     /// Sets the contents of the system clipboard to `msg`.
     pub(crate) fn set_from(&mut self, msg: String) {
         if let Err(e) = self.most_recent_copypasta.set_contents(msg) {
-            error!("{e}");
+            log::error!("{e}");
         }
     }
 
@@ -32,7 +32,7 @@ impl SystemClipboard {
         match self.most_recent_copypasta.get_contents() {
             Ok(v) => Some(v),
             Err(e) => {
-                error!("{e}");
+                log::error!("{e}");
                 None
             }
         }
