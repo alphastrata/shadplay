@@ -15,20 +15,12 @@ const SPEED:f32 = 1.0;
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
-    // var uv = (in.uv * 2.0) - 1.0;
-    // let resolution = view.viewport.zw;
-    // let t = globals.time * SPEED;
-    // uv.x *= resolution.x / resolution.y;
-    // uv *= rotate2D(NEG_HALF_PI);
+    var uv = (in.uv * 2.0) - 1.0;
+    let resolution = view.viewport.zw;
+    let t = globals.time * SPEED;
+    uv.x *= resolution.x / resolution.y;
+    uv *= rotate2D(NEG_HALF_PI);
 
-    // return vec4f(shader_toy_default(t, uv), 1.0);
-
-
-    var uv = in.uv;
-    uv = uv * 2.0 - 1.0;
-
-    var out = vec4f(uv.x, uv.y, 0.0, 1.0);
-    return out;
-    
+    return vec4f(shader_toy_default(t, uv), 1.0);
 }    
     
