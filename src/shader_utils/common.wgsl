@@ -1,12 +1,27 @@
 #define_import_path shadplay::shader_utils::common
 
+// The circle family
+const PI:f32  =         3.14159265359;
 const HALF_PI =         1.57079632679;
 const NEG_HALF_PI =    -1.57079632679;
 const NEG_QUARTER_PI = -0.78539816339;
-const PI:f32  =         3.14159265359;
 const QUARTER_PI =     -0.78539816339;
 const TAU:f32 =         6.28318530718;
 
+// Euler's number / Napier's constant
+const E: f32 =          2.71828182845;
+
+// Pythagoras' constants
+const SQRT_OF_2:f32 =   1.41421356237;
+const SQRT_OF_3:f32 =   1.73205080756;
+
+// The golden ratio
+const PHI:f32 =         1.61803398874;
+
+/// Turn your `uv` coords into polar coords
+fn intoPolar(uv: vec2<f32>)-> vec2<f32>{
+    return vec2f(atan2(uv.x, uv.y), length(uv));
+}
 
 /// Clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {
