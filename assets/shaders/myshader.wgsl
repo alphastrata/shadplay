@@ -2,8 +2,8 @@
 //! The default 3d Shader.
 //!
 #import bevy_pbr::forward_io::VertexOutput
+#import bevy_pbr::mesh_view_bindings::globals;
 #import bevy_pbr::utils PI
-#import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D
 
 #import bevy_render::view  View
