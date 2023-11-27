@@ -3,7 +3,7 @@
 use bevy::{
     log,
     prelude::{Query, ResMut, Resource},
-    window::{Window, WindowLevel},
+    window::{CompositeAlphaMode, Window, WindowLevel},
 };
 use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
