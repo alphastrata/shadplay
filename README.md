@@ -83,6 +83,7 @@ The app has some simple hotkeys:
 | <kbd>7</kbd>        | Select the `texture` at index 7                                                   |
 | <kbd>8</kbd>        | Select the `texture` at index 8                                                   |
 | <kbd>9</kbd>        | Select the `texture` at index 9                                                   |
+| <kbd>?</kbd>        | Opens the Help UI                                                                 |
 
 ______________________________________________________________________
 
