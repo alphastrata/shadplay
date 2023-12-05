@@ -325,7 +325,8 @@ fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
 > from https://www.shadertoy.com/view/4t2cR1
 
 - in `glsl`, when declaring structs, you terminate the lines of the fields with `;`, in wgsl you use `,`so:
-  this: 
+  this:
+
 ```glsl
   struct geometry {
   float dist;
@@ -333,7 +334,9 @@ fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
   int iterations;
   };
 ```
-  becomes:
+
+becomes:
+
 ```rust
 struct Geometry {
     dist: f32,
