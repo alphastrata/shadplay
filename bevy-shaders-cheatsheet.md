@@ -208,7 +208,7 @@ Then use this [rust-binding-code](https://github.com/alphastrata/shadplay/blob/d
 #[derive(AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
 #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct DottedLineShader {
-    #[uniform(0)]
+    #[uniform(100)] // Make the uniform a big(ish) number to avoid clashing with existing bindings.
     uniforms: Holder, //RGBA
 }
 
@@ -325,15 +325,15 @@ fn pR(out_point: vec2<f32>, angle: f32)-> vec2f {
 > from https://www.shadertoy.com/view/4t2cR1
 
 - in `glsl`, when declaring structs, you terminate the lines of the fields with `;`, in wgsl you use `,`so:
-  this: \`\`\`glsl
+  this: 
+```glsl
   struct geometry {
   float dist;
   vec3 hit;
   int iterations;
   };
-  \`\`
+```
   becomes:
-
 ```rust
 struct Geometry {
     dist: f32,
