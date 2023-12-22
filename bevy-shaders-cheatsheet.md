@@ -345,19 +345,24 @@ struct Geometry {
 }
 ```
 
-which you cal call like this `testing(&uv)`.
-
 - You may be tempted to do multipart assignments on the rhs, like this:
-  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y) ` but, this `I = `... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
 
-- `	vec3 u = 1.-(--f)*f*f*f*-f;` Note, the `--` is not legal in wgsl, so don't do it instead do:
+  `O += 0.2 / (abs(length(I = p / (r + r - p).y) * 80.0 - i) + 40.0 / r.y)` but, this 
+`I = `
+... is INVALID, you will see this a lot in shadertoy, in particular when fancy [shader-wizards are attempting to not summon Cthulhu by exceeding the 300char limit](https://www.shadertoy.com/view/msjXRK), but in `.wgsl` land you gotta do the assignment outside.
+
+- `	vec3 u = 1.-(--f)*f*f*f*-f;` _Note, the `--` is not legal in wgsl_, so don't do it instead do:
 
 ```rust
     f -= vec3<f32>(1.0, 1.0, 1.0); // Decrement each component of the vector by 1
     var u: vec3<f32> = 1.0 - f * f * f * f * -f;
 ```
 
--- single inlined if/else's with an assignment i.e, `let functionSign: f32 = if mp.dist < 0.0 { -1.0 } else { 1.0 };`, are not allowed, you need to do this instead:
+-- single inlined if/else's with an assignment i.e, 
+```rust
+let functionSign: f32 = if mp.dist < 0.0 { -1.0 } else { 1.0 };
+```
+ are not allowed, you need to do this instead:
 
 ```rust
     var functionSign: f32;
