@@ -33,7 +33,7 @@ toml = "0.8.6"
 bevy_editor_pls = "0.6.0" # Required for Might
 
 [build-dependencies]
-reqwest = "0.11"                               # Required for Might 
+reqwest = "0.11.*"
 tokio = { version = "1", features = ["full"] } # Required for Might
 glob = "0.3.1"
 
