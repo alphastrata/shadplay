@@ -24,13 +24,13 @@ A secondary goal is to flesh out a relatively comprehensive 'port' of existing c
 
 A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
 
----
+______________________________________________________________________
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
----
+______________________________________________________________________
 
 ## Features
 
@@ -85,7 +85,7 @@ The app has some simple hotkeys:
 | <kbd>9</kbd>        | Select the `texture` at index 9                                                   |
 | <kbd>?</kbd>        | Opens the Help UI                                                                 |
 
----
+______________________________________________________________________
 
 ### To run shadplay, you'll need the following:
 
@@ -104,13 +104,13 @@ then:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
 
----
+______________________________________________________________________
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 ## TODO:
 
@@ -118,7 +118,7 @@ See the [guide](./CONTRIBUTING.md)
 - \[\] drag n drop obj/stl/gltf opening?
 - \[\] left/right arrows to swap between shaders from the assets' dir
 
----
+______________________________________________________________________
 
 ## Resources:
 
@@ -130,7 +130,7 @@ See the [guide](./CONTRIBUTING.md)
 - [GLSL2WGSL converter](https://eliotbo.github.io/glsl2wgsl/), it's a mixed bag..
 - [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
 
----
+______________________________________________________________________
 
 # Gallery:
 
@@ -164,7 +164,7 @@ See the [guide](./CONTRIBUTING.md)
   </tr>
 </table>
 
----
+______________________________________________________________________
 
 # FAQ:
 
@@ -174,7 +174,7 @@ A: It could be that the shader was contributed some time ago and was, likely mad
 Q: What version of bevy are you targeting?
 A: `{version = "*"}`
 
----
+______________________________________________________________________
 
 # LICENSE:
 
