@@ -17,11 +17,10 @@ impl Plugin for ScreenshotPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (
-                gif_maker::screenshot_for_10_seconds,
-                screenshot::screenshot_and_version_shader_on_spacebar,
-            ),
+            (screenshot::screenshot_and_version_shader_on_spacebar,),
         );
+
+        app.add_plugins(gif_maker::GifMakerPlugin);
     }
 }
 

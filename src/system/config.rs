@@ -2,7 +2,7 @@
 //! the app's default config, long-lived settings and the clipboard interactions.
 use bevy::{
     log,
-    prelude::{Query, ResMut, Resource},
+    prelude::{Handle, Image, Query, ResMut, Resource},
     window::{CompositeAlphaMode, Window, WindowLevel},
 };
 use directories::ProjectDirs;
@@ -17,13 +17,16 @@ use std::{
 #[derive(Resource, Debug, Serialize, PartialEq, PartialOrd, Deserialize)]
 pub struct UserConfig {
     #[serde(default = "default_window_dims")]
-    window_dims: (f32, f32),
+    pub window_dims: (f32, f32),
     #[serde(default = "neg")]
     decorations: bool,
     #[serde(default = "neg")]
     always_on_top: bool,
     #[serde(default = "default_last_updated")]
     last_updated: u64, //Toml doesn't supprot u128
+
+    #[serde(skip)]
+    pub gif_capture_surface: Option<Handle<Image>>,
 }
 // Provide a default function for window_dims
 fn default_window_dims() -> (f32, f32) {
@@ -138,6 +141,7 @@ impl Default for UserConfig {
                 .duration_since(UNIX_EPOCH)
                 .unwrap_or_default()
                 .as_secs(),
+            gif_capture_surface: None,
         }
     }
 }

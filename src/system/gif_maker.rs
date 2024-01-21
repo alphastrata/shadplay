@@ -1,11 +1,17 @@
-use std::path::PathBuf;
-use std::thread;
-use std::time::Duration;
-
 use bevy::prelude::*;
+use bevy::render::render_resource::{
+    Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
+};
 use bevy::render::view::screenshot::ScreenshotManager;
-use bevy::window::PrimaryWindow;
+use bevy::render::view::RenderLayers;
 
+pub struct GifMakerPlugin;
+
+impl Plugin for GifMakerPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Startup, setup);
+    }
+}
 /// Saves a screenshot continiously for ten seconds should you hit `return`.
 /// Giving you something like this:
 ///```shell
@@ -16,33 +22,37 @@ use bevy::window::PrimaryWindow;
 ///    ├──  0003.png
 ///    ... etc
 ///```
-pub fn screenshot_for_10_seconds(
+pub fn setup(
     input: Res<Input<KeyCode>>,
-    main_window: Query<Entity, With<PrimaryWindow>>,
+    user_config: Res<super::config::UserConfig>,
     mut screenshot_manager: ResMut<ScreenshotManager>,
+    mut images: ResMut<Assets<Image>>,
 ) {
-    if input.just_pressed(KeyCode::Return) {
-        for i in 0..100 {
-            let screenshot_path = PathBuf::from(format!(
-                "screenshots/{}/{}/{}.png",
-                super::today(),
-                super::timestamper(),
-                format!("{:08}", i) // Generates file names like 0001, 0002, etc.
-            ));
-            if let Err(e) = super::make_all(&screenshot_path) {
-                error!("make_all failed: {}", e);
-                continue;
-            }
+    let (width, height) = user_config.window_dims;
+    let size = Extent3d {
+        width: width as u32,
+        height: height as u32,
+        ..default()
+    };
 
-            match screenshot_manager.save_screenshot_to_disk(main_window.single(), &screenshot_path)
-            {
-                Err(e) => error!("screenshotting failed: {}", e),
-                Ok(_) => {
-                    info!("{} SAVED!", screenshot_path.display());
-                }
-            }
+    let mut image = Image {
+        texture_descriptor: TextureDescriptor {
+            label: None,
+            size,
+            dimension: TextureDimension::D2,
+            format: TextureFormat::Bgra8UnormSrgb,
+            mip_level_count: 1,
+            sample_count: 1,
+            usage: TextureUsages::TEXTURE_BINDING
+                | TextureUsages::COPY_DST
+                | TextureUsages::RENDER_ATTACHMENT,
+            view_formats: &[],
+        },
+        ..default()
+    };
 
-            thread::sleep(Duration::from_millis(100));
-        }
-    }
+    image.resize(size);
+    let image_handle = images.add(image);
+
+    let gif_capture_pass = RenderLayers::layer(1);
 }
