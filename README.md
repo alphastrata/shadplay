@@ -4,7 +4,7 @@
 
 <center>artwork by Maz with SD</center>
 
-[![Bevy tracking](https://img.shields.io/badge/Bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
+[![bevy tracking](https://img.shields.io/badge/bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
 
 <!-- Badges to insert at some stage... 
 [![docs.rs](https://docs.rs/shadplay/badge.svg)](https://docs.rs/shadplay) SOME DAY...
@@ -17,12 +17,12 @@
 
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
-Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for Bevy.
-The idea is to give one the minimal amount of bevy boilerplate etc possible to get started writing `wgsl` asap, and provide a library of examples showing how some things are done, can be done etc.
+Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for bevy.
+The idea is to give one the minimal amount of bevy boilerplate etc., possible to get started writing \`wgsl\` ASAP, and provide a library of examples showing how some things are done, can be done etc.
 
 A secondary goal is to flesh out a relatively comprehensive 'port' of existing cool shader work from places like shadertoy etc -- because there's a few 'gotchas' around the differences in `glsl` and `wgsl` syntax, their respective builtins.
 
-A tertiary goal is to surface the builtins/existing library code that Bevy's codebase provides.
+A tertiary goal is to surface the builtins/existing library code that bevy's codebase provides.
 
 ______________________________________________________________________
 
@@ -35,7 +35,7 @@ ______________________________________________________________________
 ## Features
 
 - A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl` specifically focusing on `wgsl`.
-- Live preview of shader code on Bevy mesh geometry.
+- Live preview of shader code on bevy mesh geometry.
 - Textures, see `assets/shaders/howto-texture.wgsl`.
 - Drag and drop `.png` or `.jpg` files onto the window to use as said textures.
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`.
@@ -43,7 +43,7 @@ ______________________________________________________________________
 - Drag and drop (valid `wgsl`) shaders onto the app.
 - Scripts to format your `wgsl` work, so it looks more rusty.
 - Scripts to pull _all_ the functions from the bevy codebase's shader code so you can easily lookup what's available for import.
-- Scripts to search the bevy sourcecode (opening your browser) for specific keywords.
+- Scripts to search the bevy source code (opening your browser) for specific keywords.
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor, most OSes should be supported).
@@ -74,7 +74,7 @@ The app has some simple hotkeys:
 | <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                   |
 | <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                |
 | <kbd>0</kbd>        | Select the `texture` at index 0                                                   |
-| <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a tex onto shadplay) |
+| <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a texture onto Shadplay) |
 | <kbd>2</kbd>        | Select the `texture` at index 2                                                   |
 | <kbd>3</kbd>        | Select the `texture` at index 3                                                   |
 | <kbd>4</kbd>        | Select the `texture` at index 4                                                   |
@@ -171,7 +171,7 @@ ______________________________________________________________________
 Q: I grabbed a shader from the examples, but it's not working!
 A: It could be that the shader was contributed some time ago and was, likely made with a bevy version \< 0.12.x so it's likely a formatting thing -- if the naga (the thing which parses and compiles the .wgsl code) error doesn't tell you how to solve the issue please make a bug report and we'll try to get it updated!
 
-Q: What version of bevy are you targeting?
+Q: What version of bevy are you targeting??
 A: `{version = "*"}`
 
 ______________________________________________________________________
