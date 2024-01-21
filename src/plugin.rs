@@ -11,6 +11,7 @@ pub struct ShadPlayPlugin;
 impl Plugin for ShadPlayPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
+            .add_plugins(crate::system::ScreenshotPlugin) //NOTE: this is not Bevy's one!
             .add_plugins(ColourPickerPlugin)
             .add_plugins(MaterialPlugin::<YourShader>::default())
             .add_plugins(Material2dPlugin::<YourShader2D>::default())
@@ -55,7 +56,6 @@ impl Plugin for ShadPlayPlugin {
                     file_drag_and_drop_listener,
                     add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
                     override_current_shader.run_if(on_event::<DragNDropShader>()),
-                    screenshot_and_version_shader_on_spacebar,
                     cam_switch_system,
                     quit,
                     switch_level,
