@@ -1,16 +1,16 @@
 #![allow(unused_imports)]
-use bevy::prelude::*;
 use bevy::render::camera::RenderTarget;
 use bevy::render::render_resource::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
 };
 use bevy::render::view::screenshot::ScreenshotManager;
+use bevy::{log, prelude::*};
 
 use bevy::render::view::RenderLayers;
 use bevy::window::{PrimaryWindow, WindowResized};
 
 /// Because RenderTarget ! PartialOrd, so you cannot slap it into our UserConfig ><
-#[derive(Resource)]
+#[derive(Resource, Default)]
 struct RenderTargetHolster(Option<RenderTarget>);
 
 /// Plugin:
@@ -21,7 +21,7 @@ impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(RenderTargetHolster(None));
 
-        app.add_systems(Startup, setup);
+        app.add_systems(PostStartup, setup);
 
         app.add_systems(
             Update,
@@ -34,7 +34,6 @@ pub fn setup(
     mut user_config: ResMut<super::config::UserConfig>,
     mut render_target_holster: ResMut<RenderTargetHolster>,
     mut images: ResMut<Assets<Image>>,
-    q: Query<(Entity, &Camera)>,
 ) {
     let (width, height) = user_config.window_dims;
     let size = Extent3d {
@@ -63,14 +62,6 @@ pub fn setup(
     let image_handle = images.add(image);
 
     user_config.gif_capture_surface = Some(image_handle);
-    render_target_holster.0 = Some(
-        q.get_single()
-            .expect("It should be impossible not to have a RenderTarget on our Camera.")
-            .1
-            .target
-            .clone(),
-    );
-
     // let gif_capture_pass = RenderLayers::layer(1);
 }
 
@@ -99,13 +90,24 @@ pub fn size_gif_capture_surface(
     im.resize(size);
 }
 
+/// Moves our RenderTarget into gif mode.
 fn retarget_2_gif_surface(
-    target: Res<super::config::UserConfig>,
+    gif_target: Res<super::config::UserConfig>,
+    mut render_target_holster: ResMut<RenderTargetHolster>,
     mut q: Query<(Entity, &mut Camera)>,
 ) {
     q.iter_mut().for_each(|(_ent, mut cam)| {
-        let Some(rt) = target.gif_capture_surface;
-        cam.target = RenderTarget::Image(rt);
+        let Some(ref rt) = gif_target.gif_capture_surface else {
+            log::error!("Unable to get a Handle<Image> that we can swap RenderTarget too.");
+            return;
+        };
+        render_target_holster.0 = Some(cam.target.clone());
+        cam.target = RenderTarget::Image(rt.clone());
     });
 }
-fn retarget_2_window(mut q: Query<(Entity, &mut Camera)>) {}
+/// Restores our RenderTarget from gif mode back to regular.
+fn retarget_2_window(rth: Res<RenderTargetHolster>, mut q: Query<(Entity, &mut Camera)>) {
+    q.iter_mut().for_each(|(_ent, mut cam)| {
+        cam.target = rth.0.clone().unwrap();
+    });
+}
