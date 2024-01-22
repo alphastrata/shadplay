@@ -1,17 +1,26 @@
 #![allow(unused_imports)]
 use bevy::prelude::*;
+use bevy::render::camera::RenderTarget;
 use bevy::render::render_resource::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
 };
 use bevy::render::view::screenshot::ScreenshotManager;
 
 use bevy::render::view::RenderLayers;
-use bevy::window::WindowResized;
+use bevy::window::{PrimaryWindow, WindowResized};
 
+/// Because RenderTarget ! PartialOrd, so you cannot slap it into our UserConfig ><
+#[derive(Resource)]
+struct RenderTargetHolster(Option<RenderTarget>);
+
+/// Plugin:
+/// Housing everything we need to make gifs on `return`
 pub struct GifMakerPlugin;
 
 impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
+        app.insert_resource(RenderTargetHolster(None));
+
         app.add_systems(Startup, setup);
 
         app.add_systems(
@@ -22,10 +31,10 @@ impl Plugin for GifMakerPlugin {
 }
 /// Inits the scratch surface for `gif_capture_surface` we're going to retarget a camera at.
 pub fn setup(
-    // input: Res<Input<KeyCode>>,
     mut user_config: ResMut<super::config::UserConfig>,
-    // mut screenshot_manager: ResMut<ScreenshotManager>,
+    mut render_target_holster: ResMut<RenderTargetHolster>,
     mut images: ResMut<Assets<Image>>,
+    q: Query<(Entity, &Camera)>,
 ) {
     let (width, height) = user_config.window_dims;
     let size = Extent3d {
@@ -54,6 +63,13 @@ pub fn setup(
     let image_handle = images.add(image);
 
     user_config.gif_capture_surface = Some(image_handle);
+    render_target_holster.0 = Some(
+        q.get_single()
+            .expect("It should be impossible not to have a RenderTarget on our Camera.")
+            .1
+            .target
+            .clone(),
+    );
 
     // let gif_capture_pass = RenderLayers::layer(1);
 }
@@ -83,12 +99,13 @@ pub fn size_gif_capture_surface(
     im.resize(size);
 }
 
-/// Retargets Cam3D
-fn retarget_cam3d() {
-    todo!()
+fn retarget_2_gif_surface(
+    target: Res<super::config::UserConfig>,
+    mut q: Query<(Entity, &mut Camera)>,
+) {
+    q.iter_mut().for_each(|(_ent, mut cam)| {
+        let Some(rt) = target.gif_capture_surface;
+        cam.target = RenderTarget::Image(rt);
+    });
 }
-
-/// Retargets Cam2D
-fn retarget_cam2d() {
-    todo!()
-}
+fn retarget_2_window(mut q: Query<(Entity, &mut Camera)>) {}

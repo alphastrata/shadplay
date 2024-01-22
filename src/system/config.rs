@@ -3,6 +3,7 @@
 use bevy::{
     log,
     prelude::{Handle, Image, Query, ResMut, Resource},
+    render::camera::RenderTarget,
     window::{CompositeAlphaMode, Window, WindowLevel},
 };
 use directories::ProjectDirs;
@@ -25,6 +26,7 @@ pub struct UserConfig {
     #[serde(default = "default_last_updated")]
     last_updated: u64, //Toml doesn't supprot u128
 
+    /// RenderTarget for when we're making a gif
     #[serde(skip)]
     pub gif_capture_surface: Option<Handle<Image>>,
 }
@@ -158,6 +160,7 @@ mod tests {
             decorations: false,
             always_on_top: false,
             last_updated: 1635900000,
+            gif_capture_surface: None,
         };
 
         let temp_path = "./temp_config.toml";
@@ -180,6 +183,7 @@ mod tests {
             decorations: false,
             always_on_top: true,
             last_updated: 1635900000,
+            gif_capture_surface: None,
         };
         test_config.save_to_toml(p).unwrap();
     }

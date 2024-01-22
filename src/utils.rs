@@ -358,11 +358,7 @@ pub fn setup_2d(
     user_textures.insert(0, texture.clone());
 
     // 2D camera
-    commands.spawn((
-        Camera2dBundle { ..default() },
-        // PanOrbitCamera::default(),
-        Cam2D,
-    ));
+    commands.spawn((Camera2dBundle { ..default() }, Cam2D));
     trace!("Spawned 2d Cam");
 
     let win = windows
