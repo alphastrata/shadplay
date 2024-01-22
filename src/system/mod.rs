@@ -2,8 +2,6 @@ use bevy::prelude::*;
 use chrono::{Datelike, Local, Timelike};
 use std::{fs, path::Path};
 
-UserSession
-
 pub mod clipboard;
 pub mod config;
 pub mod drag_n_drop;

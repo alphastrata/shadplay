@@ -175,9 +175,13 @@ impl UserSession {
         let handle = self.pop_gif_buffer(&mut images);
         if let Some(image) = images.get(&handle) {
             let dynamic = image.clone().try_into_dynamic().unwrap();
-            let filename = format!("{:05f}.png", local);
+            let filename = format!("{:05}.png", *local);
 
-            dynamic.save(filename).unwrap();
+            if let Err(e) = dynamic.save(filename) {
+                log::error!("Unable to save DynamicImage");
+                log::error!("{}", e);
+            }
+            *local += 1;
         }
     }
 }

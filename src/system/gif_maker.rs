@@ -63,7 +63,7 @@ fn setup(mut user_config: ResMut<super::config::UserSession>, mut images: ResMut
     image.resize(size);
     let image_handle = images.add(image);
 
-    user_config.gif_capture_surface = Some(image_handle);
+    user_config.gif_buffer = Some(image_handle);
     // let gif_capture_pass = RenderLayers::layer(1);
 }
 
@@ -75,7 +75,7 @@ pub fn size_gif_capture_surface(
 ) {
     let (width, height) = user_config.window_dims;
 
-    let Some(ref handle) = user_config.gif_capture_surface else {
+    let Some(ref handle) = user_config.gif_buffer else {
         return;
     };
 
@@ -99,7 +99,7 @@ fn retarget_2_gif_surface(
     mut q: Query<(Entity, &mut Camera)>,
 ) {
     q.iter_mut().for_each(|(_ent, mut cam)| {
-        let Some(ref rt) = gif_target.gif_capture_surface else {
+        let Some(ref rt) = gif_target.gif_buffer else {
             log::error!("Unable to get a Handle<Image> that we can swap RenderTarget too.");
             return;
         };
