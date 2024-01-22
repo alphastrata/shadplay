@@ -20,16 +20,7 @@ impl Plugin for GifMakerPlugin {
         );
     }
 }
-/// Saves a screenshot continiously for ten seconds should you hit `return`.
-/// Giving you something like this:
-///```shell
-/// screenshots
-///└──  tmp
-///    ├──  0001.png
-///    ├──  0002.png
-///    ├──  0003.png
-///    ... etc
-///```
+/// Inits the scratch surface for `gif_capture_surface` we're going to retarget a camera at.
 pub fn setup(
     // input: Res<Input<KeyCode>>,
     mut user_config: ResMut<super::config::UserConfig>,
@@ -67,6 +58,7 @@ pub fn setup(
     // let gif_capture_pass = RenderLayers::layer(1);
 }
 
+/// Ensures that our `gif_capture_surface` is always the right resolution.
 pub fn size_gif_capture_surface(
     user_config: Res<super::config::UserConfig>,
     // mut screenshot_manager: ResMut<ScreenshotManager>,
@@ -89,4 +81,14 @@ pub fn size_gif_capture_surface(
     };
 
     im.resize(size);
+}
+
+/// Retargets Cam3D
+fn retarget_cam3d() {
+    todo!()
+}
+
+/// Retargets Cam2D
+fn retarget_cam2d() {
+    todo!()
 }
