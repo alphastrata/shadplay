@@ -90,8 +90,10 @@ ______________________________________________________________________
 
 ### To run shadplay, you'll need the following:
 
-- Rust (stable) - Make sure you have Rust installed on your system. You can find installation instructions at [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
+- Rust (`nightly`) - Make sure you have Rust installed on your system. You can find installation instructions at [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
   _We assume you can follow their instructions to clear that hurdle_
+
+_Question: Why Nightly?_ so we can take advantage of the fast build config (See bevy repo's `.cargo/config.toml`)
 
 then:
 
