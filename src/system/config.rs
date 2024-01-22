@@ -1,9 +1,12 @@
 //! Logic and Helpers etc for dealing with the system Shadplay is running on, i.e
 //! the app's default config, long-lived settings and the clipboard interactions.
 use bevy::{
+    asset::{AssetApp, AssetServer, Assets},
+    ecs::system::{Commands, Local, Res},
     log,
     prelude::{Handle, Image, Query, ResMut, Resource},
-    render::camera::RenderTarget,
+    render::render_resource::Extent3d,
+    render::render_resource::{TextureDescriptor, TextureDimension, TextureFormat, TextureUsages},
     window::{CompositeAlphaMode, Window, WindowLevel},
 };
 use directories::ProjectDirs;
@@ -16,7 +19,7 @@ use std::{
 };
 
 #[derive(Resource, Debug, Serialize, PartialEq, PartialOrd, Deserialize)]
-pub struct UserConfig {
+pub struct UserSession {
     #[serde(default = "default_window_dims")]
     pub window_dims: (f32, f32),
     #[serde(default = "neg")]
@@ -26,9 +29,9 @@ pub struct UserConfig {
     #[serde(default = "default_last_updated")]
     last_updated: u64, //Toml doesn't supprot u128
 
-    /// RenderTarget for when we're making a gif
+    /// RenderTarget for when we're making a gif out of
     #[serde(skip)]
-    pub gif_capture_surface: Option<Handle<Image>>,
+    pub gif_buffer: Option<Handle<Image>>,
 }
 // Provide a default function for window_dims
 fn default_window_dims() -> (f32, f32) {
@@ -47,7 +50,7 @@ fn default_last_updated() -> u64 {
         .as_secs()
 }
 
-impl UserConfig {
+impl UserSession {
     pub fn get_config_path() -> PathBuf {
         match ProjectDirs::from("", "", "shadplay") {
             Some(proj_dirs) => {
@@ -83,7 +86,7 @@ impl UserConfig {
     pub fn load_from_toml<P: AsRef<Path>>(path: P) -> io::Result<Self> {
         let mut file_contents = String::new();
         fs::File::open(path)?.read_to_string(&mut file_contents)?;
-        let config: UserConfig =
+        let config: UserSession =
             toml::from_str(&file_contents).expect("Failed to deserialize TOML into UserConfig");
 
         Ok(config)
@@ -111,7 +114,7 @@ impl UserConfig {
     }
 
     /// System: When the screen dims change, we update the Self we have in the bevy [`Resource`]s.
-    pub fn runtime_updater(mut user_config: ResMut<UserConfig>, windows: Query<&Window>) {
+    pub fn runtime_updater(mut user_config: ResMut<UserSession>, windows: Query<&Window>) {
         let win = windows
             .get_single()
             .expect("Should be impossible to NOT get a window");
@@ -131,9 +134,55 @@ impl UserConfig {
             Err(e) => log::error!("Failed to update user's config {}", e),
         }
     }
+
+    /// Works like a `std::mem::swap(a, b)`, but takes the asset server to attain the Handle<Image> for `b`.
+    fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> Handle<Image> {
+        let (width, height) = self.window_dims;
+        let size = Extent3d {
+            width: width as u32,
+            height: height as u32,
+            ..Default::default()
+        };
+
+        let mut image = Image {
+            texture_descriptor: TextureDescriptor {
+                label: None,
+                size,
+                dimension: TextureDimension::D2,
+                format: TextureFormat::Bgra8UnormSrgb,
+                mip_level_count: 1,
+                sample_count: 1,
+                usage: TextureUsages::TEXTURE_BINDING
+                    | TextureUsages::COPY_DST
+                    | TextureUsages::RENDER_ATTACHMENT,
+                view_formats: &[],
+            },
+            ..Default::default()
+        };
+
+        image.resize(size);
+        let scratch = Some(images.add(image));
+        std::mem::replace(&mut self.gif_buffer, scratch.clone())
+            .expect("There will be a value here, because we create it.")
+    }
+
+    /// takes the UserSession's current buffer and saves it to disk as an `ordererd` png.
+    pub fn flush_gif_buffer_to_disk(
+        &mut self,
+        mut local: Local<u64>,
+        mut images: ResMut<Assets<Image>>,
+    ) {
+        let handle = self.pop_gif_buffer(&mut images);
+        if let Some(image) = images.get(&handle) {
+            let dynamic = image.clone().try_into_dynamic().unwrap();
+            let filename = format!("{:05f}.png", local);
+
+            dynamic.save(filename).unwrap();
+        }
+    }
 }
 
-impl Default for UserConfig {
+impl Default for UserSession {
     fn default() -> Self {
         Self {
             window_dims: (720.0, 480.0),
@@ -143,24 +192,24 @@ impl Default for UserConfig {
                 .duration_since(UNIX_EPOCH)
                 .unwrap_or_default()
                 .as_secs(),
-            gif_capture_surface: None,
+            gif_buffer: None,
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::UserConfig;
+    use super::UserSession;
     use std::fs;
 
     #[test]
     fn save_and_load_user_config() {
-        let test_config = UserConfig {
+        let test_config = UserSession {
             window_dims: (1024.0, 768.0),
             decorations: false,
             always_on_top: false,
             last_updated: 1635900000,
-            gif_capture_surface: None,
+            gif_buffer: None,
         };
 
         let temp_path = "./temp_config.toml";
@@ -169,7 +218,7 @@ mod tests {
             .expect("Failed to save test config to TOML");
 
         let loaded_config =
-            UserConfig::load_from_toml(temp_path).expect("Failed to load test config from TOML");
+            UserSession::load_from_toml(temp_path).expect("Failed to load test config from TOML");
         assert_eq!(test_config, loaded_config);
 
         fs::remove_file(temp_path).expect("Failed to remove temporary test config file");
@@ -177,13 +226,13 @@ mod tests {
 
     #[test]
     fn config_path_for_user_config() {
-        let p = UserConfig::get_config_path();
-        let test_config = UserConfig {
+        let p = UserSession::get_config_path();
+        let test_config = UserSession {
             window_dims: (1024.0, 768.0),
             decorations: false,
             always_on_top: true,
             last_updated: 1635900000,
-            gif_capture_surface: None,
+            gif_buffer: None,
         };
         test_config.save_to_toml(p).unwrap();
     }
