@@ -1,6 +1,7 @@
 use std::path::Path;
 use std::path::PathBuf;
 
+use bevy::log;
 use bevy::prelude::*;
 use bevy::render::view::screenshot::ScreenshotManager;
 use bevy::window::PrimaryWindow;
@@ -36,11 +37,15 @@ pub fn screenshot_and_version_shader_on_spacebar(
         }
 
         match screenshot_manager.save_screenshot_to_disk(main_window.single(), &target) {
-            Err(e) => error!("screenshotting failed: {}", e),
+            Err(e) => error!("Screenshot(still) failed: {}", e),
             Ok(_) => {
                 let shader_path = match app_state.get() {
                     AppState::TwoD => DEFAULT_SHADER_2D,
                     AppState::ThreeD => DEFAULT_SHADER_3D,
+                    _ => {
+                        log::debug!("Sceenshot system do nothing in GifMode.");
+                        return;
+                    }
                 };
                 super::version_current_shader(Path::new(shader_path), &target);
             }

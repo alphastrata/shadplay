@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{log, prelude::*};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -74,6 +74,9 @@ pub fn override_current_shader(
                     Ok(_) => {}
                     Err(e) => error!("Error overriding the 3d shader:\n\t{}", e),
                 }
+            }
+            _ => {
+                log::debug!("No shader override happens when we enter/exit GifMode.")
             }
         }
     });

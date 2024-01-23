@@ -3,6 +3,10 @@
 use bevy::{
     asset::{AssetApp, AssetServer, Assets},
     ecs::system::{Commands, Local, Res},
+    input::{
+        keyboard::{KeyCode, KeyboardInput},
+        Input,
+    },
     log,
     prelude::{Handle, Image, Query, ResMut, Resource},
     render::render_resource::Extent3d,
@@ -169,20 +173,23 @@ impl UserSession {
     /// takes the UserSession's current buffer and saves it to disk as an `ordererd` png.
     pub fn flush_gif_buffer_to_disk(
         &mut self,
-        mut local: Local<u64>,
+        mut local: Local<usize>,
         mut images: ResMut<Assets<Image>>,
     ) {
         let handle = self.pop_gif_buffer(&mut images);
         if let Some(image) = images.get(&handle) {
             let dynamic = image.clone().try_into_dynamic().unwrap();
-            let filename = format!("{:05}.png", *local);
+            let filename = format!(".gif_scratch/{:05}.png", *local);
 
             if let Err(e) = dynamic.save(filename) {
                 log::error!("Unable to save DynamicImage");
                 log::error!("{}", e);
             }
             *local += 1;
+            return;
         }
+
+        log::error!("No image in the gif_buffer to pop!");
     }
 }
 

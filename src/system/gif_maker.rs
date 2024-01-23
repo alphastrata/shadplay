@@ -23,16 +23,38 @@ impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(RenderTargetHolster::default());
 
-        // Limit timestep we can snap for our gif to 10 FPS
-        app.insert_resource(Time::<Fixed>::from_seconds(0.01));
-
         app.add_systems(PostStartup, setup);
 
         app.add_systems(
             Update,
             size_gif_capture_surface.run_if(on_event::<WindowResized>()),
         );
+
+        // Limit timestep we can snap for our gif to 10 FPS
+        app.insert_resource(Time::<Fixed>::from_seconds(0.01));
+        app.add_systems(FixedUpdate, continous_capture);
     }
+}
+
+fn continous_capture(
+    mut last_time: Local<f32>,
+    time: Res<Time>,
+    shot_num: Local<usize>,
+    mut user_config: ResMut<super::config::UserSession>,
+    images: ResMut<Assets<Image>>,
+) {
+    debug!(
+        "time since last flush: {}\n",
+        time.elapsed_seconds() - *last_time
+    );
+    *last_time = time.elapsed_seconds();
+
+    // flush that badass.
+    crate::system::config::UserSession::flush_gif_buffer_to_disk(
+        &mut user_config,
+        shot_num,
+        images,
+    );
 }
 
 /// Inits the scratch surface for `gif_capture_surface` we're going to retarget a camera at.

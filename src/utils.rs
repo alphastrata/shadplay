@@ -14,6 +14,7 @@ pub enum AppState {
     #[default]
     TwoD,
     ThreeD,
+    GifCapture,
 }
 
 /// Component: Marking shapes that we spawn.
