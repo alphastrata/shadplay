@@ -1,4 +1,5 @@
 #![allow(unused_imports)]
+use bevy::input::keyboard::KeyboardInput;
 use bevy::render::camera::RenderTarget;
 use bevy::render::render_resource::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
@@ -8,6 +9,8 @@ use bevy::{log, prelude::*};
 
 use bevy::render::view::RenderLayers;
 use bevy::window::{PrimaryWindow, WindowResized};
+
+use crate::prelude::AppState;
 
 /// Because RenderTarget ! PartialOrd, so you cannot slap it into our UserConfig ><
 #[derive(Resource, Default, Deref, DerefMut)]
@@ -27,12 +30,36 @@ impl Plugin for GifMakerPlugin {
 
         app.add_systems(
             Update,
-            size_gif_capture_surface.run_if(on_event::<WindowResized>()),
+            (
+                size_gif_capture_surface.run_if(on_event::<WindowResized>()),
+                gif_capture_toggle.run_if(on_event::<KeyboardInput>()),
+            ),
         );
 
         // Limit timestep we can snap for our gif to 10 FPS
         app.insert_resource(Time::<Fixed>::from_seconds(0.01));
-        app.add_systems(FixedUpdate, continous_capture);
+        // Swap the render targets on Enter/Exit of GifCapture mode
+        app.add_systems(OnEnter(AppState::GifCapture), retarget_2_gif_surface);
+        app.add_systems(OnExit(AppState::GifCapture), retarget_2_window);
+        app.add_systems(
+            FixedUpdate,
+            continous_capture.run_if(in_state(AppState::GifCapture)),
+        );
+    }
+}
+
+fn gif_capture_toggle(
+    input: Res<Input<KeyCode>>,
+    mut next_state: ResMut<NextState<AppState>>,
+    current_state: Res<State<AppState>>,
+) {
+    if input.just_pressed(KeyCode::Return) {
+        log::debug!("AppState change request.");
+        let target = match current_state.get() {
+            AppState::GifCapture => AppState::TwoD,
+            _ => AppState::GifCapture,
+        };
+        next_state.set(target);
     }
 }
 
@@ -115,11 +142,13 @@ pub fn size_gif_capture_surface(
 }
 
 /// Moves our RenderTarget into gif mode.
+// on AppState::GifMode Enter
 fn retarget_2_gif_surface(
     gif_target: Res<super::config::UserSession>,
     mut render_target_holster: ResMut<RenderTargetHolster>,
     mut q: Query<(Entity, &mut Camera)>,
 ) {
+    log::debug!("RenderTarget is hitting the .gif_buffer");
     q.iter_mut().for_each(|(_ent, mut cam)| {
         let Some(ref rt) = gif_target.gif_buffer else {
             log::error!("Unable to get a Handle<Image> that we can swap RenderTarget too.");
@@ -133,8 +162,11 @@ fn retarget_2_gif_surface(
 }
 
 /// Restores our RenderTarget from gif mode back to regular.
+// on AppState::GifMode Exit
 fn retarget_2_window(rth: Res<RenderTargetHolster>, mut q: Query<(Entity, &mut Camera)>) {
     q.iter_mut().for_each(|(_ent, mut cam)| {
         cam.target = rth.clone().unwrap();
     });
+
+    log::debug!("RenderTarget is on the main window.");
 }

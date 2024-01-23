@@ -140,7 +140,7 @@ impl UserSession {
     }
 
     /// Works like a `std::mem::swap(a, b)`, but takes the asset server to attain the Handle<Image> for `b`.
-    fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> Handle<Image> {
+    fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> anyhow::Result<Image> {
         let (width, height) = self.window_dims;
         let size = Extent3d {
             width: width as u32,
@@ -148,7 +148,7 @@ impl UserSession {
             ..Default::default()
         };
 
-        let mut image = Image {
+        let mut new_scratch = Image {
             texture_descriptor: TextureDescriptor {
                 label: None,
                 size,
@@ -163,11 +163,16 @@ impl UserSession {
             },
             ..Default::default()
         };
+        new_scratch.resize(size);
 
-        image.resize(size);
-        let scratch = Some(images.add(image));
-        std::mem::replace(&mut self.gif_buffer, scratch.clone())
-            .expect("There will be a value here, because we create it.")
+        if let Some(current_buffer) = images.get_mut(&self.gif_buffer.clone().unwrap()) {
+            log::debug!("CurrSize: {}b", current_buffer.data.len());
+            log::debug!("ScratchSize: {}b", new_scratch.data.len());
+
+            Ok(std::mem::replace(current_buffer, new_scratch))
+        } else {
+            anyhow::bail!("Failed to swap the buffers..");
+        }
     }
 
     /// takes the UserSession's current buffer and saves it to disk as an `ordererd` png.
@@ -176,20 +181,19 @@ impl UserSession {
         mut local: Local<usize>,
         mut images: ResMut<Assets<Image>>,
     ) {
-        let handle = self.pop_gif_buffer(&mut images);
-        if let Some(image) = images.get(&handle) {
-            let dynamic = image.clone().try_into_dynamic().unwrap();
-            let filename = format!(".gif_scratch/{:05}.png", *local);
+        let image = self.pop_gif_buffer(&mut images).unwrap();
+        let dynamic = image.clone().try_into_dynamic().unwrap();
+        // let filename = format!(".gif_scratch/{:05}.png", *local);
+        let filename = format!("output.png");
+        log::debug!("ImSize: {}b", image.data.len());
+        log::debug!("ImCompressed: {}", image.is_compressed());
 
-            if let Err(e) = dynamic.save(filename) {
-                log::error!("Unable to save DynamicImage");
-                log::error!("{}", e);
-            }
-            *local += 1;
+        if let Err(e) = dynamic.save(filename) {
+            log::error!("Unable to save DynamicImage");
+            log::error!("{}", e);
             return;
         }
-
-        log::error!("No image in the gif_buffer to pop!");
+        *local += 1;
     }
 }
 

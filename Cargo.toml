@@ -20,12 +20,14 @@ wayland = ["bevy/wayland"]
 ui = []
 
 [dependencies]
+anyhow = "1.0.79"
 bevy = { version = "*", features = ["file_watcher", "dynamic_linking", "jpeg"] }
 bevy_egui = { version = "0.23.0" }
 bevy_panorbit_camera = { version = "0.9.0" }
 chrono = "0.4.31"
 copypasta = "0.10.0"
 directories = "5.0.1"
+image = "0.24.8"
 serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.6"
 
