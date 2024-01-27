@@ -73,7 +73,7 @@ The app has some simple hotkeys:
 | <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)             |
 | <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                   |
 | <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                |
-| <kbd>return</kbd> | Takes screenshotS continiously for 10 seconds                                |
+| <kbd>return</kbd>   | Takes screenshotS continiously, hit `return` again to stop capture                |
 | <kbd>0</kbd>        | Select the `texture` at index 0                                                   |
 | <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a texture onto Shadplay) |
 | <kbd>2</kbd>        | Select the `texture` at index 2                                                   |
