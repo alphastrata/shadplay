@@ -2,6 +2,7 @@
 _shaders
 screenshots/*
 _deprecated
+.gif_scratch/*
 *.gltf
 *.glb
 *.ktx2

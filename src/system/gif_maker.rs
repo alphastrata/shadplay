@@ -32,8 +32,8 @@ impl Plugin for GifMakerPlugin {
             (gif_capture_toggle.run_if(on_event::<KeyboardInput>()),),
         );
 
-        // Limit timestep we can snap for our gif to 10 FPS
-        app.insert_resource(Time::<Fixed>::from_seconds(0.1));
+        // Limit timestep we can snap for our gif to 20 FPS
+        app.insert_resource(Time::<Fixed>::from_seconds(0.05));
         app.add_systems(
             FixedUpdate,
             continous_capture.run_if(resource_exists_and_equals(Shooting(true))),
@@ -54,14 +54,10 @@ fn continous_capture(
     mut n: Local<usize>,
 ) {
     if let Err(e) = screenshot_mngr
-        .save_screenshot_to_disk(window_q.single(), format!(".git_scratch/{:04}.png", *n))
+        .save_screenshot_to_disk(window_q.single(), format!(".gif_scratch/{:06}.png", *n))
     {
         log::error!("{}", e);
     } else {
         *n += 1;
     }
 }
-
-// fn flush_captures(mut n: Local<usize>, captures: Local<Vec<Image>>) {
-//     todo!()
-// }
