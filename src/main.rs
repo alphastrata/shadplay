@@ -7,14 +7,14 @@ use bevy::{
     window::{WindowPlugin, WindowResized},
 };
 
-use shadplay::{plugin::ShadPlayPlugin, system::config::UserConfig, utils::AppState};
+use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession, utils::AppState};
 
 fn main() {
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
-    let path = UserConfig::get_config_path();
-    let user_config = match UserConfig::load_from_toml(path) {
+    let path = UserSession::get_config_path();
+    let user_config = match UserSession::load_from_toml(path) {
         Ok(config) => config,
-        Err(_) => UserConfig::default(),
+        Err(_) => UserSession::default(),
     };
     let user_cfg_window = user_config.create_window_settings();
 
@@ -33,8 +33,8 @@ fn main() {
         .add_systems(
             Update,
             (
-                UserConfig::runtime_updater.run_if(on_event::<KeyboardInput>()),
-                UserConfig::runtime_updater.run_if(on_event::<WindowResized>()),
+                UserSession::runtime_updater.run_if(on_event::<KeyboardInput>()),
+                UserSession::runtime_updater.run_if(on_event::<WindowResized>()),
             ),
             //
         );

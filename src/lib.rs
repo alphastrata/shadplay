@@ -1,3 +1,5 @@
+#![allow(unused_imports, dead_code)]
+
 pub mod plugin;
 pub mod shader_utils;
 pub mod system;
