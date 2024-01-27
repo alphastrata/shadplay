@@ -21,51 +21,47 @@ use crate::prelude::AppState;
 /// Housing everything we need to make gifs on `return`
 pub struct GifMakerPlugin;
 
+#[derive(Resource, PartialEq, Eq)]
+pub struct Shooting(bool);
+
 impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
+        app.insert_resource(Shooting(false));
         app.add_systems(
             Update,
             (gif_capture_toggle.run_if(on_event::<KeyboardInput>()),),
         );
 
         // Limit timestep we can snap for our gif to 10 FPS
-        app.insert_resource(Time::<Fixed>::from_seconds(0.01));
-        // Swap the render targets on Enter/Exit of GifCapture mode
-        app.add_systems(OnExit(AppState::GifCapture), flush_captures);
+        app.insert_resource(Time::<Fixed>::from_seconds(0.1));
         app.add_systems(
             FixedUpdate,
-            continous_capture.run_if(in_state(AppState::GifCapture)),
+            continous_capture.run_if(resource_exists_and_equals(Shooting(true))),
         );
     }
 }
 
-fn gif_capture_toggle(
-    input: Res<Input<KeyCode>>,
-    mut next_state: ResMut<NextState<AppState>>,
-    current_state: Res<State<AppState>>,
-    mut prev_state: Local<AppState>,
-) {
+fn gif_capture_toggle(input: Res<Input<KeyCode>>, mut shooting: ResMut<Shooting>) {
     if input.just_pressed(KeyCode::Return) {
-        log::debug!("AppState change request.");
-        let target = match current_state.get() {
-            AppState::GifCapture => *prev_state,
-            _ => {
-                *prev_state = current_state.get().clone();
-                AppState::GifCapture
-            }
-        };
-        next_state.set(target);
+        *shooting = Shooting(!shooting.0);
     }
 }
 
 fn continous_capture(
-    n: Local<usize>,
-    screenshot_mngr: Res<ScreenshotManager>,
-    mut captures: Local<Vec<Image>>,
+    mut screenshot_mngr: ResMut<ScreenshotManager>,
+    // mut captures: Local<Vec<Image>>,
+    window_q: Query<Entity, With<PrimaryWindow>>,
+    mut n: Local<usize>,
 ) {
-    todo!()
+    if let Err(e) = screenshot_mngr
+        .save_screenshot_to_disk(window_q.single(), format!(".git_scratch/{:04}.png", *n))
+    {
+        log::error!("{}", e);
+    } else {
+        *n += 1;
+    }
 }
 
-fn flush_captures(captures: Local<Vec<Image>>) {
-    todo!()
-}
+// fn flush_captures(mut n: Local<usize>, captures: Local<Vec<Image>>) {
+//     todo!()
+// }
