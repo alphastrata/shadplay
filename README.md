@@ -44,6 +44,7 @@ ______________________________________________________________________
 - Scripts to format your `wgsl` work, so it looks more rusty.
 - Scripts to pull _all_ the functions from the bevy codebase's shader code so you can easily lookup what's available for import.
 - Scripts to search the bevy source code (opening your browser) for specific keywords.
+- Continious image capture to create .gifs! (Currently only supporting a maximum framerate of 20FPS for capture.)
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor, most OSes should be supported).
@@ -164,6 +165,10 @@ ______________________________________________________________________
   <tr>
     <td><img src="assets/Gallery/using-textures/screenshot.png" alt="screenshot" width="50%"></td>
     <td><img src="assets/Gallery/w10/screenshot.png" alt="screenshot" width="50%"></td>
+  </tr>
+  <tr>
+    <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
+    <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
   </tr>
 </table>
 

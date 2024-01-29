@@ -53,8 +53,11 @@ fn continous_capture(
     window_q: Query<Entity, With<PrimaryWindow>>,
     mut n: Local<usize>,
 ) {
-    if let Err(e) = screenshot_mngr
-        .save_screenshot_to_disk(window_q.single(), format!(".gif_scratch/{:06}.png", *n))
+    if let Err(e) = screenshot_mngr.save_screenshot_to_disk(
+        window_q.single(),
+        format!(".gif_scratch/im_{:04}.png", *n + 1),
+    )
+    // is ffmpeg screwed when it sees 000_000.png?
     {
         log::error!("{}", e);
     } else {
