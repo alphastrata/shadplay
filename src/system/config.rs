@@ -184,7 +184,7 @@ impl UserSession {
         let image = self.pop_gif_buffer(&mut images).unwrap();
         let dynamic = image.clone().try_into_dynamic().unwrap();
         // let filename = format!(".gif_scratch/{:05}.png", *local);
-        let filename = format!("output.png");
+        let filename = "output.png".to_string();
         let format = image::ImageFormat::from_path(filename.clone()).unwrap();
         log::debug!("ImSize: {}b", image.data.len());
         log::debug!("ImCompressed: {}", image.is_compressed());
