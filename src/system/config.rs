@@ -5,7 +5,7 @@ use bevy::{
     ecs::system::{Commands, Local, Res},
     input::{
         keyboard::{KeyCode, KeyboardInput},
-        Input,
+        ButtonInput,
     },
     log,
     prelude::{Handle, Image, Query, ResMut, Resource},

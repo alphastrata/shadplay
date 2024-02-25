@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy_ecs::schedule::config::IntoSystemConfigs;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
 use bevy_egui::{egui, EguiContexts};
@@ -38,7 +37,7 @@ impl HelpUIToggle {
 }
 
 /// System: listens permanetly for a `?` the `/` key and toggles on/off the help UI.
-fn toggle_help_ui(input: Res<Input<KeyCode>>, mut toggle: ResMut<HelpUIToggle>) {
+fn toggle_help_ui(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<HelpUIToggle>) {
     if input.just_pressed(KeyCode::Slash) {
         (*toggle).flip();
     }
