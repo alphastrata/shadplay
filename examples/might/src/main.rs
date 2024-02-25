@@ -36,12 +36,7 @@ fn main() {
 
     App::new()
         .insert_resource(DirectionalLightShadowMap { size: 4096 })
-        .add_plugins((
-            DefaultPlugins,
-            #[cfg(debug_assertions)]
-            bevy_editor_pls::EditorPlugin::default(),
-            bevy_panorbit_camera::PanOrbitCameraPlugin,
-        ))
+        .add_plugins((DefaultPlugins, bevy_panorbit_camera::PanOrbitCameraPlugin))
         .add_systems(Startup, setup)
         .add_systems(Update, (animate_light_direction, quit_listener))
         // Our Systems:
@@ -50,7 +45,7 @@ fn main() {
             Update,
             spawn_knight
                 .after(load_knight)
-                .run_if(resource_exists::<Knight>())
+                .run_if(resource_exists::<Knight>)
                 .run_if(resource_exists_and_equals::<WasLoaded>(WasLoaded(false))),
         )
         // Our Materials
@@ -74,6 +69,7 @@ fn setup(
         EnvironmentMapLight {
             diffuse_map: asset_server.load("environment_maps/pisa_diffuse_rgb9e5_zstd.ktx2"),
             specular_map: asset_server.load("environment_maps/pisa_specular_rgb9e5_zstd.ktx2"),
+            intensity: 1.0,
         },
     ));
 
@@ -93,7 +89,7 @@ fn setup(
 
     // ground plane
     commands.spawn(PbrBundle {
-        mesh: meshes.add(shape::Plane::from_size(10.0).into()),
+        mesh: meshes.add(Plane3d::default().mesh().size(50.0, 50.0)),
         material: materials.add(StandardMaterial {
             base_color: Color::BLACK,
             perceptual_roughness: 1.0,
@@ -126,12 +122,7 @@ fn spawn_knight(
     if let Some(gltf) = assets_gltf.get(&knight.handle) {
         log::info!("Spawning scene...");
 
-        let disc = Mesh::from(shape::Cylinder {
-            radius: 1.2, //1.2 meters
-            height: 0.001,
-            resolution: 20,
-            segments: 1,
-        });
+        let disc = Mesh::from(Cylinder::new(1.2, 0.001));
 
         let as_custom_mat = AuraMaterial { inner: 0.0 };
 
@@ -189,8 +180,8 @@ impl Material for AuraMaterial {
 }
 
 /// System: listening for `q` or `esc` to quit.
-fn quit_listener(input: Res<Input<KeyCode>>) {
-    if input.just_pressed(KeyCode::Q) || input.just_pressed(KeyCode::Escape) {
+fn quit_listener(input: Res<ButtonInput<KeyCode>>) {
+    if input.just_pressed(KeyCode::KeyQ) || input.just_pressed(KeyCode::Escape) {
         std::process::exit(0)
     }
 }
