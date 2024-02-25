@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_ecs::schedule::config::IntoSystemConfigs;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
 use bevy_egui::{egui, EguiContexts};
