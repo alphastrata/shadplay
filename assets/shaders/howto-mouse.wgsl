@@ -6,7 +6,7 @@
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
 
-@group(1) @binding(0) var<uniform> mouse: YourShader2D;
+@group(2) @binding(0) var<uniform> mouse: YourShader2D;
 struct YourShader2D{
     mouse_pos : vec2f,
 }
