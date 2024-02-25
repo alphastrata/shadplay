@@ -218,7 +218,6 @@ pub fn toggle_window_passthrough(
 }
 
 /// System: Startup, initialises the scene's geometry. 3d only.
-#[allow(deprecated)]
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,

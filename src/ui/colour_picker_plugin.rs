@@ -37,7 +37,7 @@ impl Plugin for ColourPickerPlugin {
             (
                 toggle_ui,
                 ColourPickerTool::draw_ui
-                    .run_if(resource_exists::<ColourPickerTool>())
+                    .run_if(resource_exists::<ColourPickerTool>)
                     .run_if(resource_equals(Toggle { open: true })),
             ),
         );
@@ -86,7 +86,7 @@ impl ColourPickerTool {
 }
 
 /// System: Toggles the UI on/off
-fn toggle_ui(input: Res<Input<KeyCode>>, mut picker: ResMut<Toggle>) {
+fn toggle_ui(input: Res<ButtonInput<KeyCode>>, mut picker: ResMut<Toggle>) {
     if input.just_pressed(KeyCode::Tab) {
         (*picker).flip()
     }
