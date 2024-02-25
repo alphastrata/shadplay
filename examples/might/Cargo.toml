@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = { version = "0.13.0", features = ["file_watcher", "dynamic_linking", "jpeg"] }
+bevy = { version = "0.13.0", features = [
+  "file_watcher",
+  "dynamic_linking",
+  "jpeg",
+] }
 bevy_editor_pls = "0.8.0"
 bevy_panorbit_camera = "0.15.0"
 
