@@ -251,7 +251,7 @@ pub fn init_shapes(
         true,
         (
             MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(Cuboid::new(0.25, 0.25, 0.25))),
+                mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
