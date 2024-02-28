@@ -50,20 +50,18 @@ pub fn swap_3d_tex_from_idx(
     if let Some(shad_mat) = shader_mat3d.get_mut(handle) {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
-                if let Some(v) = ev.key_code {
-                    match v {
-                        KeyCode::Key0 => YourShader::set_current_tex(shad_mat, 0, &user_textures),
-                        KeyCode::Key1 => YourShader::set_current_tex(shad_mat, 1, &user_textures),
-                        KeyCode::Key2 => YourShader::set_current_tex(shad_mat, 2, &user_textures),
-                        KeyCode::Key3 => YourShader::set_current_tex(shad_mat, 3, &user_textures),
-                        KeyCode::Key4 => YourShader::set_current_tex(shad_mat, 4, &user_textures),
-                        KeyCode::Key5 => YourShader::set_current_tex(shad_mat, 5, &user_textures),
-                        KeyCode::Key6 => YourShader::set_current_tex(shad_mat, 6, &user_textures),
-                        KeyCode::Key7 => YourShader::set_current_tex(shad_mat, 7, &user_textures),
-                        KeyCode::Key8 => YourShader::set_current_tex(shad_mat, 8, &user_textures),
-                        KeyCode::Key9 => YourShader::set_current_tex(shad_mat, 9, &user_textures),
-                        _ => (),
-                    }
+                match ev.key_code {
+                    KeyCode::Digit0 => YourShader::set_current_tex(shad_mat, 0, &user_textures),
+                    KeyCode::Digit1 => YourShader::set_current_tex(shad_mat, 1, &user_textures),
+                    KeyCode::Digit2 => YourShader::set_current_tex(shad_mat, 2, &user_textures),
+                    KeyCode::Digit3 => YourShader::set_current_tex(shad_mat, 3, &user_textures),
+                    KeyCode::Digit4 => YourShader::set_current_tex(shad_mat, 4, &user_textures),
+                    KeyCode::Digit5 => YourShader::set_current_tex(shad_mat, 5, &user_textures),
+                    KeyCode::Digit6 => YourShader::set_current_tex(shad_mat, 6, &user_textures),
+                    KeyCode::Digit7 => YourShader::set_current_tex(shad_mat, 7, &user_textures),
+                    KeyCode::Digit8 => YourShader::set_current_tex(shad_mat, 8, &user_textures),
+                    KeyCode::Digit9 => YourShader::set_current_tex(shad_mat, 9, &user_textures),
+                    _ => (),
                 }
             }
         });
@@ -108,20 +106,18 @@ pub fn swap_2d_tex_from_idx(
     if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
-                if let Some(v) = ev.key_code {
-                    match v {
-                        KeyCode::Key1 => YourShader2D::set_current_tex(shad_mat, 1, &user_textures),
-                        KeyCode::Key2 => YourShader2D::set_current_tex(shad_mat, 2, &user_textures),
-                        KeyCode::Key3 => YourShader2D::set_current_tex(shad_mat, 3, &user_textures),
-                        KeyCode::Key4 => YourShader2D::set_current_tex(shad_mat, 4, &user_textures),
-                        KeyCode::Key5 => YourShader2D::set_current_tex(shad_mat, 5, &user_textures),
-                        KeyCode::Key6 => YourShader2D::set_current_tex(shad_mat, 6, &user_textures),
-                        KeyCode::Key7 => YourShader2D::set_current_tex(shad_mat, 7, &user_textures),
-                        KeyCode::Key8 => YourShader2D::set_current_tex(shad_mat, 8, &user_textures),
-                        KeyCode::Key9 => YourShader2D::set_current_tex(shad_mat, 9, &user_textures),
-                        KeyCode::Key0 => YourShader2D::set_current_tex(shad_mat, 0, &user_textures),
-                        _ => (),
-                    }
+                match ev.key_code {
+                    KeyCode::Digit1 => YourShader2D::set_current_tex(shad_mat, 1, &user_textures),
+                    KeyCode::Digit2 => YourShader2D::set_current_tex(shad_mat, 2, &user_textures),
+                    KeyCode::Digit3 => YourShader2D::set_current_tex(shad_mat, 3, &user_textures),
+                    KeyCode::Digit4 => YourShader2D::set_current_tex(shad_mat, 4, &user_textures),
+                    KeyCode::Digit5 => YourShader2D::set_current_tex(shad_mat, 5, &user_textures),
+                    KeyCode::Digit6 => YourShader2D::set_current_tex(shad_mat, 6, &user_textures),
+                    KeyCode::Digit7 => YourShader2D::set_current_tex(shad_mat, 7, &user_textures),
+                    KeyCode::Digit8 => YourShader2D::set_current_tex(shad_mat, 8, &user_textures),
+                    KeyCode::Digit9 => YourShader2D::set_current_tex(shad_mat, 9, &user_textures),
+                    KeyCode::Digit0 => YourShader2D::set_current_tex(shad_mat, 0, &user_textures),
+                    _ => (),
                 }
             }
         });

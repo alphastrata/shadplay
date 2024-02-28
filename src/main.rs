@@ -1,11 +1,7 @@
 ///
 /// ShadPlay
 ///
-use bevy::{
-    input::keyboard::KeyboardInput,
-    prelude::*,
-    window::{WindowPlugin, WindowResized},
-};
+use bevy::{input::keyboard::KeyboardInput, prelude::*, window::WindowResized};
 
 use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession, utils::AppState};
 
@@ -20,7 +16,7 @@ fn main() {
 
     let mut app = App::new();
     let shadplay = app
-        .add_state::<AppState>()
+        .init_state::<AppState>()
         .insert_resource(user_config)
         .insert_resource(ClearColor(Color::NONE))
         .add_plugins((

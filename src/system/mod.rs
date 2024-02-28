@@ -14,7 +14,7 @@ impl Plugin for ScreenshotPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (screenshot::screenshot_and_version_shader_on_spacebar,),
+            screenshot::screenshot_and_version_shader_on_spacebar,
         );
 
         app.add_plugins(gif_maker::GifMakerPlugin);

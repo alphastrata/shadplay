@@ -6,7 +6,6 @@ use bevy::{
 use bevy_panorbit_camera::PanOrbitCamera;
 
 use crate::prelude::*;
-
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
@@ -108,8 +107,8 @@ pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>
 pub struct Rotating(pub bool);
 
 /// System: to toggle on/off the rotating, 3d only.
-pub fn toggle_rotate(input: Res<Input<KeyCode>>, mut toggle: ResMut<Rotating>) {
-    if input.just_pressed(KeyCode::R) {
+pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotating>) {
+    if input.just_pressed(KeyCode::KeyR) {
         toggle.0 = !toggle.0;
     }
 }
@@ -125,9 +124,9 @@ pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
 
 /// System:
 /// Move between always on bottom, always on top and just, 'normal' window modes, by hitting the 'L' key.
-pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
+pub fn switch_level(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     //TODO: move logic to helper func and have this trigger on key or Event.
-    if input.just_pressed(KeyCode::L) {
+    if input.just_pressed(KeyCode::KeyL) {
         let mut window = windows.single_mut();
 
         window.window_level = match window.window_level {
@@ -141,8 +140,8 @@ pub fn switch_level(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>)
 
 /// System:
 /// Quits the app...
-pub fn quit(input: Res<Input<KeyCode>>) {
-    if input.just_pressed(KeyCode::Q) {
+pub fn quit(input: Res<ButtonInput<KeyCode>>) {
+    if input.just_pressed(KeyCode::KeyQ) {
         std::process::exit(0)
     }
 }
@@ -150,13 +149,13 @@ pub fn quit(input: Res<Input<KeyCode>>) {
 /// System:
 /// Toggles the window's transparency (on supported OS')
 pub fn toggle_transparency(
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     mut clear_colour: ResMut<ClearColor>,
     mut transparency_set: ResMut<TransparencySet>,
     mut _windows: Query<&mut Window>,
     mut event: EventWriter<RequestRedraw>,
 ) {
-    if input.just_pressed(KeyCode::O) {
+    if input.just_pressed(KeyCode::KeyO) {
         // let mut window = windows.single_mut();
         // window.transparent = !window.transparent; // Not supported after creation.
         if **transparency_set {
@@ -172,12 +171,12 @@ pub fn toggle_transparency(
 /// System: Runs in [`AppState::ThreeD`] only.
 /// Switch the shape we're currently playing with a shader on.
 pub fn switch_shape(
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     mut shape_options: ResMut<ShapeOptions>,
     mut commands: Commands,
     query: Query<Entity, With<Shape>>,
 ) {
-    if input.just_pressed(KeyCode::S) {
+    if input.just_pressed(KeyCode::KeyS) {
         // Old
         let Some(idx) = shape_options.0.iter().position(|v| v.0) else {
             return;
@@ -194,8 +193,8 @@ pub fn switch_shape(
 
 /// System:
 /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
-pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Window>) {
-    if input.just_pressed(KeyCode::D) {
+pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
+    if input.just_pressed(KeyCode::KeyD) {
         let mut window = windows.single_mut();
 
         window.decorations = !window.decorations;
@@ -207,10 +206,10 @@ pub fn toggle_decorations(input: Res<Input<KeyCode>>, mut windows: Query<&mut Wi
 /// System:
 /// Toggle mouse passthrough.
 pub fn toggle_window_passthrough(
-    keyboard_input: Res<Input<KeyCode>>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::P) {
+    if keyboard_input.just_pressed(KeyCode::KeyP) {
         let mut window = windows.single_mut();
         info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
@@ -233,14 +232,10 @@ pub fn init_shapes(
         false,
         (
             MaterialMeshBundle {
-                mesh: meshes
-                    .add(Mesh::from(shape::Torus {
-                        radius: 2.,
-                        ring_radius: 0.2,
-                        subdivisions_segments: 128,
-                        subdivisions_sides: 128,
-                    }))
-                    .clone(),
+                mesh: meshes.add(Mesh::from(Torus {
+                    major_radius: 2.,
+                    minor_radius: 0.2,
+                })),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
@@ -256,7 +251,7 @@ pub fn init_shapes(
         true,
         (
             MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(shape::Cube { size: 2.0 })).clone(),
+                mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
@@ -272,14 +267,7 @@ pub fn init_shapes(
         false,
         (
             MaterialMeshBundle {
-                mesh: meshes.add(
-                    shape::Icosphere {
-                        radius: 1.40,
-                        subdivisions: 23,
-                    }
-                    .try_into()
-                    .unwrap(),
-                ),
+                mesh: meshes.add(Sphere { radius: 1.40 }),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
                     color: Color::default(),
@@ -330,13 +318,13 @@ pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
 /// System: switches between 3d and 2d cameras, by triggering the [`AppState::XYZ`] transitions.
 pub fn cam_switch_system(
     mut next_state: ResMut<NextState<AppState>>,
-    keyboard_input: Res<Input<KeyCode>>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
 ) {
-    if keyboard_input.pressed(KeyCode::T) {
+    if keyboard_input.pressed(KeyCode::KeyT) {
         trace!("Swapping to 2D");
         next_state.set(AppState::TwoD)
     }
-    if keyboard_input.pressed(KeyCode::H) {
+    if keyboard_input.pressed(KeyCode::KeyH) {
         trace!("Swapping to 3D");
         next_state.set(AppState::ThreeD)
     }
@@ -377,9 +365,7 @@ pub fn setup_2d(
     // Quad
     commands.spawn((
         bevy::sprite::MaterialMesh2dBundle {
-            mesh: meshes
-                .add(shape::Quad::new(Vec2::new(1., 1.)).into())
-                .into(),
+            mesh: meshes.add(Rectangle::new(1., 1.)).into(),
             material: your_shader.add(YourShader2D {
                 img: texture,
                 mouse_pos: MousePos {

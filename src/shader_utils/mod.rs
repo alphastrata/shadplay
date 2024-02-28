@@ -4,12 +4,7 @@
 use std::path::PathBuf;
 pub mod texture_tooling;
 
-use bevy::{
-    prelude::*,
-    reflect::{TypePath, TypeUuid},
-    render::render_resource::*,
-    sprite::Material2d,
-};
+use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite::Material2d};
 
 pub mod common;
 
@@ -23,8 +18,8 @@ pub struct DragNDropShader {
 //                3D                    //
 // ************************************ //
 /// The 3D shader.
-#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
-#[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
+// #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
     #[uniform(0)]
     pub color: Color, //RGBA
@@ -44,8 +39,8 @@ impl Material for YourShader {
 //                2D                    //
 // ************************************ //
 /// The 2D shadertoy like shader
-#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
-#[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
+// #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
     #[uniform(0)]
     pub(crate) mouse_pos: MousePos,
@@ -72,8 +67,8 @@ impl Material2d for YourShader2D {
 // You need to use this sort of structure, for example with the dotted_line.wgsl shader.
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
-#[derive(Asset, AsBindGroup, TypeUuid, TypePath, Debug, Clone)]
-#[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
+// #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct DottedLineShader {
     #[uniform(0)]
     uniforms: Holder, //RGBA

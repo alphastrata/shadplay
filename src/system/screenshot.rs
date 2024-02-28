@@ -21,7 +21,7 @@ const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 ///        └──  screenshot.wgsl
 ///```
 pub fn screenshot_and_version_shader_on_spacebar(
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     main_window: Query<Entity, With<PrimaryWindow>>,
     mut screenshot_manager: ResMut<ScreenshotManager>,
     app_state: Res<State<AppState>>,

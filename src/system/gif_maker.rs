@@ -41,8 +41,8 @@ impl Plugin for GifMakerPlugin {
     }
 }
 
-fn gif_capture_toggle(input: Res<Input<KeyCode>>, mut shooting: ResMut<Shooting>) {
-    if input.just_pressed(KeyCode::Return) {
+fn gif_capture_toggle(input: Res<ButtonInput<KeyCode>>, mut shooting: ResMut<Shooting>) {
+    if input.just_pressed(KeyCode::Enter) {
         *shooting = Shooting(!shooting.0);
     }
 }
