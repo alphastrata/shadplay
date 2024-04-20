@@ -13,11 +13,12 @@
 └── wgsl-case-changer.py
 
 ```
+
 | Script Name | Description |
 |-------------|-------------|
 | file_and_func.py |  This is a script that pulls the filenames/function pairings from the bevy sourcecode.
 | `file_and_func.py` |  This is a script that pulls the filenames/function pairings from the bevy sourcecode.
- |
+|
 | `make-gif-example.sh` | Shows how one _may_ make a `.gif` from the output of gif-capture-mode, see main `../README.md` |
 | `make_bevy_shaderdoc.py` | creates a single markdown document with _**all**_ the Bevy codebase's `wgsl` |
 | `reset-2d.py` | Resets the 2d shader (useful if you want to try again from the default). |
