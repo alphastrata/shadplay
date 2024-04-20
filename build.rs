@@ -14,7 +14,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .expect("Failed to execute git clone command")
             .success()
     {
-        eprintln!("Failed to clone Bevy repository");
+        eprintln!("Failed to clone Bevy repository.\nShadplay makes a copy of the bevy codebase here to help generate documentation for you, if you don't want that modify _this_ file `./shadplay/build.rs`");
+
         exit(1);
     }
 
