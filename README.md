@@ -17,12 +17,13 @@
 
 ## Our [bevy-shader-cheatsheet](bevy-shaders-cheatsheet.md#Contents)
 
-Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for bevy.
-The idea is to give one the minimal amount of bevy boilerplate etc., possible to get started writing \`wgsl\` ASAP, and provide a library of examples showing how some things are done, can be done etc.
+Shadplay is an app designed to help you learn `wgsl` with minimal friction, specifically for those wanting to learn `wgsl` to write shaders for [Bevy](https://bevyengine.org/).
 
 A secondary goal is to flesh out a relatively comprehensive 'port' of existing cool shader work from places like shadertoy etc -- because there's a few 'gotchas' around the differences in `glsl` and `wgsl` syntax, their respective builtins.
 
 A tertiary goal is to surface the builtins/existing library code that bevy's codebase provides.
+
+You will notice a large swath of the `wgsl` code from the Bevy codebase here, _we_ want it to be available to you and searchable (within your IDE) as, the `lsp` story for `wgsl` is not a great one... _yet_!.
 
 ______________________________________________________________________
 
@@ -34,16 +35,16 @@ ______________________________________________________________________
 
 ## Features
 
-- A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl` specifically focusing on `wgsl`.
+- A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl`.
 - Live preview of shader code on bevy mesh geometry.
 - Textures, see `assets/shaders/howto-texture.wgsl`.
 - Drag and drop `.png` or `.jpg` files onto the window to use as said textures.
 - Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`.
 - Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` immediately available for quick pasta action.
-- Drag and drop (valid `wgsl`) shaders onto the app.
-- Scripts to format your `wgsl` work, so it looks more rusty.
-- Scripts to pull _all_ the functions from the bevy codebase's shader code so you can easily lookup what's available for import.
-- Scripts to search the bevy source code (opening your browser) for specific keywords.
+- Drag and drop (valid `wgsl`) shaders onto the app window to see them working.
+- Tips and Tools to format your `wgsl` work, so it looks more rusty (which will help you quickly get up to speed with the existing `wgsl` in the Bevy codebase).
+- Scripts to pull _all_ the functions from the Bevy codebase's shader code so you can easily lookup what's available for import. (See `scripts/README.md`)
+- Scripts to search the Bevy source code (opening your browser) for specific keywords. (See `scripts/README.md`)
 - Continious image capture to create .gifs! (Currently only supporting a maximum framerate of 20FPS for capture.)
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.

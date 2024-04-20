@@ -21,5 +21,5 @@
 search_query="$1"
 github_url="https://github.com/search?q=repo%3Abevyengine%2Fbevy+$search_query+language%3AWGSL&type=code&l=WGSL"
 
-# Open the URL in the default web browser
+# Open the URL in the default web browser (sorry, assumes linux/gnome users..)
 xdg-open "$github_url"
