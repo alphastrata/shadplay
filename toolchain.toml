@@ -1,0 +1,6 @@
+# toolchain.toml
+[toolchain]
+channel = nightly
+components = [ rustfmt, rust-src ]
+profile = minimal
+
