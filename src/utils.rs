@@ -300,16 +300,24 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
 }
 
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
-pub fn cleanup_3d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
-    for (ent, _q) in q.iter_mut() {
+pub fn cleanup_3d(
+    mut commands: Commands,
+    mut cam_q: Query<(Entity, &mut Camera)>,
+    mut shape_q: Query<(Entity, &Transform), With<Shape>>,
+) {
+    for (ent, _cam) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 3D camera.")
+    }
+    for (ent, _tf) in shape_q.iter_mut() {
+        commands.entity(ent).despawn_recursive();
+        trace!("Despawned shape.")
     }
 }
 
 /// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
-pub fn cleanup_2d(mut commands: Commands, mut q: Query<(Entity, &mut Camera)>) {
-    for (ent, _q) in q.iter_mut() {
+pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
+    for (ent, _q) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
         trace!("Despawned 2D camera.")
     }
