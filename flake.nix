@@ -1,5 +1,5 @@
 {
-  description = "Rust dev shell for Bevy based on zero to nix rust dev flake";
+  description = "Rust dev shell for Shadplay...";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -30,23 +30,27 @@
       devShells = forAllSystems ({ pkgs }: {
         default = pkgs.mkShell {
           packages = (with pkgs; [
+            alsa-lib
+            cargo-nextest
+            clang
+            fontconfig
+            fontconfig.dev
+            freetype.dev
+            libxkbcommon
+            lld
             openssl
             pkg-config
-            alsa-lib
-            vulkan-tools
+            rustToolchain
+            udev
             vulkan-headers
             vulkan-loader
+            vulkan-tools
             vulkan-validation-layers
-            udev
-            clang
-            lld
+            wayland
             xorg.libX11
             xorg.libXcursor
             xorg.libXi
             xorg.libXrandr
-            libxkbcommon
-            wayland
-            rustToolchain
           ]) ++ pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs; [ libiconv ]);
 
           shellHook = ''
