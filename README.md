@@ -111,6 +111,13 @@ then:
 
 ______________________________________________________________________
 
+## Stability:
+
+The shaders in `assets/shaders/shadertoy-ports` _should_ usually work with the latest bevy.
+With _other_ shaders, for example those prefaced with `BROKEN_...` your mileage will vary, I cannot update all the shaders every single time `wgsl/bevy/naga/wgpu` change stuff :(, if _you_ can than see below:
+
+______________________________________________________________________
+
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
