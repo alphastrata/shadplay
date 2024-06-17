@@ -22,9 +22,9 @@ ui = []
 [dependencies]
 anyhow = "1.0.79"
 bevy = { version = "*", features = ["file_watcher", "dynamic_linking", "jpeg"] }
-bevy_egui = "0.25.0"
-bevy_panorbit_camera = "0.15.0"
-chrono = "0.4.34"
+bevy_egui = "0.27.1"
+bevy_panorbit_camera = "0.18.2"
+chrono = "0.4.38"
 copypasta = "0.10.0"
 directories = "5.0.1"
 image = "0.24.9"
@@ -32,7 +32,7 @@ serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.10"
 
 [dev-dependencies]
-bevy_editor_pls = "0.6.0" # Required for Might
+bevy_editor_pls = "0.8.1" # Required for Might example
 
 [build-dependencies]
 reqwest = "0.11.*"
