@@ -134,6 +134,7 @@ ______________________________________________________________________
 - [pcf swap by DGriffin91](https://github.com/DGriffin91/bevy_mod_standard_material/tree/pcf)
 - [GLSL2WGSL converter](https://eliotbo.github.io/glsl2wgsl/), it's a mixed bag..
 - [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
+- [Alain's blog](https://alain.xyz/blog)
 
 ______________________________________________________________________
 
