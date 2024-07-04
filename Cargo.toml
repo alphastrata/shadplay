@@ -21,18 +21,23 @@ ui = []
 
 [dependencies]
 anyhow = "1.0.79"
-bevy = { version = "*", features = ["file_watcher", "dynamic_linking", "jpeg"] }
-bevy_egui = "0.25.0"
-bevy_panorbit_camera = "0.15.0"
+bevy = { version = "0.14.0", features = ["file_watcher", "jpeg"] }
+bevy_egui = { git = "https://github.com/Friz64/bevy_egui" }                           #"0.28.0?"
+bevy_panorbit_camera = { git = "https://github.com/kristoff3r/bevy_panorbit_camera" } #"0.18.3?"
 chrono = "0.4.34"
 copypasta = "0.10.0"
 directories = "5.0.1"
-image = "0.24.9"
+image = "0.25.1"
 serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.10"
 
 [dev-dependencies]
-bevy_editor_pls = "0.6.0" # Required for Might
+bevy_editor_pls = { git = "https://github.com/zhaop/bevy_editor_pls" } #"0.6.0"                                                        # Required for Might
+bevy = { version = "0.14.0", features = [
+  "file_watcher",
+  "jpeg",
+  "dynamic_linking",
+] }
 
 [build-dependencies]
 reqwest = "0.11.*"

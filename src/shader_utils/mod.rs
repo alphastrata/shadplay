@@ -22,7 +22,7 @@ pub struct DragNDropShader {
 // #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
     #[uniform(0)]
-    pub color: Color, //RGBA
+    pub color: LinearRgba, //RGBA
 
     #[texture(1, dimension = "2d")]
     #[sampler(2)]
@@ -77,7 +77,7 @@ struct DottedLineShader {
 /// Simplified holding struct to make passing across uniform(n) simpler.
 #[derive(ShaderType, Default, Clone, Debug)]
 struct Holder {
-    tint: Color,
+    tint: LinearRgba,
     /// How wide do you want the line as a % of its availablu uv space: 0.5 would be 50% of the surface of the geometry
     line_width: f32,
     /// How many segments (transparent 'cuts') do you want?
