@@ -1,5 +1,5 @@
 //! This is a shadertoy port of 'polar-coordinates-experiments' by toridango https://www.shadertoy.com/view/ttsGz8
-#import bevy_pbr::forward_io::VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 #import bevy_pbr::utils PI
 #import bevy_sprite::mesh2d_view_bindings globals 
 

@@ -1,5 +1,5 @@
 /// How to use the mouse, in shadplay.
-#import bevy_pbr::forward_io::VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D
 
