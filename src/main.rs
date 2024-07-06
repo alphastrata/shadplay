@@ -3,7 +3,7 @@
 ///
 use bevy::{input::keyboard::KeyboardInput, prelude::*, window::WindowResized};
 
-use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession, utils::AppState};
+use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession};
 
 fn main() {
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
