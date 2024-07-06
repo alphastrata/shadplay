@@ -102,6 +102,8 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 ```
 
 > NOTE: if you're in 2d, the globals is in a diff spot: `#import bevy_sprite::mesh2d_view_bindings   globals`
+> NOTE: #import bevy_sprite::mesh2d_vertex_output::VertexOutput is also NOT the same as bevy_pbr::forward_io::VertexOutput, make sure you're using the right one!
+
 
 ______________________________________________________________________
 
