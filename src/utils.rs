@@ -10,6 +10,7 @@ use crate::prelude::*;
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
+    // Startup,
     #[default]
     TwoD,
     ThreeD,
@@ -217,6 +218,10 @@ pub fn toggle_window_passthrough(
     }
 }
 
+pub fn init_default_state(mut app_state: ResMut<NextState<AppState>>) {
+    app_state.set(AppState::TwoD);
+}
+
 /// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
@@ -238,7 +243,7 @@ pub fn init_shapes(
                 })),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()
@@ -254,7 +259,7 @@ pub fn init_shapes(
                 mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()
@@ -270,7 +275,7 @@ pub fn init_shapes(
                 mesh: meshes.add(Sphere { radius: 1.40 }),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()

@@ -3,7 +3,7 @@
 ///
 use bevy::{input::keyboard::KeyboardInput, prelude::*, window::WindowResized};
 
-use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession, utils::AppState};
+use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession};
 
 fn main() {
     // Get UserConfig for the Shadplay window dimensions, decorations toggle etc.
@@ -16,7 +16,6 @@ fn main() {
 
     let mut app = App::new();
     let shadplay = app
-        .init_state::<AppState>()
         .insert_resource(user_config)
         .insert_resource(ClearColor(Color::NONE))
         .add_plugins((

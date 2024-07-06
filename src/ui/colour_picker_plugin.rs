@@ -26,7 +26,7 @@ pub struct ColourPickerPlugin;
 
 impl Plugin for ColourPickerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(EguiPlugin);
+        // app.add_plugins(EguiPlugin);
 
         app.insert_resource(ColourPickerTool::default())
             .insert_resource(Toggle::default())
@@ -36,9 +36,9 @@ impl Plugin for ColourPickerPlugin {
             Update,
             (
                 toggle_ui,
-                ColourPickerTool::draw_ui
-                    .run_if(resource_exists::<ColourPickerTool>)
-                    .run_if(resource_equals(Toggle { open: true })),
+                // ColourPickerTool::draw_ui
+                //     .run_if(resource_exists::<ColourPickerTool>)
+                //     .run_if(resource_equals(Toggle { open: true })),
             ),
         );
     }
