@@ -16,7 +16,6 @@ fn main() {
 
     let mut app = App::new();
     let shadplay = app
-        .init_state::<AppState>()
         .insert_resource(user_config)
         .insert_resource(ClearColor(Color::NONE))
         .add_plugins((

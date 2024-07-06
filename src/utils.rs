@@ -10,6 +10,7 @@ use crate::prelude::*;
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
+    // Startup,
     #[default]
     TwoD,
     ThreeD,
@@ -215,6 +216,10 @@ pub fn toggle_window_passthrough(
 
         window.cursor.hit_test = !window.cursor.hit_test;
     }
+}
+
+pub fn init_default_state(mut app_state: ResMut<NextState<AppState>>) {
+    app_state.set(AppState::TwoD);
 }
 
 /// System: Startup, initialises the scene's geometry. 3d only.

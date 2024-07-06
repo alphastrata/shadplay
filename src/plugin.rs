@@ -1,7 +1,9 @@
 use bevy::{
-    input::keyboard::KeyboardInput, prelude::*, sprite::Material2dPlugin, window::WindowResized,
+    input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
+    sprite::Material2dPlugin, window::WindowResized,
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
+use utils::init_default_state;
 
 use crate::prelude::*;
 
@@ -10,7 +12,8 @@ pub struct ShadPlayPlugin;
 
 impl Plugin for ShadPlayPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        app.add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
+        app.insert_state(AppState::TwoD)
+            .add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
             .add_plugins(crate::system::ScreenshotPlugin) //NOTE: this is not Bevy's one!
             .add_plugins(ColourPickerPlugin)
             .add_plugins(MaterialPlugin::<YourShader>::default())
@@ -26,6 +29,7 @@ impl Plugin for ShadPlayPlugin {
             //events:
             .add_event::<UserAddedTexture>()
             .add_event::<DragNDropShader>()
+            .add_systems(Startup, init_default_state)
             // 3D
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)
