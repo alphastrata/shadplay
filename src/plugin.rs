@@ -3,7 +3,6 @@ use bevy::{
     sprite::Material2dPlugin, window::WindowResized,
 };
 use bevy_panorbit_camera::PanOrbitCameraPlugin;
-use utils::init_default_state;
 
 use crate::prelude::*;
 
@@ -29,7 +28,6 @@ impl Plugin for ShadPlayPlugin {
             //events:
             .add_event::<UserAddedTexture>()
             .add_event::<DragNDropShader>()
-            .add_systems(Startup, init_default_state)
             // 3D
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)

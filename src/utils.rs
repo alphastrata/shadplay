@@ -218,10 +218,6 @@ pub fn toggle_window_passthrough(
     }
 }
 
-pub fn init_default_state(mut app_state: ResMut<NextState<AppState>>) {
-    app_state.set(AppState::TwoD);
-}
-
 /// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,

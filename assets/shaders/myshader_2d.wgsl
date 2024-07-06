@@ -6,9 +6,7 @@
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
 #import bevy_render::view::View
-#import bevy_pbr::forward_io::VertexOutput
-
-// #import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 @group(0) @binding(0) var<uniform> view: View;
 
@@ -21,10 +19,9 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     uv = (uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
     let t = globals.time * SPEED;
-    // uv.x *= resolution.x / resolution.y;
-    // uv *= rotate2D(NEG_HALF_PI);
+    uv.x *= resolution.x / resolution.y;
+    uv *= rotate2D(NEG_HALF_PI);
 
-    // return vec4f(shader_toy_default(t, uv), 1.0);
-    return vec4f(1.0);
+    return vec4f(shader_toy_default(t, uv), 1.0);
 }    
     
