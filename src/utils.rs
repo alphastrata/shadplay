@@ -10,6 +10,7 @@ use crate::prelude::*;
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
+    // Startup,
     #[default]
     TwoD,
     ThreeD,
@@ -238,7 +239,7 @@ pub fn init_shapes(
                 })),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()
@@ -254,7 +255,7 @@ pub fn init_shapes(
                 mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()
@@ -270,7 +271,7 @@ pub fn init_shapes(
                 mesh: meshes.add(Sphere { radius: 1.40 }),
                 transform: Transform::from_xyz(0.0, 0.3, 0.0),
                 material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default(),
+                    color: Color::default().into(),
                     img: texture.clone(),
                 }),
                 ..default()

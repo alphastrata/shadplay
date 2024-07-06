@@ -21,11 +21,11 @@ pub struct DragNDropShader {
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 // #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
-    #[uniform(0)]
-    pub color: Color, //RGBA
+    #[uniform(100)]
+    pub color: LinearRgba, //RGBA
 
-    #[texture(1, dimension = "2d")]
-    #[sampler(2)]
+    #[texture(101, dimension = "2d")]
+    #[sampler(102)]
     pub img: Handle<Image>,
 }
 // 3d impl
@@ -42,11 +42,11 @@ impl Material for YourShader {
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 // #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
-    #[uniform(0)]
+    #[uniform(100)]
     pub(crate) mouse_pos: MousePos,
 
-    #[texture(1, dimension = "2d")]
-    #[sampler(2)]
+    #[texture(101, dimension = "2d")]
+    #[sampler(102)]
     pub img: Handle<Image>,
 }
 
@@ -70,14 +70,14 @@ impl Material2d for YourShader2D {
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 // #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct DottedLineShader {
-    #[uniform(0)]
+    #[uniform(100)]
     uniforms: Holder, //RGBA
 }
 
 /// Simplified holding struct to make passing across uniform(n) simpler.
 #[derive(ShaderType, Default, Clone, Debug)]
 struct Holder {
-    tint: Color,
+    tint: LinearRgba,
     /// How wide do you want the line as a % of its availablu uv space: 0.5 would be 50% of the surface of the geometry
     line_width: f32,
     /// How many segments (transparent 'cuts') do you want?

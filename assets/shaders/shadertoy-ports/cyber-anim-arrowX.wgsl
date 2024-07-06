@@ -3,7 +3,7 @@
 /// Source: https://www.shadertoy.com/view/DsjfDt
 /// Authour: https://www.shadertoy.com/user/float1987
 ///
-#import bevy_pbr::forward_io::VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
 #import shadplay::shader_utils::common rotate2D, QUARTER_PI
 
