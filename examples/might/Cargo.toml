@@ -9,7 +9,7 @@ bevy = { version = "0.14.0", features = [
   "dynamic_linking",
   "jpeg",
 ] }
-bevy_panorbit_camera = { git = "https://github.com/kristoff3r/bevy_panorbit_camera", branch="master" } 
+bevy_panorbit_camera = { git = "https://github.com/kristoff3r/bevy_panorbit_camera", branch = "master" }
 
 
 [dev-dependencies.bevy]
