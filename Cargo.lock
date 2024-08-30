@@ -653,9 +653,9 @@ dependencies = [
 
 [[package]]
 name = "bevy_egui"
-version = "0.28.0"
+version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e4a90f30f2849a07d91e393b10c0cc05df09b5773c010ddde57dd8b583be230"
+checksum = "128438a8163e49528207aabf20d3ff0890fd6be0f0054626915995efac87922b"
 dependencies = [
  "arboard",
  "bevy",
@@ -670,6 +670,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "webbrowser",
+ "wgpu-types",
  "winit",
 ]
 
