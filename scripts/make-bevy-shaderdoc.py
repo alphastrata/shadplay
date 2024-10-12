@@ -1,17 +1,13 @@
-"""
- This is a script that builds a markdown file of every function named in any of the bevy sourcecode.
- It assumes you've got the bevy repo where you run it (so it can glob everything out).
- The output, is a `bevy_shader_book.md` which is, a handly thing to have around when looking for the stuff you may want to #import into your own work.
-"""
-
 import argparse
 import os
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Dict, Union
+from tqdm import tqdm
 
 
-def move_to_shadplay():
+def move_to_shadplay() -> None:
     current_dir = Path.cwd()
     shadplay_dir = None
 
@@ -43,12 +39,13 @@ def move_to_shadplay():
         print("'shadplay' directory not found.")
 
 
-def collect_wgsl_contents(directory):
+def collect_wgsl_contents(directory: Path) -> Dict[Path, str]:
     wgsl_contents = {}
 
     # Recursively search for .wgsl files
-    for wgsl_file in directory.rglob("*.wgsl"):
+    for wgsl_file in tqdm(directory.rglob("*.wgsl"), desc="Processing .wgsl files"):
         # Extract the relative path without the file extension
+
         relative_path = wgsl_file.relative_to(directory).with_suffix("")
         with open(wgsl_file, "r") as file:
             wgsl_contents[relative_path] = file.read()
@@ -56,7 +53,7 @@ def collect_wgsl_contents(directory):
     return wgsl_contents
 
 
-def write_script_header(output_file):
+def write_script_header(output_file: Path) -> None:
     output_file.write("# All the BevyEngine Shaders\n\n")
     output_file.write(
         "This document is really to give you an easy, one-stop-shop to reference all the Bevy Engine's shaders -- as they're not well documented.\n\n"
@@ -64,26 +61,30 @@ def write_script_header(output_file):
     output_file.write("## Table of Contents\n\n")
 
 
-def write_table_of_contents(output_file, wgsl_contents):
-    for filename in wgsl_contents.keys():
-        # Add entry to table of contents
-        output_file.write(f"- [{filename}](#{filename})\n")
+def write_table_of_contents(output_file: Path, wgsl_contents: Dict[Path, str]) -> None:
+    for filename in tqdm(wgsl_contents.keys(), desc="writing toc"):
+        # Replace slashes with dashes or another separator to create valid anchors
+        anchor = str(filename).replace("/", "-")
+        output_file.write(f"- [{filename}](#{anchor})\n")
 
 
-def write_wgsl_contents(output_file, wgsl_contents):
-    for filename, content in wgsl_contents.items():
-        # Write markdown headings and content
-        output_file.write(f"### {filename}\n```rust\n{content}\n```\n")
+def write_wgsl_contents(output_file: Path, wgsl_contents: Dict[Path, str]) -> None:
+    for filename, content in tqdm(wgsl_contents.items(), desc="writing contents"):
+        # Replace slashes with dashes to match the anchor format
+        anchor = str(filename).replace("/", "-")
+        output_file.write(f"### {anchor}\n```rust\n{content}\n```\n")
 
 
-def write_to_markdown(wgsl_contents, output_path):
+def write_to_markdown(
+    wgsl_contents: Dict[Path, str], output_path: Union[str, Path]
+) -> None:
     with open(output_path, "w") as markdown_file:
         write_script_header(markdown_file)
         write_table_of_contents(markdown_file, wgsl_contents)
         write_wgsl_contents(markdown_file, wgsl_contents)
 
 
-def clone_bevy_codebase():
+def clone_bevy_codebase() -> None:
     # Define the URL of the Bevy repository
     repo_url = "https://github.com/bevyengine/bevy.git"
 
@@ -109,7 +110,7 @@ def clone_bevy_codebase():
         print(f"Failed to clone the Bevy codebase. Error: {e}")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert .wgsl files to a markdown document."
     )
