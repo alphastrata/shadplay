@@ -287,7 +287,7 @@ available on `f32, vecN<T>` i.e all `vec2/3/4` types with any `isize/usize/f32` 
     }
 ```
 
-[code](https://github.com/alphastrata/shadplay/blob/develop/assets/shaders/shadertoy-ports/dotted_line.wgsl)
+[code](https://github.com/alphastrata/shadplay/blob/main/assets/Gallery/lines/dotted_line.wgsl)
 
 ______________________________________________________________________
 

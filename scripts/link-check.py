@@ -1,11 +1,17 @@
+
+"""
+This script checks URLs in project files for their reachability.
+"""
+
 import asyncio
 import re
 import time
 import argparse
 from collections import defaultdict
 from aiohttp import ClientSession
-from pathlib import Path
 from typing import List, Set, Tuple
+import subprocess
+
 
 # ANSI color codes
 RESET = "\033[0m"
@@ -78,12 +84,18 @@ def extract_urls_from_file(filepath: str) -> List[Tuple[str, int]]:
                 urls_with_lines.append((url, line_number))
     return urls_with_lines
 
+
 def collect_files(extensions: List[str]) -> List[str]:
-    """Collect files with the given extensions from the current directory."""
-    files = []
-    for ext in extensions:
-        files.extend(Path(".").rglob(f"*.{ext}"))
-    return [str(file) for file in files]
+    """Collect files with the given extensions from git-tracked files."""
+    # Get the list of git-tracked files
+    git_files = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
+
+    # Filter files by the specified extensions
+    filtered_files = [
+        file for file in git_files if any(file.endswith(f".{ext}") for ext in extensions)
+    ]
+    return filtered_files
+
 
 def print_results(verbose: bool, errors_only: bool) -> None:
     """Print results in a tree-like structure based on verbosity level."""
@@ -141,3 +153,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
