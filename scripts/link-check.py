@@ -1,4 +1,3 @@
-
 """
 This script checks URLs in project files for their reachability.
 """
@@ -37,7 +36,10 @@ tested_urls: Set[str] = set()
 good_links = 0
 bad_links = 0
 
-async def fetch(url: str, session: ClientSession, filename: str, line_number: int) -> None:
+
+async def fetch(
+    url: str, session: ClientSession, filename: str, line_number: int
+) -> None:
     global good_links, bad_links
     try:
         async with session.get(url, timeout=10) as response:
@@ -57,13 +59,17 @@ async def fetch(url: str, session: ClientSession, filename: str, line_number: in
         results[filename].append((url, f"Error: {str(e)}", RED, line_number))
         bad_links += 1
 
-async def check_urls_in_file(filename: str, urls_with_lines: List[Tuple[str, int]], session: ClientSession) -> None:
+
+async def check_urls_in_file(
+    filename: str, urls_with_lines: List[Tuple[str, int]], session: ClientSession
+) -> None:
     tasks = []
     for url, line_number in urls_with_lines:
         if url not in tested_urls:
             tested_urls.add(url)  # Add URL to the set to avoid re-testing
             tasks.append(fetch(url, session, filename, line_number))
     await asyncio.gather(*tasks)
+
 
 async def process_files(files: List[str]) -> None:
     async with ClientSession(headers=HEADERS) as session:
@@ -73,6 +79,7 @@ async def process_files(files: List[str]) -> None:
             if urls_with_lines:
                 tasks.append(check_urls_in_file(file, urls_with_lines, session))
         await asyncio.gather(*tasks)
+
 
 def extract_urls_from_file(filepath: str) -> List[Tuple[str, int]]:
     """Extract all URLs and their line numbers from the given file."""
@@ -92,7 +99,9 @@ def collect_files(extensions: List[str]) -> List[str]:
 
     # Filter files by the specified extensions
     filtered_files = [
-        file for file in git_files if any(file.endswith(f".{ext}") for ext in extensions)
+        file
+        for file in git_files
+        if any(file.endswith(f".{ext}") for ext in extensions)
     ]
     return filtered_files
 
@@ -108,19 +117,25 @@ def print_results(verbose: bool, errors_only: bool) -> None:
                 print(f"\n{ORANGE}{filename}:{line_number}{RESET}")
                 print(f"  {color}{status}{RESET} {WHITE}{url}{RESET}")
 
+
 def parse_arguments() -> argparse.Namespace:
     """Parse command-line arguments for verbosity control."""
     parser = argparse.ArgumentParser(description="Check URLs in project files.")
     parser.add_argument(
-        "--verbose", action="store_true", help="Print all URLs and their statuses (success and error)"
+        "--verbose",
+        action="store_true",
+        help="Print all URLs and their statuses (success and error)",
     )
     parser.add_argument(
         "--errors-only", action="store_true", help="Print only error URLs"
     )
     parser.add_argument(
-        "--silent", action="store_true", help="Print nothing, exit 0 for no bad links, 1 otherwise"
+        "--silent",
+        action="store_true",
+        help="Print nothing, exit 0 for no bad links, 1 otherwise",
     )
     return parser.parse_args()
+
 
 def main() -> None:
     args = parse_arguments()
@@ -151,6 +166,6 @@ def main() -> None:
     print(f"\nSummary: {good_links} good links, {bad_links} bad links.")
     print(f"Total time: {total_time:.2f} seconds.")
 
+
 if __name__ == "__main__":
     main()
-
