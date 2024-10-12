@@ -26,7 +26,6 @@ impl Plugin for ScreenshotPlugin {
 // ---------------------------------------------
 
 /// Make every file/dir etc required from a given `p`:
-
 pub fn make_all<P>(p: P) -> Result<(), std::io::Error>
 where
     P: AsRef<Path>,
