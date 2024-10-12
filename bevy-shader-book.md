@@ -5,337 +5,328 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 ## Table of Contents
 
 - [all_wgsl](#all_wgsl)
-- [bevy_shaders/remap_1d_to_2d_dispatch](#bevy_shaders/remap_1d_to_2d_dispatch)
-- [bevy_shaders/irradiance_volume_voxel_visualization](#bevy_shaders/irradiance_volume_voxel_visualization)
-- [bevy_shaders/blit](#bevy_shaders/blit)
-- [bevy_shaders/tonemapping_test_patterns](#bevy_shaders/tonemapping_test_patterns)
-- [bevy_shaders/visibility_buffer_resolve](#bevy_shaders/visibility_buffer_resolve)
-- [bevy_shaders/parallax_mapping](#bevy_shaders/parallax_mapping)
-- [bevy_shaders/taa](#bevy_shaders/taa)
-- [bevy_shaders/circle_shader](#bevy_shaders/circle_shader)
-- [bevy_shaders/bloom](#bevy_shaders/bloom)
-- [bevy_shaders/shadow_sampling](#bevy_shaders/shadow_sampling)
-- [bevy_shaders/globals](#bevy_shaders/globals)
-- [bevy_shaders/view_transformations](#bevy_shaders/view_transformations)
-- [bevy_shaders/post_processing](#bevy_shaders/post_processing)
-- [bevy_shaders/prepass_utils](#bevy_shaders/prepass_utils)
-- [bevy_shaders/mesh_bindings](#bevy_shaders/mesh_bindings)
-- [bevy_shaders/game_of_life](#bevy_shaders/game_of_life)
-- [bevy_shaders/mesh2d_view_bindings](#bevy_shaders/mesh2d_view_bindings)
-- [bevy_shaders/auto_exposure](#bevy_shaders/auto_exposure)
-- [bevy_shaders/fullscreen](#bevy_shaders/fullscreen)
-- [bevy_shaders/mesh2d_bindings](#bevy_shaders/mesh2d_bindings)
-- [bevy_shaders/custom_material_screenspace_texture](#bevy_shaders/custom_material_screenspace_texture)
-- [bevy_shaders/pbr_types](#bevy_shaders/pbr_types)
-- [bevy_shaders/lightmap](#bevy_shaders/lightmap)
-- [bevy_shaders/instance_index](#bevy_shaders/instance_index)
-- [bevy_shaders/pbr_deferred_functions](#bevy_shaders/pbr_deferred_functions)
-- [bevy_shaders/custom_gltf_2d](#bevy_shaders/custom_gltf_2d)
-- [bevy_shaders/copy_material_depth](#bevy_shaders/copy_material_depth)
-- [bevy_shaders/wireframe2d](#bevy_shaders/wireframe2d)
-- [bevy_shaders/chromatic_aberration](#bevy_shaders/chromatic_aberration)
-- [bevy_shaders/lines](#bevy_shaders/lines)
-- [bevy_shaders/prepass_bindings](#bevy_shaders/prepass_bindings)
-- [bevy_shaders/pbr_ambient](#bevy_shaders/pbr_ambient)
-- [bevy_shaders/post_process](#bevy_shaders/post_process)
-- [bevy_shaders/mesh_vertex_output](#bevy_shaders/mesh_vertex_output)
-- [bevy_shaders/mesh2d_vertex_output](#bevy_shaders/mesh2d_vertex_output)
-- [bevy_shaders/prepass_io](#bevy_shaders/prepass_io)
-- [bevy_shaders/raymarch](#bevy_shaders/raymarch)
-- [bevy_shaders/ssao](#bevy_shaders/ssao)
-- [bevy_shaders/sprite](#bevy_shaders/sprite)
-- [bevy_shaders/wireframe](#bevy_shaders/wireframe)
-- [bevy_shaders/fallback_image_test](#bevy_shaders/fallback_image_test)
-- [bevy_shaders/cull_clusters](#bevy_shaders/cull_clusters)
-- [bevy_shaders/gpu_readback](#bevy_shaders/gpu_readback)
-- [bevy_shaders/pbr_bindings](#bevy_shaders/pbr_bindings)
-- [bevy_shaders/mesh_preprocess](#bevy_shaders/mesh_preprocess)
-- [bevy_shaders/mesh](#bevy_shaders/mesh)
-- [bevy_shaders/forward_io](#bevy_shaders/forward_io)
-- [bevy_shaders/sprite_view_bindings](#bevy_shaders/sprite_view_bindings)
-- [bevy_shaders/custom_ui_material](#bevy_shaders/custom_ui_material)
-- [bevy_shaders/pbr_prepass_functions](#bevy_shaders/pbr_prepass_functions)
-- [bevy_shaders/instancing](#bevy_shaders/instancing)
-- [bevy_shaders/array_texture](#bevy_shaders/array_texture)
-- [bevy_shaders/utils](#bevy_shaders/utils)
-- [bevy_shaders/line_material](#bevy_shaders/line_material)
-- [bevy_shaders/prepass](#bevy_shaders/prepass)
-- [bevy_shaders/resolve_render_targets](#bevy_shaders/resolve_render_targets)
-- [bevy_shaders/clustered_forward](#bevy_shaders/clustered_forward)
-- [bevy_shaders/pbr_transmission](#bevy_shaders/pbr_transmission)
-- [bevy_shaders/morph](#bevy_shaders/morph)
-- [bevy_shaders/mesh_types](#bevy_shaders/mesh_types)
-- [bevy_shaders/fxaa](#bevy_shaders/fxaa)
-- [bevy_shaders/cubemap_unlit](#bevy_shaders/cubemap_unlit)
-- [bevy_shaders/mesh_view_bindings](#bevy_shaders/mesh_view_bindings)
-- [bevy_shaders/meshlet_mesh_material](#bevy_shaders/meshlet_mesh_material)
-- [bevy_shaders/custom_material_2d](#bevy_shaders/custom_material_2d)
-- [bevy_shaders/cull_meshlets](#bevy_shaders/cull_meshlets)
-- [bevy_shaders/skybox_prepass](#bevy_shaders/skybox_prepass)
-- [bevy_shaders/volumetric_fog](#bevy_shaders/volumetric_fog)
-- [bevy_shaders/screenshot](#bevy_shaders/screenshot)
-- [bevy_shaders/color_material](#bevy_shaders/color_material)
-- [bevy_shaders/maths](#bevy_shaders/maths)
-- [bevy_shaders/gtao_utils](#bevy_shaders/gtao_utils)
-- [bevy_shaders/ssr](#bevy_shaders/ssr)
-- [bevy_shaders/pbr_functions](#bevy_shaders/pbr_functions)
-- [bevy_shaders/pbr_lighting](#bevy_shaders/pbr_lighting)
-- [bevy_shaders/line_joints](#bevy_shaders/line_joints)
-- [bevy_shaders/smaa](#bevy_shaders/smaa)
-- [bevy_shaders/visibility_buffer_hardware_raster](#bevy_shaders/visibility_buffer_hardware_raster)
-- [bevy_shaders/rgb9e5](#bevy_shaders/rgb9e5)
-- [bevy_shaders/dof](#bevy_shaders/dof)
-- [bevy_shaders/pbr_deferred_types](#bevy_shaders/pbr_deferred_types)
-- [bevy_shaders/pbr_prepass](#bevy_shaders/pbr_prepass)
-- [bevy_shaders/copy_deferred_lighting_id](#bevy_shaders/copy_deferred_lighting_id)
-- [bevy_shaders/mesh2d_view_types](#bevy_shaders/mesh2d_view_types)
-- [bevy_shaders/skinning](#bevy_shaders/skinning)
-- [bevy_shaders/animate_shader](#bevy_shaders/animate_shader)
-- [bevy_shaders/visibility_buffer_raster](#bevy_shaders/visibility_buffer_raster)
-- [bevy_shaders/lut_bindings](#bevy_shaders/lut_bindings)
-- [bevy_shaders/extended_material](#bevy_shaders/extended_material)
-- [bevy_shaders/oit_resolve](#bevy_shaders/oit_resolve)
-- [bevy_shaders/box_shadow](#bevy_shaders/box_shadow)
-- [bevy_shaders/fog](#bevy_shaders/fog)
-- [bevy_shaders/show_prepass](#bevy_shaders/show_prepass)
-- [bevy_shaders/pbr](#bevy_shaders/pbr)
-- [bevy_shaders/specialized_mesh_pipeline](#bevy_shaders/specialized_mesh_pipeline)
-- [bevy_shaders/visibility_buffer_software_raster](#bevy_shaders/visibility_buffer_software_raster)
-- [bevy_shaders/water_material](#bevy_shaders/water_material)
-- [bevy_shaders/fill_cluster_buffers](#bevy_shaders/fill_cluster_buffers)
-- [bevy_shaders/ui_texture_slice](#bevy_shaders/ui_texture_slice)
-- [bevy_shaders/light_probe](#bevy_shaders/light_probe)
-- [bevy_shaders/custom_phase_item](#bevy_shaders/custom_phase_item)
-- [bevy_shaders/view](#bevy_shaders/view)
-- [bevy_shaders/gtao](#bevy_shaders/gtao)
-- [bevy_shaders/spatial_denoise](#bevy_shaders/spatial_denoise)
-- [bevy_shaders/oit_draw](#bevy_shaders/oit_draw)
-- [bevy_shaders/tonemapping](#bevy_shaders/tonemapping)
-- [bevy_shaders/mesh2d](#bevy_shaders/mesh2d)
-- [bevy_shaders/irradiance_volume](#bevy_shaders/irradiance_volume)
-- [bevy_shaders/preprocess_depth](#bevy_shaders/preprocess_depth)
-- [bevy_shaders/dummy_visibility_buffer_resolve](#bevy_shaders/dummy_visibility_buffer_resolve)
-- [bevy_shaders/ui_vertex_output](#bevy_shaders/ui_vertex_output)
-- [bevy_shaders/motion_blur](#bevy_shaders/motion_blur)
-- [bevy_shaders/tonemapping_shared](#bevy_shaders/tonemapping_shared)
-- [bevy_shaders/shadows](#bevy_shaders/shadows)
-- [bevy_shaders/ssao_utils](#bevy_shaders/ssao_utils)
-- [bevy_shaders/environment_map](#bevy_shaders/environment_map)
-- [bevy_shaders/downsample_depth](#bevy_shaders/downsample_depth)
-- [bevy_shaders/ui_material](#bevy_shaders/ui_material)
-- [bevy_shaders/skybox](#bevy_shaders/skybox)
-- [bevy_shaders/custom_material_import](#bevy_shaders/custom_material_import)
-- [bevy_shaders/write_index_buffer](#bevy_shaders/write_index_buffer)
-- [bevy_shaders/mesh2d_types](#bevy_shaders/mesh2d_types)
-- [bevy_shaders/custom_material](#bevy_shaders/custom_material)
-- [bevy_shaders/mesh2d_functions](#bevy_shaders/mesh2d_functions)
-- [bevy_shaders/robust_contrast_adaptive_sharpening](#bevy_shaders/robust_contrast_adaptive_sharpening)
-- [bevy_shaders/custom_vertex_attribute](#bevy_shaders/custom_vertex_attribute)
-- [bevy_shaders/meshlet_bindings](#bevy_shaders/meshlet_bindings)
-- [bevy_shaders/texture_binding_array](#bevy_shaders/texture_binding_array)
-- [bevy_shaders/shader_defs](#bevy_shaders/shader_defs)
-- [bevy_shaders/color_operations](#bevy_shaders/color_operations)
-- [bevy_shaders/mesh_functions](#bevy_shaders/mesh_functions)
-- [bevy_shaders/deferred_lighting](#bevy_shaders/deferred_lighting)
-- [bevy_shaders/pbr_fragment](#bevy_shaders/pbr_fragment)
-- [bevy_shaders/ui](#bevy_shaders/ui)
-- [bevy_shaders/mesh_view_types](#bevy_shaders/mesh_view_types)
-- [bevy_shaders/storage_buffer](#bevy_shaders/storage_buffer)
-- [assets/shaders/indexing_into_vec_with_loop](#assets/shaders/indexing_into_vec_with_loop)
-- [assets/shaders/aura](#assets/shaders/aura)
-- [assets/shaders/myshader_2d](#assets/shaders/myshader_2d)
-- [assets/shaders/howto-texture](#assets/shaders/howto-texture)
-- [assets/shaders/myshader](#assets/shaders/myshader)
-- [assets/shaders/WIP-total_noob](#assets/shaders/WIP-total_noob)
-- [assets/shaders/WIP-black-hole](#assets/shaders/WIP-black-hole)
-- [assets/shaders/electro_cube](#assets/shaders/electro_cube)
-- [assets/shaders/fast_dots](#assets/shaders/fast_dots)
-- [assets/shaders/WIP-waterPool](#assets/shaders/WIP-waterPool)
-- [assets/shaders/rain_generator](#assets/shaders/rain_generator)
-- [assets/shaders/howto-mouse](#assets/shaders/howto-mouse)
-- [assets/shaders/four_to_the_floor](#assets/shaders/four_to_the_floor)
-- [assets/shaders/grid_with_colours](#assets/shaders/grid_with_colours)
-- [assets/shaders/shadertoy-ports/polar-coords-experiments](#assets/shaders/shadertoy-ports/polar-coords-experiments)
-- [assets/shaders/shadertoy-ports/cyber-anim-arrowX](#assets/shaders/shadertoy-ports/cyber-anim-arrowX)
-- [assets/shaders/shadertoy-ports/light-spirals](#assets/shaders/shadertoy-ports/light-spirals)
-- [assets/shaders/shadertoy-ports/octagon_fun](#assets/shaders/shadertoy-ports/octagon_fun)
-- [assets/shaders/shadertoy-ports/flame](#assets/shaders/shadertoy-ports/flame)
-- [assets/shaders/shadertoy-ports/shadertoy](#assets/shaders/shadertoy-ports/shadertoy)
-- [assets/shaders/shadertoy-ports/cosmic](#assets/shaders/shadertoy-ports/cosmic)
-- [assets/shaders/shadertoy-ports/voronoi_simple](#assets/shaders/shadertoy-ports/voronoi_simple)
-- [assets/shaders/shadertoy-ports/sailing-beyond](#assets/shaders/shadertoy-ports/sailing-beyond)
-- [assets/shaders/shadertoy-ports/kishimisu](#assets/shaders/shadertoy-ports/kishimisu)
-- [assets/shaders/shadertoy-ports/w10](#assets/shaders/shadertoy-ports/w10)
-- [assets/shaders/shadertoy-ports/universe_within](#assets/shaders/shadertoy-ports/universe_within)
-- [assets/shaders/shadertoy-ports/warp](#assets/shaders/shadertoy-ports/warp)
-- [assets/shaders/shadertoy-ports/star](#assets/shaders/shadertoy-ports/star)
-- [assets/shaders/shadertoy-ports/water-caustic-tileable](#assets/shaders/shadertoy-ports/water-caustic-tileable)
-- [assets/shaders/shadertoy-ports/BROKEN_fbm_lightning](#assets/shaders/shadertoy-ports/BROKEN_fbm_lightning)
-- [assets/shaders/shadertoy-ports/discoteq2](#assets/shaders/shadertoy-ports/discoteq2)
-- [assets/shaders/shadertoy-ports/semi-circle-wave](#assets/shaders/shadertoy-ports/semi-circle-wave)
-- [assets/shaders/shadertoy-ports/BROKEN_tuesday_tinkering](#assets/shaders/shadertoy-ports/BROKEN_tuesday_tinkering)
-- [assets/shaders/common/notes](#assets/shaders/common/notes)
-- [assets/Gallery/perlin-waves/perlin-waves](#assets/Gallery/perlin-waves/perlin-waves)
-- [assets/Gallery/lines/dotted_line](#assets/Gallery/lines/dotted_line)
-- [assets/Gallery/fbmCloud/fmb_cloud](#assets/Gallery/fbmCloud/fmb_cloud)
-- [bevy/assets/shaders/irradiance_volume_voxel_visualization](#bevy/assets/shaders/irradiance_volume_voxel_visualization)
-- [bevy/assets/shaders/tonemapping_test_patterns](#bevy/assets/shaders/tonemapping_test_patterns)
-- [bevy/assets/shaders/post_processing](#bevy/assets/shaders/post_processing)
-- [bevy/assets/shaders/game_of_life](#bevy/assets/shaders/game_of_life)
-- [bevy/assets/shaders/custom_material_screenspace_texture](#bevy/assets/shaders/custom_material_screenspace_texture)
-- [bevy/assets/shaders/custom_gltf_2d](#bevy/assets/shaders/custom_gltf_2d)
-- [bevy/assets/shaders/fallback_image_test](#bevy/assets/shaders/fallback_image_test)
-- [bevy/assets/shaders/gpu_readback](#bevy/assets/shaders/gpu_readback)
-- [bevy/assets/shaders/custom_ui_material](#bevy/assets/shaders/custom_ui_material)
-- [bevy/assets/shaders/instancing](#bevy/assets/shaders/instancing)
-- [bevy/assets/shaders/array_texture](#bevy/assets/shaders/array_texture)
-- [bevy/assets/shaders/line_material](#bevy/assets/shaders/line_material)
-- [bevy/assets/shaders/cubemap_unlit](#bevy/assets/shaders/cubemap_unlit)
-- [bevy/assets/shaders/custom_material_2d](#bevy/assets/shaders/custom_material_2d)
-- [bevy/assets/shaders/animate_shader](#bevy/assets/shaders/animate_shader)
-- [bevy/assets/shaders/extended_material](#bevy/assets/shaders/extended_material)
-- [bevy/assets/shaders/show_prepass](#bevy/assets/shaders/show_prepass)
-- [bevy/assets/shaders/specialized_mesh_pipeline](#bevy/assets/shaders/specialized_mesh_pipeline)
-- [bevy/assets/shaders/water_material](#bevy/assets/shaders/water_material)
-- [bevy/assets/shaders/custom_phase_item](#bevy/assets/shaders/custom_phase_item)
-- [bevy/assets/shaders/custom_material_import](#bevy/assets/shaders/custom_material_import)
-- [bevy/assets/shaders/custom_material](#bevy/assets/shaders/custom_material)
-- [bevy/assets/shaders/custom_vertex_attribute](#bevy/assets/shaders/custom_vertex_attribute)
-- [bevy/assets/shaders/texture_binding_array](#bevy/assets/shaders/texture_binding_array)
-- [bevy/assets/shaders/shader_defs](#bevy/assets/shaders/shader_defs)
-- [bevy/assets/shaders/storage_buffer](#bevy/assets/shaders/storage_buffer)
-- [bevy/crates/bevy_gizmos/src/lines](#bevy/crates/bevy_gizmos/src/lines)
-- [bevy/crates/bevy_gizmos/src/line_joints](#bevy/crates/bevy_gizmos/src/line_joints)
-- [bevy/crates/bevy_core_pipeline/src/motion_blur/motion_blur](#bevy/crates/bevy_core_pipeline/src/motion_blur/motion_blur)
-- [bevy/crates/bevy_core_pipeline/src/bloom/bloom](#bevy/crates/bevy_core_pipeline/src/bloom/bloom)
-- [bevy/crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening](#bevy/crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening)
-- [bevy/crates/bevy_core_pipeline/src/post_process/chromatic_aberration](#bevy/crates/bevy_core_pipeline/src/post_process/chromatic_aberration)
-- [bevy/crates/bevy_core_pipeline/src/post_process/post_process](#bevy/crates/bevy_core_pipeline/src/post_process/post_process)
-- [bevy/crates/bevy_core_pipeline/src/tonemapping/lut_bindings](#bevy/crates/bevy_core_pipeline/src/tonemapping/lut_bindings)
-- [bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping](#bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping)
-- [bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping_shared](#bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping_shared)
-- [bevy/crates/bevy_core_pipeline/src/blit/blit](#bevy/crates/bevy_core_pipeline/src/blit/blit)
-- [bevy/crates/bevy_core_pipeline/src/smaa/smaa](#bevy/crates/bevy_core_pipeline/src/smaa/smaa)
-- [bevy/crates/bevy_core_pipeline/src/dof/dof](#bevy/crates/bevy_core_pipeline/src/dof/dof)
-- [bevy/crates/bevy_core_pipeline/src/auto_exposure/auto_exposure](#bevy/crates/bevy_core_pipeline/src/auto_exposure/auto_exposure)
-- [bevy/crates/bevy_core_pipeline/src/fxaa/fxaa](#bevy/crates/bevy_core_pipeline/src/fxaa/fxaa)
-- [bevy/crates/bevy_core_pipeline/src/oit/oit_draw](#bevy/crates/bevy_core_pipeline/src/oit/oit_draw)
-- [bevy/crates/bevy_core_pipeline/src/skybox/skybox_prepass](#bevy/crates/bevy_core_pipeline/src/skybox/skybox_prepass)
-- [bevy/crates/bevy_core_pipeline/src/skybox/skybox](#bevy/crates/bevy_core_pipeline/src/skybox/skybox)
-- [bevy/crates/bevy_core_pipeline/src/taa/taa](#bevy/crates/bevy_core_pipeline/src/taa/taa)
-- [bevy/crates/bevy_core_pipeline/src/fullscreen_vertex_shader/fullscreen](#bevy/crates/bevy_core_pipeline/src/fullscreen_vertex_shader/fullscreen)
-- [bevy/crates/bevy_core_pipeline/src/deferred/copy_deferred_lighting_id](#bevy/crates/bevy_core_pipeline/src/deferred/copy_deferred_lighting_id)
-- [bevy/crates/bevy_core_pipeline/src/oit/resolve/oit_resolve](#bevy/crates/bevy_core_pipeline/src/oit/resolve/oit_resolve)
-- [bevy/crates/bevy_render/src/globals](#bevy/crates/bevy_render/src/globals)
-- [bevy/crates/bevy_render/src/maths](#bevy/crates/bevy_render/src/maths)
-- [bevy/crates/bevy_render/src/color_operations](#bevy/crates/bevy_render/src/color_operations)
-- [bevy/crates/bevy_render/src/view/view](#bevy/crates/bevy_render/src/view/view)
-- [bevy/crates/bevy_render/src/view/window/screenshot](#bevy/crates/bevy_render/src/view/window/screenshot)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_bindings](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_bindings)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_bindings](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_bindings)
-- [bevy/crates/bevy_sprite/src/mesh2d/wireframe2d](#bevy/crates/bevy_sprite/src/mesh2d/wireframe2d)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_vertex_output](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_vertex_output)
-- [bevy/crates/bevy_sprite/src/mesh2d/color_material](#bevy/crates/bevy_sprite/src/mesh2d/color_material)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_types](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_types)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_types](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_types)
-- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_functions](#bevy/crates/bevy_sprite/src/mesh2d/mesh2d_functions)
-- [bevy/crates/bevy_sprite/src/render/sprite](#bevy/crates/bevy_sprite/src/render/sprite)
-- [bevy/crates/bevy_sprite/src/render/sprite_view_bindings](#bevy/crates/bevy_sprite/src/render/sprite_view_bindings)
-- [bevy/crates/bevy_pbr/src/volumetric_fog/volumetric_fog](#bevy/crates/bevy_pbr/src/volumetric_fog/volumetric_fog)
-- [bevy/crates/bevy_pbr/src/prepass/prepass_utils](#bevy/crates/bevy_pbr/src/prepass/prepass_utils)
-- [bevy/crates/bevy_pbr/src/prepass/prepass_bindings](#bevy/crates/bevy_pbr/src/prepass/prepass_bindings)
-- [bevy/crates/bevy_pbr/src/prepass/prepass_io](#bevy/crates/bevy_pbr/src/prepass/prepass_io)
-- [bevy/crates/bevy_pbr/src/prepass/prepass](#bevy/crates/bevy_pbr/src/prepass/prepass)
-- [bevy/crates/bevy_pbr/src/render/parallax_mapping](#bevy/crates/bevy_pbr/src/render/parallax_mapping)
-- [bevy/crates/bevy_pbr/src/render/shadow_sampling](#bevy/crates/bevy_pbr/src/render/shadow_sampling)
-- [bevy/crates/bevy_pbr/src/render/view_transformations](#bevy/crates/bevy_pbr/src/render/view_transformations)
-- [bevy/crates/bevy_pbr/src/render/mesh_bindings](#bevy/crates/bevy_pbr/src/render/mesh_bindings)
-- [bevy/crates/bevy_pbr/src/render/pbr_types](#bevy/crates/bevy_pbr/src/render/pbr_types)
-- [bevy/crates/bevy_pbr/src/render/pbr_ambient](#bevy/crates/bevy_pbr/src/render/pbr_ambient)
-- [bevy/crates/bevy_pbr/src/render/wireframe](#bevy/crates/bevy_pbr/src/render/wireframe)
-- [bevy/crates/bevy_pbr/src/render/pbr_bindings](#bevy/crates/bevy_pbr/src/render/pbr_bindings)
-- [bevy/crates/bevy_pbr/src/render/mesh_preprocess](#bevy/crates/bevy_pbr/src/render/mesh_preprocess)
-- [bevy/crates/bevy_pbr/src/render/mesh](#bevy/crates/bevy_pbr/src/render/mesh)
-- [bevy/crates/bevy_pbr/src/render/forward_io](#bevy/crates/bevy_pbr/src/render/forward_io)
-- [bevy/crates/bevy_pbr/src/render/pbr_prepass_functions](#bevy/crates/bevy_pbr/src/render/pbr_prepass_functions)
-- [bevy/crates/bevy_pbr/src/render/utils](#bevy/crates/bevy_pbr/src/render/utils)
-- [bevy/crates/bevy_pbr/src/render/clustered_forward](#bevy/crates/bevy_pbr/src/render/clustered_forward)
-- [bevy/crates/bevy_pbr/src/render/pbr_transmission](#bevy/crates/bevy_pbr/src/render/pbr_transmission)
-- [bevy/crates/bevy_pbr/src/render/morph](#bevy/crates/bevy_pbr/src/render/morph)
-- [bevy/crates/bevy_pbr/src/render/mesh_types](#bevy/crates/bevy_pbr/src/render/mesh_types)
-- [bevy/crates/bevy_pbr/src/render/mesh_view_bindings](#bevy/crates/bevy_pbr/src/render/mesh_view_bindings)
-- [bevy/crates/bevy_pbr/src/render/pbr_functions](#bevy/crates/bevy_pbr/src/render/pbr_functions)
-- [bevy/crates/bevy_pbr/src/render/pbr_lighting](#bevy/crates/bevy_pbr/src/render/pbr_lighting)
-- [bevy/crates/bevy_pbr/src/render/rgb9e5](#bevy/crates/bevy_pbr/src/render/rgb9e5)
-- [bevy/crates/bevy_pbr/src/render/pbr_prepass](#bevy/crates/bevy_pbr/src/render/pbr_prepass)
-- [bevy/crates/bevy_pbr/src/render/skinning](#bevy/crates/bevy_pbr/src/render/skinning)
-- [bevy/crates/bevy_pbr/src/render/fog](#bevy/crates/bevy_pbr/src/render/fog)
-- [bevy/crates/bevy_pbr/src/render/pbr](#bevy/crates/bevy_pbr/src/render/pbr)
-- [bevy/crates/bevy_pbr/src/render/shadows](#bevy/crates/bevy_pbr/src/render/shadows)
-- [bevy/crates/bevy_pbr/src/render/mesh_functions](#bevy/crates/bevy_pbr/src/render/mesh_functions)
-- [bevy/crates/bevy_pbr/src/render/pbr_fragment](#bevy/crates/bevy_pbr/src/render/pbr_fragment)
-- [bevy/crates/bevy_pbr/src/render/mesh_view_types](#bevy/crates/bevy_pbr/src/render/mesh_view_types)
-- [bevy/crates/bevy_pbr/src/meshlet/remap_1d_to_2d_dispatch](#bevy/crates/bevy_pbr/src/meshlet/remap_1d_to_2d_dispatch)
-- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_resolve](#bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_resolve)
-- [bevy/crates/bevy_pbr/src/meshlet/cull_clusters](#bevy/crates/bevy_pbr/src/meshlet/cull_clusters)
-- [bevy/crates/bevy_pbr/src/meshlet/resolve_render_targets](#bevy/crates/bevy_pbr/src/meshlet/resolve_render_targets)
-- [bevy/crates/bevy_pbr/src/meshlet/meshlet_mesh_material](#bevy/crates/bevy_pbr/src/meshlet/meshlet_mesh_material)
-- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_hardware_raster](#bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_hardware_raster)
-- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_software_raster](#bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_software_raster)
-- [bevy/crates/bevy_pbr/src/meshlet/fill_cluster_buffers](#bevy/crates/bevy_pbr/src/meshlet/fill_cluster_buffers)
-- [bevy/crates/bevy_pbr/src/meshlet/dummy_visibility_buffer_resolve](#bevy/crates/bevy_pbr/src/meshlet/dummy_visibility_buffer_resolve)
-- [bevy/crates/bevy_pbr/src/meshlet/downsample_depth](#bevy/crates/bevy_pbr/src/meshlet/downsample_depth)
-- [bevy/crates/bevy_pbr/src/meshlet/meshlet_bindings](#bevy/crates/bevy_pbr/src/meshlet/meshlet_bindings)
-- [bevy/crates/bevy_pbr/src/lightmap/lightmap](#bevy/crates/bevy_pbr/src/lightmap/lightmap)
-- [bevy/crates/bevy_pbr/src/light_probe/light_probe](#bevy/crates/bevy_pbr/src/light_probe/light_probe)
-- [bevy/crates/bevy_pbr/src/light_probe/irradiance_volume](#bevy/crates/bevy_pbr/src/light_probe/irradiance_volume)
-- [bevy/crates/bevy_pbr/src/light_probe/environment_map](#bevy/crates/bevy_pbr/src/light_probe/environment_map)
-- [bevy/crates/bevy_pbr/src/ssao/ssao](#bevy/crates/bevy_pbr/src/ssao/ssao)
-- [bevy/crates/bevy_pbr/src/ssao/spatial_denoise](#bevy/crates/bevy_pbr/src/ssao/spatial_denoise)
-- [bevy/crates/bevy_pbr/src/ssao/preprocess_depth](#bevy/crates/bevy_pbr/src/ssao/preprocess_depth)
-- [bevy/crates/bevy_pbr/src/ssao/ssao_utils](#bevy/crates/bevy_pbr/src/ssao/ssao_utils)
-- [bevy/crates/bevy_pbr/src/deferred/pbr_deferred_functions](#bevy/crates/bevy_pbr/src/deferred/pbr_deferred_functions)
-- [bevy/crates/bevy_pbr/src/deferred/pbr_deferred_types](#bevy/crates/bevy_pbr/src/deferred/pbr_deferred_types)
-- [bevy/crates/bevy_pbr/src/deferred/deferred_lighting](#bevy/crates/bevy_pbr/src/deferred/deferred_lighting)
-- [bevy/crates/bevy_pbr/src/ssr/raymarch](#bevy/crates/bevy_pbr/src/ssr/raymarch)
-- [bevy/crates/bevy_pbr/src/ssr/ssr](#bevy/crates/bevy_pbr/src/ssr/ssr)
-- [bevy/crates/bevy_ui/src/render/box_shadow](#bevy/crates/bevy_ui/src/render/box_shadow)
-- [bevy/crates/bevy_ui/src/render/ui_texture_slice](#bevy/crates/bevy_ui/src/render/ui_texture_slice)
-- [bevy/crates/bevy_ui/src/render/ui_vertex_output](#bevy/crates/bevy_ui/src/render/ui_vertex_output)
-- [bevy/crates/bevy_ui/src/render/ui_material](#bevy/crates/bevy_ui/src/render/ui_material)
-- [bevy/crates/bevy_ui/src/render/ui](#bevy/crates/bevy_ui/src/render/ui)
-- [src/shader_utils/common](#src/shader_utils/common)
-- [screenshots/22-10-23/19-39-14/screenshot](#screenshots/22-10-23/19-39-14/screenshot)
-- [screenshots/24-10-23/21-14-59/screenshot](#screenshots/24-10-23/21-14-59/screenshot)
-- [screenshots/08-11-23/22-29-32/screenshot](#screenshots/08-11-23/22-29-32/screenshot)
-- [screenshots/08-11-23/22-29-35/screenshot](#screenshots/08-11-23/22-29-35/screenshot)
-- [screenshots/08-11-23/22-29-33/screenshot](#screenshots/08-11-23/22-29-33/screenshot)
-- [screenshots/16-11-23/21-25-04/screenshot](#screenshots/16-11-23/21-25-04/screenshot)
-- [screenshots/16-11-23/21-23-45/screenshot](#screenshots/16-11-23/21-23-45/screenshot)
-- [screenshots/17-11-23/06-01-11/screenshot](#screenshots/17-11-23/06-01-11/screenshot)
-- [screenshots/17-11-23/16-49-11/screenshot](#screenshots/17-11-23/16-49-11/screenshot)
-- [screenshots/09-10-23/07-22-16/screeenshot](#screenshots/09-10-23/07-22-16/screeenshot)
-- [screenshots/07-10-23/aspect_ratio_correction_showed_with_circle/screeenshot](#screenshots/07-10-23/aspect_ratio_correction_showed_with_circle/screeenshot)
-- [screenshots/07-10-23/12-03-36/screeenshot](#screenshots/07-10-23/12-03-36/screeenshot)
-- [screenshots/07-10-23/11-16-48/screeenshot](#screenshots/07-10-23/11-16-48/screeenshot)
-- [screenshots/07-10-23/21-43-49/screeenshot](#screenshots/07-10-23/21-43-49/screeenshot)
-- [screenshots/09-06-24/20-43-57/screenshot](#screenshots/09-06-24/20-43-57/screenshot)
-- [screenshots/30-08-24/18-48-31/screenshot](#screenshots/30-08-24/18-48-31/screenshot)
-- [screenshots/27-11-23/20-44-03/screenshot](#screenshots/27-11-23/20-44-03/screenshot)
-- [screenshots/24-01-24/06-36-04/screenshot](#screenshots/24-01-24/06-36-04/screenshot)
-- [screenshots/24-01-24/06-51-53/screenshot](#screenshots/24-01-24/06-51-53/screenshot)
-- [screenshots/24-01-24/06-36-05/screenshot](#screenshots/24-01-24/06-36-05/screenshot)
-- [screenshots/24-01-24/06-37-20/screenshot](#screenshots/24-01-24/06-37-20/screenshot)
-- [screenshots/24-01-24/06-36-03/screenshot](#screenshots/24-01-24/06-36-03/screenshot)
-- [screenshots/24-01-24/06-25-45/screenshot](#screenshots/24-01-24/06-25-45/screenshot)
-- [screenshots/14-10-23/12-28-55/screenshot](#screenshots/14-10-23/12-28-55/screenshot)
-- [screenshots/14-10-23/12-28-54/screenshot](#screenshots/14-10-23/12-28-54/screenshot)
-- [screenshots/21-01-24/18-50-41/screenshot](#screenshots/21-01-24/18-50-41/screenshot)
-- [screenshots/02-11-23/07-48-05/screenshot](#screenshots/02-11-23/07-48-05/screenshot)
-- [screenshots/11-10-23/19-08-42/screeenshot](#screenshots/11-10-23/19-08-42/screeenshot)
-- [screenshots/11-10-23/19-40-28/screeenshot](#screenshots/11-10-23/19-40-28/screeenshot)
-- [screenshots/27-01-24/21-40-42/screenshot](#screenshots/27-01-24/21-40-42/screenshot)
+- [bevy_shaders/remap_1d_to_2d_dispatch](#bevy_shaders-remap_1d_to_2d_dispatch)
+- [bevy_shaders/irradiance_volume_voxel_visualization](#bevy_shaders-irradiance_volume_voxel_visualization)
+- [bevy_shaders/blit](#bevy_shaders-blit)
+- [bevy_shaders/tonemapping_test_patterns](#bevy_shaders-tonemapping_test_patterns)
+- [bevy_shaders/visibility_buffer_resolve](#bevy_shaders-visibility_buffer_resolve)
+- [bevy_shaders/parallax_mapping](#bevy_shaders-parallax_mapping)
+- [bevy_shaders/taa](#bevy_shaders-taa)
+- [bevy_shaders/bloom](#bevy_shaders-bloom)
+- [bevy_shaders/shadow_sampling](#bevy_shaders-shadow_sampling)
+- [bevy_shaders/globals](#bevy_shaders-globals)
+- [bevy_shaders/view_transformations](#bevy_shaders-view_transformations)
+- [bevy_shaders/post_processing](#bevy_shaders-post_processing)
+- [bevy_shaders/prepass_utils](#bevy_shaders-prepass_utils)
+- [bevy_shaders/mesh_bindings](#bevy_shaders-mesh_bindings)
+- [bevy_shaders/game_of_life](#bevy_shaders-game_of_life)
+- [bevy_shaders/mesh2d_view_bindings](#bevy_shaders-mesh2d_view_bindings)
+- [bevy_shaders/auto_exposure](#bevy_shaders-auto_exposure)
+- [bevy_shaders/fullscreen](#bevy_shaders-fullscreen)
+- [bevy_shaders/mesh2d_bindings](#bevy_shaders-mesh2d_bindings)
+- [bevy_shaders/custom_material_screenspace_texture](#bevy_shaders-custom_material_screenspace_texture)
+- [bevy_shaders/pbr_types](#bevy_shaders-pbr_types)
+- [bevy_shaders/lightmap](#bevy_shaders-lightmap)
+- [bevy_shaders/pbr_deferred_functions](#bevy_shaders-pbr_deferred_functions)
+- [bevy_shaders/custom_gltf_2d](#bevy_shaders-custom_gltf_2d)
+- [bevy_shaders/wireframe2d](#bevy_shaders-wireframe2d)
+- [bevy_shaders/chromatic_aberration](#bevy_shaders-chromatic_aberration)
+- [bevy_shaders/lines](#bevy_shaders-lines)
+- [bevy_shaders/prepass_bindings](#bevy_shaders-prepass_bindings)
+- [bevy_shaders/pbr_ambient](#bevy_shaders-pbr_ambient)
+- [bevy_shaders/post_process](#bevy_shaders-post_process)
+- [bevy_shaders/mesh2d_vertex_output](#bevy_shaders-mesh2d_vertex_output)
+- [bevy_shaders/prepass_io](#bevy_shaders-prepass_io)
+- [bevy_shaders/raymarch](#bevy_shaders-raymarch)
+- [bevy_shaders/ssao](#bevy_shaders-ssao)
+- [bevy_shaders/sprite](#bevy_shaders-sprite)
+- [bevy_shaders/wireframe](#bevy_shaders-wireframe)
+- [bevy_shaders/fallback_image_test](#bevy_shaders-fallback_image_test)
+- [bevy_shaders/cull_clusters](#bevy_shaders-cull_clusters)
+- [bevy_shaders/gpu_readback](#bevy_shaders-gpu_readback)
+- [bevy_shaders/pbr_bindings](#bevy_shaders-pbr_bindings)
+- [bevy_shaders/mesh_preprocess](#bevy_shaders-mesh_preprocess)
+- [bevy_shaders/mesh](#bevy_shaders-mesh)
+- [bevy_shaders/forward_io](#bevy_shaders-forward_io)
+- [bevy_shaders/sprite_view_bindings](#bevy_shaders-sprite_view_bindings)
+- [bevy_shaders/custom_ui_material](#bevy_shaders-custom_ui_material)
+- [bevy_shaders/pbr_prepass_functions](#bevy_shaders-pbr_prepass_functions)
+- [bevy_shaders/instancing](#bevy_shaders-instancing)
+- [bevy_shaders/array_texture](#bevy_shaders-array_texture)
+- [bevy_shaders/utils](#bevy_shaders-utils)
+- [bevy_shaders/line_material](#bevy_shaders-line_material)
+- [bevy_shaders/prepass](#bevy_shaders-prepass)
+- [bevy_shaders/resolve_render_targets](#bevy_shaders-resolve_render_targets)
+- [bevy_shaders/clustered_forward](#bevy_shaders-clustered_forward)
+- [bevy_shaders/pbr_transmission](#bevy_shaders-pbr_transmission)
+- [bevy_shaders/morph](#bevy_shaders-morph)
+- [bevy_shaders/mesh_types](#bevy_shaders-mesh_types)
+- [bevy_shaders/fxaa](#bevy_shaders-fxaa)
+- [bevy_shaders/cubemap_unlit](#bevy_shaders-cubemap_unlit)
+- [bevy_shaders/mesh_view_bindings](#bevy_shaders-mesh_view_bindings)
+- [bevy_shaders/meshlet_mesh_material](#bevy_shaders-meshlet_mesh_material)
+- [bevy_shaders/custom_material_2d](#bevy_shaders-custom_material_2d)
+- [bevy_shaders/skybox_prepass](#bevy_shaders-skybox_prepass)
+- [bevy_shaders/volumetric_fog](#bevy_shaders-volumetric_fog)
+- [bevy_shaders/screenshot](#bevy_shaders-screenshot)
+- [bevy_shaders/color_material](#bevy_shaders-color_material)
+- [bevy_shaders/maths](#bevy_shaders-maths)
+- [bevy_shaders/ssr](#bevy_shaders-ssr)
+- [bevy_shaders/pbr_functions](#bevy_shaders-pbr_functions)
+- [bevy_shaders/pbr_lighting](#bevy_shaders-pbr_lighting)
+- [bevy_shaders/line_joints](#bevy_shaders-line_joints)
+- [bevy_shaders/smaa](#bevy_shaders-smaa)
+- [bevy_shaders/visibility_buffer_hardware_raster](#bevy_shaders-visibility_buffer_hardware_raster)
+- [bevy_shaders/rgb9e5](#bevy_shaders-rgb9e5)
+- [bevy_shaders/dof](#bevy_shaders-dof)
+- [bevy_shaders/pbr_deferred_types](#bevy_shaders-pbr_deferred_types)
+- [bevy_shaders/pbr_prepass](#bevy_shaders-pbr_prepass)
+- [bevy_shaders/copy_deferred_lighting_id](#bevy_shaders-copy_deferred_lighting_id)
+- [bevy_shaders/mesh2d_view_types](#bevy_shaders-mesh2d_view_types)
+- [bevy_shaders/skinning](#bevy_shaders-skinning)
+- [bevy_shaders/animate_shader](#bevy_shaders-animate_shader)
+- [bevy_shaders/lut_bindings](#bevy_shaders-lut_bindings)
+- [bevy_shaders/extended_material](#bevy_shaders-extended_material)
+- [bevy_shaders/oit_resolve](#bevy_shaders-oit_resolve)
+- [bevy_shaders/box_shadow](#bevy_shaders-box_shadow)
+- [bevy_shaders/fog](#bevy_shaders-fog)
+- [bevy_shaders/show_prepass](#bevy_shaders-show_prepass)
+- [bevy_shaders/pbr](#bevy_shaders-pbr)
+- [bevy_shaders/specialized_mesh_pipeline](#bevy_shaders-specialized_mesh_pipeline)
+- [bevy_shaders/visibility_buffer_software_raster](#bevy_shaders-visibility_buffer_software_raster)
+- [bevy_shaders/water_material](#bevy_shaders-water_material)
+- [bevy_shaders/fill_cluster_buffers](#bevy_shaders-fill_cluster_buffers)
+- [bevy_shaders/ui_texture_slice](#bevy_shaders-ui_texture_slice)
+- [bevy_shaders/light_probe](#bevy_shaders-light_probe)
+- [bevy_shaders/custom_phase_item](#bevy_shaders-custom_phase_item)
+- [bevy_shaders/view](#bevy_shaders-view)
+- [bevy_shaders/spatial_denoise](#bevy_shaders-spatial_denoise)
+- [bevy_shaders/oit_draw](#bevy_shaders-oit_draw)
+- [bevy_shaders/tonemapping](#bevy_shaders-tonemapping)
+- [bevy_shaders/mesh2d](#bevy_shaders-mesh2d)
+- [bevy_shaders/irradiance_volume](#bevy_shaders-irradiance_volume)
+- [bevy_shaders/preprocess_depth](#bevy_shaders-preprocess_depth)
+- [bevy_shaders/dummy_visibility_buffer_resolve](#bevy_shaders-dummy_visibility_buffer_resolve)
+- [bevy_shaders/ui_vertex_output](#bevy_shaders-ui_vertex_output)
+- [bevy_shaders/motion_blur](#bevy_shaders-motion_blur)
+- [bevy_shaders/tonemapping_shared](#bevy_shaders-tonemapping_shared)
+- [bevy_shaders/shadows](#bevy_shaders-shadows)
+- [bevy_shaders/ssao_utils](#bevy_shaders-ssao_utils)
+- [bevy_shaders/environment_map](#bevy_shaders-environment_map)
+- [bevy_shaders/downsample_depth](#bevy_shaders-downsample_depth)
+- [bevy_shaders/ui_material](#bevy_shaders-ui_material)
+- [bevy_shaders/skybox](#bevy_shaders-skybox)
+- [bevy_shaders/custom_material_import](#bevy_shaders-custom_material_import)
+- [bevy_shaders/mesh2d_types](#bevy_shaders-mesh2d_types)
+- [bevy_shaders/custom_material](#bevy_shaders-custom_material)
+- [bevy_shaders/mesh2d_functions](#bevy_shaders-mesh2d_functions)
+- [bevy_shaders/robust_contrast_adaptive_sharpening](#bevy_shaders-robust_contrast_adaptive_sharpening)
+- [bevy_shaders/custom_vertex_attribute](#bevy_shaders-custom_vertex_attribute)
+- [bevy_shaders/meshlet_bindings](#bevy_shaders-meshlet_bindings)
+- [bevy_shaders/texture_binding_array](#bevy_shaders-texture_binding_array)
+- [bevy_shaders/shader_defs](#bevy_shaders-shader_defs)
+- [bevy_shaders/color_operations](#bevy_shaders-color_operations)
+- [bevy_shaders/mesh_functions](#bevy_shaders-mesh_functions)
+- [bevy_shaders/deferred_lighting](#bevy_shaders-deferred_lighting)
+- [bevy_shaders/pbr_fragment](#bevy_shaders-pbr_fragment)
+- [bevy_shaders/ui](#bevy_shaders-ui)
+- [bevy_shaders/mesh_view_types](#bevy_shaders-mesh_view_types)
+- [bevy_shaders/storage_buffer](#bevy_shaders-storage_buffer)
+- [assets/shaders/indexing_into_vec_with_loop](#assets-shaders-indexing_into_vec_with_loop)
+- [assets/shaders/aura](#assets-shaders-aura)
+- [assets/shaders/myshader_2d](#assets-shaders-myshader_2d)
+- [assets/shaders/howto-texture](#assets-shaders-howto-texture)
+- [assets/shaders/myshader](#assets-shaders-myshader)
+- [assets/shaders/WIP-total_noob](#assets-shaders-WIP-total_noob)
+- [assets/shaders/WIP-black-hole](#assets-shaders-WIP-black-hole)
+- [assets/shaders/electro_cube](#assets-shaders-electro_cube)
+- [assets/shaders/fast_dots](#assets-shaders-fast_dots)
+- [assets/shaders/WIP-waterPool](#assets-shaders-WIP-waterPool)
+- [assets/shaders/rain_generator](#assets-shaders-rain_generator)
+- [assets/shaders/howto-mouse](#assets-shaders-howto-mouse)
+- [assets/shaders/four_to_the_floor](#assets-shaders-four_to_the_floor)
+- [assets/shaders/grid_with_colours](#assets-shaders-grid_with_colours)
+- [assets/shaders/shadertoy-ports/polar-coords-experiments](#assets-shaders-shadertoy-ports-polar-coords-experiments)
+- [assets/shaders/shadertoy-ports/cyber-anim-arrowX](#assets-shaders-shadertoy-ports-cyber-anim-arrowX)
+- [assets/shaders/shadertoy-ports/light-spirals](#assets-shaders-shadertoy-ports-light-spirals)
+- [assets/shaders/shadertoy-ports/octagon_fun](#assets-shaders-shadertoy-ports-octagon_fun)
+- [assets/shaders/shadertoy-ports/flame](#assets-shaders-shadertoy-ports-flame)
+- [assets/shaders/shadertoy-ports/shadertoy](#assets-shaders-shadertoy-ports-shadertoy)
+- [assets/shaders/shadertoy-ports/cosmic](#assets-shaders-shadertoy-ports-cosmic)
+- [assets/shaders/shadertoy-ports/voronoi_simple](#assets-shaders-shadertoy-ports-voronoi_simple)
+- [assets/shaders/shadertoy-ports/sailing-beyond](#assets-shaders-shadertoy-ports-sailing-beyond)
+- [assets/shaders/shadertoy-ports/kishimisu](#assets-shaders-shadertoy-ports-kishimisu)
+- [assets/shaders/shadertoy-ports/w10](#assets-shaders-shadertoy-ports-w10)
+- [assets/shaders/shadertoy-ports/universe_within](#assets-shaders-shadertoy-ports-universe_within)
+- [assets/shaders/shadertoy-ports/warp](#assets-shaders-shadertoy-ports-warp)
+- [assets/shaders/shadertoy-ports/star](#assets-shaders-shadertoy-ports-star)
+- [assets/shaders/shadertoy-ports/water-caustic-tileable](#assets-shaders-shadertoy-ports-water-caustic-tileable)
+- [assets/shaders/shadertoy-ports/BROKEN_fbm_lightning](#assets-shaders-shadertoy-ports-BROKEN_fbm_lightning)
+- [assets/shaders/shadertoy-ports/discoteq2](#assets-shaders-shadertoy-ports-discoteq2)
+- [assets/shaders/shadertoy-ports/semi-circle-wave](#assets-shaders-shadertoy-ports-semi-circle-wave)
+- [assets/shaders/shadertoy-ports/BROKEN_tuesday_tinkering](#assets-shaders-shadertoy-ports-BROKEN_tuesday_tinkering)
+- [assets/shaders/common/notes](#assets-shaders-common-notes)
+- [assets/Gallery/perlin-waves/perlin-waves](#assets-Gallery-perlin-waves-perlin-waves)
+- [assets/Gallery/lines/dotted_line](#assets-Gallery-lines-dotted_line)
+- [assets/Gallery/fbmCloud/fmb_cloud](#assets-Gallery-fbmCloud-fmb_cloud)
+- [bevy/assets/shaders/irradiance_volume_voxel_visualization](#bevy-assets-shaders-irradiance_volume_voxel_visualization)
+- [bevy/assets/shaders/tonemapping_test_patterns](#bevy-assets-shaders-tonemapping_test_patterns)
+- [bevy/assets/shaders/post_processing](#bevy-assets-shaders-post_processing)
+- [bevy/assets/shaders/game_of_life](#bevy-assets-shaders-game_of_life)
+- [bevy/assets/shaders/custom_material_screenspace_texture](#bevy-assets-shaders-custom_material_screenspace_texture)
+- [bevy/assets/shaders/custom_gltf_2d](#bevy-assets-shaders-custom_gltf_2d)
+- [bevy/assets/shaders/fallback_image_test](#bevy-assets-shaders-fallback_image_test)
+- [bevy/assets/shaders/gpu_readback](#bevy-assets-shaders-gpu_readback)
+- [bevy/assets/shaders/custom_ui_material](#bevy-assets-shaders-custom_ui_material)
+- [bevy/assets/shaders/instancing](#bevy-assets-shaders-instancing)
+- [bevy/assets/shaders/array_texture](#bevy-assets-shaders-array_texture)
+- [bevy/assets/shaders/line_material](#bevy-assets-shaders-line_material)
+- [bevy/assets/shaders/cubemap_unlit](#bevy-assets-shaders-cubemap_unlit)
+- [bevy/assets/shaders/custom_material_2d](#bevy-assets-shaders-custom_material_2d)
+- [bevy/assets/shaders/animate_shader](#bevy-assets-shaders-animate_shader)
+- [bevy/assets/shaders/extended_material](#bevy-assets-shaders-extended_material)
+- [bevy/assets/shaders/show_prepass](#bevy-assets-shaders-show_prepass)
+- [bevy/assets/shaders/specialized_mesh_pipeline](#bevy-assets-shaders-specialized_mesh_pipeline)
+- [bevy/assets/shaders/water_material](#bevy-assets-shaders-water_material)
+- [bevy/assets/shaders/custom_phase_item](#bevy-assets-shaders-custom_phase_item)
+- [bevy/assets/shaders/custom_material_import](#bevy-assets-shaders-custom_material_import)
+- [bevy/assets/shaders/custom_material](#bevy-assets-shaders-custom_material)
+- [bevy/assets/shaders/custom_vertex_attribute](#bevy-assets-shaders-custom_vertex_attribute)
+- [bevy/assets/shaders/texture_binding_array](#bevy-assets-shaders-texture_binding_array)
+- [bevy/assets/shaders/shader_defs](#bevy-assets-shaders-shader_defs)
+- [bevy/assets/shaders/storage_buffer](#bevy-assets-shaders-storage_buffer)
+- [bevy/crates/bevy_gizmos/src/lines](#bevy-crates-bevy_gizmos-src-lines)
+- [bevy/crates/bevy_gizmos/src/line_joints](#bevy-crates-bevy_gizmos-src-line_joints)
+- [bevy/crates/bevy_core_pipeline/src/motion_blur/motion_blur](#bevy-crates-bevy_core_pipeline-src-motion_blur-motion_blur)
+- [bevy/crates/bevy_core_pipeline/src/bloom/bloom](#bevy-crates-bevy_core_pipeline-src-bloom-bloom)
+- [bevy/crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening](#bevy-crates-bevy_core_pipeline-src-contrast_adaptive_sharpening-robust_contrast_adaptive_sharpening)
+- [bevy/crates/bevy_core_pipeline/src/post_process/chromatic_aberration](#bevy-crates-bevy_core_pipeline-src-post_process-chromatic_aberration)
+- [bevy/crates/bevy_core_pipeline/src/post_process/post_process](#bevy-crates-bevy_core_pipeline-src-post_process-post_process)
+- [bevy/crates/bevy_core_pipeline/src/tonemapping/lut_bindings](#bevy-crates-bevy_core_pipeline-src-tonemapping-lut_bindings)
+- [bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping](#bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping)
+- [bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping_shared](#bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping_shared)
+- [bevy/crates/bevy_core_pipeline/src/blit/blit](#bevy-crates-bevy_core_pipeline-src-blit-blit)
+- [bevy/crates/bevy_core_pipeline/src/smaa/smaa](#bevy-crates-bevy_core_pipeline-src-smaa-smaa)
+- [bevy/crates/bevy_core_pipeline/src/dof/dof](#bevy-crates-bevy_core_pipeline-src-dof-dof)
+- [bevy/crates/bevy_core_pipeline/src/auto_exposure/auto_exposure](#bevy-crates-bevy_core_pipeline-src-auto_exposure-auto_exposure)
+- [bevy/crates/bevy_core_pipeline/src/fxaa/fxaa](#bevy-crates-bevy_core_pipeline-src-fxaa-fxaa)
+- [bevy/crates/bevy_core_pipeline/src/oit/oit_draw](#bevy-crates-bevy_core_pipeline-src-oit-oit_draw)
+- [bevy/crates/bevy_core_pipeline/src/skybox/skybox_prepass](#bevy-crates-bevy_core_pipeline-src-skybox-skybox_prepass)
+- [bevy/crates/bevy_core_pipeline/src/skybox/skybox](#bevy-crates-bevy_core_pipeline-src-skybox-skybox)
+- [bevy/crates/bevy_core_pipeline/src/taa/taa](#bevy-crates-bevy_core_pipeline-src-taa-taa)
+- [bevy/crates/bevy_core_pipeline/src/fullscreen_vertex_shader/fullscreen](#bevy-crates-bevy_core_pipeline-src-fullscreen_vertex_shader-fullscreen)
+- [bevy/crates/bevy_core_pipeline/src/deferred/copy_deferred_lighting_id](#bevy-crates-bevy_core_pipeline-src-deferred-copy_deferred_lighting_id)
+- [bevy/crates/bevy_core_pipeline/src/oit/resolve/oit_resolve](#bevy-crates-bevy_core_pipeline-src-oit-resolve-oit_resolve)
+- [bevy/crates/bevy_render/src/globals](#bevy-crates-bevy_render-src-globals)
+- [bevy/crates/bevy_render/src/maths](#bevy-crates-bevy_render-src-maths)
+- [bevy/crates/bevy_render/src/color_operations](#bevy-crates-bevy_render-src-color_operations)
+- [bevy/crates/bevy_render/src/view/view](#bevy-crates-bevy_render-src-view-view)
+- [bevy/crates/bevy_render/src/view/window/screenshot](#bevy-crates-bevy_render-src-view-window-screenshot)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_bindings](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_bindings)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_bindings](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_bindings)
+- [bevy/crates/bevy_sprite/src/mesh2d/wireframe2d](#bevy-crates-bevy_sprite-src-mesh2d-wireframe2d)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_vertex_output](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_vertex_output)
+- [bevy/crates/bevy_sprite/src/mesh2d/color_material](#bevy-crates-bevy_sprite-src-mesh2d-color_material)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_types](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_types)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_types](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_types)
+- [bevy/crates/bevy_sprite/src/mesh2d/mesh2d_functions](#bevy-crates-bevy_sprite-src-mesh2d-mesh2d_functions)
+- [bevy/crates/bevy_sprite/src/render/sprite](#bevy-crates-bevy_sprite-src-render-sprite)
+- [bevy/crates/bevy_sprite/src/render/sprite_view_bindings](#bevy-crates-bevy_sprite-src-render-sprite_view_bindings)
+- [bevy/crates/bevy_pbr/src/volumetric_fog/volumetric_fog](#bevy-crates-bevy_pbr-src-volumetric_fog-volumetric_fog)
+- [bevy/crates/bevy_pbr/src/prepass/prepass_utils](#bevy-crates-bevy_pbr-src-prepass-prepass_utils)
+- [bevy/crates/bevy_pbr/src/prepass/prepass_bindings](#bevy-crates-bevy_pbr-src-prepass-prepass_bindings)
+- [bevy/crates/bevy_pbr/src/prepass/prepass_io](#bevy-crates-bevy_pbr-src-prepass-prepass_io)
+- [bevy/crates/bevy_pbr/src/prepass/prepass](#bevy-crates-bevy_pbr-src-prepass-prepass)
+- [bevy/crates/bevy_pbr/src/render/parallax_mapping](#bevy-crates-bevy_pbr-src-render-parallax_mapping)
+- [bevy/crates/bevy_pbr/src/render/shadow_sampling](#bevy-crates-bevy_pbr-src-render-shadow_sampling)
+- [bevy/crates/bevy_pbr/src/render/view_transformations](#bevy-crates-bevy_pbr-src-render-view_transformations)
+- [bevy/crates/bevy_pbr/src/render/mesh_bindings](#bevy-crates-bevy_pbr-src-render-mesh_bindings)
+- [bevy/crates/bevy_pbr/src/render/pbr_types](#bevy-crates-bevy_pbr-src-render-pbr_types)
+- [bevy/crates/bevy_pbr/src/render/pbr_ambient](#bevy-crates-bevy_pbr-src-render-pbr_ambient)
+- [bevy/crates/bevy_pbr/src/render/wireframe](#bevy-crates-bevy_pbr-src-render-wireframe)
+- [bevy/crates/bevy_pbr/src/render/pbr_bindings](#bevy-crates-bevy_pbr-src-render-pbr_bindings)
+- [bevy/crates/bevy_pbr/src/render/mesh_preprocess](#bevy-crates-bevy_pbr-src-render-mesh_preprocess)
+- [bevy/crates/bevy_pbr/src/render/mesh](#bevy-crates-bevy_pbr-src-render-mesh)
+- [bevy/crates/bevy_pbr/src/render/forward_io](#bevy-crates-bevy_pbr-src-render-forward_io)
+- [bevy/crates/bevy_pbr/src/render/pbr_prepass_functions](#bevy-crates-bevy_pbr-src-render-pbr_prepass_functions)
+- [bevy/crates/bevy_pbr/src/render/utils](#bevy-crates-bevy_pbr-src-render-utils)
+- [bevy/crates/bevy_pbr/src/render/clustered_forward](#bevy-crates-bevy_pbr-src-render-clustered_forward)
+- [bevy/crates/bevy_pbr/src/render/pbr_transmission](#bevy-crates-bevy_pbr-src-render-pbr_transmission)
+- [bevy/crates/bevy_pbr/src/render/morph](#bevy-crates-bevy_pbr-src-render-morph)
+- [bevy/crates/bevy_pbr/src/render/mesh_types](#bevy-crates-bevy_pbr-src-render-mesh_types)
+- [bevy/crates/bevy_pbr/src/render/mesh_view_bindings](#bevy-crates-bevy_pbr-src-render-mesh_view_bindings)
+- [bevy/crates/bevy_pbr/src/render/pbr_functions](#bevy-crates-bevy_pbr-src-render-pbr_functions)
+- [bevy/crates/bevy_pbr/src/render/pbr_lighting](#bevy-crates-bevy_pbr-src-render-pbr_lighting)
+- [bevy/crates/bevy_pbr/src/render/rgb9e5](#bevy-crates-bevy_pbr-src-render-rgb9e5)
+- [bevy/crates/bevy_pbr/src/render/pbr_prepass](#bevy-crates-bevy_pbr-src-render-pbr_prepass)
+- [bevy/crates/bevy_pbr/src/render/skinning](#bevy-crates-bevy_pbr-src-render-skinning)
+- [bevy/crates/bevy_pbr/src/render/fog](#bevy-crates-bevy_pbr-src-render-fog)
+- [bevy/crates/bevy_pbr/src/render/pbr](#bevy-crates-bevy_pbr-src-render-pbr)
+- [bevy/crates/bevy_pbr/src/render/shadows](#bevy-crates-bevy_pbr-src-render-shadows)
+- [bevy/crates/bevy_pbr/src/render/mesh_functions](#bevy-crates-bevy_pbr-src-render-mesh_functions)
+- [bevy/crates/bevy_pbr/src/render/pbr_fragment](#bevy-crates-bevy_pbr-src-render-pbr_fragment)
+- [bevy/crates/bevy_pbr/src/render/mesh_view_types](#bevy-crates-bevy_pbr-src-render-mesh_view_types)
+- [bevy/crates/bevy_pbr/src/meshlet/remap_1d_to_2d_dispatch](#bevy-crates-bevy_pbr-src-meshlet-remap_1d_to_2d_dispatch)
+- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_resolve](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_resolve)
+- [bevy/crates/bevy_pbr/src/meshlet/cull_clusters](#bevy-crates-bevy_pbr-src-meshlet-cull_clusters)
+- [bevy/crates/bevy_pbr/src/meshlet/resolve_render_targets](#bevy-crates-bevy_pbr-src-meshlet-resolve_render_targets)
+- [bevy/crates/bevy_pbr/src/meshlet/meshlet_mesh_material](#bevy-crates-bevy_pbr-src-meshlet-meshlet_mesh_material)
+- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_hardware_raster](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_hardware_raster)
+- [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_software_raster](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_software_raster)
+- [bevy/crates/bevy_pbr/src/meshlet/fill_cluster_buffers](#bevy-crates-bevy_pbr-src-meshlet-fill_cluster_buffers)
+- [bevy/crates/bevy_pbr/src/meshlet/dummy_visibility_buffer_resolve](#bevy-crates-bevy_pbr-src-meshlet-dummy_visibility_buffer_resolve)
+- [bevy/crates/bevy_pbr/src/meshlet/downsample_depth](#bevy-crates-bevy_pbr-src-meshlet-downsample_depth)
+- [bevy/crates/bevy_pbr/src/meshlet/meshlet_bindings](#bevy-crates-bevy_pbr-src-meshlet-meshlet_bindings)
+- [bevy/crates/bevy_pbr/src/lightmap/lightmap](#bevy-crates-bevy_pbr-src-lightmap-lightmap)
+- [bevy/crates/bevy_pbr/src/light_probe/light_probe](#bevy-crates-bevy_pbr-src-light_probe-light_probe)
+- [bevy/crates/bevy_pbr/src/light_probe/irradiance_volume](#bevy-crates-bevy_pbr-src-light_probe-irradiance_volume)
+- [bevy/crates/bevy_pbr/src/light_probe/environment_map](#bevy-crates-bevy_pbr-src-light_probe-environment_map)
+- [bevy/crates/bevy_pbr/src/ssao/ssao](#bevy-crates-bevy_pbr-src-ssao-ssao)
+- [bevy/crates/bevy_pbr/src/ssao/spatial_denoise](#bevy-crates-bevy_pbr-src-ssao-spatial_denoise)
+- [bevy/crates/bevy_pbr/src/ssao/preprocess_depth](#bevy-crates-bevy_pbr-src-ssao-preprocess_depth)
+- [bevy/crates/bevy_pbr/src/ssao/ssao_utils](#bevy-crates-bevy_pbr-src-ssao-ssao_utils)
+- [bevy/crates/bevy_pbr/src/deferred/pbr_deferred_functions](#bevy-crates-bevy_pbr-src-deferred-pbr_deferred_functions)
+- [bevy/crates/bevy_pbr/src/deferred/pbr_deferred_types](#bevy-crates-bevy_pbr-src-deferred-pbr_deferred_types)
+- [bevy/crates/bevy_pbr/src/deferred/deferred_lighting](#bevy-crates-bevy_pbr-src-deferred-deferred_lighting)
+- [bevy/crates/bevy_pbr/src/ssr/raymarch](#bevy-crates-bevy_pbr-src-ssr-raymarch)
+- [bevy/crates/bevy_pbr/src/ssr/ssr](#bevy-crates-bevy_pbr-src-ssr-ssr)
+- [bevy/crates/bevy_ui/src/render/box_shadow](#bevy-crates-bevy_ui-src-render-box_shadow)
+- [bevy/crates/bevy_ui/src/render/ui_texture_slice](#bevy-crates-bevy_ui-src-render-ui_texture_slice)
+- [bevy/crates/bevy_ui/src/render/ui_vertex_output](#bevy-crates-bevy_ui-src-render-ui_vertex_output)
+- [bevy/crates/bevy_ui/src/render/ui_material](#bevy-crates-bevy_ui-src-render-ui_material)
+- [bevy/crates/bevy_ui/src/render/ui](#bevy-crates-bevy_ui-src-render-ui)
+- [src/shader_utils/common](#src-shader_utils-common)
+- [screenshots/22-10-23/19-39-14/screenshot](#screenshots-22-10-23-19-39-14-screenshot)
+- [screenshots/24-10-23/21-14-59/screenshot](#screenshots-24-10-23-21-14-59-screenshot)
+- [screenshots/08-11-23/22-29-32/screenshot](#screenshots-08-11-23-22-29-32-screenshot)
+- [screenshots/08-11-23/22-29-35/screenshot](#screenshots-08-11-23-22-29-35-screenshot)
+- [screenshots/08-11-23/22-29-33/screenshot](#screenshots-08-11-23-22-29-33-screenshot)
+- [screenshots/16-11-23/21-25-04/screenshot](#screenshots-16-11-23-21-25-04-screenshot)
+- [screenshots/16-11-23/21-23-45/screenshot](#screenshots-16-11-23-21-23-45-screenshot)
+- [screenshots/17-11-23/06-01-11/screenshot](#screenshots-17-11-23-06-01-11-screenshot)
+- [screenshots/17-11-23/16-49-11/screenshot](#screenshots-17-11-23-16-49-11-screenshot)
+- [screenshots/09-10-23/07-22-16/screeenshot](#screenshots-09-10-23-07-22-16-screeenshot)
+- [screenshots/07-10-23/aspect_ratio_correction_showed_with_circle/screeenshot](#screenshots-07-10-23-aspect_ratio_correction_showed_with_circle-screeenshot)
+- [screenshots/07-10-23/12-03-36/screeenshot](#screenshots-07-10-23-12-03-36-screeenshot)
+- [screenshots/07-10-23/11-16-48/screeenshot](#screenshots-07-10-23-11-16-48-screeenshot)
+- [screenshots/07-10-23/21-43-49/screeenshot](#screenshots-07-10-23-21-43-49-screeenshot)
+- [screenshots/09-06-24/20-43-57/screenshot](#screenshots-09-06-24-20-43-57-screenshot)
+- [screenshots/30-08-24/18-48-31/screenshot](#screenshots-30-08-24-18-48-31-screenshot)
+- [screenshots/27-11-23/20-44-03/screenshot](#screenshots-27-11-23-20-44-03-screenshot)
+- [screenshots/24-01-24/06-36-04/screenshot](#screenshots-24-01-24-06-36-04-screenshot)
+- [screenshots/24-01-24/06-51-53/screenshot](#screenshots-24-01-24-06-51-53-screenshot)
+- [screenshots/24-01-24/06-36-05/screenshot](#screenshots-24-01-24-06-36-05-screenshot)
+- [screenshots/24-01-24/06-37-20/screenshot](#screenshots-24-01-24-06-37-20-screenshot)
+- [screenshots/24-01-24/06-36-03/screenshot](#screenshots-24-01-24-06-36-03-screenshot)
+- [screenshots/24-01-24/06-25-45/screenshot](#screenshots-24-01-24-06-25-45-screenshot)
+- [screenshots/14-10-23/12-28-55/screenshot](#screenshots-14-10-23-12-28-55-screenshot)
+- [screenshots/14-10-23/12-28-54/screenshot](#screenshots-14-10-23-12-28-54-screenshot)
+- [screenshots/21-01-24/18-50-41/screenshot](#screenshots-21-01-24-18-50-41-screenshot)
+- [screenshots/02-11-23/07-48-05/screenshot](#screenshots-02-11-23-07-48-05-screenshot)
+- [screenshots/11-10-23/19-08-42/screeenshot](#screenshots-11-10-23-19-08-42-screeenshot)
+- [screenshots/11-10-23/19-40-28/screeenshot](#screenshots-11-10-23-19-40-28-screeenshot)
+- [screenshots/27-01-24/21-40-42/screenshot](#screenshots-27-01-24-21-40-42-screenshot)
 
 ### all_wgsl
 
@@ -3334,7 +3325,7 @@ fn get_instance_index(instance_index: u32) -> u32 {
 
 ```
 
-### bevy_shaders/remap_1d_to_2d_dispatch
+### bevy_shaders-remap_1d_to_2d_dispatch
 
 ```rust
 /// Remaps an indirect 1d to 2d dispatch for devices with low dispatch size limit.
@@ -3360,7 +3351,7 @@ fn remap_dispatch() {
 
 ```
 
-### bevy_shaders/irradiance_volume_voxel_visualization
+### bevy_shaders-irradiance_volume_voxel_visualization
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -3401,7 +3392,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/blit
+### bevy_shaders-blit
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -3416,7 +3407,7 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/tonemapping_test_patterns
+### bevy_shaders-tonemapping_test_patterns
 
 ```rust
 #import bevy_pbr::{
@@ -3485,7 +3476,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/visibility_buffer_resolve
+### bevy_shaders-visibility_buffer_resolve
 
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
@@ -3730,7 +3721,7 @@ fn calculate_world_tangent(
 
 ```
 
-### bevy_shaders/parallax_mapping
+### bevy_shaders-parallax_mapping
 
 ```rust
 #define_import_path bevy_pbr::parallax_mapping
@@ -3854,7 +3845,7 @@ fn parallaxed_uv(
 
 ```
 
-### bevy_shaders/taa
+### bevy_shaders-taa
 
 ```rust
 // References:
@@ -4061,33 +4052,7 @@ fn taa(@location(0) uv: vec2<f32>) -> Output {
 
 ```
 
-### bevy_shaders/circle_shader
-
-```rust
-// This shader draws a circle with a given input color
-#import bevy_ui::ui_vertex_output::UiVertexOutput
-
-struct CustomUiMaterial {
-    @location(0) color: vec4<f32>
-}
-
-@group(1) @binding(0)
-var<uniform> input: CustomUiMaterial;
-
-@fragment
-fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
-    // the UVs are now adjusted around the middle of the rect.
-    let uv = in.uv * 2.0 - 1.0;
-
-    // circle alpha, the higher the power the harsher the falloff.
-    let alpha = 1.0 - pow(sqrt(dot(uv, uv)), 100.0);
-
-    return vec4<f32>(input.color.rgb, alpha);
-}
-
-```
-
-### bevy_shaders/bloom
+### bevy_shaders-bloom
 
 ```rust
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
@@ -4241,7 +4206,7 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/shadow_sampling
+### bevy_shaders-shadow_sampling
 
 ```rust
 #define_import_path bevy_pbr::shadow_sampling
@@ -4846,7 +4811,7 @@ fn sample_shadow_cubemap_pcss(
 
 ```
 
-### bevy_shaders/globals
+### bevy_shaders-globals
 
 ```rust
 #define_import_path bevy_render::globals
@@ -4868,7 +4833,7 @@ struct Globals {
 
 ```
 
-### bevy_shaders/view_transformations
+### bevy_shaders-view_transformations
 
 ```rust
 #define_import_path bevy_pbr::view_transformations
@@ -5078,7 +5043,7 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
 
 ```
 
-### bevy_shaders/post_processing
+### bevy_shaders-post_processing
 
 ```rust
 // This shader computes the chromatic aberration effect
@@ -5131,7 +5096,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/prepass_utils
+### bevy_shaders-prepass_utils
 
 ```rust
 #define_import_path bevy_pbr::prepass_utils
@@ -5172,7 +5137,7 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 
 ```
 
-### bevy_shaders/mesh_bindings
+### bevy_shaders-mesh_bindings
 
 ```rust
 #define_import_path bevy_pbr::mesh_bindings
@@ -5187,7 +5152,7 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 
 ```
 
-### bevy_shaders/game_of_life
+### bevy_shaders-game_of_life
 
 ```rust
 // The shader reads the previous frame's state from the `input` texture, and writes the new state of
@@ -5264,7 +5229,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/mesh2d_view_bindings
+### bevy_shaders-mesh2d_view_bindings
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_bindings
@@ -5281,7 +5246,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/auto_exposure
+### bevy_shaders-auto_exposure
 
 ```rust
 // Auto exposure
@@ -5480,7 +5445,7 @@ fn compute_average(@builtin(local_invocation_index) local_index: u32) {
 
 ```
 
-### bevy_shaders/fullscreen
+### bevy_shaders-fullscreen
 
 ```rust
 #define_import_path bevy_core_pipeline::fullscreen_vertex_shader
@@ -5520,7 +5485,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 
 ```
 
-### bevy_shaders/mesh2d_bindings
+### bevy_shaders-mesh2d_bindings
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_bindings
@@ -5535,7 +5500,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 
 ```
 
-### bevy_shaders/custom_material_screenspace_texture
+### bevy_shaders-custom_material_screenspace_texture
 
 ```rust
 #import bevy_pbr::{
@@ -5558,7 +5523,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/pbr_types
+### bevy_shaders-pbr_types
 
 ```rust
 #define_import_path bevy_pbr::pbr_types
@@ -5715,7 +5680,7 @@ fn pbr_input_new() -> PbrInput {
 
 ```
 
-### bevy_shaders/lightmap
+### bevy_shaders-lightmap
 
 ```rust
 #define_import_path bevy_pbr::lightmap
@@ -5750,30 +5715,7 @@ fn lightmap(uv: vec2<f32>, exposure: f32, instance_index: u32) -> vec3<f32> {
 
 ```
 
-### bevy_shaders/instance_index
-
-```rust
-#define_import_path bevy_render::instance_index
-
-#ifdef BASE_INSTANCE_WORKAROUND
-// naga and wgpu should polyfill WGSL instance_index functionality where it is
-// not available in GLSL. Until that is done, we can work around it in bevy
-// using a push constant which is converted to a uniform by naga and wgpu.
-// https://github.com/gfx-rs/wgpu/issues/1573
-var<push_constant> base_instance: i32;
-
-fn get_instance_index(instance_index: u32) -> u32 {
-    return u32(base_instance) + instance_index;
-}
-#else
-fn get_instance_index(instance_index: u32) -> u32 {
-    return instance_index;
-}
-#endif
-
-```
-
-### bevy_shaders/pbr_deferred_functions
+### bevy_shaders-pbr_deferred_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_functions
@@ -5913,7 +5855,7 @@ fn deferred_output(in: VertexOutput, pbr_input: PbrInput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/custom_gltf_2d
+### bevy_shaders-custom_gltf_2d
 
 ```rust
 #import bevy_sprite::{
@@ -5958,23 +5900,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/copy_material_depth
-
-```rust
-#import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
-
-@group(0) @binding(0) var material_depth: texture_2d<u32>;
-
-/// This pass copies the R16Uint material depth texture to an actual Depth16Unorm depth texture.
-
-@fragment
-fn copy_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f32 {
-    return f32(textureLoad(material_depth, vec2<i32>(in.position.xy), 0).r) / 65535.0;
-}
-
-```
-
-### bevy_shaders/wireframe2d
+### bevy_shaders-wireframe2d
 
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -5991,7 +5917,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/chromatic_aberration
+### bevy_shaders-chromatic_aberration
 
 ```rust
 // The chromatic aberration postprocessing effect.
@@ -6089,7 +6015,7 @@ fn chromatic_aberration(start_pos: vec2<f32>) -> vec3<f32> {
 
 ```
 
-### bevy_shaders/lines
+### bevy_shaders-lines
 
 ```rust
 // TODO use common view binding
@@ -6262,7 +6188,7 @@ fn fragment_dotted(in: FragmentInput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/prepass_bindings
+### bevy_shaders-prepass_bindings
 
 ```rust
 #define_import_path bevy_pbr::prepass_bindings
@@ -6280,7 +6206,7 @@ struct PreviousViewUniforms {
 
 ```
 
-### bevy_shaders/pbr_ambient
+### bevy_shaders-pbr_ambient
 
 ```rust
 #define_import_path bevy_pbr::ambient
@@ -6315,7 +6241,7 @@ fn ambient_light(
 
 ```
 
-### bevy_shaders/post_process
+### bevy_shaders-post_process
 
 ```rust
 // Miscellaneous postprocessing effects, currently just chromatic aberration.
@@ -6330,34 +6256,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/mesh_vertex_output
-
-```rust
-#define_import_path bevy_pbr::mesh_vertex_output
-
-struct MeshVertexOutput {
-    // this is `clip position` when the struct is used as a vertex stage output
-    // and `frag coord` when used as a fragment stage input
-    @builtin(position) position: vec4<f32>,
-    @location(0) world_position: vec4<f32>,
-    @location(1) world_normal: vec3<f32>,
-    #ifdef VERTEX_UVS
-    @location(2) uv: vec2<f32>,
-    #endif
-    #ifdef VERTEX_TANGENTS
-    @location(3) world_tangent: vec4<f32>,
-    #endif
-    #ifdef VERTEX_COLORS
-    @location(4) color: vec4<f32>,
-    #endif
-    #ifdef VERTEX_OUTPUT_INSTANCE_INDEX
-    @location(5) @interpolate(flat) instance_index: u32,
-    #endif
-}
-
-```
-
-### bevy_shaders/mesh2d_vertex_output
+### bevy_shaders-mesh2d_vertex_output
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_vertex_output
@@ -6379,7 +6278,7 @@ struct VertexOutput {
 
 ```
 
-### bevy_shaders/prepass_io
+### bevy_shaders-prepass_io
 
 ```rust
 #define_import_path bevy_pbr::prepass_io
@@ -6479,7 +6378,7 @@ struct FragmentOutput {
 
 ```
 
-### bevy_shaders/raymarch
+### bevy_shaders-raymarch
 
 ```rust
 // Copyright (c) 2023 Tomasz Stachowiak
@@ -6996,7 +6895,7 @@ fn depth_ray_march_march(raymarch: ptr<function, DepthRayMarch>) -> DepthRayMarc
 
 ```
 
-### bevy_shaders/ssao
+### bevy_shaders-ssao
 
 ```rust
 // Visibility Bitmask Ambient Occlusion (VBAO)
@@ -7202,7 +7101,7 @@ fn ssao(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/sprite
+### bevy_shaders-sprite
 
 ```rust
 #ifdef TONEMAP_IN_SHADER
@@ -7271,7 +7170,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/wireframe
+### bevy_shaders-wireframe
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -7289,7 +7188,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/fallback_image_test
+### bevy_shaders-fallback_image_test
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -7317,7 +7216,7 @@ fn fragment(in: VertexOutput) {}
 
 ```
 
-### bevy_shaders/cull_clusters
+### bevy_shaders-cull_clusters
 
 ```rust
 #import bevy_pbr::meshlet_bindings::{
@@ -7513,7 +7412,7 @@ fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4
 
 ```
 
-### bevy_shaders/gpu_readback
+### bevy_shaders-gpu_readback
 
 ```rust
 // This shader is used for the gpu_readback example
@@ -7534,7 +7433,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/pbr_bindings
+### bevy_shaders-pbr_bindings
 
 ```rust
 #define_import_path bevy_pbr::pbr_bindings
@@ -7577,7 +7476,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/mesh_preprocess
+### bevy_shaders-mesh_preprocess
 
 ```rust
 // GPU mesh uniform building.
@@ -7777,7 +7676,7 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/mesh
+### bevy_shaders-mesh
 
 ```rust
 #import bevy_pbr::{
@@ -7897,7 +7796,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/forward_io
+### bevy_shaders-forward_io
 
 ```rust
 #define_import_path bevy_pbr::forward_io
@@ -7963,7 +7862,7 @@ struct FragmentOutput {
 
 ```
 
-### bevy_shaders/sprite_view_bindings
+### bevy_shaders-sprite_view_bindings
 
 ```rust
 #define_import_path bevy_sprite::sprite_view_bindings
@@ -7978,7 +7877,7 @@ struct FragmentOutput {
 
 ```
 
-### bevy_shaders/custom_ui_material
+### bevy_shaders-custom_ui_material
 
 ```rust
 // This shader draws a circle with a given input color
@@ -8013,7 +7912,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/pbr_prepass_functions
+### bevy_shaders-pbr_prepass_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_prepass_functions
@@ -8087,7 +7986,7 @@ fn calculate_motion_vector(world_position: vec4<f32>, previous_world_position: v
 
 ```
 
-### bevy_shaders/instancing
+### bevy_shaders-instancing
 
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
@@ -8129,7 +8028,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/array_texture
+### bevy_shaders-array_texture
 
 ```rust
 #import bevy_pbr::{
@@ -8193,7 +8092,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/utils
+### bevy_shaders-utils
 
 ```rust
 #define_import_path bevy_pbr::utils
@@ -8287,7 +8186,7 @@ const SPIRAL_OFFSET_7_ = vec2<f32>( 0.1250,  0.0000);
 
 ```
 
-### bevy_shaders/line_material
+### bevy_shaders-line_material
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -8307,7 +8206,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/prepass
+### bevy_shaders-prepass
 
 ```rust
 #import bevy_pbr::{
@@ -8518,7 +8417,7 @@ fn fragment(in: VertexOutput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/resolve_render_targets
+### bevy_shaders-resolve_render_targets
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -8563,7 +8462,7 @@ fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f3
 
 ```
 
-### bevy_shaders/clustered_forward
+### bevy_shaders-clustered_forward
 
 ```rust
 #define_import_path bevy_pbr::clustered_forward
@@ -8697,7 +8596,7 @@ fn cluster_debug_visualization(
 
 ```
 
-### bevy_shaders/pbr_transmission
+### bevy_shaders-pbr_transmission
 
 ```rust
 #define_import_path bevy_pbr::transmission
@@ -8895,7 +8794,7 @@ fn fetch_transmissive_background(offset_position: vec2<f32>, frag_coord: vec3<f3
 
 ```
 
-### bevy_shaders/morph
+### bevy_shaders-morph
 
 ```rust
 #define_import_path bevy_pbr::morph
@@ -8953,7 +8852,7 @@ fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f3
 
 ```
 
-### bevy_shaders/mesh_types
+### bevy_shaders-mesh_types
 
 ```rust
 #define_import_path bevy_pbr::mesh_types
@@ -9003,7 +8902,7 @@ const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
 
 ```
 
-### bevy_shaders/fxaa
+### bevy_shaders-fxaa
 
 ```rust
 // NVIDIA FXAA 3.11
@@ -9283,7 +9182,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/cubemap_unlit
+### bevy_shaders-cubemap_unlit
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -9310,7 +9209,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/mesh_view_bindings
+### bevy_shaders-mesh_view_bindings
 
 ```rust
 #define_import_path bevy_pbr::mesh_view_bindings
@@ -9425,7 +9324,7 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 
 ```
 
-### bevy_shaders/meshlet_mesh_material
+### bevy_shaders-meshlet_mesh_material
 
 ```rust
 #import bevy_pbr::{
@@ -9483,7 +9382,7 @@ fn prepass_fragment(@builtin(position) frag_coord: vec4<f32>) -> prepass_io::Fra
 
 ```
 
-### bevy_shaders/custom_material_2d
+### bevy_shaders-custom_material_2d
 
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -9501,131 +9400,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/cull_meshlets
-
-```rust
-#import bevy_pbr::meshlet_bindings::{
-    meshlet_thread_meshlet_ids,
-    meshlet_bounding_spheres,
-    meshlet_thread_instance_ids,
-    meshlet_instance_uniforms,
-    meshlet_occlusion,
-    view,
-    should_cull_instance,
-    get_meshlet_previous_occlusion,
-}
-#ifdef MESHLET_SECOND_CULLING_PASS
-#import bevy_pbr::meshlet_bindings::depth_pyramid
-#endif
-#import bevy_render::maths::affine3_to_square
-
-/// Culls individual clusters (1 per thread) in two passes (two pass occlusion culling), and outputs a bitmask of which clusters survived.
-/// 1. The first pass is only frustum culling, on only the clusters that were visible last frame.
-/// 2. The second pass performs both frustum and occlusion culling (using the depth buffer generated from the first pass), on all clusters.
-
-@compute
-@workgroup_size(128, 1, 1) // 128 threads per workgroup, 1 instanced meshlet per thread
-fn cull_meshlets(@builtin(global_invocation_id) cluster_id: vec3<u32>) {
-    // Fetch the instanced meshlet data
-    if cluster_id.x >= arrayLength(&meshlet_thread_meshlet_ids) { return; }
-    let instance_id = meshlet_thread_instance_ids[cluster_id.x];
-    if should_cull_instance(instance_id) {
-        return;
-    }
-    let meshlet_id = meshlet_thread_meshlet_ids[cluster_id.x];
-    let bounding_sphere = meshlet_bounding_spheres[meshlet_id];
-    let instance_uniform = meshlet_instance_uniforms[instance_id];
-    let model = affine3_to_square(instance_uniform.model);
-    let model_scale = max(length(model[0]), max(length(model[1]), length(model[2])));
-    let bounding_sphere_center = model * vec4(bounding_sphere.center, 1.0);
-    let bounding_sphere_radius = model_scale * bounding_sphere.radius;
-
-    // In the first pass, operate only on the clusters visible last frame. In the second pass, operate on all clusters.
-#ifdef MESHLET_SECOND_CULLING_PASS
-    var meshlet_visible = true;
-#else
-    var meshlet_visible = get_meshlet_previous_occlusion(cluster_id.x);
-    if !meshlet_visible { return; }
-#endif
-
-    // Frustum culling
-    // TODO: Faster method from https://vkguide.dev/docs/gpudriven/compute_culling/#frustum-culling-function
-    for (var i = 0u; i < 6u; i++) {
-        if !meshlet_visible { break; }
-        meshlet_visible &= dot(view.frustum[i], bounding_sphere_center) > -bounding_sphere_radius;
-    }
-
-#ifdef MESHLET_SECOND_CULLING_PASS
-    // In the second culling pass, cull against the depth pyramid generated from the first pass
-    if meshlet_visible {
-        let bounding_sphere_center_view_space = (view.inverse_view * vec4(bounding_sphere_center.xyz, 1.0)).xyz;
-        let aabb = project_view_space_sphere_to_screen_space_aabb(bounding_sphere_center_view_space, bounding_sphere_radius);
-
-        // Halve the AABB size because the first depth mip resampling pass cut the full screen resolution into a power of two conservatively
-        let depth_pyramid_size_mip_0 = vec2<f32>(textureDimensions(depth_pyramid, 0)) * 0.5;
-        let width = (aabb.z - aabb.x) * depth_pyramid_size_mip_0.x;
-        let height = (aabb.w - aabb.y) * depth_pyramid_size_mip_0.y;
-        let depth_level = max(0, i32(ceil(log2(max(width, height))))); // TODO: Naga doesn't like this being a u32
-        let depth_pyramid_size = vec2<f32>(textureDimensions(depth_pyramid, depth_level));
-        let aabb_top_left = vec2<u32>(aabb.xy * depth_pyramid_size);
-
-        let depth_quad_a = textureLoad(depth_pyramid, aabb_top_left, depth_level).x;
-        let depth_quad_b = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 0u), depth_level).x;
-        let depth_quad_c = textureLoad(depth_pyramid, aabb_top_left + vec2(0u, 1u), depth_level).x;
-        let depth_quad_d = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 1u), depth_level).x;
-
-        let occluder_depth = min(min(depth_quad_a, depth_quad_b), min(depth_quad_c, depth_quad_d));
-        if view.projection[3][3] == 1.0 {
-            // Orthographic
-            let sphere_depth = view.projection[3][2] + (bounding_sphere_center_view_space.z + bounding_sphere_radius) * view.projection[2][2];
-            meshlet_visible &= sphere_depth >= occluder_depth;
-        } else {
-            // Perspective
-            let sphere_depth = -view.projection[3][2] / (bounding_sphere_center_view_space.z + bounding_sphere_radius);
-            meshlet_visible &= sphere_depth >= occluder_depth;
-        }
-    }
-#endif
-
-    // Write the bitmask of whether or not the cluster was culled
-    let occlusion_bit = u32(meshlet_visible) << (cluster_id.x % 32u);
-    atomicOr(&meshlet_occlusion[cluster_id.x / 32u], occlusion_bit);
-}
-
-// https://zeux.io/2023/01/12/approximate-projected-bounds
-fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4<f32> {
-    let inv_width = view.projection[0][0] * 0.5;
-    let inv_height = view.projection[1][1] * 0.5;
-    if view.projection[3][3] == 1.0 {
-        // Orthographic
-        let min_x = cp.x - r;
-        let max_x = cp.x + r;
-
-        let min_y = cp.y - r;
-        let max_y = cp.y + r;
-
-        return vec4(min_x * inv_width, 1.0 - max_y * inv_height, max_x * inv_width, 1.0 - min_y * inv_height);
-    } else {
-        // Perspective
-        let c = vec3(cp.xy, -cp.z);
-        let cr = c * r;
-        let czr2 = c.z * c.z - r * r;
-
-        let vx = sqrt(c.x * c.x + czr2);
-        let min_x = (vx * c.x - cr.z) / (vx * c.z + cr.x);
-        let max_x = (vx * c.x + cr.z) / (vx * c.z - cr.x);
-
-        let vy = sqrt(c.y * c.y + czr2);
-        let min_y = (vy * c.y - cr.z) / (vy * c.z + cr.y);
-        let max_y = (vy * c.y + cr.z) / (vy * c.z - cr.y);
-
-        return vec4(min_x * inv_width, -max_y * inv_height, max_x * inv_width, -min_y * inv_height) + vec4(0.5);
-    }
-}
-
-```
-
-### bevy_shaders/skybox_prepass
+### bevy_shaders-skybox_prepass
 
 ```rust
 #import bevy_render::view::View
@@ -9652,7 +9427,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(1) vec4<f32> {
 
 ```
 
-### bevy_shaders/volumetric_fog
+### bevy_shaders-volumetric_fog
 
 ```rust
 // A postprocessing shader that implements volumetric fog via raymarching and
@@ -10141,7 +9916,7 @@ fn fetch_spot_shadow_without_normal(light_id: u32, frag_position: vec4<f32>) -> 
 }
 ```
 
-### bevy_shaders/screenshot
+### bevy_shaders-screenshot
 
 ```rust
 // This vertex shader will create a triangle that will cover the entire screen
@@ -10163,7 +9938,7 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/color_material
+### bevy_shaders-color_material
 
 ```rust
 #import bevy_sprite::{
@@ -10237,7 +10012,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
 }
 ```
 
-### bevy_shaders/maths
+### bevy_shaders-maths
 
 ```rust
 #define_import_path bevy_render::maths
@@ -10338,37 +10113,7 @@ fn powsafe(color: vec3<f32>, power: f32) -> vec3<f32> {
 
 ```
 
-### bevy_shaders/gtao_utils
-
-```rust
-#define_import_path bevy_pbr::gtao_utils
-
-#import bevy_render::maths::{PI, HALF_PI}
-
-// Approximates single-bounce ambient occlusion to multi-bounce ambient occlusion
-// https://blog.selfshadow.com/publications/s2016-shading-course/activision/s2016_pbs_activision_occlusion.pdf#page=78
-fn gtao_multibounce(visibility: f32, base_color: vec3<f32>) -> vec3<f32> {
-    let a = 2.0404 * base_color - 0.3324;
-    let b = -4.7951 * base_color + 0.6417;
-    let c = 2.7552 * base_color + 0.6903;
-    let x = vec3<f32>(visibility);
-    return max(x, ((x * a + b) * x + c) * x);
-}
-
-fn fast_sqrt(x: f32) -> f32 {
-    return bitcast<f32>(0x1fbd1df5 + (bitcast<i32>(x) >> 1u));
-}
-
-fn fast_acos(in_x: f32) -> f32 {
-    let x = abs(in_x);
-    var res = -0.156583 * x + HALF_PI;
-    res *= fast_sqrt(1.0 - x);
-    return select(PI - res, res, in_x >= 0.0);
-}
-
-```
-
-### bevy_shaders/ssr
+### bevy_shaders-ssr
 
 ```rust
 // A postprocessing pass that performs screen-space reflections.
@@ -10559,7 +10304,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/pbr_functions
+### bevy_shaders-pbr_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_functions
@@ -11417,7 +11162,7 @@ fn main_pass_post_lighting_processing(
 
 ```
 
-### bevy_shaders/pbr_lighting
+### bevy_shaders-pbr_lighting
 
 ```rust
 #define_import_path bevy_pbr::lighting
@@ -12034,7 +11779,7 @@ fn directional_light(light_id: u32, input: ptr<function, LightingInput>) -> vec3
 
 ```
 
-### bevy_shaders/line_joints
+### bevy_shaders-line_joints
 
 ```rust
 #import bevy_render::view::View
@@ -12288,7 +12033,7 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/smaa
+### bevy_shaders-smaa
 
 ```rust
 /**
@@ -13400,7 +13145,7 @@ fn neighborhood_blending_fragment_main(in: NeighborhoodBlendingVaryings) -> @loc
 
 ```
 
-### bevy_shaders/visibility_buffer_hardware_raster
+### bevy_shaders-visibility_buffer_hardware_raster
 
 ```rust
 #import bevy_pbr::{
@@ -13503,7 +13248,7 @@ fn divide(a: f32, b: f32) -> f32 {
 
 ```
 
-### bevy_shaders/rgb9e5
+### bevy_shaders-rgb9e5
 
 ```rust
 #define_import_path bevy_pbr::rgb9e5
@@ -13572,7 +13317,7 @@ fn rgb9e5_to_vec3_(v: u32) -> vec3<f32> {
 
 ```
 
-### bevy_shaders/dof
+### bevy_shaders-dof
 
 ```rust
 // Performs depth of field postprocessing, with both Gaussian and bokeh kernels.
@@ -13879,7 +13624,7 @@ fn bokeh_pass_1(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/pbr_deferred_types
+### bevy_shaders-pbr_deferred_types
 
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_types
@@ -13974,7 +13719,7 @@ fn unpack_unorm3x4_plus_unorm_20_(v: u32) -> vec4<f32> {
 
 ```
 
-### bevy_shaders/pbr_prepass
+### bevy_shaders-pbr_prepass
 
 ```rust
 #import bevy_pbr::{
@@ -14093,7 +13838,7 @@ fn fragment(in: prepass_io::VertexOutput) {
 
 ```
 
-### bevy_shaders/copy_deferred_lighting_id
+### bevy_shaders-copy_deferred_lighting_id
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -14117,7 +13862,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/mesh2d_view_types
+### bevy_shaders-mesh2d_view_types
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_types
@@ -14127,7 +13872,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 
 ```
 
-### bevy_shaders/skinning
+### bevy_shaders-skinning
 
 ```rust
 #define_import_path bevy_pbr::skinning
@@ -14201,7 +13946,7 @@ fn skin_normals(
 
 ```
 
-### bevy_shaders/animate_shader
+### bevy_shaders-animate_shader
 
 ```rust
 // The time since startup data is in the globals binding which is part of the mesh_view_bindings import
@@ -14252,101 +13997,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/visibility_buffer_raster
-
-```rust
-#import bevy_pbr::{
-    meshlet_bindings::{
-        meshlet_cluster_meshlet_ids,
-        meshlets,
-        meshlet_vertex_ids,
-        meshlet_vertex_data,
-        meshlet_cluster_instance_ids,
-        meshlet_instance_uniforms,
-        meshlet_instance_material_ids,
-        draw_triangle_buffer,
-        view,
-        get_meshlet_index,
-        unpack_meshlet_vertex,
-    },
-    mesh_functions::mesh_position_local_to_world,
-}
-#import bevy_render::maths::affine3_to_square
-
-/// Vertex/fragment shader for rasterizing meshlets into a visibility buffer.
-
-struct VertexOutput {
-    @builtin(position) clip_position: vec4<f32>,
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-    @location(0) @interpolate(flat) visibility: u32,
-    @location(1) @interpolate(flat) material_depth: u32,
-#endif
-#ifdef DEPTH_CLAMP_ORTHO
-    @location(0) unclamped_clip_depth: f32,
-#endif
-}
-
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-struct FragmentOutput {
-    @location(0) visibility: vec4<u32>,
-    @location(1) material_depth: vec4<u32>,
-}
-#endif
-
-@vertex
-fn vertex(@builtin(vertex_index) vertex_index: u32) -> VertexOutput {
-    let packed_ids = draw_triangle_buffer[vertex_index / 3u];
-    let cluster_id = packed_ids >> 6u;
-    let triangle_id = extractBits(packed_ids, 0u, 6u);
-    let index_id = (triangle_id * 3u) + (vertex_index % 3u);
-    let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
-    let meshlet = meshlets[meshlet_id];
-    let index = get_meshlet_index(meshlet.start_index_id + index_id);
-    let vertex_id = meshlet_vertex_ids[meshlet.start_vertex_id + index];
-    let vertex = unpack_meshlet_vertex(meshlet_vertex_data[vertex_id]);
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
-    let instance_uniform = meshlet_instance_uniforms[instance_id];
-
-    let world_from_local = affine3_to_square(instance_uniform.world_from_local);
-    let world_position = mesh_position_local_to_world(world_from_local, vec4(vertex.position, 1.0));
-    var clip_position = view.clip_from_world * vec4(world_position.xyz, 1.0);
-#ifdef DEPTH_CLAMP_ORTHO
-    let unclamped_clip_depth = clip_position.z;
-    clip_position.z = min(clip_position.z, 1.0);
-#endif
-
-    return VertexOutput(
-        clip_position,
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-        packed_ids,
-        meshlet_instance_material_ids[instance_id],
-#endif
-#ifdef DEPTH_CLAMP_ORTHO
-        unclamped_clip_depth,
-#endif
-    );
-}
-
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-@fragment
-fn fragment(vertex_output: VertexOutput) -> FragmentOutput {
-    return FragmentOutput(
-        vec4(vertex_output.visibility, 0u, 0u, 0u),
-        vec4(vertex_output.material_depth, 0u, 0u, 0u),
-    );
-}
-#endif
-
-#ifdef DEPTH_CLAMP_ORTHO
-@fragment
-fn fragment(vertex_output: VertexOutput) -> @builtin(frag_depth) f32 {
-    return vertex_output.unclamped_clip_depth;
-}
-#endif
-
-```
-
-### bevy_shaders/lut_bindings
+### bevy_shaders-lut_bindings
 
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping_lut_bindings
@@ -14357,7 +14008,7 @@ fn fragment(vertex_output: VertexOutput) -> @builtin(frag_depth) f32 {
 
 ```
 
-### bevy_shaders/extended_material
+### bevy_shaders-extended_material
 
 ```rust
 #import bevy_pbr::{
@@ -14422,7 +14073,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/oit_resolve
+### bevy_shaders-oit_resolve
 
 ```rust
 #import bevy_render::view::View
@@ -14539,7 +14190,7 @@ fn blend(color_a: vec4<f32>, color_b: vec4<f32>) -> vec4<f32> {
 
 ```
 
-### bevy_shaders/box_shadow
+### bevy_shaders-box_shadow
 
 ```rust
 #import bevy_render::view::View;
@@ -14644,7 +14295,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/fog
+### bevy_shaders-fog
 
 ```rust
 #define_import_path bevy_pbr::fog
@@ -14729,7 +14380,7 @@ fn atmospheric_fog(
 
 ```
 
-### bevy_shaders/show_prepass
+### bevy_shaders-show_prepass
 
 ```rust
 #import bevy_pbr::{
@@ -14773,7 +14424,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/pbr
+### bevy_shaders-pbr
 
 ```rust
 #import bevy_pbr::{
@@ -14862,7 +14513,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/specialized_mesh_pipeline
+### bevy_shaders-specialized_mesh_pipeline
 
 ```rust
 //! Very simple shader used to demonstrate how to get the world position and pass data
@@ -14915,7 +14566,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### bevy_shaders/visibility_buffer_software_raster
+### bevy_shaders-visibility_buffer_software_raster
 
 ```rust
 #import bevy_pbr::{
@@ -15118,7 +14769,7 @@ fn max3(a: f32, b: f32, c: f32) -> f32 {
 
 ```
 
-### bevy_shaders/water_material
+### bevy_shaders-water_material
 
 ```rust
 // A shader that creates water ripples by overlaying 4 normal maps on top of one
@@ -15183,7 +14834,7 @@ fn fragment(in: VertexOutput, @builtin(front_facing) is_front: bool) -> Fragment
 
 ```
 
-### bevy_shaders/fill_cluster_buffers
+### bevy_shaders-fill_cluster_buffers
 
 ```rust
 #import bevy_pbr::meshlet_bindings::{
@@ -15233,7 +14884,7 @@ fn fill_cluster_buffers(
 
 ```
 
-### bevy_shaders/ui_texture_slice
+### bevy_shaders-ui_texture_slice
 
 ```rust
 #import bevy_render::view::View;
@@ -15366,7 +15017,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/light_probe
+### bevy_shaders-light_probe
 
 ```rust
 #define_import_path bevy_pbr::light_probe
@@ -15450,7 +15101,7 @@ fn query_light_probe(
 
 ```
 
-### bevy_shaders/custom_phase_item
+### bevy_shaders-custom_phase_item
 
 ```rust
 // `custom_phase_item.wgsl`
@@ -15492,7 +15143,7 @@ fn fragment(vertex_output: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/view
+### bevy_shaders-view
 
 ```rust
 #define_import_path bevy_render::view
@@ -15529,185 +15180,7 @@ struct View {
 
 ```
 
-### bevy_shaders/gtao
-
-```rust
-// Ground Truth-based Ambient Occlusion (GTAO)
-// Paper: https://www.activision.com/cdn/research/Practical_Real_Time_Strategies_for_Accurate_Indirect_Occlusion_NEW%20VERSION_COLOR.pdf
-// Presentation: https://blog.selfshadow.com/publications/s2016-shading-course/activision/s2016_pbs_activision_occlusion.pdf
-
-// Source code heavily based on XeGTAO v1.30 from Intel
-// https://github.com/GameTechDev/XeGTAO/blob/0d177ce06bfa642f64d8af4de1197ad1bcb862d4/Source/Rendering/Shaders/XeGTAO.hlsli
-
-#import bevy_pbr::gtao_utils::fast_acos
-
-#import bevy_render::{
-    view::View,
-    globals::Globals,
-    maths::{PI, HALF_PI},
-}
-
-@group(0) @binding(0) var preprocessed_depth: texture_2d<f32>;
-@group(0) @binding(1) var normals: texture_2d<f32>;
-@group(0) @binding(2) var hilbert_index_lut: texture_2d<u32>;
-@group(0) @binding(3) var ambient_occlusion: texture_storage_2d<r16float, write>;
-@group(0) @binding(4) var depth_differences: texture_storage_2d<r32uint, write>;
-@group(0) @binding(5) var<uniform> globals: Globals;
-@group(1) @binding(0) var point_clamp_sampler: sampler;
-@group(1) @binding(1) var<uniform> view: View;
-
-fn load_noise(pixel_coordinates: vec2<i32>) -> vec2<f32> {
-    var index = textureLoad(hilbert_index_lut, pixel_coordinates % 64, 0).r;
-
-#ifdef TEMPORAL_JITTER
-    index += 288u * (globals.frame_count % 64u);
-#endif
-
-    // R2 sequence - http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences
-    return fract(0.5 + f32(index) * vec2<f32>(0.75487766624669276005, 0.5698402909980532659114));
-}
-
-// Calculate differences in depth between neighbor pixels (later used by the spatial denoiser pass to preserve object edges)
-fn calculate_neighboring_depth_differences(pixel_coordinates: vec2<i32>) -> f32 {
-    // Sample the pixel's depth and 4 depths around it
-    let uv = vec2<f32>(pixel_coordinates) / view.viewport.zw;
-    let depths_upper_left = textureGather(0, preprocessed_depth, point_clamp_sampler, uv);
-    let depths_bottom_right = textureGather(0, preprocessed_depth, point_clamp_sampler, uv, vec2<i32>(1i, 1i));
-    let depth_center = depths_upper_left.y;
-    let depth_left = depths_upper_left.x;
-    let depth_top = depths_upper_left.z;
-    let depth_bottom = depths_bottom_right.x;
-    let depth_right = depths_bottom_right.z;
-
-    // Calculate the depth differences (large differences represent object edges)
-    var edge_info = vec4<f32>(depth_left, depth_right, depth_top, depth_bottom) - depth_center;
-    let slope_left_right = (edge_info.y - edge_info.x) * 0.5;
-    let slope_top_bottom = (edge_info.w - edge_info.z) * 0.5;
-    let edge_info_slope_adjusted = edge_info + vec4<f32>(slope_left_right, -slope_left_right, slope_top_bottom, -slope_top_bottom);
-    edge_info = min(abs(edge_info), abs(edge_info_slope_adjusted));
-    let bias = 0.25; // Using the bias and then saturating nudges the values a bit
-    let scale = depth_center * 0.011; // Weight the edges by their distance from the camera
-    edge_info = saturate((1.0 + bias) - edge_info / scale); // Apply the bias and scale, and invert edge_info so that small values become large, and vice versa
-
-    // Pack the edge info into the texture
-    let edge_info_packed = vec4<u32>(pack4x8unorm(edge_info), 0u, 0u, 0u);
-    textureStore(depth_differences, pixel_coordinates, edge_info_packed);
-
-    return depth_center;
-}
-
-fn load_normal_view_space(uv: vec2<f32>) -> vec3<f32> {
-    var world_normal = textureSampleLevel(normals, point_clamp_sampler, uv, 0.0).xyz;
-    world_normal = (world_normal * 2.0) - 1.0;
-    let view_from_world = mat3x3<f32>(
-        view.view_from_world[0].xyz,
-        view.view_from_world[1].xyz,
-        view.view_from_world[2].xyz,
-    );
-    return view_from_world * world_normal;
-}
-
-fn reconstruct_view_space_position(depth: f32, uv: vec2<f32>) -> vec3<f32> {
-    let clip_xy = vec2<f32>(uv.x * 2.0 - 1.0, 1.0 - 2.0 * uv.y);
-    let t = view.view_from_clip * vec4<f32>(clip_xy, depth, 1.0);
-    let view_xyz = t.xyz / t.w;
-    return view_xyz;
-}
-
-fn load_and_reconstruct_view_space_position(uv: vec2<f32>, sample_mip_level: f32) -> vec3<f32> {
-    let depth = textureSampleLevel(preprocessed_depth, point_clamp_sampler, uv, sample_mip_level).r;
-    return reconstruct_view_space_position(depth, uv);
-}
-
-@compute
-@workgroup_size(8, 8, 1)
-fn gtao(@builtin(global_invocation_id) global_id: vec3<u32>) {
-    let slice_count = f32(#SLICE_COUNT);
-    let samples_per_slice_side = f32(#SAMPLES_PER_SLICE_SIDE);
-    let effect_radius = 0.5 * 1.457;
-    let falloff_range = 0.615 * effect_radius;
-    let falloff_from = effect_radius * (1.0 - 0.615);
-    let falloff_mul = -1.0 / falloff_range;
-    let falloff_add = falloff_from / falloff_range + 1.0;
-
-    let pixel_coordinates = vec2<i32>(global_id.xy);
-    let uv = (vec2<f32>(pixel_coordinates) + 0.5) / view.viewport.zw;
-
-    var pixel_depth = calculate_neighboring_depth_differences(pixel_coordinates);
-    pixel_depth += 0.00001; // Avoid depth precision issues
-
-    let pixel_position = reconstruct_view_space_position(pixel_depth, uv);
-    let pixel_normal = load_normal_view_space(uv);
-    let view_vec = normalize(-pixel_position);
-
-    let noise = load_noise(pixel_coordinates);
-    let sample_scale = (-0.5 * effect_radius * view.clip_from_view[0][0]) / pixel_position.z;
-
-    var visibility = 0.0;
-    for (var slice_t = 0.0; slice_t < slice_count; slice_t += 1.0) {
-        let slice = slice_t + noise.x;
-        let phi = (PI / slice_count) * slice;
-        let omega = vec2<f32>(cos(phi), sin(phi));
-
-        let direction = vec3<f32>(omega.xy, 0.0);
-        let orthographic_direction = direction - (dot(direction, view_vec) * view_vec);
-        let axis = cross(direction, view_vec);
-        let projected_normal = pixel_normal - axis * dot(pixel_normal, axis);
-        let projected_normal_length = length(projected_normal);
-
-        let sign_norm = sign(dot(orthographic_direction, projected_normal));
-        let cos_norm = saturate(dot(projected_normal, view_vec) / projected_normal_length);
-        let n = sign_norm * fast_acos(cos_norm);
-
-        let min_cos_horizon_1 = cos(n + HALF_PI);
-        let min_cos_horizon_2 = cos(n - HALF_PI);
-        var cos_horizon_1 = min_cos_horizon_1;
-        var cos_horizon_2 = min_cos_horizon_2;
-        let sample_mul = vec2<f32>(omega.x, -omega.y) * sample_scale;
-        for (var sample_t = 0.0; sample_t < samples_per_slice_side; sample_t += 1.0) {
-            var sample_noise = (slice_t + sample_t * samples_per_slice_side) * 0.6180339887498948482;
-            sample_noise = fract(noise.y + sample_noise);
-
-            var s = (sample_t + sample_noise) / samples_per_slice_side;
-            s *= s; // https://github.com/GameTechDev/XeGTAO#sample-distribution
-            let sample = s * sample_mul;
-
-            // * view.viewport.zw gets us from [0, 1] to [0, viewport_size], which is needed for this to get the correct mip levels
-            let sample_mip_level = clamp(log2(length(sample * view.viewport.zw)) - 3.3, 0.0, 5.0); // https://github.com/GameTechDev/XeGTAO#memory-bandwidth-bottleneck
-            let sample_position_1 = load_and_reconstruct_view_space_position(uv + sample, sample_mip_level);
-            let sample_position_2 = load_and_reconstruct_view_space_position(uv - sample, sample_mip_level);
-
-            let sample_difference_1 = sample_position_1 - pixel_position;
-            let sample_difference_2 = sample_position_2 - pixel_position;
-            let sample_distance_1 = length(sample_difference_1);
-            let sample_distance_2 = length(sample_difference_2);
-            var sample_cos_horizon_1 = dot(sample_difference_1 / sample_distance_1, view_vec);
-            var sample_cos_horizon_2 = dot(sample_difference_2 / sample_distance_2, view_vec);
-
-            let weight_1 = saturate(sample_distance_1 * falloff_mul + falloff_add);
-            let weight_2 = saturate(sample_distance_2 * falloff_mul + falloff_add);
-            sample_cos_horizon_1 = mix(min_cos_horizon_1, sample_cos_horizon_1, weight_1);
-            sample_cos_horizon_2 = mix(min_cos_horizon_2, sample_cos_horizon_2, weight_2);
-
-            cos_horizon_1 = max(cos_horizon_1, sample_cos_horizon_1);
-            cos_horizon_2 = max(cos_horizon_2, sample_cos_horizon_2);
-        }
-
-        let horizon_1 = fast_acos(cos_horizon_1);
-        let horizon_2 = -fast_acos(cos_horizon_2);
-        let v1 = (cos_norm + 2.0 * horizon_1 * sin(n) - cos(2.0 * horizon_1 - n)) / 4.0;
-        let v2 = (cos_norm + 2.0 * horizon_2 * sin(n) - cos(2.0 * horizon_2 - n)) / 4.0;
-        visibility += projected_normal_length * (v1 + v2);
-    }
-    visibility /= slice_count;
-    visibility = clamp(visibility, 0.03, 1.0);
-
-    textureStore(ambient_occlusion, pixel_coordinates, vec4<f32>(visibility, 0.0, 0.0, 0.0));
-}
-
-```
-
-### bevy_shaders/spatial_denoise
+### bevy_shaders-spatial_denoise
 
 ```rust
 // 3x3 bilaterial filter (edge-preserving blur)
@@ -15798,7 +15271,7 @@ fn spatial_denoise(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy_shaders/oit_draw
+### bevy_shaders-oit_draw
 
 ```rust
 #define_import_path bevy_core_pipeline::oit
@@ -15847,7 +15320,7 @@ fn unpack_24bit_depth_8bit_alpha(packed: u32) -> vec2<f32> {
 
 ```
 
-### bevy_shaders/tonemapping
+### bevy_shaders-tonemapping
 
 ```rust
 #define TONEMAPPING_PASS
@@ -15887,7 +15360,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/mesh2d
+### bevy_shaders-mesh2d
 
 ```rust
 #import bevy_sprite::{
@@ -15969,7 +15442,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/irradiance_volume
+### bevy_shaders-irradiance_volume
 
 ```rust
 #define_import_path bevy_pbr::irradiance_volume
@@ -16031,7 +15504,7 @@ fn irradiance_volume_light(world_position: vec3<f32>, N: vec3<f32>) -> vec3<f32>
 
 ```
 
-### bevy_shaders/preprocess_depth
+### bevy_shaders-preprocess_depth
 
 ```rust
 // Inputs a depth texture and outputs a MIP-chain of depths.
@@ -16139,7 +15612,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 
 ```
 
-### bevy_shaders/dummy_visibility_buffer_resolve
+### bevy_shaders-dummy_visibility_buffer_resolve
 
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
@@ -16149,7 +15622,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 
 ```
 
-### bevy_shaders/ui_vertex_output
+### bevy_shaders-ui_vertex_output
 
 ```rust
 #define_import_path bevy_ui::ui_vertex_output
@@ -16166,7 +15639,7 @@ struct UiVertexOutput {
 
 ```
 
-### bevy_shaders/motion_blur
+### bevy_shaders-motion_blur
 
 ```rust
 #import bevy_pbr::prepass_utils
@@ -16329,7 +15802,7 @@ fn fragment(
 }
 ```
 
-### bevy_shaders/tonemapping_shared
+### bevy_shaders-tonemapping_shared
 
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping
@@ -16740,7 +16213,7 @@ fn approximate_inverse_tone_mapping(in: vec4<f32>, color_grading: ColorGrading) 
 
 ```
 
-### bevy_shaders/shadows
+### bevy_shaders-shadows
 
 ```rust
 #define_import_path bevy_pbr::shadows
@@ -16987,7 +16460,7 @@ fn cascade_debug_visualization(
 
 ```
 
-### bevy_shaders/ssao_utils
+### bevy_shaders-ssao_utils
 
 ```rust
 #define_import_path bevy_pbr::ssao_utils
@@ -17017,7 +16490,7 @@ fn fast_acos(in_x: f32) -> f32 {
 
 ```
 
-### bevy_shaders/environment_map
+### bevy_shaders-environment_map
 
 ```rust
 #define_import_path bevy_pbr::environment_map
@@ -17255,7 +16728,7 @@ fn environment_map_light(
 
 ```
 
-### bevy_shaders/downsample_depth
+### bevy_shaders-downsample_depth
 
 ```rust
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
@@ -17575,7 +17048,7 @@ fn reduce_4(v: vec4f) -> f32 {
 
 ```
 
-### bevy_shaders/ui_material
+### bevy_shaders-ui_material
 
 ```rust
 #import bevy_render::{
@@ -17611,7 +17084,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/skybox
+### bevy_shaders-skybox
 
 ```rust
 #import bevy_render::view::View
@@ -17700,7 +17173,7 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/custom_material_import
+### bevy_shaders-custom_material_import
 
 ```rust
 // this is made available to the importing module
@@ -17708,56 +17181,7 @@ const COLOR_MULTIPLIER: vec4<f32> = vec4<f32>(1.0, 1.0, 1.0, 0.5);
 
 ```
 
-### bevy_shaders/write_index_buffer
-
-```rust
-#import bevy_pbr::meshlet_bindings::{
-    meshlet_thread_meshlet_ids,
-    meshlets,
-    draw_indirect_args,
-    draw_index_buffer,
-    get_meshlet_occlusion,
-    get_meshlet_previous_occlusion,
-}
-
-var<workgroup> draw_index_buffer_start_workgroup: u32;
-
-/// This pass writes out a buffer of cluster + triangle IDs for the draw_indirect() call to rasterize each visible meshlet.
-
-@compute
-@workgroup_size(64, 1, 1) // 64 threads per workgroup, 1 workgroup per cluster, 1 thread per triangle
-fn write_index_buffer(@builtin(workgroup_id) workgroup_id: vec3<u32>, @builtin(num_workgroups) num_workgroups: vec3<u32>, @builtin(local_invocation_index) triangle_id: u32) {
-    // Calculate the cluster ID for this workgroup
-    let cluster_id = dot(workgroup_id, vec3(num_workgroups.x * num_workgroups.x, num_workgroups.x, 1u));
-    if cluster_id >= arrayLength(&meshlet_thread_meshlet_ids) { return; }
-
-    // If the meshlet was culled, then we don't need to draw it
-    if !get_meshlet_occlusion(cluster_id) { return; }
-
-    // If the meshlet was drawn in the first pass, and this is the second pass, then we don't need to draw it
-#ifdef MESHLET_SECOND_WRITE_INDEX_BUFFER_PASS
-    if get_meshlet_previous_occlusion(cluster_id) { return; }
-#endif
-
-    let meshlet_id = meshlet_thread_meshlet_ids[cluster_id];
-    let meshlet = meshlets[meshlet_id];
-
-    // Reserve space in the buffer for this meshlet's triangles, and broadcast the start of that slice to all threads
-    if triangle_id == 0u {
-        draw_index_buffer_start_workgroup = atomicAdd(&draw_indirect_args.vertex_count, meshlet.triangle_count * 3u);
-        draw_index_buffer_start_workgroup /= 3u;
-    }
-    workgroupBarrier();
-
-    // Each thread writes one triangle of the meshlet to the buffer slice reserved for the meshlet
-    if triangle_id < meshlet.triangle_count {
-        draw_index_buffer[draw_index_buffer_start_workgroup + triangle_id] = (cluster_id << 8u) | triangle_id;
-    }
-}
-
-```
-
-### bevy_shaders/mesh2d_types
+### bevy_shaders-mesh2d_types
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_types
@@ -17779,7 +17203,7 @@ struct Mesh2d {
 
 ```
 
-### bevy_shaders/custom_material
+### bevy_shaders-custom_material
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -17799,7 +17223,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/mesh2d_functions
+### bevy_shaders-mesh2d_functions
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_functions
@@ -17850,7 +17274,7 @@ fn mesh2d_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: 
 
 ```
 
-### bevy_shaders/robust_contrast_adaptive_sharpening
+### bevy_shaders-robust_contrast_adaptive_sharpening
 
 ```rust
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
@@ -17951,7 +17375,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/custom_vertex_attribute
+### bevy_shaders-custom_vertex_attribute
 
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
@@ -17994,7 +17418,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/meshlet_bindings
+### bevy_shaders-meshlet_bindings
 
 ```rust
 #define_import_path bevy_pbr::meshlet_bindings
@@ -18208,7 +17632,7 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
 
 ```
 
-### bevy_shaders/texture_binding_array
+### bevy_shaders-texture_binding_array
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -18231,7 +17655,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/shader_defs
+### bevy_shaders-shader_defs
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -18255,7 +17679,7 @@ fn fragment(
 
 ```
 
-### bevy_shaders/color_operations
+### bevy_shaders-color_operations
 
 ```rust
 #define_import_path bevy_render::color_operations
@@ -18308,7 +17732,7 @@ fn rgb_to_hsv(rgb: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### bevy_shaders/mesh_functions
+### bevy_shaders-mesh_functions
 
 ```rust
 #define_import_path bevy_pbr::mesh_functions
@@ -18437,7 +17861,7 @@ fn get_visibility_range_dither_level(instance_index: u32, world_position: vec4<f
 
 ```
 
-### bevy_shaders/deferred_lighting
+### bevy_shaders-deferred_lighting
 
 ```rust
 #import bevy_pbr::{
@@ -18531,7 +17955,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/pbr_fragment
+### bevy_shaders-pbr_fragment
 
 ```rust
 #define_import_path bevy_pbr::pbr_fragment
@@ -19016,7 +18440,7 @@ fn pbr_input_from_standard_material(
 
 ```
 
-### bevy_shaders/ui
+### bevy_shaders-ui
 
 ```rust
 #import bevy_render::view::View
@@ -19213,7 +18637,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy_shaders/mesh_view_types
+### bevy_shaders-mesh_view_types
 
 ```rust
 #define_import_path bevy_pbr::mesh_view_types
@@ -19379,7 +18803,7 @@ struct EnvironmentMapUniform {
 };
 ```
 
-### bevy_shaders/storage_buffer
+### bevy_shaders-storage_buffer
 
 ```rust
 #import bevy_pbr::{
@@ -19422,7 +18846,7 @@ fn fragment(
 }
 ```
 
-### assets/shaders/indexing_into_vec_with_loop
+### assets-shaders-indexing_into_vec_with_loop
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -19457,7 +18881,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/aura
+### assets-shaders-aura
 
 ```rust
 #import bevy_pbr::forward_io::{VertexOutput, FragmentOutput};
@@ -19529,7 +18953,7 @@ fn sdCircle(p: vec2f, r: f32) -> f32 {
 
 ```
 
-### assets/shaders/myshader_2d
+### assets-shaders-myshader_2d
 
 ```rust
 /// ***************************** ///
@@ -19562,7 +18986,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/howto-texture
+### assets-shaders-howto-texture
 
 ```rust
 //! Showing how to use a texture, drag-n-drop for you own texture will be supported soon.
@@ -19585,7 +19009,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/myshader
+### assets-shaders-myshader
 
 ```rust
 //!
@@ -19616,7 +19040,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/WIP-total_noob
+### assets-shaders-WIP-total_noob
 
 ```rust
 /// This is a port of 'total noob' by dynamite
@@ -19705,7 +19129,7 @@ fn circle_charge_beam(uv: vec2f, resolution: vec2f, angle: f32, t: f32) -> vec4<
 
 ```
 
-### assets/shaders/WIP-black-hole
+### assets-shaders-WIP-black-hole
 
 ```rust
 #import bevy_pbr::mesh_vertex_output      VertexOutput
@@ -19986,7 +19410,7 @@ fn hash(x: f32) -> f32 {
 
 ```
 
-### assets/shaders/electro_cube
+### assets-shaders-electro_cube
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
@@ -20040,7 +19464,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### assets/shaders/fast_dots
+### assets-shaders-fast_dots
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
@@ -20080,7 +19504,7 @@ fn N22(pp: vec2<f32>)->vec2<f32>{
 
 ```
 
-### assets/shaders/WIP-waterPool
+### assets-shaders-WIP-waterPool
 
 ```rust
 /// ***************************** ///
@@ -20294,7 +19718,7 @@ fn palette(_t: f32, _a: vec3<f32>, _b: vec3<f32>, _c: vec3<f32>, _d: vec3<f32>) 
 
 ```
 
-### assets/shaders/rain_generator
+### assets-shaders-rain_generator
 
 ```rust
 /// ***************************** ///
@@ -20376,7 +19800,7 @@ fn over(a: vec4f, b: vec4f) -> vec4f {
 
 ```
 
-### assets/shaders/howto-mouse
+### assets-shaders-howto-mouse
 
 ```rust
 /// How to use the mouse, in shadplay.
@@ -20415,7 +19839,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/four_to_the_floor
+### assets-shaders-four_to_the_floor
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals 
@@ -20466,7 +19890,7 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### assets/shaders/grid_with_colours
+### assets-shaders-grid_with_colours
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
@@ -20520,7 +19944,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/polar-coords-experiments
+### assets-shaders-shadertoy-ports-polar-coords-experiments
 
 ```rust
 //! This is a shadertoy port of 'polar-coordinates-experiments' by toridango https://www.shadertoy.com/view/ttsGz8
@@ -20548,7 +19972,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/cyber-anim-arrowX
+### assets-shaders-shadertoy-ports-cyber-anim-arrowX
 
 ```rust
 ///
@@ -20618,7 +20042,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 ```
 
-### assets/shaders/shadertoy-ports/light-spirals
+### assets-shaders-shadertoy-ports-light-spirals
 
 ```rust
 #import bevy_sprite::mesh2d_view_bindings::globals 
@@ -20741,7 +20165,7 @@ fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
 
 ```
 
-### assets/shaders/shadertoy-ports/octagon_fun
+### assets-shaders-shadertoy-ports-octagon_fun
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
@@ -20801,7 +20225,7 @@ fn sd_octogon(p: vec2<f32>, r: f32) -> f32 {
 }
 ```
 
-### assets/shaders/shadertoy-ports/flame
+### assets-shaders-shadertoy-ports-flame
 
 ```rust
 /// ***************************** ///
@@ -20885,7 +20309,7 @@ fn raymarch(org: vec3<f32>, dir: vec3<f32>) -> vec4<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/shadertoy
+### assets-shaders-shadertoy-ports-shadertoy
 
 ```rust
 #define_import_path bevy_pbr::shadbang
@@ -20905,7 +20329,7 @@ fn shadertoy_default(uv: vec2<f32>)->vec4<f32>{
 
 ```
 
-### assets/shaders/shadertoy-ports/cosmic
+### assets-shaders-shadertoy-ports-cosmic
 
 ```rust
 /// A shadertoy port of 'Cosmic' https://www.shadertoy.com/view/msjXRK, by Xor.
@@ -20960,7 +20384,7 @@ fn cosmic(uv: vec2f, r: vec2f) -> vec4f {
 
 ```
 
-### assets/shaders/shadertoy-ports/voronoi_simple
+### assets-shaders-shadertoy-ports-voronoi_simple
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
@@ -21054,7 +20478,7 @@ fn N22(pp: vec2<f32>)->vec2<f32>{
 
 ```
 
-### assets/shaders/shadertoy-ports/sailing-beyond
+### assets-shaders-shadertoy-ports-sailing-beyond
 
 ```rust
 /// ***************************** ///
@@ -21297,7 +20721,7 @@ fn trace(o: vec3<f32>, d: vec3<f32>) -> Geometry {
 
 ```
 
-### assets/shaders/shadertoy-ports/kishimisu
+### assets-shaders-shadertoy-ports-kishimisu
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
@@ -21345,7 +20769,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/w10
+### assets-shaders-shadertoy-ports-w10
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -21579,7 +21003,7 @@ fn nac(_p: vec3f, F: vec2f, o: vec3f) -> f32 {
 
 ```
 
-### assets/shaders/shadertoy-ports/universe_within
+### assets-shaders-shadertoy-ports-universe_within
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -21616,7 +21040,7 @@ fn shader_toy_default(t: f32, uv: vec2f) -> vec3f {
 
 ```
 
-### assets/shaders/shadertoy-ports/warp
+### assets-shaders-shadertoy-ports-warp
 
 ```rust
 ///
@@ -21693,7 +21117,7 @@ fn warp_with_aa(uv: vec2f, resolution: vec2f, time: f32) -> vec4f {
 }
 ```
 
-### assets/shaders/shadertoy-ports/star
+### assets-shaders-shadertoy-ports-star
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
@@ -21747,7 +21171,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/water-caustic-tileable
+### assets-shaders-shadertoy-ports-water-caustic-tileable
 
 ```rust
 /// ***************************** ///
@@ -21805,7 +21229,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/BROKEN_fbm_lightning
+### assets-shaders-shadertoy-ports-BROKEN_fbm_lightning
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
@@ -21886,7 +21310,7 @@ fn fbm(pp: vec2<f32>, octave_count: i32) -> f32 {
 }
 ```
 
-### assets/shaders/shadertoy-ports/discoteq2
+### assets-shaders-shadertoy-ports-discoteq2
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -21921,7 +21345,7 @@ fn line(uv: vec2f, speed: f32, height: f32, col: vec3f) -> vec4f {
 
 ```
 
-### assets/shaders/shadertoy-ports/semi-circle-wave
+### assets-shaders-shadertoy-ports-semi-circle-wave
 
 ```rust
 //
@@ -21999,7 +21423,7 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
 
 ```
 
-### assets/shaders/shadertoy-ports/BROKEN_tuesday_tinkering
+### assets-shaders-shadertoy-ports-BROKEN_tuesday_tinkering
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -22259,7 +21683,7 @@ fn transform(p: vec2<f32>, TIME: f32) -> vec2<f32> {
 }
 ```
 
-### assets/shaders/common/notes
+### assets-shaders-common-notes
 
 ```rust
 
@@ -22483,7 +21907,7 @@ fn transform(p: vec2<f32>, TIME: f32) -> vec2<f32> {
 
 ```
 
-### assets/Gallery/perlin-waves/perlin-waves
+### assets-Gallery-perlin-waves-perlin-waves
 
 ```rust
 /// ***************************** ///
@@ -22598,7 +22022,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 ```
 
-### assets/Gallery/lines/dotted_line
+### assets-Gallery-lines-dotted_line
 
 ```rust
 #import bevy_pbr::mesh_view_bindings globals 
@@ -22636,7 +22060,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### assets/Gallery/fbmCloud/fmb_cloud
+### assets-Gallery-fbmCloud-fmb_cloud
 
 ```rust
 /// ***************************** ///
@@ -22740,7 +22164,7 @@ fn fbm(_uv: vec2<f32>) -> f32 {
 
 ```
 
-### bevy/assets/shaders/irradiance_volume_voxel_visualization
+### bevy-assets-shaders-irradiance_volume_voxel_visualization
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -22781,7 +22205,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/tonemapping_test_patterns
+### bevy-assets-shaders-tonemapping_test_patterns
 
 ```rust
 #import bevy_pbr::{
@@ -22850,7 +22274,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/post_processing
+### bevy-assets-shaders-post_processing
 
 ```rust
 // This shader computes the chromatic aberration effect
@@ -22903,7 +22327,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/game_of_life
+### bevy-assets-shaders-game_of_life
 
 ```rust
 // The shader reads the previous frame's state from the `input` texture, and writes the new state of
@@ -22980,7 +22404,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 
 ```
 
-### bevy/assets/shaders/custom_material_screenspace_texture
+### bevy-assets-shaders-custom_material_screenspace_texture
 
 ```rust
 #import bevy_pbr::{
@@ -23003,7 +22427,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/custom_gltf_2d
+### bevy-assets-shaders-custom_gltf_2d
 
 ```rust
 #import bevy_sprite::{
@@ -23048,7 +22472,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/fallback_image_test
+### bevy-assets-shaders-fallback_image_test
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23076,7 +22500,7 @@ fn fragment(in: VertexOutput) {}
 
 ```
 
-### bevy/assets/shaders/gpu_readback
+### bevy-assets-shaders-gpu_readback
 
 ```rust
 // This shader is used for the gpu_readback example
@@ -23097,7 +22521,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy/assets/shaders/custom_ui_material
+### bevy-assets-shaders-custom_ui_material
 
 ```rust
 // This shader draws a circle with a given input color
@@ -23132,7 +22556,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/instancing
+### bevy-assets-shaders-instancing
 
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
@@ -23174,7 +22598,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/array_texture
+### bevy-assets-shaders-array_texture
 
 ```rust
 #import bevy_pbr::{
@@ -23238,7 +22662,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/line_material
+### bevy-assets-shaders-line_material
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23258,7 +22682,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/cubemap_unlit
+### bevy-assets-shaders-cubemap_unlit
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23285,7 +22709,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/custom_material_2d
+### bevy-assets-shaders-custom_material_2d
 
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -23303,7 +22727,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/animate_shader
+### bevy-assets-shaders-animate_shader
 
 ```rust
 // The time since startup data is in the globals binding which is part of the mesh_view_bindings import
@@ -23354,7 +22778,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/extended_material
+### bevy-assets-shaders-extended_material
 
 ```rust
 #import bevy_pbr::{
@@ -23419,7 +22843,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/show_prepass
+### bevy-assets-shaders-show_prepass
 
 ```rust
 #import bevy_pbr::{
@@ -23463,7 +22887,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/specialized_mesh_pipeline
+### bevy-assets-shaders-specialized_mesh_pipeline
 
 ```rust
 //! Very simple shader used to demonstrate how to get the world position and pass data
@@ -23516,7 +22940,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### bevy/assets/shaders/water_material
+### bevy-assets-shaders-water_material
 
 ```rust
 // A shader that creates water ripples by overlaying 4 normal maps on top of one
@@ -23581,7 +23005,7 @@ fn fragment(in: VertexOutput, @builtin(front_facing) is_front: bool) -> Fragment
 
 ```
 
-### bevy/assets/shaders/custom_phase_item
+### bevy-assets-shaders-custom_phase_item
 
 ```rust
 // `custom_phase_item.wgsl`
@@ -23623,7 +23047,7 @@ fn fragment(vertex_output: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/custom_material_import
+### bevy-assets-shaders-custom_material_import
 
 ```rust
 // this is made available to the importing module
@@ -23631,7 +23055,7 @@ const COLOR_MULTIPLIER: vec4<f32> = vec4<f32>(1.0, 1.0, 1.0, 0.5);
 
 ```
 
-### bevy/assets/shaders/custom_material
+### bevy-assets-shaders-custom_material
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23651,7 +23075,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/custom_vertex_attribute
+### bevy-assets-shaders-custom_vertex_attribute
 
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
@@ -23694,7 +23118,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/assets/shaders/texture_binding_array
+### bevy-assets-shaders-texture_binding_array
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23717,7 +23141,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/shader_defs
+### bevy-assets-shaders-shader_defs
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -23741,7 +23165,7 @@ fn fragment(
 
 ```
 
-### bevy/assets/shaders/storage_buffer
+### bevy-assets-shaders-storage_buffer
 
 ```rust
 #import bevy_pbr::{
@@ -23784,7 +23208,7 @@ fn fragment(
 }
 ```
 
-### bevy/crates/bevy_gizmos/src/lines
+### bevy-crates-bevy_gizmos-src-lines
 
 ```rust
 // TODO use common view binding
@@ -23957,7 +23381,7 @@ fn fragment_dotted(in: FragmentInput) -> FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_gizmos/src/line_joints
+### bevy-crates-bevy_gizmos-src-line_joints
 
 ```rust
 #import bevy_render::view::View
@@ -24211,7 +23635,7 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/motion_blur/motion_blur
+### bevy-crates-bevy_core_pipeline-src-motion_blur-motion_blur
 
 ```rust
 #import bevy_pbr::prepass_utils
@@ -24374,7 +23798,7 @@ fn fragment(
 }
 ```
 
-### bevy/crates/bevy_core_pipeline/src/bloom/bloom
+### bevy-crates-bevy_core_pipeline-src-bloom-bloom
 
 ```rust
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
@@ -24528,7 +23952,7 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening
+### bevy-crates-bevy_core_pipeline-src-contrast_adaptive_sharpening-robust_contrast_adaptive_sharpening
 
 ```rust
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
@@ -24629,7 +24053,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/post_process/chromatic_aberration
+### bevy-crates-bevy_core_pipeline-src-post_process-chromatic_aberration
 
 ```rust
 // The chromatic aberration postprocessing effect.
@@ -24727,7 +24151,7 @@ fn chromatic_aberration(start_pos: vec2<f32>) -> vec3<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/post_process/post_process
+### bevy-crates-bevy_core_pipeline-src-post_process-post_process
 
 ```rust
 // Miscellaneous postprocessing effects, currently just chromatic aberration.
@@ -24742,7 +24166,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/tonemapping/lut_bindings
+### bevy-crates-bevy_core_pipeline-src-tonemapping-lut_bindings
 
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping_lut_bindings
@@ -24753,7 +24177,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping
+### bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping
 
 ```rust
 #define TONEMAPPING_PASS
@@ -24793,7 +24217,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/tonemapping/tonemapping_shared
+### bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping_shared
 
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping
@@ -25204,7 +24628,7 @@ fn approximate_inverse_tone_mapping(in: vec4<f32>, color_grading: ColorGrading) 
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/blit/blit
+### bevy-crates-bevy_core_pipeline-src-blit-blit
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -25219,7 +24643,7 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/smaa/smaa
+### bevy-crates-bevy_core_pipeline-src-smaa-smaa
 
 ```rust
 /**
@@ -26331,7 +25755,7 @@ fn neighborhood_blending_fragment_main(in: NeighborhoodBlendingVaryings) -> @loc
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/dof/dof
+### bevy-crates-bevy_core_pipeline-src-dof-dof
 
 ```rust
 // Performs depth of field postprocessing, with both Gaussian and bokeh kernels.
@@ -26638,7 +26062,7 @@ fn bokeh_pass_1(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/auto_exposure/auto_exposure
+### bevy-crates-bevy_core_pipeline-src-auto_exposure-auto_exposure
 
 ```rust
 // Auto exposure
@@ -26837,7 +26261,7 @@ fn compute_average(@builtin(local_invocation_index) local_index: u32) {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/fxaa/fxaa
+### bevy-crates-bevy_core_pipeline-src-fxaa-fxaa
 
 ```rust
 // NVIDIA FXAA 3.11
@@ -27117,7 +26541,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/oit/oit_draw
+### bevy-crates-bevy_core_pipeline-src-oit-oit_draw
 
 ```rust
 #define_import_path bevy_core_pipeline::oit
@@ -27166,7 +26590,7 @@ fn unpack_24bit_depth_8bit_alpha(packed: u32) -> vec2<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/skybox/skybox_prepass
+### bevy-crates-bevy_core_pipeline-src-skybox-skybox_prepass
 
 ```rust
 #import bevy_render::view::View
@@ -27193,7 +26617,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(1) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/skybox/skybox
+### bevy-crates-bevy_core_pipeline-src-skybox-skybox
 
 ```rust
 #import bevy_render::view::View
@@ -27282,7 +26706,7 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/taa/taa
+### bevy-crates-bevy_core_pipeline-src-taa-taa
 
 ```rust
 // References:
@@ -27489,7 +26913,7 @@ fn taa(@location(0) uv: vec2<f32>) -> Output {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/fullscreen_vertex_shader/fullscreen
+### bevy-crates-bevy_core_pipeline-src-fullscreen_vertex_shader-fullscreen
 
 ```rust
 #define_import_path bevy_core_pipeline::fullscreen_vertex_shader
@@ -27529,7 +26953,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/deferred/copy_deferred_lighting_id
+### bevy-crates-bevy_core_pipeline-src-deferred-copy_deferred_lighting_id
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -27553,7 +26977,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_core_pipeline/src/oit/resolve/oit_resolve
+### bevy-crates-bevy_core_pipeline-src-oit-resolve-oit_resolve
 
 ```rust
 #import bevy_render::view::View
@@ -27670,7 +27094,7 @@ fn blend(color_a: vec4<f32>, color_b: vec4<f32>) -> vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_render/src/globals
+### bevy-crates-bevy_render-src-globals
 
 ```rust
 #define_import_path bevy_render::globals
@@ -27692,7 +27116,7 @@ struct Globals {
 
 ```
 
-### bevy/crates/bevy_render/src/maths
+### bevy-crates-bevy_render-src-maths
 
 ```rust
 #define_import_path bevy_render::maths
@@ -27793,7 +27217,7 @@ fn powsafe(color: vec3<f32>, power: f32) -> vec3<f32> {
 
 ```
 
-### bevy/crates/bevy_render/src/color_operations
+### bevy-crates-bevy_render-src-color_operations
 
 ```rust
 #define_import_path bevy_render::color_operations
@@ -27846,7 +27270,7 @@ fn rgb_to_hsv(rgb: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### bevy/crates/bevy_render/src/view/view
+### bevy-crates-bevy_render-src-view-view
 
 ```rust
 #define_import_path bevy_render::view
@@ -27883,7 +27307,7 @@ struct View {
 
 ```
 
-### bevy/crates/bevy_render/src/view/window/screenshot
+### bevy-crates-bevy_render-src-view-window-screenshot
 
 ```rust
 // This vertex shader will create a triangle that will cover the entire screen
@@ -27905,7 +27329,7 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_bindings
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_bindings
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_bindings
@@ -27922,7 +27346,7 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_bindings
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_bindings
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_bindings
@@ -27937,7 +27361,7 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/wireframe2d
+### bevy-crates-bevy_sprite-src-mesh2d-wireframe2d
 
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -27954,7 +27378,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_vertex_output
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_vertex_output
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_vertex_output
@@ -27976,7 +27400,7 @@ struct VertexOutput {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/color_material
+### bevy-crates-bevy_sprite-src-mesh2d-color_material
 
 ```rust
 #import bevy_sprite::{
@@ -28050,7 +27474,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
 }
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_view_types
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_types
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_types
@@ -28060,7 +27484,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d
 
 ```rust
 #import bevy_sprite::{
@@ -28142,7 +27566,7 @@ fn fragment(
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_types
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_types
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_types
@@ -28164,7 +27588,7 @@ struct Mesh2d {
 
 ```
 
-### bevy/crates/bevy_sprite/src/mesh2d/mesh2d_functions
+### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_functions
 
 ```rust
 #define_import_path bevy_sprite::mesh2d_functions
@@ -28215,7 +27639,7 @@ fn mesh2d_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: 
 
 ```
 
-### bevy/crates/bevy_sprite/src/render/sprite
+### bevy-crates-bevy_sprite-src-render-sprite
 
 ```rust
 #ifdef TONEMAP_IN_SHADER
@@ -28284,7 +27708,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_sprite/src/render/sprite_view_bindings
+### bevy-crates-bevy_sprite-src-render-sprite_view_bindings
 
 ```rust
 #define_import_path bevy_sprite::sprite_view_bindings
@@ -28299,7 +27723,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/volumetric_fog/volumetric_fog
+### bevy-crates-bevy_pbr-src-volumetric_fog-volumetric_fog
 
 ```rust
 // A postprocessing shader that implements volumetric fog via raymarching and
@@ -28788,7 +28212,7 @@ fn fetch_spot_shadow_without_normal(light_id: u32, frag_position: vec4<f32>) -> 
 }
 ```
 
-### bevy/crates/bevy_pbr/src/prepass/prepass_utils
+### bevy-crates-bevy_pbr-src-prepass-prepass_utils
 
 ```rust
 #define_import_path bevy_pbr::prepass_utils
@@ -28829,7 +28253,7 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 
 ```
 
-### bevy/crates/bevy_pbr/src/prepass/prepass_bindings
+### bevy-crates-bevy_pbr-src-prepass-prepass_bindings
 
 ```rust
 #define_import_path bevy_pbr::prepass_bindings
@@ -28847,7 +28271,7 @@ struct PreviousViewUniforms {
 
 ```
 
-### bevy/crates/bevy_pbr/src/prepass/prepass_io
+### bevy-crates-bevy_pbr-src-prepass-prepass_io
 
 ```rust
 #define_import_path bevy_pbr::prepass_io
@@ -28947,7 +28371,7 @@ struct FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_pbr/src/prepass/prepass
+### bevy-crates-bevy_pbr-src-prepass-prepass
 
 ```rust
 #import bevy_pbr::{
@@ -29158,7 +28582,7 @@ fn fragment(in: VertexOutput) -> FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/parallax_mapping
+### bevy-crates-bevy_pbr-src-render-parallax_mapping
 
 ```rust
 #define_import_path bevy_pbr::parallax_mapping
@@ -29282,7 +28706,7 @@ fn parallaxed_uv(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/shadow_sampling
+### bevy-crates-bevy_pbr-src-render-shadow_sampling
 
 ```rust
 #define_import_path bevy_pbr::shadow_sampling
@@ -29887,7 +29311,7 @@ fn sample_shadow_cubemap_pcss(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/view_transformations
+### bevy-crates-bevy_pbr-src-render-view_transformations
 
 ```rust
 #define_import_path bevy_pbr::view_transformations
@@ -30097,7 +29521,7 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_bindings
+### bevy-crates-bevy_pbr-src-render-mesh_bindings
 
 ```rust
 #define_import_path bevy_pbr::mesh_bindings
@@ -30112,7 +29536,7 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_types
+### bevy-crates-bevy_pbr-src-render-pbr_types
 
 ```rust
 #define_import_path bevy_pbr::pbr_types
@@ -30269,7 +29693,7 @@ fn pbr_input_new() -> PbrInput {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_ambient
+### bevy-crates-bevy_pbr-src-render-pbr_ambient
 
 ```rust
 #define_import_path bevy_pbr::ambient
@@ -30304,7 +29728,7 @@ fn ambient_light(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/wireframe
+### bevy-crates-bevy_pbr-src-render-wireframe
 
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
@@ -30322,7 +29746,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_bindings
+### bevy-crates-bevy_pbr-src-render-pbr_bindings
 
 ```rust
 #define_import_path bevy_pbr::pbr_bindings
@@ -30365,7 +29789,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_preprocess
+### bevy-crates-bevy_pbr-src-render-mesh_preprocess
 
 ```rust
 // GPU mesh uniform building.
@@ -30565,7 +29989,7 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh
+### bevy-crates-bevy_pbr-src-render-mesh
 
 ```rust
 #import bevy_pbr::{
@@ -30685,7 +30109,7 @@ fn fragment(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/forward_io
+### bevy-crates-bevy_pbr-src-render-forward_io
 
 ```rust
 #define_import_path bevy_pbr::forward_io
@@ -30751,7 +30175,7 @@ struct FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_prepass_functions
+### bevy-crates-bevy_pbr-src-render-pbr_prepass_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_prepass_functions
@@ -30825,7 +30249,7 @@ fn calculate_motion_vector(world_position: vec4<f32>, previous_world_position: v
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/utils
+### bevy-crates-bevy_pbr-src-render-utils
 
 ```rust
 #define_import_path bevy_pbr::utils
@@ -30919,7 +30343,7 @@ const SPIRAL_OFFSET_7_ = vec2<f32>( 0.1250,  0.0000);
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/clustered_forward
+### bevy-crates-bevy_pbr-src-render-clustered_forward
 
 ```rust
 #define_import_path bevy_pbr::clustered_forward
@@ -31053,7 +30477,7 @@ fn cluster_debug_visualization(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_transmission
+### bevy-crates-bevy_pbr-src-render-pbr_transmission
 
 ```rust
 #define_import_path bevy_pbr::transmission
@@ -31251,7 +30675,7 @@ fn fetch_transmissive_background(offset_position: vec2<f32>, frag_coord: vec3<f3
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/morph
+### bevy-crates-bevy_pbr-src-render-morph
 
 ```rust
 #define_import_path bevy_pbr::morph
@@ -31309,7 +30733,7 @@ fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f3
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_types
+### bevy-crates-bevy_pbr-src-render-mesh_types
 
 ```rust
 #define_import_path bevy_pbr::mesh_types
@@ -31359,7 +30783,7 @@ const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_view_bindings
+### bevy-crates-bevy_pbr-src-render-mesh_view_bindings
 
 ```rust
 #define_import_path bevy_pbr::mesh_view_bindings
@@ -31474,7 +30898,7 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_functions
+### bevy-crates-bevy_pbr-src-render-pbr_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_functions
@@ -32332,7 +31756,7 @@ fn main_pass_post_lighting_processing(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_lighting
+### bevy-crates-bevy_pbr-src-render-pbr_lighting
 
 ```rust
 #define_import_path bevy_pbr::lighting
@@ -32949,7 +32373,7 @@ fn directional_light(light_id: u32, input: ptr<function, LightingInput>) -> vec3
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/rgb9e5
+### bevy-crates-bevy_pbr-src-render-rgb9e5
 
 ```rust
 #define_import_path bevy_pbr::rgb9e5
@@ -33018,7 +32442,7 @@ fn rgb9e5_to_vec3_(v: u32) -> vec3<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_prepass
+### bevy-crates-bevy_pbr-src-render-pbr_prepass
 
 ```rust
 #import bevy_pbr::{
@@ -33137,7 +32561,7 @@ fn fragment(in: prepass_io::VertexOutput) {
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/skinning
+### bevy-crates-bevy_pbr-src-render-skinning
 
 ```rust
 #define_import_path bevy_pbr::skinning
@@ -33211,7 +32635,7 @@ fn skin_normals(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/fog
+### bevy-crates-bevy_pbr-src-render-fog
 
 ```rust
 #define_import_path bevy_pbr::fog
@@ -33296,7 +32720,7 @@ fn atmospheric_fog(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr
+### bevy-crates-bevy_pbr-src-render-pbr
 
 ```rust
 #import bevy_pbr::{
@@ -33385,7 +32809,7 @@ fn fragment(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/shadows
+### bevy-crates-bevy_pbr-src-render-shadows
 
 ```rust
 #define_import_path bevy_pbr::shadows
@@ -33632,7 +33056,7 @@ fn cascade_debug_visualization(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_functions
+### bevy-crates-bevy_pbr-src-render-mesh_functions
 
 ```rust
 #define_import_path bevy_pbr::mesh_functions
@@ -33761,7 +33185,7 @@ fn get_visibility_range_dither_level(instance_index: u32, world_position: vec4<f
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/pbr_fragment
+### bevy-crates-bevy_pbr-src-render-pbr_fragment
 
 ```rust
 #define_import_path bevy_pbr::pbr_fragment
@@ -34246,7 +33670,7 @@ fn pbr_input_from_standard_material(
 
 ```
 
-### bevy/crates/bevy_pbr/src/render/mesh_view_types
+### bevy-crates-bevy_pbr-src-render-mesh_view_types
 
 ```rust
 #define_import_path bevy_pbr::mesh_view_types
@@ -34412,7 +33836,7 @@ struct EnvironmentMapUniform {
 };
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/remap_1d_to_2d_dispatch
+### bevy-crates-bevy_pbr-src-meshlet-remap_1d_to_2d_dispatch
 
 ```rust
 /// Remaps an indirect 1d to 2d dispatch for devices with low dispatch size limit.
@@ -34438,7 +33862,7 @@ fn remap_dispatch() {
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_resolve
+### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_resolve
 
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
@@ -34683,7 +34107,7 @@ fn calculate_world_tangent(
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/cull_clusters
+### bevy-crates-bevy_pbr-src-meshlet-cull_clusters
 
 ```rust
 #import bevy_pbr::meshlet_bindings::{
@@ -34879,7 +34303,7 @@ fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/resolve_render_targets
+### bevy-crates-bevy_pbr-src-meshlet-resolve_render_targets
 
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -34924,7 +34348,7 @@ fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f3
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/meshlet_mesh_material
+### bevy-crates-bevy_pbr-src-meshlet-meshlet_mesh_material
 
 ```rust
 #import bevy_pbr::{
@@ -34982,7 +34406,7 @@ fn prepass_fragment(@builtin(position) frag_coord: vec4<f32>) -> prepass_io::Fra
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_hardware_raster
+### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_hardware_raster
 
 ```rust
 #import bevy_pbr::{
@@ -35085,7 +34509,7 @@ fn divide(a: f32, b: f32) -> f32 {
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_software_raster
+### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_software_raster
 
 ```rust
 #import bevy_pbr::{
@@ -35288,7 +34712,7 @@ fn max3(a: f32, b: f32, c: f32) -> f32 {
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/fill_cluster_buffers
+### bevy-crates-bevy_pbr-src-meshlet-fill_cluster_buffers
 
 ```rust
 #import bevy_pbr::meshlet_bindings::{
@@ -35338,7 +34762,7 @@ fn fill_cluster_buffers(
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/dummy_visibility_buffer_resolve
+### bevy-crates-bevy_pbr-src-meshlet-dummy_visibility_buffer_resolve
 
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
@@ -35348,7 +34772,7 @@ fn fill_cluster_buffers(
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/downsample_depth
+### bevy-crates-bevy_pbr-src-meshlet-downsample_depth
 
 ```rust
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
@@ -35668,7 +35092,7 @@ fn reduce_4(v: vec4f) -> f32 {
 
 ```
 
-### bevy/crates/bevy_pbr/src/meshlet/meshlet_bindings
+### bevy-crates-bevy_pbr-src-meshlet-meshlet_bindings
 
 ```rust
 #define_import_path bevy_pbr::meshlet_bindings
@@ -35882,7 +35306,7 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
 
 ```
 
-### bevy/crates/bevy_pbr/src/lightmap/lightmap
+### bevy-crates-bevy_pbr-src-lightmap-lightmap
 
 ```rust
 #define_import_path bevy_pbr::lightmap
@@ -35917,7 +35341,7 @@ fn lightmap(uv: vec2<f32>, exposure: f32, instance_index: u32) -> vec3<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/light_probe/light_probe
+### bevy-crates-bevy_pbr-src-light_probe-light_probe
 
 ```rust
 #define_import_path bevy_pbr::light_probe
@@ -36001,7 +35425,7 @@ fn query_light_probe(
 
 ```
 
-### bevy/crates/bevy_pbr/src/light_probe/irradiance_volume
+### bevy-crates-bevy_pbr-src-light_probe-irradiance_volume
 
 ```rust
 #define_import_path bevy_pbr::irradiance_volume
@@ -36063,7 +35487,7 @@ fn irradiance_volume_light(world_position: vec3<f32>, N: vec3<f32>) -> vec3<f32>
 
 ```
 
-### bevy/crates/bevy_pbr/src/light_probe/environment_map
+### bevy-crates-bevy_pbr-src-light_probe-environment_map
 
 ```rust
 #define_import_path bevy_pbr::environment_map
@@ -36301,7 +35725,7 @@ fn environment_map_light(
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssao/ssao
+### bevy-crates-bevy_pbr-src-ssao-ssao
 
 ```rust
 // Visibility Bitmask Ambient Occlusion (VBAO)
@@ -36507,7 +35931,7 @@ fn ssao(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssao/spatial_denoise
+### bevy-crates-bevy_pbr-src-ssao-spatial_denoise
 
 ```rust
 // 3x3 bilaterial filter (edge-preserving blur)
@@ -36598,7 +36022,7 @@ fn spatial_denoise(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssao/preprocess_depth
+### bevy-crates-bevy_pbr-src-ssao-preprocess_depth
 
 ```rust
 // Inputs a depth texture and outputs a MIP-chain of depths.
@@ -36706,7 +36130,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssao/ssao_utils
+### bevy-crates-bevy_pbr-src-ssao-ssao_utils
 
 ```rust
 #define_import_path bevy_pbr::ssao_utils
@@ -36736,7 +36160,7 @@ fn fast_acos(in_x: f32) -> f32 {
 
 ```
 
-### bevy/crates/bevy_pbr/src/deferred/pbr_deferred_functions
+### bevy-crates-bevy_pbr-src-deferred-pbr_deferred_functions
 
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_functions
@@ -36876,7 +36300,7 @@ fn deferred_output(in: VertexOutput, pbr_input: PbrInput) -> FragmentOutput {
 
 ```
 
-### bevy/crates/bevy_pbr/src/deferred/pbr_deferred_types
+### bevy-crates-bevy_pbr-src-deferred-pbr_deferred_types
 
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_types
@@ -36971,7 +36395,7 @@ fn unpack_unorm3x4_plus_unorm_20_(v: u32) -> vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/deferred/deferred_lighting
+### bevy-crates-bevy_pbr-src-deferred-deferred_lighting
 
 ```rust
 #import bevy_pbr::{
@@ -37065,7 +36489,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssr/raymarch
+### bevy-crates-bevy_pbr-src-ssr-raymarch
 
 ```rust
 // Copyright (c) 2023 Tomasz Stachowiak
@@ -37582,7 +37006,7 @@ fn depth_ray_march_march(raymarch: ptr<function, DepthRayMarch>) -> DepthRayMarc
 
 ```
 
-### bevy/crates/bevy_pbr/src/ssr/ssr
+### bevy-crates-bevy_pbr-src-ssr-ssr
 
 ```rust
 // A postprocessing pass that performs screen-space reflections.
@@ -37773,7 +37197,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_ui/src/render/box_shadow
+### bevy-crates-bevy_ui-src-render-box_shadow
 
 ```rust
 #import bevy_render::view::View;
@@ -37878,7 +37302,7 @@ fn fragment(
 
 ```
 
-### bevy/crates/bevy_ui/src/render/ui_texture_slice
+### bevy-crates-bevy_ui-src-render-ui_texture_slice
 
 ```rust
 #import bevy_render::view::View;
@@ -38011,7 +37435,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_ui/src/render/ui_vertex_output
+### bevy-crates-bevy_ui-src-render-ui_vertex_output
 
 ```rust
 #define_import_path bevy_ui::ui_vertex_output
@@ -38028,7 +37452,7 @@ struct UiVertexOutput {
 
 ```
 
-### bevy/crates/bevy_ui/src/render/ui_material
+### bevy-crates-bevy_ui-src-render-ui_material
 
 ```rust
 #import bevy_render::{
@@ -38064,7 +37488,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### bevy/crates/bevy_ui/src/render/ui
+### bevy-crates-bevy_ui-src-render-ui
 
 ```rust
 #import bevy_render::view::View
@@ -38261,7 +37685,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### src/shader_utils/common
+### src-shader_utils-common
 
 ```rust
 #define_import_path shadplay::shader_utils::common
@@ -38455,7 +37879,7 @@ fn aces_approx(_v: vec3<f32>) -> vec3<f32> {
 
 ```
 
-### screenshots/22-10-23/19-39-14/screenshot
+### screenshots-22-10-23-19-39-14-screenshot
 
 ```rust
 /// ***************************** ///
@@ -38508,7 +37932,7 @@ fn semi_circle_wave(uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
 
 ```
 
-### screenshots/24-10-23/21-14-59/screenshot
+### screenshots-24-10-23-21-14-59-screenshot
 
 ```rust
 /// ***************************** ///
@@ -38566,7 +37990,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/08-11-23/22-29-32/screenshot
+### screenshots-08-11-23-22-29-32-screenshot
 
 ```rust
 //!
@@ -38595,7 +38019,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### screenshots/08-11-23/22-29-35/screenshot
+### screenshots-08-11-23-22-29-35-screenshot
 
 ```rust
 //!
@@ -38624,7 +38048,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### screenshots/08-11-23/22-29-33/screenshot
+### screenshots-08-11-23-22-29-33-screenshot
 
 ```rust
 //!
@@ -38653,7 +38077,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### screenshots/16-11-23/21-25-04/screenshot
+### screenshots-16-11-23-21-25-04-screenshot
 
 ```rust
 /// ***************************** ///
@@ -38768,7 +38192,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 ```
 
-### screenshots/16-11-23/21-23-45/screenshot
+### screenshots-16-11-23-21-23-45-screenshot
 
 ```rust
 /// ***************************** ///
@@ -38883,7 +38307,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 ```
 
-### screenshots/17-11-23/06-01-11/screenshot
+### screenshots-17-11-23-06-01-11-screenshot
 
 ```rust
 /// ***************************** ///
@@ -38915,7 +38339,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/17-11-23/16-49-11/screenshot
+### screenshots-17-11-23-16-49-11-screenshot
 
 ```rust
 //!
@@ -38956,7 +38380,7 @@ fn circle(p: vec2<f32>, r: f32) -> f32 {
 
 ```
 
-### screenshots/09-10-23/07-22-16/screeenshot
+### screenshots-09-10-23-07-22-16-screeenshot
 
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
@@ -39041,7 +38465,7 @@ fn sd_torus(p: vec3f, t: vec2f) -> f32 {
 
 ```
 
-### screenshots/07-10-23/aspect_ratio_correction_showed_with_circle/screeenshot
+### screenshots-07-10-23-aspect_ratio_correction_showed_with_circle-screeenshot
 
 ```rust
 /// A circle, normalised aspect ratio.
@@ -39093,7 +38517,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 
 ```
 
-### screenshots/07-10-23/12-03-36/screeenshot
+### screenshots-07-10-23-12-03-36-screeenshot
 
 ```rust
 /// Spin a sphere..
@@ -39169,7 +38593,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 
 ```
 
-### screenshots/07-10-23/11-16-48/screeenshot
+### screenshots-07-10-23-11-16-48-screeenshot
 
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
@@ -39218,7 +38642,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 
 ```
 
-### screenshots/07-10-23/21-43-49/screeenshot
+### screenshots-07-10-23-21-43-49-screeenshot
 
 ```rust
 /// Spin a sphere..
@@ -39294,7 +38718,7 @@ fn sd_torus(p: vec3f, t: vec2f) -> f32 {
 
 ```
 
-### screenshots/09-06-24/20-43-57/screenshot
+### screenshots-09-06-24-20-43-57-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39326,7 +38750,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/30-08-24/18-48-31/screenshot
+### screenshots-30-08-24-18-48-31-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39359,7 +38783,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/27-11-23/20-44-03/screenshot
+### screenshots-27-11-23-20-44-03-screenshot
 
 ```rust
 //!
@@ -39394,7 +38818,7 @@ fn circle(p: vec2<f32>, r: f32) -> f32 {
 
 ```
 
-### screenshots/24-01-24/06-36-04/screenshot
+### screenshots-24-01-24-06-36-04-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39426,7 +38850,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/24-01-24/06-51-53/screenshot
+### screenshots-24-01-24-06-51-53-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39458,7 +38882,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/24-01-24/06-36-05/screenshot
+### screenshots-24-01-24-06-36-05-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39490,7 +38914,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/24-01-24/06-37-20/screenshot
+### screenshots-24-01-24-06-37-20-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39522,7 +38946,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/24-01-24/06-36-03/screenshot
+### screenshots-24-01-24-06-36-03-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39554,7 +38978,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/24-01-24/06-25-45/screenshot
+### screenshots-24-01-24-06-25-45-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39586,7 +39010,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/14-10-23/12-28-55/screenshot
+### screenshots-14-10-23-12-28-55-screenshot
 
 ```rust
 ///
@@ -39656,7 +39080,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 ```
 
-### screenshots/14-10-23/12-28-54/screenshot
+### screenshots-14-10-23-12-28-54-screenshot
 
 ```rust
 ///
@@ -39726,7 +39150,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 ```
 
-### screenshots/21-01-24/18-50-41/screenshot
+### screenshots-21-01-24-18-50-41-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39758,7 +39182,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/02-11-23/07-48-05/screenshot
+### screenshots-02-11-23-07-48-05-screenshot
 
 ```rust
 /// ***************************** ///
@@ -39790,7 +39214,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/11-10-23/19-08-42/screeenshot
+### screenshots-11-10-23-19-08-42-screeenshot
 
 ```rust
 
@@ -39817,7 +39241,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/11-10-23/19-40-28/screeenshot
+### screenshots-11-10-23-19-40-28-screeenshot
 
 ```rust
 
@@ -39845,7 +39269,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 
 ```
 
-### screenshots/27-01-24/21-40-42/screenshot
+### screenshots-27-01-24-21-40-42-screenshot
 
 ```rust
 /// ***************************** ///
