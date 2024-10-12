@@ -200,7 +200,7 @@ ______________________________________________________________________
 
 # get-data-into-your-shader
 
-If none of that makes sense: I wrote a [blog-post](https://jeremyfwebb.ninja/src/blog_posts/wgsl_basics), on this.
+If none of that makes sense: I wrote a [blog-post](https://jeremyfwebb.ninja/2023-JUN-14), on this.
 Take this shader code [dotted-line-shader](https://github.com/alphastrata/shadplay/blob/main/assets/Gallery/lines/dotted_line.wgsl)
 Then use this [rust-binding-code](https://github.com/alphastrata/shadplay/blob/main/src/shader_utils/mod.rs#L70). (copied below for the lazy)
 
