@@ -12,6 +12,5 @@ bevy = { version = "0.15.0", features = [
 bevy_panorbit_camera = { git = "https://github.com/dmlukichev/bevy_panorbit_camera.git", branch = "master" }
 
 
-
 [dev-dependencies.bevy]
 opt-level = 3
