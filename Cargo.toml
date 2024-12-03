@@ -22,10 +22,8 @@ ui = []
 [dependencies]
 # Bump-a-lots
 bevy = { version = "0.15.0", features = ["file_watcher", "jpeg"] }
-# bevy_egui = { version = "0.30.1" }
-# bevy_panorbit_camera = "0.20.1"
-bevy_egui = { git = "https://github.com/Vrixyz/bevy_egui.git", branch = "bevy_main" }
-bevy_panorbit_camera = { git = "https://github.com/dmlukichev/bevy_panorbit_camera.git", branch = "master" }
+bevy_egui = { version = "0.31.1" }
+bevy_panorbit_camera = "0.20.1"
 
 
 # usually not bumped with bevy versions

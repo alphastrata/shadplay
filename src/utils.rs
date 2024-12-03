@@ -1,4 +1,5 @@
 use bevy::{
+    bevy_image::Image,
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
     winit::WinitWindows,
