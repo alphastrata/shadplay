@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    prelude::*, render::view::screenshot::Capturing, window::SystemCursorIcon,
+    winit::cursor::CursorIcon,
+};
 use chrono::{Datelike, Local, Timelike};
 use std::{fs, path::Path};
 
@@ -14,10 +17,31 @@ impl Plugin for ScreenshotPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            screenshot::screenshot_and_version_shader_on_spacebar,
+            (
+                screenshot_saving,
+                screenshot::screenshot_and_version_shader_on_spacebar,
+            ),
         );
 
         app.add_plugins(gif_maker::GifMakerPlugin);
+    }
+}
+
+fn screenshot_saving(
+    mut commands: Commands,
+    screenshot_saving: Query<Entity, With<Capturing>>,
+    window: Single<Entity, With<Window>>,
+) {
+    match screenshot_saving.iter().count() {
+        0 => {
+            commands.entity(*window).remove::<CursorIcon>();
+        }
+        x if x > 0 => {
+            commands
+                .entity(*window)
+                .insert(CursorIcon::from(SystemCursorIcon::Progress));
+        }
+        _ => {}
     }
 }
 

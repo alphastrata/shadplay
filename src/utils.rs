@@ -1,5 +1,4 @@
 use bevy::{
-    bevy_image::Image,
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
     winit::WinitWindows,
@@ -102,7 +101,15 @@ impl ShadplayWindowDims {
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[derive(Resource, Default)]
-pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
+pub struct ShapeOptions(
+    pub  Vec<(
+        bool,
+        Mesh3d,
+        MeshMaterial3d<YourShader>,
+        bevy::prelude::Transform,
+        utils::Shape,
+    )>,
+);
 
 /// Resource: Tracking whether or not we're rotating our shapes. 3d only.
 #[derive(Resource, Default, PartialEq)]
@@ -118,9 +125,9 @@ pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotati
 /// System: Rotates the currently active geometry in the scene, 3d only.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
-        transform.rotate_local_z(time.delta_seconds() * 0.25);
-        transform.rotate_local_x(time.delta_seconds() * 0.33);
-        transform.rotate_y(time.delta_seconds() * 0.250);
+        transform.rotate_local_z(time.delta_secs() * 0.25);
+        transform.rotate_local_x(time.delta_secs() * 0.33);
+        transform.rotate_y(time.delta_secs() * 0.250);
     }
 }
 
@@ -212,10 +219,12 @@ pub fn toggle_window_passthrough(
     mut windows: Query<&mut Window>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyP) {
+        #[allow(unused_mut)]
         let mut window = windows.single_mut();
         info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
-        window.cursor.hit_test = !window.cursor.hit_test;
+        //FIXME!
+        // window.cursor.hit_test = !window.cursor.hit_test;
     }
 }
 
@@ -229,56 +238,36 @@ pub fn init_shapes(
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
     user_textures.insert(0, texture.clone());
+    let mat = materials.add(crate::shader_utils::YourShader {
+        color: Color::default().into(),
+        img: texture.clone(),
+    });
 
     shape_options.0.push((
         false,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(Torus {
-                    major_radius: 2.,
-                    minor_radius: 0.2,
-                })),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        Mesh3d(meshes.add(Mesh::from(Torus {
+            major_radius: 2.,
+            minor_radius: 0.2,
+        }))),
+        MeshMaterial3d(mat.clone()),
+        Transform::from_xyz(0.0, 0.0, 0.0),
+        Shape,
     ));
 
     shape_options.0.push((
         true,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        Mesh3d(meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85)))),
+        MeshMaterial3d(mat.clone()),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
     ));
 
     shape_options.0.push((
         false,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Sphere { radius: 1.40 }),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        Mesh3d(meshes.add(Sphere { radius: 1.40 })),
+        MeshMaterial3d(mat.clone()),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
     ));
 }
 
@@ -286,19 +275,20 @@ pub fn init_shapes(
 pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     // 3D camera
     commands.spawn((
-        Camera3dBundle {
-            transform: Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)),
-            ..default()
-        },
-        PanOrbitCamera::default(),
-        Cam3D,
+        Name::new("Cam3D"),
+        Camera3d::default(),
+        Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)),
     ));
-    trace!("Spawned 3d Cam");
+    trace!("Spawned Cam3d");
 
-    for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
-        commands.spawn(matmeshbund.1.clone());
-        trace!("Spawned mesh");
-    }
+    shape_options
+        .0
+        .iter()
+        .filter(|v| v.0)
+        .for_each(|matmeshbund| {
+            commands.spawn(matmeshbund.1.clone());
+            trace!("Spawned mesh");
+        });
 }
 
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
@@ -357,7 +347,7 @@ pub fn setup_2d(
     user_textures.insert(0, texture.clone());
 
     // 2D camera
-    commands.spawn((Camera2dBundle { ..default() }, Cam2D));
+    commands.spawn((Camera2d { ..default() }, Cam2D));
     trace!("Spawned 2d Cam");
 
     let win = windows
@@ -374,20 +364,12 @@ pub fn setup_2d(
 
     // Quad
     commands.spawn((
-        bevy::sprite::MaterialMesh2dBundle {
-            mesh: meshes.add(Rectangle::new(1., 1.)).into(),
-            material: your_shader.add(YourShader2D {
-                img: texture,
-                mouse_pos: MousePos {
-                    x: 100.0f32,
-                    y: 128.0f32,
-                },
-            }),
-
-            transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
-            // .with_rotation(Quat::from_rotation_x(180.0)), //FIXME to avoid the rotate2D call in all shaders..
-            ..default()
-        },
+        Mesh2d(meshes.add(Rectangle::new(1., 1.))),
+        MeshMaterial2d(your_shader.add(YourShader2D {
+            img: texture,
+            mouse_pos: MousePos { x: 100.0, y: 128.0 },
+        })),
+        Transform::from_translation(Vec3::ZERO),
         BillBoardQuad,
     ));
 }
