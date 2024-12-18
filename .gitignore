@@ -189,3 +189,5 @@ cython_debug/
 #.idea/
 
 .direnv/*
+.cargo
+.direnv
