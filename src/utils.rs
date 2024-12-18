@@ -112,13 +112,14 @@ pub struct ShapeOptions(
 );
 
 /// Resource: Tracking whether or not we're rotating our shapes. 3d only.
-#[derive(Resource, Default, PartialEq)]
+#[derive(Debug, Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
 /// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::KeyR) {
         toggle.0 = !toggle.0;
+        info!("Togling rotate to {toggle:#?}");
     }
 }
 
@@ -185,7 +186,9 @@ pub fn switch_shape(
     mut commands: Commands,
     query: Query<Entity, With<Shape>>,
 ) {
+    info!("Switch shape system is running...");
     if input.just_pressed(KeyCode::KeyS) {
+        info!("Shape change requested...");
         // Old
         let Some(idx) = shape_options.0.iter().position(|v| v.0) else {
             return;
@@ -197,6 +200,7 @@ pub fn switch_shape(
         let next = (idx + 1) % shape_options.0.len();
         commands.spawn(shape_options.0[next].1.clone());
         shape_options.0[next].0 = true;
+        info!("shape change complete");
     }
 }
 
@@ -250,7 +254,7 @@ pub fn init_shapes(
             minor_radius: 0.2,
         }))),
         MeshMaterial3d(mat.clone_weak()),
-        Transform::from_xyz(0.0, 0.0, 0.0),
+        Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
     info!("Torus added");

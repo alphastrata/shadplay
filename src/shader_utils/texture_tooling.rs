@@ -111,6 +111,6 @@ pub fn swap_2d_tex_from_idx(
                 }
             }
         });
-        break; // Exit after processing the first shader.
+        return; // Exit after processing the first shader.
     }
 }

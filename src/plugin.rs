@@ -11,7 +11,7 @@ pub struct ShadPlayPlugin;
 
 impl Plugin for ShadPlayPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        app.insert_state(AppState::TwoD)
+        app.insert_state(AppState::TwoD) // we start always in 2d mode
             .add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
             .add_plugins(crate::system::ScreenshotPlugin) //NOTE: this is not Bevy's one!
             .add_plugins(ColourPickerPlugin)

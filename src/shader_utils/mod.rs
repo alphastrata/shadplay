@@ -1,12 +1,11 @@
 //!
 //! Most of the boilerplate to make a custom shader work lives here.
 //!
-use std::path::PathBuf;
-pub mod texture_tooling;
-
 use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite::Material2d};
+use std::path::PathBuf;
 
 pub mod common;
+pub mod texture_tooling;
 
 /// Event: for facilitating the drag-n-drop of a .wgsl shader onto Shadplay.
 #[derive(Event, Debug, Deref, DerefMut)]
@@ -18,7 +17,7 @@ pub struct DragNDropShader {
 //                3D                    //
 // ************************************ //
 /// The 3D shader.
-#[derive(Asset, AsBindGroup, TypePath, Debug, Clone, Component)]
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 // #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
     #[uniform(100)]
@@ -39,7 +38,7 @@ impl Material for YourShader {
 //                2D                    //
 // ************************************ //
 /// The 2D shadertoy like shader
-#[derive(Asset, AsBindGroup, TypePath, Debug, Clone, Component)]
+#[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 // #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
     #[uniform(100)]
