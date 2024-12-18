@@ -42,7 +42,8 @@ impl Plugin for ShadPlayPlugin {
                 (
                     rotate.run_if(resource_equals::<Rotating>(Rotating(true))),
                     switch_shape,
-                    swap_3d_tex_from_idx.run_if(on_event::<KeyboardInput>()),
+                    //TODO:
+                    // swap_3d_tex_from_idx.run_if(on_event::<KeyboardInput>()),
                     toggle_rotate,
                 )
                     .run_if(in_state(AppState::ThreeD)),
@@ -56,8 +57,9 @@ impl Plugin for ShadPlayPlugin {
                     // drag_n_drop::debug_tex_keys,
                     //
                     file_drag_and_drop_listener,
-                    add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
-                    override_current_shader.run_if(on_event::<DragNDropShader>()),
+                    //TODO:
+                    // add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
+                    // override_current_shader.run_if(on_event::<DragNDropShader>()),
                     cam_switch_system,
                     quit,
                     switch_level,
@@ -71,10 +73,11 @@ impl Plugin for ShadPlayPlugin {
                 (
                     // utils::max_mon_res, // We're currently not using the maximum resolution of the primary monitor.
                     update_mouse_pos,
-                    swap_2d_tex_from_idx.run_if(on_event::<KeyboardInput>()),
                     size_quad
                         .run_if(in_state(AppState::TwoD))
-                        .run_if(on_event::<WindowResized>()),
+                        .run_if(on_event::<WindowResized>),
+                    //TODO:
+                    swap_2d_tex_from_idx.run_if(on_event::<KeyboardInput>),
                 ),
             );
 

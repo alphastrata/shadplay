@@ -412,32 +412,56 @@ pub fn max_mon_res(
         *mon_specs = MonitorsSpecs { current: (w, h) };
     }
 }
-
-/// Update mouse_pos for the 2D shader
 pub fn update_mouse_pos(
-    shader_hndl: Query<&Handle<YourShader2D>>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
-    // mon_spec: Res<MonitorsSpecs>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
-    let win = window.single();
-
-    let Ok(handle) = shader_hndl.get_single() else {
-        return;
+    let win = match window.get_single() {
+        Ok(w) => w,
+        Err(_) => return,
     };
-    let Some(mouse_xy) = win.physical_cursor_position() else {
-        return;
+
+    let mouse_xy = match win.physical_cursor_position() {
+        Some(pos) => pos,
+        None => return,
     };
 
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy) {
-        if let Some(shad_mat) = shader_mat.get_mut(handle) {
+        for (_, shad_mat) in shader_mat.iter_mut() {
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
+            break; // Since we only care about the first shader.
         }
     }
 }
+
+// /// Update mouse_pos for the 2D shader
+// pub fn update_mouse_pos(
+//     shader_hndl: Query<&Handle<YourShader2D>>,
+//     window: Query<&Window, With<PrimaryWindow>>,
+//     mut shader_mat: ResMut<Assets<YourShader2D>>,
+//     // mon_spec: Res<MonitorsSpecs>,
+//     shadplay_win_dims: Res<ShadplayWindowDims>,
+// ) {
+//     let win = window.single();
+
+//     let Ok(handle) = shader_hndl.get_single() else {
+//         return;
+//     };
+//     let Some(mouse_xy) = win.physical_cursor_position() else {
+//         return;
+//     };
+
+//     // Is the mouse on our window?
+//     if shadplay_win_dims.hittest(mouse_xy) {
+//         if let Some(shad_mat) = shader_mat.get_mut(handle) {
+//             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
+//             shad_mat.mouse_pos = sh_xy.into();
+//         }
+//     }
+// }
 
 impl From<Vec2> for MousePos {
     fn from(value: Vec2) -> Self {

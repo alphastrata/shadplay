@@ -25,8 +25,8 @@ fn main() {
         .add_systems(
             Update,
             (
-                UserSession::runtime_updater.run_if(on_event::<KeyboardInput>()),
-                UserSession::runtime_updater.run_if(on_event::<WindowResized>()),
+                UserSession::runtime_updater.run_if(on_event::<KeyboardInput>),
+                UserSession::runtime_updater.run_if(on_event::<WindowResized>),
             ),
             //
         );

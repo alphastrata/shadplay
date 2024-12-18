@@ -82,14 +82,11 @@ pub fn override_current_shader(
     });
 }
 
-/// System: Add the user's dropped file to our available textures, set that texture to the current one (because that's what I'd expect!)
-/// the texture's extension is checked by the EventWriter<UserAddedTexture>
+/// System: Add the user's dropped file to our available textures, set that texture to the current one.
 pub fn add_and_set_dropped_file(
     asset_server: Res<AssetServer>,
     mut shader_mat_3d: ResMut<Assets<YourShader>>,
     mut shader_mat_2d: ResMut<Assets<YourShader2D>>,
-    shader_hndl_2d: Query<&Handle<YourShader2D>>,
-    shader_hndl_3d: Query<&Handle<YourShader>>,
     mut tex_handles: ResMut<TexHandleQueue>,
     mut user_textures: EventReader<UserAddedTexture>,
 ) {
@@ -100,27 +97,26 @@ pub fn add_and_set_dropped_file(
             asset_server.load(tex_path.as_path().to_string_lossy().to_string());
         tex_handles.insert(new_idx, texture);
 
-        if let Ok(handle) = shader_hndl_2d.get_single() {
-            if let Some(shad_mat) = shader_mat_2d.get_mut(handle) {
-                YourShader2D::set_current_tex(shad_mat, new_idx, &tex_handles);
+        // Try to set the texture for the first found `YourShader2D`
+        for (_, shad_mat) in shader_mat_2d.iter_mut() {
+            YourShader2D::set_current_tex(shad_mat, new_idx, &tex_handles);
 
-                #[cfg(debug_assertions)]
-                debug!("New Tex @ IDX:{}", new_idx);
-            }
-        } else {
-            error!("Unable to get a handle to the 2D shader, trying 3D.");
-
-            if let Ok(handle) = shader_hndl_3d.get_single() {
-                if let Some(shad_mat) = shader_mat_3d.get_mut(handle) {
-                    YourShader::set_current_tex(shad_mat, new_idx, &tex_handles);
-
-                    #[cfg(debug_assertions)]
-                    debug!("New Tex @ IDX:{}", new_idx);
-                }
-            } else {
-                error!("Unable to get a handle to the 3d shader");
-            }
+            #[cfg(debug_assertions)]
+            debug!("New Tex @ IDX:{}", new_idx);
+            return; // Exit after setting the texture for the first `YourShader2D`
         }
+
+        // If no `YourShader2D` was found, try setting it for the first `YourShader`
+        for (_, shad_mat) in shader_mat_3d.iter_mut() {
+            YourShader::set_current_tex(shad_mat, new_idx, &tex_handles);
+
+            #[cfg(debug_assertions)]
+            debug!("New Tex @ IDX:{}", new_idx);
+            return; // Exit after setting the texture for the first `YourShader`
+        }
+
+        // Log an error if neither shader was available
+        error!("Unable to set the texture for either 2D or 3D shaders.");
     }
 }
 
