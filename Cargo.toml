@@ -20,10 +20,14 @@ wayland = ["bevy/wayland"]
 ui = []
 
 [dependencies]
+# Bump-a-lots
+bevy = { version = "0.15.0", features = ["file_watcher", "jpeg"] }
+bevy_egui = { version = "0.31.1" }
+bevy_panorbit_camera = "0.21.1"
+
+
+# usually not bumped with bevy versions
 anyhow = "1.0.79"
-bevy = { version = "0.14.1", features = ["file_watcher", "jpeg"] }
-bevy_egui = { version = "0.29.0" }
-bevy_panorbit_camera = "0.19.3"
 chrono = "0.4.34"
 copypasta = "0.10.0"
 directories = "5.0.1"
@@ -32,7 +36,7 @@ serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.10"
 
 [dev-dependencies]
-bevy = { version = "0.14.1", features = [
+bevy = { version = "0.15.0", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",

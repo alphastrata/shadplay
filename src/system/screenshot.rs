@@ -1,10 +1,12 @@
 use std::path::Path;
 use std::path::PathBuf;
 
-use bevy::log;
-use bevy::prelude::*;
-use bevy::render::view::screenshot::ScreenshotManager;
-use bevy::window::PrimaryWindow;
+use bevy::{
+    log,
+    prelude::*,
+    render::view::screenshot::{save_to_disk, Screenshot},
+    window::PrimaryWindow,
+};
 
 use crate::utils::AppState;
 
@@ -22,9 +24,8 @@ const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 ///```
 pub fn screenshot_and_version_shader_on_spacebar(
     input: Res<ButtonInput<KeyCode>>,
-    main_window: Query<Entity, With<PrimaryWindow>>,
-    mut screenshot_manager: ResMut<ScreenshotManager>,
     app_state: Res<State<AppState>>,
+    mut commands: Commands,
 ) {
     if input.just_pressed(KeyCode::Space) {
         let target = PathBuf::from(format!(
@@ -35,20 +36,25 @@ pub fn screenshot_and_version_shader_on_spacebar(
         if let Err(e) = super::make_all(&target) {
             error!("make_all failed: {}", e);
         }
+        commands
+            .spawn(Screenshot::primary_window())
+            .observe(save_to_disk(target.clone()));
 
-        match screenshot_manager.save_screenshot_to_disk(main_window.single(), &target) {
-            Err(e) => error!("Screenshot(still) failed: {}", e),
-            Ok(_) => {
-                let shader_path = match app_state.get() {
-                    AppState::TwoD => DEFAULT_SHADER_2D,
-                    AppState::ThreeD => DEFAULT_SHADER_3D,
-                    _ => {
-                        log::debug!("Sceenshot system do nothing in GifMode.");
-                        return;
-                    }
-                };
-                super::version_current_shader(Path::new(shader_path), &target);
-            }
+        if target.exists() {
+            let shader_path = match app_state.get() {
+                AppState::TwoD => DEFAULT_SHADER_2D,
+                AppState::ThreeD => DEFAULT_SHADER_3D,
+                _ => {
+                    log::debug!("Sceenshot system does nothing in GifMode.");
+                    return;
+                }
+            };
+            super::version_current_shader(Path::new(shader_path), &target);
+        } else {
+            log::error!(
+                "Screenshot was NOT taken, there was no screenshot at {}",
+                target.display()
+            )
         }
     }
 }

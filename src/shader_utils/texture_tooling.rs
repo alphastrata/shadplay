@@ -38,16 +38,11 @@ impl SetNewTexture for YourShader {
 
 pub fn swap_3d_tex_from_idx(
     mut key_evr: EventReader<KeyboardInput>,
-    shader_hndl: Query<&Handle<YourShader>>,
     mut shader_mat3d: ResMut<Assets<YourShader>>,
     user_textures: Res<TexHandleQueue>,
 ) {
-    let Ok(handle) = shader_hndl.get_single() else {
-        error!("No handle, it could still be loading your texture into the ECS!");
-        return;
-    };
-
-    if let Some(shad_mat) = shader_mat3d.get_mut(handle) {
+    // Iterate over all `YourShader` assets
+    if let Some((_, shad_mat)) = shader_mat3d.iter_mut().next() {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 match ev.key_code {
@@ -94,16 +89,10 @@ impl SetNewTexture for YourShader2D {
 
 pub fn swap_2d_tex_from_idx(
     mut key_evr: EventReader<KeyboardInput>,
-    shader_hndl: Query<&Handle<YourShader2D>>,
     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
     user_textures: Res<TexHandleQueue>,
 ) {
-    let Ok(handle) = shader_hndl.get_single() else {
-        error!("No handle, it could still be loading your texture into the ECS!");
-        return;
-    };
-
-    if let Some(shad_mat) = shader_mat2d.get_mut(handle) {
+    if let Some((_, shad_mat)) = shader_mat2d.iter_mut().next() {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 match ev.key_code {

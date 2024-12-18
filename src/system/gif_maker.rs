@@ -4,8 +4,13 @@ use bevy::render::camera::RenderTarget;
 use bevy::render::render_resource::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
 };
-use bevy::render::view::screenshot::ScreenshotManager;
-use bevy::{log, prelude::*};
+use bevy::{
+    log,
+    prelude::*,
+    render::view::screenshot::{save_to_disk, Capturing, Screenshot},
+    window::SystemCursorIcon,
+    winit::cursor::CursorIcon,
+};
 
 use bevy::render::view::RenderLayers;
 use bevy::window::{PrimaryWindow, WindowResized};
@@ -27,16 +32,13 @@ pub struct Shooting(bool);
 impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(Shooting(false));
-        app.add_systems(
-            Update,
-            (gif_capture_toggle.run_if(on_event::<KeyboardInput>()),),
-        );
+        app.add_systems(Update, gif_capture_toggle.run_if(on_event::<KeyboardInput>));
 
         // Limit timestep we can snap for our gif to 20 FPS
         app.insert_resource(Time::<Fixed>::from_seconds(0.05));
         app.add_systems(
             FixedUpdate,
-            continous_capture.run_if(resource_exists_and_equals(Shooting(true))),
+            (continous_capture.run_if(resource_exists_and_equals(Shooting(true))),),
         );
     }
 }
@@ -48,19 +50,28 @@ fn gif_capture_toggle(input: Res<ButtonInput<KeyCode>>, mut shooting: ResMut<Sho
 }
 
 fn continous_capture(
-    mut screenshot_mngr: ResMut<ScreenshotManager>,
+    screenshot_mngr: Query<Entity, With<Capturing>>,
     // mut captures: Local<Vec<Image>>,
-    window_q: Query<Entity, With<PrimaryWindow>>,
     mut n: Local<usize>,
+    mut commands: Commands,
+    window: Single<Entity, With<Window>>,
 ) {
-    if let Err(e) = screenshot_mngr.save_screenshot_to_disk(
-        window_q.single(),
-        format!(".gif_scratch/im_{:04}.png", *n + 1),
-    )
-    // is ffmpeg screwed when it sees 000_000.png?
-    {
-        log::error!("{}", e);
-    } else {
-        *n += 1;
+    match screenshot_mngr.iter().count() {
+        0 => {
+            commands.entity(*window).remove::<CursorIcon>();
+        }
+        x if x > 0 => {
+            commands
+                .entity(*window)
+                .insert(CursorIcon::from(SystemCursorIcon::Progress));
+        }
+        _ => {}
     }
+
+    *n += 1;
+    let path = format!(".gif_scratch/im_{:04}.png", *n + 1);
+
+    commands
+        .spawn(Screenshot::primary_window())
+        .observe(save_to_disk(path));
 }

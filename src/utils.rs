@@ -1,11 +1,12 @@
 use bevy::{
+    math::sampling::mesh_sampling,
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
     winit::WinitWindows,
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::prelude::*;
+use crate::{prelude::*, shader_utils::YourShader};
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
@@ -100,26 +101,36 @@ impl ShadplayWindowDims {
 }
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
+#[allow(clippy::type_complexity)]
 #[derive(Resource, Default)]
-pub struct ShapeOptions(pub Vec<(bool, (MaterialMeshBundle<YourShader>, Shape))>);
+pub struct ShapeOptions(
+    pub  Vec<(
+        bool,
+        Handle<Mesh>,
+        Handle<YourShader>,
+        bevy::prelude::Transform,
+        utils::Shape,
+    )>,
+);
 
 /// Resource: Tracking whether or not we're rotating our shapes. 3d only.
-#[derive(Resource, Default, PartialEq)]
+#[derive(Debug, Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
 /// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::KeyR) {
         toggle.0 = !toggle.0;
+        info!("Togling rotate to {toggle:#?}");
     }
 }
 
 /// System: Rotates the currently active geometry in the scene, 3d only.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
     for mut transform in &mut query {
-        transform.rotate_local_z(time.delta_seconds() * 0.25);
-        transform.rotate_local_x(time.delta_seconds() * 0.33);
-        transform.rotate_y(time.delta_seconds() * 0.250);
+        transform.rotate_local_z(time.delta_secs() * 0.25);
+        transform.rotate_local_x(time.delta_secs() * 0.33);
+        transform.rotate_y(time.delta_secs() * 0.250);
     }
 }
 
@@ -178,6 +189,7 @@ pub fn switch_shape(
     query: Query<Entity, With<Shape>>,
 ) {
     if input.just_pressed(KeyCode::KeyS) {
+        info!("Shape change requested...");
         // Old
         let Some(idx) = shape_options.0.iter().position(|v| v.0) else {
             return;
@@ -187,8 +199,15 @@ pub fn switch_shape(
 
         // New
         let next = (idx + 1) % shape_options.0.len();
-        commands.spawn(shape_options.0[next].1.clone());
+        let (_vis, mesh_handle, mat_handle, tf, shp) = &shape_options.0[next];
+        commands.spawn((
+            Mesh3d(mesh_handle.clone_weak()),
+            MeshMaterial3d(mat_handle.clone_weak()),
+            *tf,
+            shp.clone(),
+        ));
         shape_options.0[next].0 = true;
+        info!("shape change complete");
     }
 }
 
@@ -211,10 +230,11 @@ pub fn toggle_window_passthrough(
     mut windows: Query<&mut Window>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyP) {
+        #[allow(unused_mut)]
         let mut window = windows.single_mut();
         info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
-        window.cursor.hit_test = !window.cursor.hit_test;
+        window.cursor_options.hit_test = !window.cursor_options.hit_test;
     }
 }
 
@@ -228,76 +248,72 @@ pub fn init_shapes(
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
     user_textures.insert(0, texture.clone());
+    let mat = materials.add(YourShader {
+        color: Color::default().into(),
+        img: texture.clone(),
+    });
+    info!("{texture:#?} (space.jpg) texture added!");
 
     shape_options.0.push((
         false,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(Torus {
-                    major_radius: 2.,
-                    minor_radius: 0.2,
-                })),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        meshes.add(Mesh::from(Torus {
+            major_radius: 2.0,
+            minor_radius: 0.3,
+        })),
+        mat.clone(),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
     ));
+    info!("Torus added");
 
     shape_options.0.push((
         true,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85))),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        meshes.add(Mesh::from(Cuboid::default())),
+        mat.clone(),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
     ));
+    info!("Cube added");
 
     shape_options.0.push((
         false,
-        (
-            MaterialMeshBundle {
-                mesh: meshes.add(Sphere { radius: 1.40 }),
-                transform: Transform::from_xyz(0.0, 0.3, 0.0),
-                material: materials.add(crate::shader_utils::YourShader {
-                    color: Color::default().into(),
-                    img: texture.clone(),
-                }),
-                ..default()
-            },
-            Shape,
-        ),
+        meshes.add(Sphere::default()),
+        mat.clone(),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
     ));
+    info!("Sphere added");
+
+    info!("Shapes initialised!");
 }
 
 /// System: Setup 3d Camera. Called on entry of [`AppState::ThreeD`]
 pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     // 3D camera
     commands.spawn((
-        Camera3dBundle {
-            transform: Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)),
-            ..default()
-        },
-        PanOrbitCamera::default(),
-        Cam3D,
+        Name::new("Cam3D"),
+        Camera3d::default(),
+        Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
-    trace!("Spawned 3d Cam");
+    info!("Spawned Cam3d");
 
-    for matmeshbund in shape_options.0.iter().filter(|v| v.0) {
-        commands.spawn(matmeshbund.1.clone());
-        trace!("Spawned mesh");
-    }
+    assert!(!shape_options.0.is_empty());
+    assert_eq!(shape_options.0.len(), 3);
+    shape_options.0.iter().filter(|vis| vis.0).for_each(
+        |(_vis, mesh_handle, mat_handle, tf, shp)| {
+            commands.spawn(
+                //
+                (
+                    Mesh3d(mesh_handle.clone_weak()),
+                    MeshMaterial3d(mat_handle.clone_weak()),
+                    *tf,
+                    shp.clone(),
+                ), //
+            );
+
+            info!("Spawned mesh");
+        },
+    );
 }
 
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
@@ -308,11 +324,11 @@ pub fn cleanup_3d(
 ) {
     for (ent, _cam) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned 3D camera.")
+        info!("Despawned 3D camera.")
     }
     for (ent, _tf) in shape_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned shape.")
+        info!("Despawned shape.")
     }
 }
 
@@ -320,7 +336,7 @@ pub fn cleanup_3d(
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned 2D camera.")
+        info!("Despawned 2D camera.")
     }
 }
 
@@ -330,11 +346,11 @@ pub fn cam_switch_system(
     keyboard_input: Res<ButtonInput<KeyCode>>,
 ) {
     if keyboard_input.pressed(KeyCode::KeyT) {
-        trace!("Swapping to 2D");
+        info!("Swapping to 2D");
         next_state.set(AppState::TwoD)
     }
     if keyboard_input.pressed(KeyCode::KeyH) {
-        trace!("Swapping to 3D");
+        info!("Swapping to 3D");
         next_state.set(AppState::ThreeD)
     }
 }
@@ -356,8 +372,8 @@ pub fn setup_2d(
     user_textures.insert(0, texture.clone());
 
     // 2D camera
-    commands.spawn((Camera2dBundle { ..default() }, Cam2D));
-    trace!("Spawned 2d Cam");
+    commands.spawn((Camera2d, Cam2D));
+    info!("Spawned 2d Cam");
 
     let win = windows
         .get_single()
@@ -369,24 +385,16 @@ pub fn setup_2d(
         y: height / 2.0,
     });
 
-    trace!("Set MaxSceenDims set to {width}, {height}");
+    info!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
     commands.spawn((
-        bevy::sprite::MaterialMesh2dBundle {
-            mesh: meshes.add(Rectangle::new(1., 1.)).into(),
-            material: your_shader.add(YourShader2D {
-                img: texture,
-                mouse_pos: MousePos {
-                    x: 100.0f32,
-                    y: 128.0f32,
-                },
-            }),
-
-            transform: Transform::from_translation(Vec3::new(0., 0., 0.)),
-            // .with_rotation(Quat::from_rotation_x(180.0)), //FIXME to avoid the rotate2D call in all shaders..
-            ..default()
-        },
+        Mesh2d(meshes.add(Rectangle::default())),
+        MeshMaterial2d(your_shader.add(YourShader2D {
+            img: texture,
+            mouse_pos: MousePos { x: 100.0, y: 128.0 },
+        })),
+        Transform::from_translation(Vec3::ZERO),
         BillBoardQuad,
     ));
 }
@@ -412,7 +420,7 @@ pub fn size_quad(
         });
 
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
-        trace!("Window Resized, resizing quad");
+        info!("Window Resized, resizing quad");
     });
 }
 
@@ -429,27 +437,24 @@ pub fn max_mon_res(
         *mon_specs = MonitorsSpecs { current: (w, h) };
     }
 }
-
-/// Update mouse_pos for the 2D shader
 pub fn update_mouse_pos(
-    shader_hndl: Query<&Handle<YourShader2D>>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
-    // mon_spec: Res<MonitorsSpecs>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
-    let win = window.single();
-
-    let Ok(handle) = shader_hndl.get_single() else {
-        return;
+    let win = match window.get_single() {
+        Ok(w) => w,
+        Err(_) => return,
     };
-    let Some(mouse_xy) = win.physical_cursor_position() else {
-        return;
+
+    let mouse_xy = match win.physical_cursor_position() {
+        Some(pos) => pos,
+        None => return,
     };
 
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy) {
-        if let Some(shad_mat) = shader_mat.get_mut(handle) {
+        if let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
         }

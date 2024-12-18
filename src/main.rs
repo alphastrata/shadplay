@@ -1,7 +1,7 @@
 ///
 /// ShadPlay
 ///
-use bevy::{input::keyboard::KeyboardInput, prelude::*, window::WindowResized};
+use bevy::{prelude::*, window::WindowResized};
 
 use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession};
 
@@ -23,13 +23,23 @@ fn main() {
             ShadPlayPlugin,
         ))
         .add_systems(
-            Update,
+            PostUpdate,
             (
-                UserSession::runtime_updater.run_if(on_event::<KeyboardInput>()),
-                UserSession::runtime_updater.run_if(on_event::<WindowResized>()),
+                UserSession::runtime_updater
+                    .run_if(on_event::<WindowResized>)
+                    .run_if(time_passed(1.0)), // Rate limit the speed at which we write to the config file...
+
+                                               //
             ),
-            //
         );
 
     shadplay.run();
+}
+
+// https://github.com/bevyengine/bevy/blob/b9123e74b6838b58c33badff73d176441f8a33cc/examples/ecs/run_conditions.rs
+fn time_passed(t: f32) -> impl FnMut(Local<f32>, Res<Time>) -> bool {
+    move |mut timer: Local<f32>, time: Res<Time>| {
+        *timer += time.delta_secs();
+        *timer >= t
+    }
 }
