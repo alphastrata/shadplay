@@ -202,7 +202,7 @@ pub fn switch_shape(
         commands.spawn((
             Mesh3d(mesh_handle.clone_weak()),
             MeshMaterial3d(mat_handle.clone_weak()),
-            tf.clone(),
+            *tf,
             shp.clone(),
         ));
         shape_options.0[next].0 = true;
@@ -305,7 +305,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
                 (
                     Mesh3d(mesh_handle.clone_weak()),
                     MeshMaterial3d(mat_handle.clone_weak()),
-                    tf.clone(),
+                    *tf,
                     shp.clone(),
                 ), //
             );
