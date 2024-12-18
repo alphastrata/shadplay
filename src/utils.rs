@@ -277,7 +277,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     commands.spawn((
         Name::new("Cam3D"),
         Camera3d::default(),
-        Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)),
+        Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)).looking_at(Vec3::ZERO, Vec3::Y),
     ));
     trace!("Spawned Cam3d");
 
