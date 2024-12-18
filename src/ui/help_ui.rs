@@ -23,7 +23,7 @@ impl Plugin for HelpUIPlugin {
             Update,
             (
                 toggle_help_ui,
-                // help_window.run_if(resource_equals(HelpUIToggle { open: true })),
+                help_window.run_if(resource_equals(HelpUIToggle { open: true })),
             ),
         );
     }

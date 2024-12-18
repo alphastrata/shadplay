@@ -55,21 +55,21 @@ pub fn override_current_shader(
     app_state: Res<State<AppState>>,
 ) {
     dropped_shader.read().for_each(|pb| {
-        trace!("A wgsl shader was dropped on with path: {}", pb.display());
+        info!("A wgsl shader was dropped on with path: {}", pb.display());
         let Ok(shader_as_string) = std::fs::read_to_string(pb.as_path()) else {
             return;
         };
 
         match app_state.get() {
             AppState::TwoD => {
-                trace!("replacing 2d");
+                info!("replacing 2d");
                 match std::fs::write("assets/shaders/myshader_2d.wgsl", &shader_as_string) {
                     Ok(_) => {}
                     Err(e) => error!("Error overriding the 2d shader:\n\t{}", e),
                 }
             }
             AppState::ThreeD => {
-                trace!("replacing 3d");
+                info!("replacing 3d");
                 match std::fs::write("assets/shaders/myshader.wgsl", &shader_as_string) {
                     Ok(_) => {}
                     Err(e) => error!("Error overriding the 3d shader:\n\t{}", e),

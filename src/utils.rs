@@ -241,6 +241,7 @@ pub fn init_shapes(
         color: Color::default().into(),
         img: texture.clone(),
     });
+    info!("{texture:#?} (space.jpg) texture added!");
 
     shape_options.0.push((
         false,
@@ -252,6 +253,7 @@ pub fn init_shapes(
         Transform::from_xyz(0.0, 0.0, 0.0),
         Shape,
     ));
+    info!("Torus added");
 
     shape_options.0.push((
         true,
@@ -260,6 +262,7 @@ pub fn init_shapes(
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
+    info!("Cube added");
 
     shape_options.0.push((
         false,
@@ -268,8 +271,9 @@ pub fn init_shapes(
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
+    info!("Sphere added");
 
-    trace!("Shapes initialised!");
+    info!("Shapes initialised!");
 }
 
 /// System: Setup 3d Camera. Called on entry of [`AppState::ThreeD`]
@@ -280,7 +284,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
         Camera3d::default(),
         Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)).looking_at(Vec3::ZERO, Vec3::Y),
     ));
-    trace!("Spawned Cam3d");
+    info!("Spawned Cam3d");
 
     shape_options
         .0
@@ -288,7 +292,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
         .filter(|v| v.0)
         .for_each(|matmeshbund| {
             commands.spawn(matmeshbund.1.clone());
-            trace!("Spawned mesh");
+            info!("Spawned mesh");
         });
 }
 
@@ -300,11 +304,11 @@ pub fn cleanup_3d(
 ) {
     for (ent, _cam) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned 3D camera.")
+        info!("Despawned 3D camera.")
     }
     for (ent, _tf) in shape_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned shape.")
+        info!("Despawned shape.")
     }
 }
 
@@ -312,7 +316,7 @@ pub fn cleanup_3d(
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in cam_q.iter_mut() {
         commands.entity(ent).despawn_recursive();
-        trace!("Despawned 2D camera.")
+        info!("Despawned 2D camera.")
     }
 }
 
@@ -322,11 +326,11 @@ pub fn cam_switch_system(
     keyboard_input: Res<ButtonInput<KeyCode>>,
 ) {
     if keyboard_input.pressed(KeyCode::KeyT) {
-        trace!("Swapping to 2D");
+        info!("Swapping to 2D");
         next_state.set(AppState::TwoD)
     }
     if keyboard_input.pressed(KeyCode::KeyH) {
-        trace!("Swapping to 3D");
+        info!("Swapping to 3D");
         next_state.set(AppState::ThreeD)
     }
 }
@@ -349,7 +353,7 @@ pub fn setup_2d(
 
     // 2D camera
     commands.spawn((Camera2d { ..default() }, Cam2D));
-    trace!("Spawned 2d Cam");
+    info!("Spawned 2d Cam");
 
     let win = windows
         .get_single()
@@ -361,7 +365,7 @@ pub fn setup_2d(
         y: height / 2.0,
     });
 
-    trace!("Set MaxSceenDims set to {width}, {height}");
+    info!("Set MaxSceenDims set to {width}, {height}");
 
     // Quad
     commands.spawn((
@@ -396,7 +400,7 @@ pub fn size_quad(
         });
 
         transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
-        trace!("Window Resized, resizing quad");
+        info!("Window Resized, resizing quad");
     });
 }
 
