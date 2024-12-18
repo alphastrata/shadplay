@@ -249,7 +249,7 @@ pub fn init_shapes(
             major_radius: 2.,
             minor_radius: 0.2,
         }))),
-        MeshMaterial3d(mat.clone()),
+        MeshMaterial3d(mat.clone_weak()),
         Transform::from_xyz(0.0, 0.0, 0.0),
         Shape,
     ));
@@ -257,7 +257,7 @@ pub fn init_shapes(
     shape_options.0.push((
         true,
         Mesh3d(meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85)))),
-        MeshMaterial3d(mat.clone()),
+        MeshMaterial3d(mat.clone_weak()),
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
@@ -265,7 +265,7 @@ pub fn init_shapes(
     shape_options.0.push((
         false,
         Mesh3d(meshes.add(Sphere { radius: 1.40 })),
-        MeshMaterial3d(mat.clone()),
+        MeshMaterial3d(mat.clone_weak()),
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
