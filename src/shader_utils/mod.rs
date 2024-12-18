@@ -19,11 +19,11 @@ pub struct DragNDropShader {
 /// The 3D shader.
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct YourShader {
-    #[uniform(0)]
+    #[uniform(100)]
     pub color: LinearRgba, //RGBA
 
-    #[texture(1, dimension = "2d")]
-    #[sampler(2)]
+    #[texture(101, dimension = "2d")]
+    #[sampler(102)]
     pub img: Handle<Image>,
 }
 // 3d impl

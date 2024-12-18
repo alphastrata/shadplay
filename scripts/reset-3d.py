@@ -9,8 +9,9 @@ THREE3_SHADER_STARTER = """//!
  
 @group(0) @binding(0) var<uniform> view: View;
 
-@group(1) @binding(1) var texture: texture_2d<f32>;
-@group(1) @binding(1) var texture_sampler: sampler;
+@group(2) @binding(100)var<uniform> color: vec4f;
+@group(2) @binding(101) var texture: texture_2d<f32>;
+@group(2) @binding(102) var texture_sampler: sampler;
 
 const SPEED:f32 = 1.0;
 
