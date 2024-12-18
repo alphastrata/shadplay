@@ -55,11 +55,9 @@ impl Plugin for ShadPlayPlugin {
                     // DEBUG:
                     // #[cfg(debug_assertions)]
                     // drag_n_drop::debug_tex_keys,
-                    //
                     file_drag_and_drop_listener,
-                    //TODO:
-                    // add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>()),
-                    // override_current_shader.run_if(on_event::<DragNDropShader>()),
+                    add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>),
+                    override_current_shader.run_if(on_event::<DragNDropShader>),
                     cam_switch_system,
                     quit,
                     switch_level,
@@ -76,7 +74,6 @@ impl Plugin for ShadPlayPlugin {
                     size_quad
                         .run_if(in_state(AppState::TwoD))
                         .run_if(on_event::<WindowResized>),
-                    //TODO:
                     swap_2d_tex_from_idx.run_if(on_event::<KeyboardInput>),
                 ),
             );

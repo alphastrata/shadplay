@@ -189,5 +189,4 @@ cython_debug/
 #.idea/
 
 .direnv/*
-.cargo
-.direnv
+.cargo/config.toml
