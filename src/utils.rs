@@ -1,4 +1,5 @@
 use bevy::{
+    math::sampling::mesh_sampling,
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
     winit::WinitWindows,
@@ -104,8 +105,8 @@ impl ShadplayWindowDims {
 pub struct ShapeOptions(
     pub  Vec<(
         bool,
-        Mesh3d,
-        MeshMaterial3d<YourShader>,
+        Handle<Mesh>,
+        Handle<YourShader>,
         bevy::prelude::Transform,
         utils::Shape,
     )>,
@@ -197,7 +198,13 @@ pub fn switch_shape(
 
         // New
         let next = (idx + 1) % shape_options.0.len();
-        commands.spawn(shape_options.0[next].1.clone());
+        let (_vis, mesh_handle, mat_handle, tf, shp) = &shape_options.0[next];
+        commands.spawn((
+            Mesh3d(mesh_handle.clone_weak()),
+            MeshMaterial3d(mat_handle.clone_weak()),
+            tf.clone(),
+            shp.clone(),
+        ));
         shape_options.0[next].0 = true;
         info!("shape change complete");
     }
@@ -246,35 +253,35 @@ pub fn init_shapes(
     });
     info!("{texture:#?} (space.jpg) texture added!");
 
-    // shape_options.0.push((
-    //     false,
-    //     Mesh3d(meshes.add(Mesh::from(Torus {
-    //         major_radius: 2.,
-    //         minor_radius: 0.2,
-    //     }))),
-    //     MeshMaterial3d(mat.clone()),
-    //     Transform::from_xyz(0.0, 0.3, 0.0),
-    //     Shape,
-    // ));
-    // info!("Torus added");
+    shape_options.0.push((
+        false,
+        meshes.add(Mesh::from(Torus {
+            major_radius: 2.0,
+            minor_radius: 0.3,
+        })),
+        mat.clone(),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
+    ));
+    info!("Torus added");
 
     shape_options.0.push((
         true,
-        Mesh3d(meshes.add(Mesh::from(Cuboid::default()))),
-        MeshMaterial3d(mat.clone()),
+        meshes.add(Mesh::from(Cuboid::default())),
+        mat.clone(),
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
     info!("Cube added");
 
-    // shape_options.0.push((
-    //     false,
-    //     Mesh3d(meshes.add(Sphere { radius: 1.40 })),
-    //     MeshMaterial3d(mat.clone()),
-    //     Transform::from_xyz(0.0, 0.3, 0.0),
-    //     Shape,
-    // ));
-    // info!("Sphere added");
+    shape_options.0.push((
+        false,
+        meshes.add(Sphere::default()),
+        mat.clone(),
+        Transform::from_xyz(0.0, 0.3, 0.0),
+        Shape,
+    ));
+    info!("Sphere added");
 
     info!("Shapes initialised!");
 }
@@ -289,14 +296,23 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     ));
     info!("Spawned Cam3d");
 
-    shape_options
-        .0
-        .iter()
-        .filter(|v| v.0)
-        .for_each(|matmeshbund| {
-            commands.spawn(matmeshbund.1.clone());
+    assert!(!shape_options.0.is_empty());
+    assert_eq!(shape_options.0.len(), 3);
+    shape_options.0.iter().filter(|vis| vis.0).for_each(
+        |(_vis, mesh_handle, mat_handle, tf, shp)| {
+            commands.spawn(
+                //
+                (
+                    Mesh3d(mesh_handle.clone_weak()),
+                    MeshMaterial3d(mat_handle.clone_weak()),
+                    tf.clone(),
+                    shp.clone(),
+                ), //
+            );
+
             info!("Spawned mesh");
-        });
+        },
+    );
 }
 
 /// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
@@ -372,7 +388,7 @@ pub fn setup_2d(
 
     // Quad
     commands.spawn((
-        Mesh2d(meshes.add(Rectangle::new(1., 1.))),
+        Mesh2d(meshes.add(Rectangle::default())),
         MeshMaterial2d(your_shader.add(YourShader2D {
             img: texture,
             mouse_pos: MousePos { x: 100.0, y: 128.0 },
