@@ -60,7 +60,6 @@ pub fn swap_3d_tex_from_idx(
                 }
             }
         });
-        return;
     }
 }
 
@@ -111,6 +110,5 @@ pub fn swap_2d_tex_from_idx(
                 }
             }
         });
-        return;
     }
 }

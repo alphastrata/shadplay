@@ -101,6 +101,7 @@ impl ShadplayWindowDims {
 }
 
 /// Resource: All the shapes we have the option of displaying. 3d Only.
+#[allow(clippy::type_complexity)]
 #[derive(Resource, Default)]
 pub struct ShapeOptions(
     pub  Vec<(
@@ -371,7 +372,7 @@ pub fn setup_2d(
     user_textures.insert(0, texture.clone());
 
     // 2D camera
-    commands.spawn((Camera2d { ..default() }, Cam2D));
+    commands.spawn((Camera2d::default(), Cam2D));
     info!("Spawned 2d Cam");
 
     let win = windows
@@ -453,10 +454,9 @@ pub fn update_mouse_pos(
 
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy) {
-        for (_, shad_mat) in shader_mat.iter_mut() {
+        if let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
-            return;
         }
     }
 }
