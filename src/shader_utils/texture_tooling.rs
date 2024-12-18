@@ -42,7 +42,7 @@ pub fn swap_3d_tex_from_idx(
     user_textures: Res<TexHandleQueue>,
 ) {
     // Iterate over all `YourShader` assets
-    for (_, shad_mat) in shader_mat3d.iter_mut() {
+    if let Some((_, shad_mat)) = shader_mat3d.iter_mut().next() {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 match ev.key_code {
@@ -60,7 +60,7 @@ pub fn swap_3d_tex_from_idx(
                 }
             }
         });
-        break; // Exit after processing the first shader.
+        return;
     }
 }
 
@@ -93,7 +93,7 @@ pub fn swap_2d_tex_from_idx(
     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
     user_textures: Res<TexHandleQueue>,
 ) {
-    for (_, shad_mat) in shader_mat2d.iter_mut() {
+    if let Some((_, shad_mat)) = shader_mat2d.iter_mut().next() {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
                 match ev.key_code {
@@ -111,6 +111,6 @@ pub fn swap_2d_tex_from_idx(
                 }
             }
         });
-        return; // Exit after processing the first shader.
+        return;
     }
 }

@@ -98,7 +98,7 @@ pub fn add_and_set_dropped_file(
         tex_handles.insert(new_idx, texture);
 
         // Try to set the texture for the first found `YourShader2D`
-        for (_, shad_mat) in shader_mat_2d.iter_mut() {
+        if let Some((_, shad_mat)) = shader_mat_2d.iter_mut().next() {
             YourShader2D::set_current_tex(shad_mat, new_idx, &tex_handles);
 
             #[cfg(debug_assertions)]
@@ -107,7 +107,7 @@ pub fn add_and_set_dropped_file(
         }
 
         // If no `YourShader2D` was found, try setting it for the first `YourShader`
-        for (_, shad_mat) in shader_mat_3d.iter_mut() {
+        if let Some((_, shad_mat)) = shader_mat_3d.iter_mut().next() {
             YourShader::set_current_tex(shad_mat, new_idx, &tex_handles);
 
             #[cfg(debug_assertions)]
