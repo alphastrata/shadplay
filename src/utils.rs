@@ -437,32 +437,6 @@ pub fn update_mouse_pos(
     }
 }
 
-// /// Update mouse_pos for the 2D shader
-// pub fn update_mouse_pos(
-//     shader_hndl: Query<&Handle<YourShader2D>>,
-//     window: Query<&Window, With<PrimaryWindow>>,
-//     mut shader_mat: ResMut<Assets<YourShader2D>>,
-//     // mon_spec: Res<MonitorsSpecs>,
-//     shadplay_win_dims: Res<ShadplayWindowDims>,
-// ) {
-//     let win = window.single();
-
-//     let Ok(handle) = shader_hndl.get_single() else {
-//         return;
-//     };
-//     let Some(mouse_xy) = win.physical_cursor_position() else {
-//         return;
-//     };
-
-//     // Is the mouse on our window?
-//     if shadplay_win_dims.hittest(mouse_xy) {
-//         if let Some(shad_mat) = shader_mat.get_mut(handle) {
-//             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
-//             shad_mat.mouse_pos = sh_xy.into();
-//         }
-//     }
-// }
-
 impl From<Vec2> for MousePos {
     fn from(value: Vec2) -> Self {
         MousePos {
