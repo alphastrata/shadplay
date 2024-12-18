@@ -18,13 +18,12 @@ pub struct DragNDropShader {
 // ************************************ //
 /// The 3D shader.
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
-// #[uuid = "a3d71c04-d054-4946-80f8-ba6cfbc90cad"]
 pub struct YourShader {
-    #[uniform(100)]
+    #[uniform(0)]
     pub color: LinearRgba, //RGBA
 
-    #[texture(101, dimension = "2d")]
-    #[sampler(102)]
+    #[texture(1, dimension = "2d")]
+    #[sampler(2)]
     pub img: Handle<Image>,
 }
 // 3d impl
@@ -39,13 +38,12 @@ impl Material for YourShader {
 // ************************************ //
 /// The 2D shadertoy like shader
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
-// #[uuid = "f528511f-dcf2-4b0b-9522-a9df3a1a795b"]
 pub struct YourShader2D {
-    #[uniform(100)]
+    #[uniform(0)]
     pub(crate) mouse_pos: MousePos,
 
-    #[texture(101, dimension = "2d")]
-    #[sampler(102)]
+    #[texture(1, dimension = "2d")]
+    #[sampler(2)]
     pub img: Handle<Image>,
 }
 

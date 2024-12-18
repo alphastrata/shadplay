@@ -5,7 +5,7 @@ use bevy::{
 };
 use bevy_panorbit_camera::PanOrbitCamera;
 
-use crate::prelude::*;
+use crate::{prelude::*, shader_utils::YourShader};
 /// State: Used to transition between 2d and 3d mode.    
 /// Used by: cam_switch_system, screenshot
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
@@ -186,7 +186,6 @@ pub fn switch_shape(
     mut commands: Commands,
     query: Query<Entity, With<Shape>>,
 ) {
-    info!("Switch shape system is running...");
     if input.just_pressed(KeyCode::KeyS) {
         info!("Shape change requested...");
         // Old
@@ -241,41 +240,41 @@ pub fn init_shapes(
 ) {
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
     user_textures.insert(0, texture.clone());
-    let mat = materials.add(crate::shader_utils::YourShader {
+    let mat = materials.add(YourShader {
         color: Color::default().into(),
         img: texture.clone(),
     });
     info!("{texture:#?} (space.jpg) texture added!");
 
-    shape_options.0.push((
-        false,
-        Mesh3d(meshes.add(Mesh::from(Torus {
-            major_radius: 2.,
-            minor_radius: 0.2,
-        }))),
-        MeshMaterial3d(mat.clone_weak()),
-        Transform::from_xyz(0.0, 0.3, 0.0),
-        Shape,
-    ));
-    info!("Torus added");
+    // shape_options.0.push((
+    //     false,
+    //     Mesh3d(meshes.add(Mesh::from(Torus {
+    //         major_radius: 2.,
+    //         minor_radius: 0.2,
+    //     }))),
+    //     MeshMaterial3d(mat.clone()),
+    //     Transform::from_xyz(0.0, 0.3, 0.0),
+    //     Shape,
+    // ));
+    // info!("Torus added");
 
     shape_options.0.push((
         true,
-        Mesh3d(meshes.add(Mesh::from(Cuboid::new(1.85, 1.85, 1.85)))),
-        MeshMaterial3d(mat.clone_weak()),
+        Mesh3d(meshes.add(Mesh::from(Cuboid::default()))),
+        MeshMaterial3d(mat.clone()),
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
     info!("Cube added");
 
-    shape_options.0.push((
-        false,
-        Mesh3d(meshes.add(Sphere { radius: 1.40 })),
-        MeshMaterial3d(mat.clone_weak()),
-        Transform::from_xyz(0.0, 0.3, 0.0),
-        Shape,
-    ));
-    info!("Sphere added");
+    // shape_options.0.push((
+    //     false,
+    //     Mesh3d(meshes.add(Sphere { radius: 1.40 })),
+    //     MeshMaterial3d(mat.clone()),
+    //     Transform::from_xyz(0.0, 0.3, 0.0),
+    //     Shape,
+    // ));
+    // info!("Sphere added");
 
     info!("Shapes initialised!");
 }
@@ -286,7 +285,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     commands.spawn((
         Name::new("Cam3D"),
         Camera3d::default(),
-        Transform::from_translation(Vec3::new(0.0, 1.5, 5.0)).looking_at(Vec3::ZERO, Vec3::Y),
+        Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
     info!("Spawned Cam3d");
 

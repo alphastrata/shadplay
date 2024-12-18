@@ -1,7 +1,7 @@
 ///
 /// ShadPlay
 ///
-use bevy::{input::keyboard::KeyboardInput, prelude::*, window::WindowResized};
+use bevy::{prelude::*, window::WindowResized};
 
 use shadplay::{plugin::ShadPlayPlugin, system::config::UserSession};
 

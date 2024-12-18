@@ -22,6 +22,6 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     uv.x *= resolution.x / resolution.y;
     uv *= rotate2D(NEG_HALF_PI);
 
-    return vec4f(shader_toy_default(t, uv), 1.0);
+    return vec4f(shader_toy_default(t, uv), 0.3);
 }    
     

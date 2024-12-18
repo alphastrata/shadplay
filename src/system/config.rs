@@ -100,8 +100,10 @@ impl UserSession {
         Window {
             title: "shadplay".into(),
             resolution: self.window_dims.into(),
-            transparent: true,
-            decorations: self.decorations,
+            // transparent: true,
+            // decorations: self.decorations,
+            transparent: false,
+            decorations: true,
             // Mac only
             #[cfg(target_os = "macos")]
             composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
