@@ -432,7 +432,7 @@ pub fn update_mouse_pos(
         for (_, shad_mat) in shader_mat.iter_mut() {
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
-            break; // Since we only care about the first shader.
+            return;
         }
     }
 }
