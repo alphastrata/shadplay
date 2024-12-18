@@ -372,7 +372,7 @@ pub fn setup_2d(
     user_textures.insert(0, texture.clone());
 
     // 2D camera
-    commands.spawn((Camera2d::default(), Cam2D));
+    commands.spawn((Camera2d, Cam2D));
     info!("Spawned 2d Cam");
 
     let win = windows
