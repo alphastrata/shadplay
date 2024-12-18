@@ -53,7 +53,7 @@ impl Plugin for ShadPlayPlugin {
                 (
                     // DEBUG:
                     // #[cfg(debug_assertions)]
-                    // drag_n_drop::debug_tex_keys,
+                    // crate::system::drag_n_drop::debug_tex_keys,
                     file_drag_and_drop_listener,
                     add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>),
                     override_current_shader.run_if(on_event::<DragNDropShader>),

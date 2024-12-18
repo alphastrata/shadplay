@@ -223,8 +223,7 @@ pub fn toggle_window_passthrough(
         let mut window = windows.single_mut();
         info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
-        //FIXME!
-        // window.cursor.hit_test = !window.cursor.hit_test;
+        window.cursor_options.hit_test = !window.cursor_options.hit_test;
     }
 }
 
@@ -269,6 +268,8 @@ pub fn init_shapes(
         Transform::from_xyz(0.0, 0.3, 0.0),
         Shape,
     ));
+
+    trace!("Shapes initialised!");
 }
 
 /// System: Setup 3d Camera. Called on entry of [`AppState::ThreeD`]
