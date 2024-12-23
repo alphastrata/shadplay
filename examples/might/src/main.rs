@@ -60,11 +60,8 @@ fn setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     commands.spawn((
-        Camera3dBundle {
-            transform: Transform::from_xyz(2.0, 6.0, 6.0)
-                .looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
-            ..default()
-        },
+        Camera3d::default(),
+        Transform::from_xyz(2.0, 6.0, 6.0).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
         PanOrbitCamera::default(),
         EnvironmentMapLight {
             diffuse_map: asset_server.load("environment_maps/pisa_diffuse_rgb9e5_zstd.ktx2"),
@@ -74,32 +71,29 @@ fn setup(
         },
     ));
 
-    commands.spawn(DirectionalLightBundle {
-        directional_light: DirectionalLight {
+    commands.spawn((
+        DirectionalLight {
             shadows_enabled: true,
             ..default()
         },
-        cascade_shadow_config: CascadeShadowConfigBuilder {
+        CascadeShadowConfigBuilder {
             num_cascades: 1,
             maximum_distance: 1.6,
             ..default()
-        }
-        .into(),
-        ..default()
-    });
+        }.build(),
+    ));
 
     // ground plane
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Plane3d::default().mesh().size(50.0, 50.0)),
-        material: materials.add(StandardMaterial {
+    commands.spawn((
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(50.0, 50.0))),
+        MeshMaterial3d(materials.add(StandardMaterial {
             base_color: Color::BLACK,
             perceptual_roughness: 1.0,
             double_sided: false,
             unlit: true,
             ..default()
-        }),
-        ..default()
-    });
+        })),
+    ));
 }
 
 // Loads our knight into the asset server, it isn't spawned.
@@ -128,16 +122,12 @@ fn spawn_knight(
         let as_custom_mat = AuraMaterial { inner: 0.0 };
 
         commands
-            .spawn(SceneBundle {
-                scene: gltf.scenes[0].clone(),
-                ..Default::default()
-            })
+            .spawn(SceneRoot(gltf.scenes[0].clone()))
             .with_children(|parent| {
-                parent.spawn(MaterialMeshBundle {
-                    mesh: meshes.add(disc),
-                    material: materials.add(as_custom_mat),
-                    ..default()
-                });
+                parent.spawn((
+                    Mesh3d(meshes.add(disc)),
+                    MeshMaterial3d(materials.add(as_custom_mat)),
+                ));
             });
 
         was_loaded.0 = true;
@@ -155,7 +145,7 @@ fn animate_light_direction(
         transform.rotation = Quat::from_euler(
             EulerRot::ZYX,
             0.0,
-            time.elapsed_seconds() * PI / 5.0,
+            time.elapsed_secs() * PI / 5.0,
             -FRAC_PI_4,
         );
     }
@@ -186,3 +176,4 @@ fn quit_listener(input: Res<ButtonInput<KeyCode>>) {
         std::process::exit(0)
     }
 }
+
