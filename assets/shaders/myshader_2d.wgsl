@@ -13,9 +13,9 @@
 const SPEED:f32 = 1.0;
 
 @fragment
-fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
-    var uv = mesh.uv;
+    var uv = in.uv;
     uv = (uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
     let t = globals.time * SPEED;
