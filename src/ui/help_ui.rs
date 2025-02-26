@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
-use bevy_egui::egui::{Align2, Color32, RichText, Rounding, Vec2};
+use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Rounding, Vec2};
 use bevy_egui::{egui, EguiContexts};
 
 /// Plugin:
@@ -53,18 +53,18 @@ fn help_window(mut ctx: EguiContexts) {
         .resizable(false)
         .frame(egui::Frame {
             inner_margin: egui::Margin {
-                left: 3.0,
-                right: 3.0,
-                top: 3.0,
-                bottom: 3.0,
+                left: 3,
+                right: 3,
+                top: 3,
+                bottom: 3,
             },
             outer_margin: egui::Margin {
-                left: 0.0,
-                right: 0.0,
-                top: 0.0,
-                bottom: 0.0,
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
             },
-            rounding: Rounding::same(2.0),
+            corner_radius: CornerRadius::default(),
             shadow: Shadow::NONE,
             fill: Color32::from_black_alpha(2),
             stroke: egui::Stroke::NONE,
