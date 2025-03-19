@@ -80,7 +80,8 @@ fn setup(
             num_cascades: 1,
             maximum_distance: 1.6,
             ..default()
-        }.build(),
+        }
+        .build(),
     ));
 
     // ground plane
@@ -176,4 +177,3 @@ fn quit_listener(input: Res<ButtonInput<KeyCode>>) {
         std::process::exit(0)
     }
 }
-
