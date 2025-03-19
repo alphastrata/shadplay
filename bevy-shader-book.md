@@ -181,6 +181,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy/crates/bevy_pbr/src/render/mesh_bindings](#bevy-crates-bevy_pbr-src-render-mesh_bindings)
 - [bevy/crates/bevy_pbr/src/render/pbr_types](#bevy-crates-bevy_pbr-src-render-pbr_types)
 - [bevy/crates/bevy_pbr/src/render/pbr_ambient](#bevy-crates-bevy_pbr-src-render-pbr_ambient)
+- [bevy/crates/bevy_pbr/src/render/reset_indirect_batch_sets](#bevy-crates-bevy_pbr-src-render-reset_indirect_batch_sets)
 - [bevy/crates/bevy_pbr/src/render/wireframe](#bevy-crates-bevy_pbr-src-render-wireframe)
 - [bevy/crates/bevy_pbr/src/render/pbr_bindings](#bevy-crates-bevy_pbr-src-render-pbr_bindings)
 - [bevy/crates/bevy_pbr/src/render/mesh_preprocess](#bevy-crates-bevy_pbr-src-render-mesh_preprocess)
@@ -201,24 +202,37 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy/crates/bevy_pbr/src/render/fog](#bevy-crates-bevy_pbr-src-render-fog)
 - [bevy/crates/bevy_pbr/src/render/pbr](#bevy-crates-bevy_pbr-src-render-pbr)
 - [bevy/crates/bevy_pbr/src/render/shadows](#bevy-crates-bevy_pbr-src-render-shadows)
+- [bevy/crates/bevy_pbr/src/render/occlusion_culling](#bevy-crates-bevy_pbr-src-render-occlusion_culling)
 - [bevy/crates/bevy_pbr/src/render/mesh_functions](#bevy-crates-bevy_pbr-src-render-mesh_functions)
 - [bevy/crates/bevy_pbr/src/render/pbr_fragment](#bevy-crates-bevy_pbr-src-render-pbr_fragment)
+- [bevy/crates/bevy_pbr/src/render/build_indirect_params](#bevy-crates-bevy_pbr-src-render-build_indirect_params)
 - [bevy/crates/bevy_pbr/src/render/mesh_view_types](#bevy-crates-bevy_pbr-src-render-mesh_view_types)
 - [bevy/crates/bevy_pbr/src/meshlet/remap_1d_to_2d_dispatch](#bevy-crates-bevy_pbr-src-meshlet-remap_1d_to_2d_dispatch)
 - [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_resolve](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_resolve)
 - [bevy/crates/bevy_pbr/src/meshlet/cull_clusters](#bevy-crates-bevy_pbr-src-meshlet-cull_clusters)
+- [bevy/crates/bevy_pbr/src/meshlet/clear_visibility_buffer](#bevy-crates-bevy_pbr-src-meshlet-clear_visibility_buffer)
 - [bevy/crates/bevy_pbr/src/meshlet/resolve_render_targets](#bevy-crates-bevy_pbr-src-meshlet-resolve_render_targets)
 - [bevy/crates/bevy_pbr/src/meshlet/meshlet_mesh_material](#bevy-crates-bevy_pbr-src-meshlet-meshlet_mesh_material)
 - [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_hardware_raster](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_hardware_raster)
 - [bevy/crates/bevy_pbr/src/meshlet/visibility_buffer_software_raster](#bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_software_raster)
 - [bevy/crates/bevy_pbr/src/meshlet/fill_cluster_buffers](#bevy-crates-bevy_pbr-src-meshlet-fill_cluster_buffers)
 - [bevy/crates/bevy_pbr/src/meshlet/dummy_visibility_buffer_resolve](#bevy-crates-bevy_pbr-src-meshlet-dummy_visibility_buffer_resolve)
-- [bevy/crates/bevy_pbr/src/meshlet/downsample_depth](#bevy-crates-bevy_pbr-src-meshlet-downsample_depth)
 - [bevy/crates/bevy_pbr/src/meshlet/meshlet_bindings](#bevy-crates-bevy_pbr-src-meshlet-meshlet_bindings)
+- [bevy/crates/bevy_pbr/src/decal/clustered](#bevy-crates-bevy_pbr-src-decal-clustered)
+- [bevy/crates/bevy_pbr/src/decal/forward_decal](#bevy-crates-bevy_pbr-src-decal-forward_decal)
 - [bevy/crates/bevy_pbr/src/lightmap/lightmap](#bevy-crates-bevy_pbr-src-lightmap-lightmap)
 - [bevy/crates/bevy_pbr/src/light_probe/light_probe](#bevy-crates-bevy_pbr-src-light_probe-light_probe)
 - [bevy/crates/bevy_pbr/src/light_probe/irradiance_volume](#bevy-crates-bevy_pbr-src-light_probe-irradiance_volume)
 - [bevy/crates/bevy_pbr/src/light_probe/environment_map](#bevy-crates-bevy_pbr-src-light_probe-environment_map)
+- [bevy/crates/bevy_pbr/src/atmosphere/multiscattering_lut](#bevy-crates-bevy_pbr-src-atmosphere-multiscattering_lut)
+- [bevy/crates/bevy_pbr/src/atmosphere/bruneton_functions](#bevy-crates-bevy_pbr-src-atmosphere-bruneton_functions)
+- [bevy/crates/bevy_pbr/src/atmosphere/bindings](#bevy-crates-bevy_pbr-src-atmosphere-bindings)
+- [bevy/crates/bevy_pbr/src/atmosphere/render_sky](#bevy-crates-bevy_pbr-src-atmosphere-render_sky)
+- [bevy/crates/bevy_pbr/src/atmosphere/aerial_view_lut](#bevy-crates-bevy_pbr-src-atmosphere-aerial_view_lut)
+- [bevy/crates/bevy_pbr/src/atmosphere/functions](#bevy-crates-bevy_pbr-src-atmosphere-functions)
+- [bevy/crates/bevy_pbr/src/atmosphere/sky_view_lut](#bevy-crates-bevy_pbr-src-atmosphere-sky_view_lut)
+- [bevy/crates/bevy_pbr/src/atmosphere/transmittance_lut](#bevy-crates-bevy_pbr-src-atmosphere-transmittance_lut)
+- [bevy/crates/bevy_pbr/src/atmosphere/types](#bevy-crates-bevy_pbr-src-atmosphere-types)
 - [bevy/crates/bevy_pbr/src/ssao/ssao](#bevy-crates-bevy_pbr-src-ssao-ssao)
 - [bevy/crates/bevy_pbr/src/ssao/spatial_denoise](#bevy-crates-bevy_pbr-src-ssao-spatial_denoise)
 - [bevy/crates/bevy_pbr/src/ssao/preprocess_depth](#bevy-crates-bevy_pbr-src-ssao-preprocess_depth)
@@ -241,9 +255,11 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy/crates/bevy_sprite/src/render/sprite_view_bindings](#bevy-crates-bevy_sprite-src-render-sprite_view_bindings)
 - [bevy/crates/bevy_render/src/globals](#bevy-crates-bevy_render-src-globals)
 - [bevy/crates/bevy_render/src/maths](#bevy-crates-bevy_render-src-maths)
+- [bevy/crates/bevy_render/src/bindless](#bevy-crates-bevy_render-src-bindless)
 - [bevy/crates/bevy_render/src/color_operations](#bevy-crates-bevy_render-src-color_operations)
 - [bevy/crates/bevy_render/src/view/view](#bevy-crates-bevy_render-src-view-view)
 - [bevy/crates/bevy_render/src/view/window/screenshot](#bevy-crates-bevy_render-src-view-window-screenshot)
+- [bevy/crates/bevy_render/src/experimental/occlusion_culling/mesh_preprocess_types](#bevy-crates-bevy_render-src-experimental-occlusion_culling-mesh_preprocess_types)
 - [bevy/crates/bevy_core_pipeline/src/motion_blur/motion_blur](#bevy-crates-bevy_core_pipeline-src-motion_blur-motion_blur)
 - [bevy/crates/bevy_core_pipeline/src/bloom/bloom](#bevy-crates-bevy_core_pipeline-src-bloom-bloom)
 - [bevy/crates/bevy_core_pipeline/src/contrast_adaptive_sharpening/robust_contrast_adaptive_sharpening](#bevy-crates-bevy_core_pipeline-src-contrast_adaptive_sharpening-robust_contrast_adaptive_sharpening)
@@ -264,6 +280,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy/crates/bevy_core_pipeline/src/fullscreen_vertex_shader/fullscreen](#bevy-crates-bevy_core_pipeline-src-fullscreen_vertex_shader-fullscreen)
 - [bevy/crates/bevy_core_pipeline/src/deferred/copy_deferred_lighting_id](#bevy-crates-bevy_core_pipeline-src-deferred-copy_deferred_lighting_id)
 - [bevy/crates/bevy_core_pipeline/src/oit/resolve/oit_resolve](#bevy-crates-bevy_core_pipeline-src-oit-resolve-oit_resolve)
+- [bevy/crates/bevy_core_pipeline/src/experimental/mip_generation/downsample_depth](#bevy-crates-bevy_core_pipeline-src-experimental-mip_generation-downsample_depth)
 - [bevy/crates/bevy_gizmos/src/lines](#bevy-crates-bevy_gizmos-src-lines)
 - [bevy/crates/bevy_gizmos/src/line_joints](#bevy-crates-bevy_gizmos-src-line_joints)
 - [bevy/assets/shaders/irradiance_volume_voxel_visualization](#bevy-assets-shaders-irradiance_volume_voxel_visualization)
@@ -280,13 +297,16 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy/assets/shaders/line_material](#bevy-assets-shaders-line_material)
 - [bevy/assets/shaders/cubemap_unlit](#bevy-assets-shaders-cubemap_unlit)
 - [bevy/assets/shaders/custom_material_2d](#bevy-assets-shaders-custom_material_2d)
+- [bevy/assets/shaders/custom_stencil](#bevy-assets-shaders-custom_stencil)
 - [bevy/assets/shaders/animate_shader](#bevy-assets-shaders-animate_shader)
 - [bevy/assets/shaders/bindless_material](#bevy-assets-shaders-bindless_material)
 - [bevy/assets/shaders/extended_material](#bevy-assets-shaders-extended_material)
+- [bevy/assets/shaders/automatic_instancing](#bevy-assets-shaders-automatic_instancing)
 - [bevy/assets/shaders/show_prepass](#bevy-assets-shaders-show_prepass)
 - [bevy/assets/shaders/specialized_mesh_pipeline](#bevy-assets-shaders-specialized_mesh_pipeline)
 - [bevy/assets/shaders/water_material](#bevy-assets-shaders-water_material)
 - [bevy/assets/shaders/custom_phase_item](#bevy-assets-shaders-custom_phase_item)
+- [bevy/assets/shaders/custom_clustered_decal](#bevy-assets-shaders-custom_clustered_decal)
 - [bevy/assets/shaders/custom_material_import](#bevy-assets-shaders-custom_material_import)
 - [bevy/assets/shaders/custom_material](#bevy-assets-shaders-custom_material)
 - [bevy/assets/shaders/custom_vertex_attribute](#bevy-assets-shaders-custom_vertex_attribute)
@@ -330,9 +350,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [assets/shaders/shadertoy-ports/semi-circle-wave](#assets-shaders-shadertoy-ports-semi-circle-wave)
 - [assets/shaders/shadertoy-ports/BROKEN_tuesday_tinkering](#assets-shaders-shadertoy-ports-BROKEN_tuesday_tinkering)
 - [assets/shaders/common/notes](#assets-shaders-common-notes)
-
 ### all_wgsl
-
 ```rust
 #import bevy_pbr::mesh_vertex_output    VertexOutput
 #import bevy_pbr::mesh_view_bindings    view
@@ -3327,9 +3345,7 @@ fn get_instance_index(instance_index: u32) -> u32 {
 #endif
 
 ```
-
 ### bevy_shaders-remap_1d_to_2d_dispatch
-
 ```rust
 /// Remaps an indirect 1d to 2d dispatch for devices with low dispatch size limit.
 
@@ -3356,9 +3372,7 @@ fn remap_dispatch() {
 }
 
 ```
-
 ### bevy_shaders-irradiance_volume_voxel_visualization
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_pbr::irradiance_volume
@@ -3411,9 +3425,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-blit
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
@@ -3426,9 +3438,7 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-tonemapping_test_patterns
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings,
@@ -3495,9 +3505,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-visibility_buffer_resolve
-
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
 
@@ -3740,9 +3748,7 @@ fn calculate_world_tangent(
 #endif
 
 ```
-
 ### bevy_shaders-parallax_mapping
-
 ```rust
 #define_import_path bevy_pbr::parallax_mapping
 
@@ -3879,9 +3885,7 @@ fn parallaxed_uv(
 }
 
 ```
-
 ### bevy_shaders-taa
-
 ```rust
 // References:
 // https://www.elopezr.com/temporal-aa-and-the-quest-for-the-holy-trail
@@ -4086,9 +4090,7 @@ fn taa(@location(0) uv: vec2<f32>) -> Output {
 }
 
 ```
-
 ### bevy_shaders-bloom
-
 ```rust
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
 // You then downsample each mip (starting with the original texture) to the lower resolution mip under it, going in order.
@@ -4240,9 +4242,7 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-shadow_sampling
-
 ```rust
 #define_import_path bevy_pbr::shadow_sampling
 
@@ -4857,9 +4857,7 @@ fn sample_shadow_cubemap_pcss(
 }
 
 ```
-
 ### bevy_shaders-globals
-
 ```rust
 #define_import_path bevy_render::globals
 
@@ -4879,9 +4877,7 @@ struct Globals {
 };
 
 ```
-
 ### bevy_shaders-view_transformations
-
 ```rust
 #define_import_path bevy_pbr::view_transformations
 
@@ -5089,9 +5085,7 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
 }
 
 ```
-
 ### bevy_shaders-post_processing
-
 ```rust
 // This shader computes the chromatic aberration effect
 
@@ -5142,9 +5136,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy_shaders-prepass_utils
-
 ```rust
 #define_import_path bevy_pbr::prepass_utils
 
@@ -5183,9 +5175,7 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 #endif // MOTION_VECTOR_PREPASS
 
 ```
-
 ### bevy_shaders-mesh_bindings
-
 ```rust
 #define_import_path bevy_pbr::mesh_bindings
 
@@ -5198,9 +5188,7 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 #endif // PER_OBJECT_BUFFER_BATCH_SIZE
 
 ```
-
 ### bevy_shaders-game_of_life
-
 ```rust
 // The shader reads the previous frame's state from the `input` texture, and writes the new state of
 // each pixel to the `output` texture. The textures are flipped each step to progress the
@@ -5275,9 +5263,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy_shaders-mesh2d_view_bindings
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_bindings
 
@@ -5292,9 +5278,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 @group(0) @binding(3) var dt_lut_sampler: sampler;
 
 ```
-
 ### bevy_shaders-auto_exposure
-
 ```rust
 // Auto exposure
 //
@@ -5491,9 +5475,7 @@ fn compute_average(@builtin(local_invocation_index) local_index: u32) {
 }
 
 ```
-
 ### bevy_shaders-fullscreen
-
 ```rust
 #define_import_path bevy_core_pipeline::fullscreen_vertex_shader
 
@@ -5531,9 +5513,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 }
 
 ```
-
 ### bevy_shaders-mesh2d_bindings
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_bindings
 
@@ -5546,9 +5526,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 #endif // PER_OBJECT_BUFFER_BATCH_SIZE
 
 ```
-
 ### bevy_shaders-custom_material_screenspace_texture
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings::view,
@@ -5569,9 +5547,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-pbr_types
-
 ```rust
 #define_import_path bevy_pbr::pbr_types
 
@@ -5726,17 +5702,15 @@ fn pbr_input_new() -> PbrInput {
 }
 
 ```
-
 ### bevy_shaders-lightmap
-
 ```rust
 #define_import_path bevy_pbr::lightmap
 
 #import bevy_pbr::mesh_bindings::mesh
 
 #ifdef MULTIPLE_LIGHTMAPS_IN_ARRAY
-@group(1) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>>;
-@group(1) @binding(5) var lightmaps_samplers: binding_array<sampler>;
+@group(1) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>, 4>;
+@group(1) @binding(5) var lightmaps_samplers: binding_array<sampler, 4>;
 #else   // MULTIPLE_LIGHTMAPS_IN_ARRAY
 @group(1) @binding(4) var lightmaps_texture: texture_2d<f32>;
 @group(1) @binding(5) var lightmaps_sampler: sampler;
@@ -5777,9 +5751,7 @@ fn lightmap(uv: vec2<f32>, exposure: f32, instance_index: u32) -> vec3<f32> {
 }
 
 ```
-
 ### bevy_shaders-pbr_deferred_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_functions
 
@@ -5933,9 +5905,7 @@ fn deferred_output(in: VertexOutput, pbr_input: PbrInput) -> FragmentOutput {
 #endif
 
 ```
-
 ### bevy_shaders-custom_gltf_2d
-
 ```rust
 #import bevy_sprite::{
     mesh2d_view_bindings::globals,
@@ -5978,9 +5948,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-wireframe2d
-
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
@@ -5995,9 +5963,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-chromatic_aberration
-
 ```rust
 // The chromatic aberration postprocessing effect.
 //
@@ -6093,9 +6059,7 @@ fn chromatic_aberration(start_pos: vec2<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### bevy_shaders-lines
-
 ```rust
 // TODO use common view binding
 #import bevy_render::{view::View, maths::affine3_to_square}
@@ -6107,9 +6071,12 @@ struct LineGizmoUniform {
     world_from_local: mat3x4<f32>,
     line_width: f32,
     depth_bias: f32,
+    _joints_resolution: u32,
+    gap_scale: f32,
+    line_scale: f32,
 #ifdef SIXTEEN_BYTE_ALIGNMENT
     // WebGL2 structs must be 16 byte aligned.
-    _padding: vec2<f32>,
+    _padding: vec3<f32>,
 #endif
 }
 
@@ -6127,6 +6094,7 @@ struct VertexOutput {
     @builtin(position) clip_position: vec4<f32>,
     @location(0) color: vec4<f32>,
     @location(1) uv: f32,
+    @location(2) line_fraction: f32,
 };
 
 const EPSILON: f32 = 4.88e-04;
@@ -6225,7 +6193,9 @@ fn vertex(vertex: VertexInput) -> VertexOutput {
 
     var clip_position = vec4(clip.w * ((2. * screen) / resolution - 1.), depth, clip.w);
 
-    return VertexOutput(clip_position, color, uv);
+    let line_fraction = 2.0 * line_gizmo.line_scale / (line_gizmo.gap_scale + line_gizmo.line_scale);
+    uv /= (line_gizmo.gap_scale + line_gizmo.line_scale) / 2.0;
+    return VertexOutput(clip_position, color, uv, line_fraction);
 }
 
 fn clip_near_plane(a: vec4<f32>, b: vec4<f32>) -> vec4<f32> {
@@ -6246,6 +6216,7 @@ struct FragmentInput {
     @builtin(position) position: vec4<f32>,
     @location(0) color: vec4<f32>,
     @location(1) uv: f32,
+    @location(2) line_fraction: f32,
 };
 
 struct FragmentOutput {
@@ -6268,10 +6239,20 @@ fn fragment_dotted(in: FragmentInput) -> FragmentOutput {
     return FragmentOutput(vec4(in.color.xyz, in.color.w * alpha));
 }
 
+@fragment
+fn fragment_dashed(in: FragmentInput) -> FragmentOutput {
+#ifdef PERSPECTIVE
+    let uv = in.uv;
+#else
+    let uv = in.uv * in.position.w;
+#endif
+    let alpha = 1.0 - floor(min((uv % 2.0) / in.line_fraction, 1.0));
+    
+    return FragmentOutput(vec4(in.color.xyz, in.color.w * alpha));
+}
+
 ```
-
 ### bevy_shaders-prepass_bindings
-
 ```rust
 #define_import_path bevy_pbr::prepass_bindings
 
@@ -6287,9 +6268,7 @@ struct PreviousViewUniforms {
 // Material bindings will be in @group(2)
 
 ```
-
 ### bevy_shaders-pbr_ambient
-
 ```rust
 #define_import_path bevy_pbr::ambient
 
@@ -6322,9 +6301,7 @@ fn ambient_light(
 }
 
 ```
-
 ### bevy_shaders-post_process
-
 ```rust
 // Miscellaneous postprocessing effects, currently just chromatic aberration.
 
@@ -6337,9 +6314,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-mesh2d_vertex_output
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_vertex_output
 
@@ -6359,9 +6334,7 @@ struct VertexOutput {
 }
 
 ```
-
 ### bevy_shaders-prepass_io
-
 ```rust
 #define_import_path bevy_pbr::prepass_io
 
@@ -6463,9 +6436,7 @@ struct FragmentOutput {
 #endif //PREPASS_FRAGMENT
 
 ```
-
 ### bevy_shaders-raymarch
-
 ```rust
 // Copyright (c) 2023 Tomasz Stachowiak
 //
@@ -6980,9 +6951,7 @@ fn depth_ray_march_march(raymarch: ptr<function, DepthRayMarch>) -> DepthRayMarc
 }
 
 ```
-
 ### bevy_shaders-ssao
-
 ```rust
 // Visibility Bitmask Ambient Occlusion (VBAO)
 // Paper: ttps://ar5iv.labs.arxiv.org/html/2301.11376
@@ -7186,9 +7155,7 @@ fn ssao(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy_shaders-sprite
-
 ```rust
 #ifdef TONEMAP_IN_SHADER
 #import bevy_core_pipeline::tonemapping
@@ -7255,9 +7222,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-wireframe
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -7273,9 +7238,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-fallback_image_test
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -7301,9 +7264,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 fn fragment(in: VertexOutput) {}
 
 ```
-
 ### bevy_shaders-cull_clusters
-
 ```rust
 #import bevy_pbr::meshlet_bindings::{
     meshlet_cluster_meshlet_ids,
@@ -7501,9 +7462,7 @@ fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4
 }
 
 ```
-
 ### bevy_shaders-gpu_readback
-
 ```rust
 // This shader is used for the gpu_readback example
 // The actual work it does is not important for the example
@@ -7522,9 +7481,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy_shaders-pbr_bindings
-
 ```rust
 #define_import_path bevy_pbr::pbr_bindings
 
@@ -7607,9 +7564,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 #endif  // PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
 
 ```
-
 ### bevy_shaders-mesh_preprocess
-
 ```rust
 // GPU mesh uniform building.
 //
@@ -7815,9 +7770,7 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy_shaders-mesh
-
 ```rust
 #import bevy_pbr::{
     mesh_bindings::mesh,
@@ -7941,9 +7894,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-forward_io
-
 ```rust
 #define_import_path bevy_pbr::forward_io
 
@@ -8007,9 +7958,7 @@ struct FragmentOutput {
 }
 
 ```
-
 ### bevy_shaders-sprite_view_bindings
-
 ```rust
 #define_import_path bevy_sprite::sprite_view_bindings
 
@@ -8022,9 +7971,7 @@ struct FragmentOutput {
 
 
 ```
-
 ### bevy_shaders-custom_ui_material
-
 ```rust
 // Draws a progress bar with properties defined in CustomUiMaterial
 #import bevy_ui::ui_vertex_output::UiVertexOutput
@@ -8057,9 +8004,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-pbr_prepass_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_prepass_functions
 
@@ -8159,9 +8104,7 @@ fn calculate_motion_vector(world_position: vec4<f32>, previous_world_position: v
 #endif // MOTION_VECTOR_PREPASS
 
 ```
-
 ### bevy_shaders-instancing
-
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
 
@@ -8201,9 +8144,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-array_texture
-
 ```rust
 #import bevy_pbr::{
     forward_io::VertexOutput,
@@ -8265,9 +8206,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-utils
-
 ```rust
 #define_import_path bevy_pbr::utils
 
@@ -8359,9 +8298,7 @@ const SPIRAL_OFFSET_6_ = vec2<f32>(-0.1768, -0.1768);
 const SPIRAL_OFFSET_7_ = vec2<f32>( 0.1250,  0.0000);
 
 ```
-
 ### bevy_shaders-line_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -8379,9 +8316,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-prepass
-
 ```rust
 #import bevy_pbr::{
     prepass_bindings,
@@ -8602,9 +8537,7 @@ fn fragment(in: VertexOutput) -> FragmentOutput {
 #endif // PREPASS_FRAGMENT
 
 ```
-
 ### bevy_shaders-resolve_render_targets
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
@@ -8647,9 +8580,7 @@ fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f3
 #endif
 
 ```
-
 ### bevy_shaders-clustered_forward
-
 ```rust
 #define_import_path bevy_pbr::clustered_forward
 
@@ -8843,9 +8774,7 @@ fn cluster_debug_visualization(
 }
 
 ```
-
 ### bevy_shaders-pbr_transmission
-
 ```rust
 #define_import_path bevy_pbr::transmission
 
@@ -9041,9 +8970,7 @@ fn fetch_transmissive_background(offset_position: vec2<f32>, frag_coord: vec3<f3
 }
 
 ```
-
 ### bevy_shaders-morph
-
 ```rust
 #define_import_path bevy_pbr::morph
 
@@ -9099,9 +9026,7 @@ fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f3
 #endif // MORPH_TARGETS
 
 ```
-
 ### bevy_shaders-mesh_types
-
 ```rust
 #define_import_path bevy_pbr::mesh_types
 
@@ -9153,9 +9078,7 @@ const MESH_FLAGS_TRANSMITTED_SHADOW_RECEIVER_BIT: u32 = 1073741824u;
 const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
 
 ```
-
 ### bevy_shaders-fxaa
-
 ```rust
 // NVIDIA FXAA 3.11
 // Original source code by TIMOTHY LOTTES
@@ -9433,9 +9356,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-cubemap_unlit
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -9460,9 +9381,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-mesh_view_bindings
-
 ```rust
 #define_import_path bevy_pbr::mesh_view_bindings
 
@@ -9579,9 +9498,7 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 #endif // OIT_ENABLED
 
 ```
-
 ### bevy_shaders-meshlet_mesh_material
-
 ```rust
 #import bevy_pbr::{
     meshlet_visibility_buffer_resolve::resolve_vertex_output,
@@ -9637,9 +9554,7 @@ fn prepass_fragment(@builtin(position) frag_coord: vec4<f32>) -> prepass_io::Fra
 #endif
 
 ```
-
 ### bevy_shaders-custom_material_2d
-
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 // we can import items from shader modules in the assets folder with a quoted path
@@ -9655,9 +9570,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-skybox_prepass
-
 ```rust
 #import bevy_render::view::View
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -9682,9 +9595,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(1) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-volumetric_fog
-
 ```rust
 // A postprocessing shader that implements volumetric fog via raymarching and
 // sampling directional light shadow maps.
@@ -10173,9 +10084,7 @@ fn fetch_spot_shadow_without_normal(light_id: u32, frag_position: vec4<f32>) -> 
     );
 }
 ```
-
 ### bevy_shaders-screenshot
-
 ```rust
 // This vertex shader will create a triangle that will cover the entire screen
 // with minimal effort, avoiding the need for a vertex buffer etc.
@@ -10195,9 +10104,7 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-color_material
-
 ```rust
 #import bevy_sprite::{
     mesh2d_vertex_output::VertexOutput,
@@ -10269,9 +10176,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
     return color;
 }
 ```
-
 ### bevy_shaders-maths
-
 ```rust
 #define_import_path bevy_render::maths
 
@@ -10370,9 +10275,7 @@ fn powsafe(color: vec3<f32>, power: f32) -> vec3<f32> {
 }
 
 ```
-
 ### bevy_shaders-ssr
-
 ```rust
 // A postprocessing pass that performs screen-space reflections.
 
@@ -10570,9 +10473,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-pbr_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_functions
 
@@ -11019,7 +10920,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::point_light(light_id, &transmissive_lighting_input);
+            lighting::point_light(light_id, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -11077,7 +10978,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::spot_light(light_id, &transmissive_lighting_input);
+            lighting::spot_light(light_id, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -11133,7 +11034,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::directional_light(i, &transmissive_lighting_input);
+            lighting::directional_light(i, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -11458,9 +11359,7 @@ fn main_pass_post_lighting_processing(
 }
 
 ```
-
 ### bevy_shaders-pbr_lighting
-
 ```rust
 #define_import_path bevy_pbr::lighting
 
@@ -12093,9 +11992,7 @@ fn directional_light(
 }
 
 ```
-
 ### bevy_shaders-line_joints
-
 ```rust
 #import bevy_render::{view::View, maths::affine3_to_square}
 
@@ -12354,9 +12251,7 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 }
 
 ```
-
 ### bevy_shaders-smaa
-
 ```rust
 /**
  * Copyright (C) 2013 Jorge Jimenez (jorge@iryoku.com)
@@ -13466,9 +13361,7 @@ fn neighborhood_blending_fragment_main(in: NeighborhoodBlendingVaryings) -> @loc
 #endif  // SMAA_NEIGHBORHOOD_BLENDING
 
 ```
-
 ### bevy_shaders-visibility_buffer_hardware_raster
-
 ```rust
 #import bevy_pbr::{
     meshlet_bindings::{
@@ -13553,9 +13446,7 @@ fn divide(a: f32, b: f32) -> f32 {
 }
 
 ```
-
 ### bevy_shaders-rgb9e5
-
 ```rust
 #define_import_path bevy_pbr::rgb9e5
 
@@ -13622,9 +13513,7 @@ fn rgb9e5_to_vec3_(v: u32) -> vec3<f32> {
 }
 
 ```
-
 ### bevy_shaders-dof
-
 ```rust
 // Performs depth of field postprocessing, with both Gaussian and bokeh kernels.
 //
@@ -13929,9 +13818,7 @@ fn bokeh_pass_1(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 #endif
 
 ```
-
 ### bevy_shaders-pbr_deferred_types
-
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_types
 
@@ -14024,9 +13911,7 @@ fn unpack_unorm3x4_plus_unorm_20_(v: u32) -> vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-pbr_prepass
-
 ```rust
 #import bevy_pbr::{
     pbr_prepass_functions,
@@ -14175,9 +14060,7 @@ fn fragment(in: prepass_io::VertexOutput) {
 #endif // PREPASS_FRAGMENT
 
 ```
-
 ### bevy_shaders-copy_deferred_lighting_id
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
@@ -14199,9 +14082,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 
 
 ```
-
 ### bevy_shaders-mesh2d_view_types
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_types
 
@@ -14209,9 +14090,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 #import bevy_render::globals
 
 ```
-
 ### bevy_shaders-skinning
-
 ```rust
 #define_import_path bevy_pbr::skinning
 
@@ -14310,9 +14189,7 @@ fn skin_normals(
 #endif
 
 ```
-
 ### bevy_shaders-animate_shader
-
 ```rust
 // The time since startup data is in the globals binding which is part of the mesh_view_bindings import
 #import bevy_pbr::{
@@ -14361,9 +14238,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-bindless_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_pbr::mesh_bindings::mesh
@@ -14405,9 +14280,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-lut_bindings
-
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping_lut_bindings
 
@@ -14416,9 +14289,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy_shaders-extended_material
-
 ```rust
 #import bevy_pbr::{
     pbr_fragment::pbr_input_from_standard_material,
@@ -14481,9 +14352,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-oit_resolve
-
 ```rust
 #import bevy_render::view::View
 
@@ -14604,9 +14473,7 @@ fn blend(color_a: vec4<f32>, color_b: vec4<f32>) -> vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-box_shadow
-
 ```rust
 #import bevy_render::view::View;
 #import bevy_render::globals::Globals;
@@ -14708,9 +14575,7 @@ fn fragment(
 
 
 ```
-
 ### bevy_shaders-fog
-
 ```rust
 #define_import_path bevy_pbr::fog
 
@@ -14793,9 +14658,7 @@ fn atmospheric_fog(
 }
 
 ```
-
 ### bevy_shaders-show_prepass
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings::globals,
@@ -14837,9 +14700,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-pbr
-
 ```rust
 #import bevy_pbr::{
     pbr_types,
@@ -14926,9 +14787,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-specialized_mesh_pipeline
-
 ```rust
 //! Very simple shader used to demonstrate how to get the world position and pass data
 //! between the vertex and fragment shader. Also shows the custom vertex layout.
@@ -14979,9 +14838,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return vec4(in.color, 1.0);
 }
 ```
-
 ### bevy_shaders-visibility_buffer_software_raster
-
 ```rust
 #import bevy_pbr::{
     meshlet_bindings::{
@@ -15177,9 +15034,7 @@ fn max3(a: f32, b: f32, c: f32) -> f32 {
 }
 
 ```
-
 ### bevy_shaders-water_material
-
 ```rust
 // A shader that creates water ripples by overlaying 4 normal maps on top of one
 // another.
@@ -15242,9 +15097,7 @@ fn fragment(in: VertexOutput, @builtin(front_facing) is_front: bool) -> Fragment
 }
 
 ```
-
 ### bevy_shaders-fill_cluster_buffers
-
 ```rust
 #import bevy_pbr::meshlet_bindings::{
     scene_instance_count,
@@ -15298,9 +15151,7 @@ fn fill_cluster_buffers(
 }
 
 ```
-
 ### bevy_shaders-ui_texture_slice
-
 ```rust
 #import bevy_render::view::View;
 #import bevy_render::globals::Globals;
@@ -15431,9 +15282,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-light_probe
-
 ```rust
 #define_import_path bevy_pbr::light_probe
 
@@ -15591,9 +15440,7 @@ fn query_light_probe(
 #endif  // AVAILABLE_STORAGE_BUFFER_BINDINGS >= 3
 
 ```
-
 ### bevy_shaders-custom_phase_item
-
 ```rust
 // `custom_phase_item.wgsl`
 //
@@ -15633,10 +15480,8 @@ fn fragment(vertex_output: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-view
-
-````rust
+```rust
 #define_import_path bevy_render::view
 
 struct ColorGrading {
@@ -15701,10 +15546,8 @@ struct View {
     mip_bias: f32,
 };
 
-````
-
+```
 ### bevy_shaders-spatial_denoise
-
 ```rust
 // 3x3 bilaterial filter (edge-preserving blur)
 // https://people.csail.mit.edu/sparis/bf_course/course_notes.pdf
@@ -15793,9 +15636,7 @@ fn spatial_denoise(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy_shaders-oit_draw
-
 ```rust
 #define_import_path bevy_core_pipeline::oit
 
@@ -15847,9 +15688,7 @@ fn unpack_24bit_depth_8bit_alpha(packed: u32) -> vec2<f32> {
 }
 
 ```
-
 ### bevy_shaders-tonemapping
-
 ```rust
 #define TONEMAPPING_PASS
 
@@ -15887,9 +15726,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-mesh2d
-
 ```rust
 #import bevy_sprite::{
     mesh2d_functions as mesh_functions,
@@ -15969,9 +15806,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-irradiance_volume
-
 ```rust
 #define_import_path bevy_pbr::irradiance_volume
 
@@ -16048,9 +15883,7 @@ fn irradiance_volume_light(
 #endif  // IRRADIANCE_VOLUMES_ARE_USABLE
 
 ```
-
 ### bevy_shaders-preprocess_depth
-
 ```rust
 // Inputs a depth texture and outputs a MIP-chain of depths.
 //
@@ -16156,9 +15989,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 }
 
 ```
-
 ### bevy_shaders-dummy_visibility_buffer_resolve
-
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
 
@@ -16166,9 +15997,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 /// as naga_oil tries to resolve imports even if they're behind an #ifdef.
 
 ```
-
 ### bevy_shaders-ui_vertex_output
-
 ```rust
 #define_import_path bevy_ui::ui_vertex_output
 
@@ -16183,9 +16012,7 @@ struct UiVertexOutput {
 };
 
 ```
-
 ### bevy_shaders-motion_blur
-
 ```rust
 #import bevy_pbr::prepass_utils
 #import bevy_pbr::utils
@@ -16346,9 +16173,7 @@ fn fragment(
     return accumulator / weight_total;
 }
 ```
-
 ### bevy_shaders-tonemapping_shared
-
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping
 
@@ -16757,9 +16582,7 @@ fn approximate_inverse_tone_mapping(in: vec4<f32>, color_grading: ColorGrading) 
 }
 
 ```
-
 ### bevy_shaders-shadows
-
 ```rust
 #define_import_path bevy_pbr::shadows
 
@@ -17004,9 +16827,7 @@ fn cascade_debug_visualization(
 }
 
 ```
-
 ### bevy_shaders-ssao_utils
-
 ```rust
 #define_import_path bevy_pbr::ssao_utils
 
@@ -17034,9 +16855,7 @@ fn fast_acos(in_x: f32) -> f32 {
 }
 
 ```
-
 ### bevy_shaders-environment_map
-
 ```rust
 #define_import_path bevy_pbr::environment_map
 
@@ -17321,9 +17140,7 @@ fn radiance_sample_direction(N: vec3<f32>, R: vec3<f32>, roughness: f32) -> vec3
 }
 
 ```
-
 ### bevy_shaders-downsample_depth
-
 ```rust
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
 @group(0) @binding(0) var<storage, read> mip_0: array<u64>; // Per pixel
@@ -17641,9 +17458,7 @@ fn reduce_4(v: vec4f) -> f32 {
 }
 
 ```
-
 ### bevy_shaders-ui_material
-
 ```rust
 #import bevy_render::{
     view::View,
@@ -17677,9 +17492,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-skybox
-
 ```rust
 #import bevy_render::view::View
 #import bevy_pbr::utils::coords_to_viewport_uv
@@ -17766,17 +17579,13 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-custom_material_import
-
 ```rust
 // this is made available to the importing module
 const COLOR_MULTIPLIER: vec4<f32> = vec4<f32>(1.0, 1.0, 1.0, 0.5);
 
 ```
-
 ### bevy_shaders-mesh2d_types
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_types
 
@@ -17796,9 +17605,7 @@ struct Mesh2d {
 };
 
 ```
-
 ### bevy_shaders-custom_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 // we can import items from shader modules in the assets folder with a quoted path
@@ -17816,9 +17623,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-mesh2d_functions
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_functions
 
@@ -17867,9 +17672,7 @@ fn mesh2d_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: 
 }
 
 ```
-
 ### bevy_shaders-robust_contrast_adaptive_sharpening
-
 ```rust
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
 //
@@ -17968,9 +17771,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-custom_vertex_attribute
-
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
 
@@ -18011,9 +17812,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-meshlet_bindings
-
 ```rust
 #define_import_path bevy_pbr::meshlet_bindings
 
@@ -18228,9 +18027,7 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
 #endif
 
 ```
-
 ### bevy_shaders-texture_binding_array
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -18251,9 +18048,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-shader_defs
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -18275,9 +18070,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy_shaders-color_operations
-
 ```rust
 #define_import_path bevy_render::color_operations
 
@@ -18328,9 +18121,7 @@ fn rgb_to_hsv(rgb: vec3<f32>) -> vec3<f32> {
 
 
 ```
-
 ### bevy_shaders-mesh_functions
-
 ```rust
 #define_import_path bevy_pbr::mesh_functions
 
@@ -18457,9 +18248,7 @@ fn get_visibility_range_dither_level(instance_index: u32, world_position: vec4<f
 #endif
 
 ```
-
 ### bevy_shaders-deferred_lighting
-
 ```rust
 #import bevy_pbr::{
     prepass_utils,
@@ -18551,9 +18340,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy_shaders-pbr_fragment
-
 ```rust
 #define_import_path bevy_pbr::pbr_fragment
 
@@ -19302,9 +19089,7 @@ fn pbr_input_from_standard_material(
 }
 
 ```
-
 ### bevy_shaders-ui
-
 ```rust
 #import bevy_render::view::View
 
@@ -19492,9 +19277,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy_shaders-mesh_view_types
-
 ```rust
 #define_import_path bevy_pbr::mesh_view_types
 
@@ -19672,9 +19455,7 @@ struct OrderIndependentTransparencySettings {
 };
 
 ```
-
 ### bevy_shaders-storage_buffer
-
 ```rust
 #import bevy_pbr::{
     mesh_functions,
@@ -19715,9 +19496,7 @@ fn fragment(
     return mesh.color;
 }
 ```
-
 ### screenshots-27-01-24-21-40-42-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -19747,9 +19526,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-11-10-23-19-08-42-screeenshot
-
 ```rust
 
 //! Showing how to use a texture, drag-n-drop for you own texture will be supported soon.
@@ -19774,9 +19551,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-11-10-23-19-40-28-screeenshot
-
 ```rust
 
 //! Showing how to use a texture, drag-n-drop for you own texture will be supported soon.
@@ -19802,9 +19577,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-02-11-23-07-48-05-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -19834,9 +19607,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-21-01-24-18-50-41-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -19866,9 +19637,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-14-10-23-12-28-55-screenshot
-
 ```rust
 ///
 /// This is a port of CyberAnimArrowX by float1987 
@@ -19936,9 +19705,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 
 ```
-
 ### screenshots-14-10-23-12-28-54-screenshot
-
 ```rust
 ///
 /// This is a port of CyberAnimArrowX by float1987 
@@ -20006,9 +19773,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 
 ```
-
 ### screenshots-24-01-24-06-36-04-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20038,9 +19803,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-24-01-24-06-51-53-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20070,9 +19833,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-24-01-24-06-36-05-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20102,9 +19863,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-24-01-24-06-37-20-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20134,9 +19893,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-24-01-24-06-36-03-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20166,9 +19923,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-24-01-24-06-25-45-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20198,9 +19953,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-27-11-23-20-44-03-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -20233,9 +19986,7 @@ fn circle(p: vec2<f32>, r: f32) -> f32 {
 } 
 
 ```
-
 ### screenshots-30-08-24-18-48-31-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20266,9 +20017,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-09-06-24-20-43-57-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20298,9 +20047,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-07-10-23-aspect_ratio_correction_showed_with_circle-screeenshot
-
 ```rust
 /// A circle, normalised aspect ratio.
 
@@ -20350,9 +20097,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 }
 
 ```
-
 ### screenshots-07-10-23-12-03-36-screeenshot
-
 ```rust
 /// Spin a sphere..
 /// Trying to understand rotating something I draw in its 3d space, rotate2D is very useful, I want to rotate3D now.
@@ -20426,9 +20171,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 }
 
 ```
-
 ### screenshots-07-10-23-11-16-48-screeenshot
-
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
@@ -20475,9 +20218,7 @@ fn rotate2D(theta: f32) -> mat2x2<f32> {
 }
 
 ```
-
 ### screenshots-07-10-23-21-43-49-screeenshot
-
 ```rust
 /// Spin a sphere..
 /// Trying to understand rotating something I draw in its 3d space, rotate2D is very useful, I want to rotate3D now.
@@ -20551,9 +20292,7 @@ fn sd_torus(p: vec3f, t: vec2f) -> f32 {
 
 
 ```
-
 ### screenshots-09-10-23-07-22-16-screeenshot
-
 ```rust
 #import bevy_pbr::mesh_vertex_output MeshVertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
@@ -20636,9 +20375,7 @@ fn sd_torus(p: vec3f, t: vec2f) -> f32 {
 
 
 ```
-
 ### screenshots-18-12-24-17-08-40-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -20667,9 +20404,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### screenshots-17-11-23-06-01-11-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -20699,9 +20434,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### screenshots-17-11-23-16-49-11-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -20740,9 +20473,7 @@ fn circle(p: vec2<f32>, r: f32) -> f32 {
 } 
 
 ```
-
 ### screenshots-16-11-23-21-25-04-screenshot
-
 ```rust
 /// ***************************** ///
 /// This is a port of 'Perlin Waves' by zilian: https://www.shadertoy.com/view/DlVcRW ///
@@ -20855,9 +20586,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 
 ```
-
 ### screenshots-16-11-23-21-23-45-screenshot
-
 ```rust
 /// ***************************** ///
 /// This is a port of 'Perlin Waves' by zilian: https://www.shadertoy.com/view/DlVcRW ///
@@ -20970,9 +20699,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 
 ```
-
 ### screenshots-08-11-23-22-29-32-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -20999,9 +20726,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return tex;
 }
 ```
-
 ### screenshots-08-11-23-22-29-35-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -21028,9 +20753,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return tex;
 }
 ```
-
 ### screenshots-08-11-23-22-29-33-screenshot
-
 ```rust
 //!
 //! The default 3d Shader.
@@ -21057,9 +20780,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return tex;
 }
 ```
-
 ### screenshots-24-10-23-21-14-59-screenshot
-
 ```rust
 /// ***************************** ///
 /// This is a shadertoy port of 'Tileable Water Caustic' by Dave_Hoskins, who claims to of sound it on glsl sandbox, by 'joltz0r' 
@@ -21115,9 +20836,7 @@ fn fragment(in: MeshVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### screenshots-22-10-23-19-39-14-screenshot
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -21168,9 +20887,7 @@ fn semi_circle_wave(uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
 }
 
 ```
-
 ### src-shader_utils-common
-
 ```rust
 #define_import_path shadplay::shader_utils::common
 
@@ -21362,9 +21079,7 @@ fn aces_approx(_v: vec3<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_ui-src-render-box_shadow
-
 ```rust
 #import bevy_render::view::View;
 #import bevy_render::globals::Globals;
@@ -21466,9 +21181,7 @@ fn fragment(
 
 
 ```
-
 ### bevy-crates-bevy_ui-src-render-ui_texture_slice
-
 ```rust
 #import bevy_render::view::View;
 #import bevy_render::globals::Globals;
@@ -21599,9 +21312,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_ui-src-render-ui_vertex_output
-
 ```rust
 #define_import_path bevy_ui::ui_vertex_output
 
@@ -21610,15 +21321,15 @@ struct UiVertexOutput {
     @location(0) uv: vec2<f32>,
     // The size of the borders in UV space. Order is Left, Right, Top, Bottom.
     @location(1) border_widths: vec4<f32>,
+    // The size of the borders in pixels. Order is top left, top right, bottom right, bottom left.
+    @location(2) border_radius: vec4<f32>,
     // The size of the node in pixels. Order is width, height.
-    @location(2) @interpolate(flat) size: vec2<f32>,
+    @location(3) @interpolate(flat) size: vec2<f32>,
     @builtin(position) position: vec4<f32>,
 };
 
 ```
-
 ### bevy-crates-bevy_ui-src-render-ui_material
-
 ```rust
 #import bevy_render::{
     view::View,
@@ -21637,12 +21348,14 @@ fn vertex(
     @location(1) vertex_uv: vec2<f32>,
     @location(2) size: vec2<f32>,
     @location(3) border_widths: vec4<f32>,
+    @location(4) border_radius: vec4<f32>,
 ) -> UiVertexOutput {
     var out: UiVertexOutput;
     out.uv = vertex_uv;
     out.position = view.clip_from_world * vec4<f32>(vertex_position, 1.0);
     out.size = size;
     out.border_widths = border_widths;
+    out.border_radius = border_radius;
     return out;
 }
 
@@ -21652,9 +21365,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_ui-src-render-ui
-
 ```rust
 #import bevy_render::view::View
 
@@ -21775,7 +21486,7 @@ fn sd_inset_rounded_box(point: vec2<f32>, size: vec2<f32>, radius: vec4<f32>, in
 // get alpha for antialiasing for sdf
 fn antialias(distance: f32) -> f32 {
     // Using the fwidth(distance) was causing artifacts, so just use the distance.
-    return clamp(0.0, 1.0, (0.5 - distance));
+    return saturate(0.5 - distance);
 }
 
 fn draw(in: VertexOutput, texture_color: vec4<f32>) -> vec4<f32> {
@@ -21842,9 +21553,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-volumetric_fog-volumetric_fog
-
 ```rust
 // A postprocessing shader that implements volumetric fog via raymarching and
 // sampling directional light shadow maps.
@@ -22333,9 +22042,7 @@ fn fetch_spot_shadow_without_normal(light_id: u32, frag_position: vec4<f32>) -> 
     );
 }
 ```
-
 ### bevy-crates-bevy_pbr-src-prepass-prepass_utils
-
 ```rust
 #define_import_path bevy_pbr::prepass_utils
 
@@ -22374,27 +22081,22 @@ fn prepass_motion_vector(frag_coord: vec4<f32>, sample_index: u32) -> vec2<f32> 
 #endif // MOTION_VECTOR_PREPASS
 
 ```
-
 ### bevy-crates-bevy_pbr-src-prepass-prepass_bindings
-
 ```rust
 #define_import_path bevy_pbr::prepass_bindings
 
 struct PreviousViewUniforms {
     view_from_world: mat4x4<f32>,
     clip_from_world: mat4x4<f32>,
+    clip_from_view: mat4x4<f32>,
 }
 
-#ifdef MOTION_VECTOR_PREPASS
 @group(0) @binding(2) var<uniform> previous_view_uniforms: PreviousViewUniforms;
-#endif // MOTION_VECTOR_PREPASS
 
 // Material bindings will be in @group(2)
 
 ```
-
 ### bevy-crates-bevy_pbr-src-prepass-prepass_io
-
 ```rust
 #define_import_path bevy_pbr::prepass_io
 
@@ -22413,7 +22115,9 @@ struct Vertex {
 #endif
 
 #ifdef NORMAL_PREPASS_OR_DEFERRED_PREPASS
+#ifdef VERTEX_NORMALS
     @location(3) normal: vec3<f32>,
+#endif
 #ifdef VERTEX_TANGENTS
     @location(4) tangent: vec4<f32>,
 #endif
@@ -22496,9 +22200,7 @@ struct FragmentOutput {
 #endif //PREPASS_FRAGMENT
 
 ```
-
 ### bevy-crates-bevy_pbr-src-prepass-prepass
-
 ```rust
 #import bevy_pbr::{
     prepass_bindings,
@@ -22598,6 +22300,7 @@ fn vertex(vertex_no_morph: Vertex) -> VertexOutput {
 #endif // VERTEX_UVS_B
 
 #ifdef NORMAL_PREPASS_OR_DEFERRED_PREPASS
+#ifdef VERTEX_NORMALS
 #ifdef SKINNED
     out.world_normal = skinning::skin_normals(world_from_local, vertex.normal);
 #else // SKINNED
@@ -22608,6 +22311,7 @@ fn vertex(vertex_no_morph: Vertex) -> VertexOutput {
         vertex_no_morph.instance_index
     );
 #endif // SKINNED
+#endif // VERTEX_NORMALS
 
 #ifdef VERTEX_TANGENTS
     out.world_tangent = mesh_functions::mesh_tangent_local_to_world(
@@ -22719,19 +22423,22 @@ fn fragment(in: VertexOutput) -> FragmentOutput {
 #endif // PREPASS_FRAGMENT
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-parallax_mapping
-
 ```rust
 #define_import_path bevy_pbr::parallax_mapping
+
+#import bevy_render::bindless::{bindless_samplers_filtering, bindless_textures_2d}
 
 #import bevy_pbr::{
     pbr_bindings::{depth_map_texture, depth_map_sampler},
     mesh_bindings::mesh
 }
 
-fn sample_depth_map(uv: vec2<f32>, instance_index: u32) -> f32 {
-    let slot = mesh[instance_index].material_and_lightmap_bind_group_slot & 0xffffu;
+#ifdef BINDLESS
+#import bevy_pbr::pbr_bindings::material_indices
+#endif  // BINDLESS
+
+fn sample_depth_map(uv: vec2<f32>, material_bind_group_slot: u32) -> f32 {
     // We use `textureSampleLevel` over `textureSample` because the wgpu DX12
     // backend (Fxc) panics when using "gradient instructions" inside a loop.
     // It results in the whole loop being unrolled by the shader compiler,
@@ -22744,8 +22451,8 @@ fn sample_depth_map(uv: vec2<f32>, instance_index: u32) -> f32 {
     // See https://stackoverflow.com/questions/56581141/direct3d11-gradient-instruction-used-in-a-loop-with-varying-iteration-forcing
     return textureSampleLevel(
 #ifdef BINDLESS
-        depth_map_texture[slot],
-        depth_map_sampler[slot],
+        bindless_textures_2d[material_indices[material_bind_group_slot].depth_map_texture],
+        bindless_samplers_filtering[material_indices[material_bind_group_slot].depth_map_sampler],
 #else   // BINDLESS
         depth_map_texture,
         depth_map_sampler,
@@ -22765,7 +22472,7 @@ fn parallaxed_uv(
     original_uv: vec2<f32>,
     // The vector from the camera to the fragment at the surface in tangent space
     Vt: vec3<f32>,
-    instance_index: u32,
+    material_bind_group_slot: u32,
 ) -> vec2<f32> {
     if max_layer_count < 1.0 {
         return original_uv;
@@ -22793,7 +22500,7 @@ fn parallaxed_uv(
     var delta_uv = depth_scale * layer_depth * Vt.xy * vec2(1.0, -1.0) / view_steepness;
 
     var current_layer_depth = 0.0;
-    var texture_depth = sample_depth_map(uv, instance_index);
+    var texture_depth = sample_depth_map(uv, material_bind_group_slot);
 
     // texture_depth > current_layer_depth means the depth map depth is deeper
     // than the depth the ray would be at this UV offset so the ray has not
@@ -22801,7 +22508,7 @@ fn parallaxed_uv(
     for (var i: i32 = 0; texture_depth > current_layer_depth && i <= i32(layer_count); i++) {
         current_layer_depth += layer_depth;
         uv += delta_uv;
-        texture_depth = sample_depth_map(uv, instance_index);
+        texture_depth = sample_depth_map(uv, material_bind_group_slot);
     }
 
 #ifdef RELIEF_MAPPING
@@ -22819,7 +22526,7 @@ fn parallaxed_uv(
     current_layer_depth -= delta_depth;
 
     for (var i: u32 = 0u; i < max_steps; i++) {
-        texture_depth = sample_depth_map(uv, instance_index);
+        texture_depth = sample_depth_map(uv, material_bind_group_slot);
 
         // Halve the deltas for the next step
         delta_uv *= 0.5;
@@ -22843,7 +22550,8 @@ fn parallaxed_uv(
     // may skip small details and result in writhing material artifacts.
     let previous_uv = uv - delta_uv;
     let next_depth = texture_depth - current_layer_depth;
-    let previous_depth = sample_depth_map(previous_uv, instance_index) - current_layer_depth + layer_depth;
+    let previous_depth = sample_depth_map(previous_uv, material_bind_group_slot) -
+        current_layer_depth + layer_depth;
 
     let weight = next_depth / (next_depth - previous_depth);
 
@@ -22858,9 +22566,7 @@ fn parallaxed_uv(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-shadow_sampling
-
 ```rust
 #define_import_path bevy_pbr::shadow_sampling
 
@@ -22911,7 +22617,7 @@ fn search_for_blockers_in_shadow_map_hardware(
         view_bindings::directional_shadow_textures,
         view_bindings::directional_shadow_textures_linear_sampler,
         light_local,
-        0.0,
+        0u,
     );
 #else   // NO_ARRAY_TEXTURES_SUPPORT
     let sampled_depth = textureSampleLevel(
@@ -22919,7 +22625,7 @@ fn search_for_blockers_in_shadow_map_hardware(
         view_bindings::directional_shadow_textures_linear_sampler,
         light_local,
         array_index,
-        0.0,
+        0u,
     );
 #endif  // NO_ARRAY_TEXTURES_SUPPORT
     return select(vec2(0.0), vec2(sampled_depth, 1.0), sampled_depth >= depth);
@@ -23475,13 +23181,12 @@ fn sample_shadow_cubemap_pcss(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-view_transformations
-
 ```rust
 #define_import_path bevy_pbr::view_transformations
 
 #import bevy_pbr::mesh_view_bindings as view_bindings
+#import bevy_pbr::prepass_bindings
 
 /// World space:
 /// +y is up
@@ -23575,6 +23280,22 @@ fn direction_clip_to_view(clip_dir: vec4<f32>) -> vec3<f32> {
 }
 
 // -----------------
+// TO PREV. VIEW ---
+// -----------------
+
+fn position_world_to_prev_view(world_pos: vec3<f32>) -> vec3<f32> {
+    let view_pos = prepass_bindings::previous_view_uniforms.view_from_world *
+        vec4(world_pos, 1.0);
+    return view_pos.xyz;
+}
+
+fn position_world_to_prev_ndc(world_pos: vec3<f32>) -> vec3<f32> {
+    let ndc_pos = prepass_bindings::previous_view_uniforms.clip_from_world *
+        vec4(world_pos, 1.0);
+    return ndc_pos.xyz / ndc_pos.w;
+}
+
+// -----------------
 // TO CLIP ---------
 // -----------------
 
@@ -23653,6 +23374,19 @@ fn view_z_to_depth_ndc(view_z: f32) -> f32 {
 #endif
 }
 
+fn prev_view_z_to_depth_ndc(view_z: f32) -> f32 {
+#ifdef VIEW_PROJECTION_PERSPECTIVE
+    return -perspective_camera_near() / view_z;
+#else ifdef VIEW_PROJECTION_ORTHOGRAPHIC
+    return prepass_bindings::previous_view_uniforms.clip_from_view[3][2] +
+        view_z * prepass_bindings::previous_view_uniforms.clip_from_view[2][2];
+#else
+    let ndc_pos = prepass_bindings::previous_view_uniforms.clip_from_view *
+        vec4(0.0, 0.0, view_z, 1.0);
+    return ndc_pos.z / ndc_pos.w;
+#endif
+}
+
 // -----------------
 // UV --------------
 // -----------------
@@ -23685,24 +23419,22 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-mesh_bindings
-
 ```rust
 #define_import_path bevy_pbr::mesh_bindings
 
 #import bevy_pbr::mesh_types::Mesh
 
+#ifndef MESHLET_MESH_MATERIAL_PASS
 #ifdef PER_OBJECT_BUFFER_BATCH_SIZE
 @group(1) @binding(0) var<uniform> mesh: array<Mesh, #{PER_OBJECT_BUFFER_BATCH_SIZE}u>;
 #else
 @group(1) @binding(0) var<storage> mesh: array<Mesh>;
 #endif // PER_OBJECT_BUFFER_BATCH_SIZE
+#endif  // MESHLET_MESH_MATERIAL_PASS
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_types
-
 ```rust
 #define_import_path bevy_pbr::pbr_types
 
@@ -23713,9 +23445,9 @@ struct StandardMaterial {
     emissive: vec4<f32>,
     attenuation_color: vec4<f32>,
     uv_transform: mat3x3<f32>,
+    reflectance: vec3<f32>,
     perceptual_roughness: f32,
     metallic: f32,
-    reflectance: f32,
     diffuse_transmission: f32,
     specular_transmission: f32,
     thickness: f32,
@@ -23758,6 +23490,8 @@ const STANDARD_MATERIAL_FLAGS_CLEARCOAT_TEXTURE_BIT: u32          = 16384u;
 const STANDARD_MATERIAL_FLAGS_CLEARCOAT_ROUGHNESS_TEXTURE_BIT: u32 = 32768u;
 const STANDARD_MATERIAL_FLAGS_CLEARCOAT_NORMAL_TEXTURE_BIT: u32   = 65536u;
 const STANDARD_MATERIAL_FLAGS_ANISOTROPY_TEXTURE_BIT: u32         = 131072u;
+const STANDARD_MATERIAL_FLAGS_SPECULAR_TEXTURE_BIT: u32           = 262144u;
+const STANDARD_MATERIAL_FLAGS_SPECULAR_TINT_TEXTURE_BIT: u32      = 524288u;
 const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_RESERVED_BITS: u32       = 3758096384u; // (0b111u32 << 29)
 const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_OPAQUE: u32              = 0u;          // (0u32 << 29)
 const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MASK: u32                = 536870912u;  // (1u32 << 29)
@@ -23779,7 +23513,7 @@ fn standard_material_new() -> StandardMaterial {
     material.emissive = vec4<f32>(0.0, 0.0, 0.0, 1.0);
     material.perceptual_roughness = 0.5;
     material.metallic = 0.00;
-    material.reflectance = 0.5;
+    material.reflectance = vec3<f32>(0.5);
     material.diffuse_transmission = 0.0;
     material.specular_transmission = 0.0;
     material.thickness = 0.0;
@@ -23857,9 +23591,7 @@ fn pbr_input_new() -> PbrInput {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_ambient
-
 ```rust
 #define_import_path bevy_pbr::ambient
 
@@ -23892,9 +23624,36 @@ fn ambient_light(
 }
 
 ```
+### bevy-crates-bevy_pbr-src-render-reset_indirect_batch_sets
+```rust
+// Resets the indirect draw counts to zero.
+//
+// This shader is needed because we reuse the same indirect batch set count
+// buffer (i.e. the buffer that gets passed to `multi_draw_indirect_count` to
+// determine how many objects to draw) between phases (early, late, and main).
+// Before launching `build_indirect_params.wgsl`, we need to reinitialize the
+// value to 0.
 
+#import bevy_pbr::mesh_preprocess_types::IndirectBatchSet
+
+@group(0) @binding(0) var<storage, read_write> indirect_batch_sets: array<IndirectBatchSet>;
+
+@compute
+@workgroup_size(64)
+fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
+    // Figure out our instance index. If this thread doesn't correspond to any
+    // index, bail.
+    let instance_index = global_invocation_id.x;
+    if (instance_index >= arrayLength(&indirect_batch_sets)) {
+        return;
+    }
+
+    // Reset the number of batch sets to 0.
+    atomicStore(&indirect_batch_sets[instance_index].indirect_parameters_count, 0u);
+}
+
+```
 ### bevy-crates-bevy_pbr-src-render-wireframe
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -23910,29 +23669,60 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_bindings
-
 ```rust
 #define_import_path bevy_pbr::pbr_bindings
 
 #import bevy_pbr::pbr_types::StandardMaterial
 
 #ifdef BINDLESS
-@group(2) @binding(0) var<storage> material: binding_array<StandardMaterial, 16>;
-@group(2) @binding(1) var base_color_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(2) var base_color_sampler: binding_array<sampler, 16>;
-@group(2) @binding(3) var emissive_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(4) var emissive_sampler: binding_array<sampler, 16>;
-@group(2) @binding(5) var metallic_roughness_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(6) var metallic_roughness_sampler: binding_array<sampler, 16>;
-@group(2) @binding(7) var occlusion_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(8) var occlusion_sampler: binding_array<sampler, 16>;
-@group(2) @binding(9) var normal_map_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(10) var normal_map_sampler: binding_array<sampler, 16>;
-@group(2) @binding(11) var depth_map_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(12) var depth_map_sampler: binding_array<sampler, 16>;
+struct StandardMaterialBindings {
+    material: u32,                      // 0
+    base_color_texture: u32,            // 1
+    base_color_sampler: u32,            // 2
+    emissive_texture: u32,              // 3
+    emissive_sampler: u32,              // 4
+    metallic_roughness_texture: u32,    // 5
+    metallic_roughness_sampler: u32,    // 6
+    occlusion_texture: u32,             // 7
+    occlusion_sampler: u32,             // 8
+    normal_map_texture: u32,            // 9
+    normal_map_sampler: u32,            // 10
+    depth_map_texture: u32,             // 11
+    depth_map_sampler: u32,             // 12
+#ifdef PBR_ANISOTROPY_TEXTURE_SUPPORTED
+    anisotropy_texture: u32,            // 13
+    anisotropy_sampler: u32,            // 14
+#endif  // PBR_ANISOTROPY_TEXTURE_SUPPORTED
+#ifdef PBR_TRANSMISSION_TEXTURES_SUPPORTED
+    specular_transmission_texture: u32, // 15
+    specular_transmission_sampler: u32, // 16
+    thickness_texture: u32,             // 17
+    thickness_sampler: u32,             // 18
+    diffuse_transmission_texture: u32,  // 19
+    diffuse_transmission_sampler: u32,  // 20
+#endif  // PBR_TRANSMISSION_TEXTURES_SUPPORTED
+#ifdef PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
+    clearcoat_texture: u32,             // 21
+    clearcoat_sampler: u32,             // 22
+    clearcoat_roughness_texture: u32,   // 23
+    clearcoat_roughness_sampler: u32,   // 24
+    clearcoat_normal_texture: u32,      // 25
+    clearcoat_normal_sampler: u32,      // 26
+#endif  // PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
+#ifdef PBR_SPECULAR_TEXTURES_SUPPORTED
+    specular_texture: u32,              // 27
+    specular_sampler: u32,              // 28
+    specular_tint_texture: u32,         // 29
+    specular_tint_sampler: u32,         // 30
+#endif  // PBR_SPECULAR_TEXTURES_SUPPORTED
+}
+
+@group(2) @binding(0) var<storage> material_indices: array<StandardMaterialBindings>;
+@group(2) @binding(10) var<storage> material_array: array<StandardMaterial>;
+
 #else   // BINDLESS
+
 @group(2) @binding(0) var<uniform> material: StandardMaterial;
 @group(2) @binding(1) var base_color_texture: texture_2d<f32>;
 @group(2) @binding(2) var base_color_sampler: sampler;
@@ -23946,90 +23736,71 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 @group(2) @binding(10) var normal_map_sampler: sampler;
 @group(2) @binding(11) var depth_map_texture: texture_2d<f32>;
 @group(2) @binding(12) var depth_map_sampler: sampler;
-#endif  // BINDLESS
 
 #ifdef PBR_ANISOTROPY_TEXTURE_SUPPORTED
-#ifdef BINDLESS
-@group(2) @binding(13) var anisotropy_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(14) var anisotropy_sampler: binding_array<sampler, 16>;
-#else   // BINDLESS
 @group(2) @binding(13) var anisotropy_texture: texture_2d<f32>;
 @group(2) @binding(14) var anisotropy_sampler: sampler;
-#endif  // BINDLESS
 #endif  // PBR_ANISOTROPY_TEXTURE_SUPPORTED
 
 #ifdef PBR_TRANSMISSION_TEXTURES_SUPPORTED
-#ifdef BINDLESS
-@group(2) @binding(15) var specular_transmission_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(16) var specular_transmission_sampler: binding_array<sampler, 16>;
-@group(2) @binding(17) var thickness_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(18) var thickness_sampler: binding_array<sampler, 16>;
-@group(2) @binding(19) var diffuse_transmission_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(20) var diffuse_transmission_sampler: binding_array<sampler, 16>;
-#else   // BINDLESS
 @group(2) @binding(15) var specular_transmission_texture: texture_2d<f32>;
 @group(2) @binding(16) var specular_transmission_sampler: sampler;
 @group(2) @binding(17) var thickness_texture: texture_2d<f32>;
 @group(2) @binding(18) var thickness_sampler: sampler;
 @group(2) @binding(19) var diffuse_transmission_texture: texture_2d<f32>;
 @group(2) @binding(20) var diffuse_transmission_sampler: sampler;
-#endif  // BINDLESS
 #endif  // PBR_TRANSMISSION_TEXTURES_SUPPORTED
 
 #ifdef PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
-#ifdef BINDLESS
-@group(2) @binding(21) var clearcoat_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(22) var clearcoat_sampler: binding_array<sampler, 16>;
-@group(2) @binding(23) var clearcoat_roughness_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(24) var clearcoat_roughness_sampler: binding_array<sampler, 16>;
-@group(2) @binding(25) var clearcoat_normal_texture: binding_array<texture_2d<f32>, 16>;
-@group(2) @binding(26) var clearcoat_normal_sampler: binding_array<sampler, 16>;
-#else   // BINDLESS
 @group(2) @binding(21) var clearcoat_texture: texture_2d<f32>;
 @group(2) @binding(22) var clearcoat_sampler: sampler;
 @group(2) @binding(23) var clearcoat_roughness_texture: texture_2d<f32>;
 @group(2) @binding(24) var clearcoat_roughness_sampler: sampler;
 @group(2) @binding(25) var clearcoat_normal_texture: texture_2d<f32>;
 @group(2) @binding(26) var clearcoat_normal_sampler: sampler;
-#endif  // BINDLESS
 #endif  // PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
 
+#ifdef PBR_SPECULAR_TEXTURES_SUPPORTED
+@group(2) @binding(27) var specular_texture: texture_2d<f32>;
+@group(2) @binding(28) var specular_sampler: sampler;
+@group(2) @binding(29) var specular_tint_texture: texture_2d<f32>;
+@group(2) @binding(30) var specular_tint_sampler: sampler;
+#endif  // PBR_SPECULAR_TEXTURES_SUPPORTED
+
+#endif  // BINDLESS
+
 ```
-
 ### bevy-crates-bevy_pbr-src-render-mesh_preprocess
-
 ```rust
-// GPU mesh uniform building.
+// GPU mesh transforming and culling.
 //
 // This is a compute shader that expands each `MeshInputUniform` out to a full
-// `MeshUniform` for each view before rendering. (Thus `MeshInputUniform`
-// and `MeshUniform` are in a 1:N relationship.) It runs in parallel for all
-// meshes for all views. As part of this process, the shader gathers each
-// mesh's transform on the previous frame and writes it into the `MeshUniform`
-// so that TAA works.
+// `MeshUniform` for each view before rendering. (Thus `MeshInputUniform` and
+// `MeshUniform` are in a 1:N relationship.) It runs in parallel for all meshes
+// for all views. As part of this process, the shader gathers each mesh's
+// transform on the previous frame and writes it into the `MeshUniform` so that
+// TAA works. It also performs frustum culling and occlusion culling, if
+// requested.
+//
+// If occlusion culling is on, this shader runs twice: once to prepare the
+// meshes that were visible last frame, and once to prepare the meshes that
+// weren't visible last frame but became visible this frame. The two invocations
+// are known as *early mesh preprocessing* and *late mesh preprocessing*
+// respectively.
 
+#import bevy_pbr::mesh_preprocess_types::{
+    IndirectParametersCpuMetadata, IndirectParametersGpuMetadata, MeshInput
+}
 #import bevy_pbr::mesh_types::{Mesh, MESH_FLAGS_NO_FRUSTUM_CULLING_BIT}
+#import bevy_pbr::mesh_view_bindings::view
+#import bevy_pbr::occlusion_culling
+#import bevy_pbr::prepass_bindings::previous_view_uniforms
+#import bevy_pbr::view_transformations::{
+    position_world_to_ndc, position_world_to_view, ndc_to_uv, view_z_to_depth_ndc,
+    position_world_to_prev_ndc, position_world_to_prev_view, prev_view_z_to_depth_ndc
+}
 #import bevy_render::maths
 #import bevy_render::view::View
-
-// Per-frame data that the CPU supplies to the GPU.
-struct MeshInput {
-    // The model transform.
-    world_from_local: mat3x4<f32>,
-    // The lightmap UV rect, packed into 64 bits.
-    lightmap_uv_rect: vec2<u32>,
-    // Various flags.
-    flags: u32,
-    // The index of this mesh's `MeshInput` in the `previous_input` array, if
-    // applicable. If not present, this is `u32::MAX`.
-    previous_input_index: u32,
-    first_vertex_index: u32,
-    current_skin_index: u32,
-    previous_skin_index: u32,
-    // Low 16 bits: index of the material inside the bind group data.
-    // High 16 bits: index of the lightmap in the binding array.
-    material_and_lightmap_bind_group_slot: u32,
-}
 
 // Information about each mesh instance needed to cull it on GPU.
 //
@@ -24051,50 +23822,79 @@ struct PreprocessWorkItem {
     // In direct mode, the index of the `Mesh` in `output` that we write to. In
     // indirect mode, the index of the `IndirectParameters` in
     // `indirect_parameters` that we write to.
-    output_index: u32,
+    output_or_indirect_parameters_index: u32,
 }
 
-// The `wgpu` indirect parameters structure. This is a union of two structures.
-// For more information, see the corresponding comment in
-// `gpu_preprocessing.rs`.
-struct IndirectParameters {
-    // `vertex_count` or `index_count`.
-    data0: u32,
-    // `instance_count` in both structures.
-    instance_count: atomic<u32>,
-    // `first_vertex` in both structures.
-    first_vertex: u32,
-    // `first_instance` or `base_vertex`.
-    data1: u32,
-    // A read-only copy of `instance_index`.
-    instance_index: u32,
+// The parameters for the indirect compute dispatch for the late mesh
+// preprocessing phase.
+struct LatePreprocessWorkItemIndirectParameters {
+    // The number of workgroups we're going to dispatch.
+    //
+    // This value should always be equal to `ceil(work_item_count / 64)`.
+    dispatch_x: atomic<u32>,
+    // The number of workgroups in the Y direction; always 1.
+    dispatch_y: u32,
+    // The number of workgroups in the Z direction; always 1.
+    dispatch_z: u32,
+    // The precise number of work items.
+    work_item_count: atomic<u32>,
+    // Padding.
+    //
+    // This isn't the usual structure padding; it's needed because some hardware
+    // requires indirect compute dispatch parameters to be aligned on 64-byte
+    // boundaries.
+    pad: vec4<u32>,
+}
+
+// These have to be in a structure because of Naga limitations on DX12.
+struct PushConstants {
+    // The offset into the `late_preprocess_work_item_indirect_parameters`
+    // buffer.
+    late_preprocess_work_item_indirect_offset: u32,
 }
 
 // The current frame's `MeshInput`.
-@group(0) @binding(0) var<storage> current_input: array<MeshInput>;
+@group(0) @binding(3) var<storage> current_input: array<MeshInput>;
 // The `MeshInput` values from the previous frame.
-@group(0) @binding(1) var<storage> previous_input: array<MeshInput>;
+@group(0) @binding(4) var<storage> previous_input: array<MeshInput>;
 // Indices into the `MeshInput` buffer.
 //
 // There may be many indices that map to the same `MeshInput`.
-@group(0) @binding(2) var<storage> work_items: array<PreprocessWorkItem>;
+@group(0) @binding(5) var<storage> work_items: array<PreprocessWorkItem>;
 // The output array of `Mesh`es.
-@group(0) @binding(3) var<storage, read_write> output: array<Mesh>;
+@group(0) @binding(6) var<storage, read_write> output: array<Mesh>;
 
 #ifdef INDIRECT
 // The array of indirect parameters for drawcalls.
-@group(0) @binding(4) var<storage, read_write> indirect_parameters: array<IndirectParameters>;
+@group(0) @binding(7) var<storage> indirect_parameters_cpu_metadata:
+    array<IndirectParametersCpuMetadata>;
+
+@group(0) @binding(8) var<storage, read_write> indirect_parameters_gpu_metadata:
+    array<IndirectParametersGpuMetadata>;
 #endif
 
 #ifdef FRUSTUM_CULLING
 // Data needed to cull the meshes.
 //
 // At the moment, this consists only of AABBs.
-@group(0) @binding(5) var<storage> mesh_culling_data: array<MeshCullingData>;
+@group(0) @binding(9) var<storage> mesh_culling_data: array<MeshCullingData>;
+#endif  // FRUSTUM_CULLING
 
-// The view data, including the view matrix.
-@group(0) @binding(6) var<uniform> view: View;
+#ifdef OCCLUSION_CULLING
+@group(0) @binding(10) var depth_pyramid: texture_2d<f32>;
 
+#ifdef EARLY_PHASE
+@group(0) @binding(11) var<storage, read_write> late_preprocess_work_items:
+    array<PreprocessWorkItem>;
+#endif  // EARLY_PHASE
+
+@group(0) @binding(12) var<storage, read_write> late_preprocess_work_item_indirect_parameters:
+    array<LatePreprocessWorkItemIndirectParameters>;
+
+var<push_constant> push_constants: PushConstants;
+#endif  // OCCLUSION_CULLING
+
+#ifdef FRUSTUM_CULLING
 // Returns true if the view frustum intersects an oriented bounding box (OBB).
 //
 // `aabb_center.w` should be 1.0.
@@ -24110,9 +23910,9 @@ fn view_frustum_intersects_obb(
         let relative_radius = dot(
             abs(
                 vec3(
-                    dot(plane_normal, world_from_local[0]),
-                    dot(plane_normal, world_from_local[1]),
-                    dot(plane_normal, world_from_local[2]),
+                    dot(plane_normal.xyz, world_from_local[0].xyz),
+                    dot(plane_normal.xyz, world_from_local[1].xyz),
+                    dot(plane_normal.xyz, world_from_local[2].xyz),
                 )
             ),
             aabb_half_extents
@@ -24135,17 +23935,41 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
     // Figure out our instance index. If this thread doesn't correspond to any
     // index, bail.
     let instance_index = global_invocation_id.x;
+
+#ifdef LATE_PHASE
+    if (instance_index >= atomicLoad(&late_preprocess_work_item_indirect_parameters[
+            push_constants.late_preprocess_work_item_indirect_offset].work_item_count)) {
+        return;
+    }
+#else   // LATE_PHASE
     if (instance_index >= arrayLength(&work_items)) {
         return;
     }
+#endif
 
-    // Unpack.
+    // Unpack the work item.
     let input_index = work_items[instance_index].input_index;
-    let output_index = work_items[instance_index].output_index;
+#ifdef INDIRECT
+    let indirect_parameters_index = work_items[instance_index].output_or_indirect_parameters_index;
+
+    // If we're the first mesh instance in this batch, write the index of our
+    // `MeshInput` into the appropriate slot so that the indirect parameters
+    // building shader can access it.
+#ifndef LATE_PHASE
+    if (instance_index == 0u || work_items[instance_index - 1].output_or_indirect_parameters_index != indirect_parameters_index) {
+        indirect_parameters_gpu_metadata[indirect_parameters_index].mesh_index = input_index;
+    }
+#endif  // LATE_PHASE
+
+#else   // INDIRECT
+    let mesh_output_index = work_items[instance_index].output_or_indirect_parameters_index;
+#endif  // INDIRECT
+
+    // Unpack the input matrix.
     let world_from_local_affine_transpose = current_input[input_index].world_from_local;
     let world_from_local = maths::affine3_to_square(world_from_local_affine_transpose);
 
-    // Cull if necessary.
+    // Frustum cull if necessary.
 #ifdef FRUSTUM_CULLING
     if ((current_input[input_index].flags & MESH_FLAGS_NO_FRUSTUM_CULLING_BIT) == 0u) {
         let aabb_center = mesh_culling_data[input_index].aabb_center.xyz;
@@ -24159,6 +23983,119 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
     }
 #endif
 
+    // See whether the `MeshInputUniform` was updated on this frame. If it
+    // wasn't, then we know the transforms of this mesh must be identical to
+    // those on the previous frame, and therefore we don't need to access the
+    // `previous_input_index` (in fact, we can't; that index are only valid for
+    // one frame and will be invalid).
+    let timestamp = current_input[input_index].timestamp;
+    let mesh_changed_this_frame = timestamp == view.frame_count;
+
+    // Look up the previous model matrix, if it could have been.
+    let previous_input_index = current_input[input_index].previous_input_index;
+    var previous_world_from_local_affine_transpose: mat3x4<f32>;
+    if (mesh_changed_this_frame && previous_input_index != 0xffffffffu) {
+        previous_world_from_local_affine_transpose =
+            previous_input[previous_input_index].world_from_local;
+    } else {
+        previous_world_from_local_affine_transpose = world_from_local_affine_transpose;
+    }
+    let previous_world_from_local =
+        maths::affine3_to_square(previous_world_from_local_affine_transpose);
+
+    // Occlusion cull if necessary. This is done by calculating the screen-space
+    // axis-aligned bounding box (AABB) of the mesh and testing it against the
+    // appropriate level of the depth pyramid (a.k.a. hierarchical Z-buffer). If
+    // no part of the AABB is in front of the corresponding pixel quad in the
+    // hierarchical Z-buffer, then this mesh must be occluded, and we can skip
+    // rendering it.
+#ifdef OCCLUSION_CULLING
+    let aabb_center = mesh_culling_data[input_index].aabb_center.xyz;
+    let aabb_half_extents = mesh_culling_data[input_index].aabb_half_extents.xyz;
+
+    // Initialize the AABB and the maximum depth.
+    let infinity = bitcast<f32>(0x7f800000u);
+    let neg_infinity = bitcast<f32>(0xff800000u);
+    var aabb = vec4(infinity, infinity, neg_infinity, neg_infinity);
+    var max_depth_view = neg_infinity;
+
+    // Build up the AABB by taking each corner of this mesh's OBB, transforming
+    // it, and updating the AABB and depth accordingly.
+    for (var i = 0u; i < 8u; i += 1u) {
+        let local_pos = aabb_center + select(
+            vec3(-1.0),
+            vec3(1.0),
+            vec3((i & 1) != 0, (i & 2) != 0, (i & 4) != 0)
+        ) * aabb_half_extents;
+
+#ifdef EARLY_PHASE
+        // If we're in the early phase, we're testing against the last frame's
+        // depth buffer, so we need to use the previous frame's transform.
+        let prev_world_pos = (previous_world_from_local * vec4(local_pos, 1.0)).xyz;
+        let view_pos = position_world_to_prev_view(prev_world_pos);
+        let ndc_pos = position_world_to_prev_ndc(prev_world_pos);
+#else   // EARLY_PHASE
+        // Otherwise, if this is the late phase, we use the current frame's
+        // transform.
+        let world_pos = (world_from_local * vec4(local_pos, 1.0)).xyz;
+        let view_pos = position_world_to_view(world_pos);
+        let ndc_pos = position_world_to_ndc(world_pos);
+#endif  // EARLY_PHASE
+
+        let uv_pos = ndc_to_uv(ndc_pos.xy);
+
+        // Update the AABB and maximum view-space depth.
+        aabb = vec4(min(aabb.xy, uv_pos), max(aabb.zw, uv_pos));
+        max_depth_view = max(max_depth_view, view_pos.z);
+    }
+
+    // Clip to the near plane to avoid the NDC depth becoming negative.
+#ifdef EARLY_PHASE
+    max_depth_view = min(-previous_view_uniforms.clip_from_view[3][2], max_depth_view);
+#else   // EARLY_PHASE
+    max_depth_view = min(-view.clip_from_view[3][2], max_depth_view);
+#endif  // EARLY_PHASE
+
+    // Figure out the depth of the occluder, and compare it to our own depth.
+
+    let aabb_pixel_size = occlusion_culling::get_aabb_size_in_pixels(aabb, depth_pyramid);
+    let occluder_depth_ndc =
+        occlusion_culling::get_occluder_depth(aabb, aabb_pixel_size, depth_pyramid);
+
+#ifdef EARLY_PHASE
+    let max_depth_ndc = prev_view_z_to_depth_ndc(max_depth_view);
+#else   // EARLY_PHASE
+    let max_depth_ndc = view_z_to_depth_ndc(max_depth_view);
+#endif
+
+    // Are we culled out?
+    if (max_depth_ndc < occluder_depth_ndc) {
+#ifdef EARLY_PHASE
+        // If this is the early phase, we need to make a note of this mesh so
+        // that we examine it again in the late phase, so that we handle the
+        // case in which a mesh that was invisible last frame became visible in
+        // this frame.
+        let output_work_item_index = atomicAdd(&late_preprocess_work_item_indirect_parameters[
+            push_constants.late_preprocess_work_item_indirect_offset].work_item_count, 1u);
+        if (output_work_item_index % 64u == 0u) {
+            // Our workgroup size is 64, and the indirect parameters for the
+            // late mesh preprocessing phase are counted in workgroups, so if
+            // we're the first thread in this workgroup, bump the workgroup
+            // count.
+            atomicAdd(&late_preprocess_work_item_indirect_parameters[
+                push_constants.late_preprocess_work_item_indirect_offset].dispatch_x, 1u);
+        }
+
+        // Enqueue a work item for the late prepass phase.
+        late_preprocess_work_items[output_work_item_index].input_index = input_index;
+        late_preprocess_work_items[output_work_item_index].output_or_indirect_parameters_index =
+            indirect_parameters_index;
+#endif  // EARLY_PHASE
+        // This mesh is culled. Skip it.
+        return;
+    }
+#endif  // OCCLUSION_CULLING
+
     // Calculate inverse transpose.
     let local_from_world_transpose = transpose(maths::inverse_affine3(transpose(
         world_from_local_affine_transpose)));
@@ -24169,43 +24106,48 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
         vec4<f32>(local_from_world_transpose[1].yz, local_from_world_transpose[2].xy));
     let local_from_world_transpose_b = local_from_world_transpose[2].z;
 
-    // Look up the previous model matrix.
-    let previous_input_index = current_input[input_index].previous_input_index;
-    var previous_world_from_local: mat3x4<f32>;
-    if (previous_input_index == 0xffffffff) {
-        previous_world_from_local = world_from_local_affine_transpose;
-    } else {
-        previous_world_from_local = previous_input[previous_input_index].world_from_local;
-    }
-
     // Figure out the output index. In indirect mode, this involves bumping the
-    // instance index in the indirect parameters structure. Otherwise, this
-    // index was directly supplied to us.
+    // instance index in the indirect parameters metadata, which
+    // `build_indirect_params.wgsl` will use to generate the actual indirect
+    // parameters. Otherwise, this index was directly supplied to us.
 #ifdef INDIRECT
-    let mesh_output_index = indirect_parameters[output_index].instance_index +
-        atomicAdd(&indirect_parameters[output_index].instance_count, 1u);
-#else
-    let mesh_output_index = output_index;
-#endif
+#ifdef LATE_PHASE
+    let batch_output_index = atomicLoad(
+        &indirect_parameters_gpu_metadata[indirect_parameters_index].early_instance_count
+    ) + atomicAdd(
+        &indirect_parameters_gpu_metadata[indirect_parameters_index].late_instance_count,
+        1u
+    );
+#else   // LATE_PHASE
+    let batch_output_index = atomicAdd(
+        &indirect_parameters_gpu_metadata[indirect_parameters_index].early_instance_count,
+        1u
+    );
+#endif  // LATE_PHASE
+
+    let mesh_output_index =
+        indirect_parameters_cpu_metadata[indirect_parameters_index].base_output_index +
+        batch_output_index;
+
+#endif  // INDIRECT
 
     // Write the output.
     output[mesh_output_index].world_from_local = world_from_local_affine_transpose;
-    output[mesh_output_index].previous_world_from_local = previous_world_from_local;
+    output[mesh_output_index].previous_world_from_local =
+        previous_world_from_local_affine_transpose;
     output[mesh_output_index].local_from_world_transpose_a = local_from_world_transpose_a;
     output[mesh_output_index].local_from_world_transpose_b = local_from_world_transpose_b;
     output[mesh_output_index].flags = current_input[input_index].flags;
     output[mesh_output_index].lightmap_uv_rect = current_input[input_index].lightmap_uv_rect;
     output[mesh_output_index].first_vertex_index = current_input[input_index].first_vertex_index;
     output[mesh_output_index].current_skin_index = current_input[input_index].current_skin_index;
-    output[mesh_output_index].previous_skin_index = current_input[input_index].previous_skin_index;
     output[mesh_output_index].material_and_lightmap_bind_group_slot =
         current_input[input_index].material_and_lightmap_bind_group_slot;
+    output[mesh_output_index].tag = current_input[input_index].tag;
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-mesh
-
 ```rust
 #import bevy_pbr::{
     mesh_bindings::mesh,
@@ -24329,9 +24271,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-forward_io
-
 ```rust
 #define_import_path bevy_pbr::forward_io
 
@@ -24395,11 +24335,11 @@ struct FragmentOutput {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_prepass_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_prepass_functions
+
+#import bevy_render::bindless::{bindless_samplers_filtering, bindless_textures_2d}
 
 #import bevy_pbr::{
     prepass_io::VertexOutput,
@@ -24410,6 +24350,10 @@ struct FragmentOutput {
     pbr_types,
 }
 
+#ifdef BINDLESS
+#import bevy_pbr::pbr_bindings::material_indices
+#endif  // BINDLESS
+
 // Cutoff used for the premultiplied alpha modes BLEND, ADD, and ALPHA_TO_COVERAGE.
 const PREMULTIPLIED_ALPHA_CUTOFF = 0.05;
 
@@ -24419,7 +24363,7 @@ fn prepass_alpha_discard(in: VertexOutput) {
 #ifdef MAY_DISCARD
 #ifdef BINDLESS
     let slot = mesh[in.instance_index].material_and_lightmap_bind_group_slot & 0xffffu;
-    var output_color: vec4<f32> = pbr_bindings::material[slot].base_color;
+    var output_color: vec4<f32> = pbr_bindings::material_array[material_indices[slot].material].base_color;
 #else   // BINDLESS
     var output_color: vec4<f32> = pbr_bindings::material.base_color;
 #endif  // BINDLESS
@@ -24432,8 +24376,8 @@ fn prepass_alpha_discard(in: VertexOutput) {
 #endif  // STANDARD_MATERIAL_BASE_COLOR_UV_B
 
 #ifdef BINDLESS
-    let uv_transform = pbr_bindings::material[slot].uv_transform;
-    let flags = pbr_bindings::material[slot].flags;
+    let uv_transform = pbr_bindings::material_array[material_indices[slot].material].uv_transform;
+    let flags = pbr_bindings::material_array[material_indices[slot].material].flags;
 #else   // BINDLESS
     let uv_transform = pbr_bindings::material.uv_transform;
     let flags = pbr_bindings::material.flags;
@@ -24443,8 +24387,8 @@ fn prepass_alpha_discard(in: VertexOutput) {
     if (flags & pbr_types::STANDARD_MATERIAL_FLAGS_BASE_COLOR_TEXTURE_BIT) != 0u {
         output_color = output_color * textureSampleBias(
 #ifdef BINDLESS
-            pbr_bindings::base_color_texture[slot],
-            pbr_bindings::base_color_sampler[slot],
+            bindless_textures_2d[material_indices[slot].base_color_texture],
+            bindless_samplers_filtering[material_indices[slot].base_color_sampler],
 #else   // BINDLESS
             pbr_bindings::base_color_texture,
             pbr_bindings::base_color_sampler,
@@ -24458,7 +24402,7 @@ fn prepass_alpha_discard(in: VertexOutput) {
     let alpha_mode = flags & pbr_types::STANDARD_MATERIAL_FLAGS_ALPHA_MODE_RESERVED_BITS;
     if alpha_mode == pbr_types::STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MASK {
 #ifdef BINDLESS
-        let alpha_cutoff = pbr_bindings::material[slot].alpha_cutoff;
+        let alpha_cutoff = pbr_bindings::material_array[material_indices[slot].material].alpha_cutoff;
 #else   // BINDLESS
         let alpha_cutoff = pbr_bindings::material.alpha_cutoff;
 #endif  // BINDLESS
@@ -24497,9 +24441,7 @@ fn calculate_motion_vector(world_position: vec4<f32>, previous_world_position: v
 #endif // MOTION_VECTOR_PREPASS
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-utils
-
 ```rust
 #define_import_path bevy_pbr::utils
 
@@ -24591,9 +24533,7 @@ const SPIRAL_OFFSET_6_ = vec2<f32>(-0.1768, -0.1768);
 const SPIRAL_OFFSET_7_ = vec2<f32>( 0.1250,  0.0000);
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-clustered_forward
-
 ```rust
 #define_import_path bevy_pbr::clustered_forward
 
@@ -24624,6 +24564,7 @@ struct ClusterableObjectIndexRanges {
     // The offset of the index of the first irradiance volumes, which also
     // terminates the list of reflection probes.
     first_irradiance_volume_index_offset: u32,
+    first_decal_offset: u32,
     // One past the offset of the index of the final clusterable object for this
     // cluster.
     last_clusterable_object_index_offset: u32,
@@ -24678,12 +24619,14 @@ fn unpack_clusterable_object_index_ranges(cluster_index: u32) -> ClusterableObje
     let spot_light_offset = point_light_offset + offset_and_counts_a.y;
     let reflection_probe_offset = spot_light_offset + offset_and_counts_a.z;
     let irradiance_volume_offset = reflection_probe_offset + offset_and_counts_a.w;
-    let last_clusterable_offset = irradiance_volume_offset + offset_and_counts_b.x;
+    let decal_offset = irradiance_volume_offset + offset_and_counts_b.x;
+    let last_clusterable_offset = decal_offset + offset_and_counts_b.y;
     return ClusterableObjectIndexRanges(
         point_light_offset,
         spot_light_offset,
         reflection_probe_offset,
         irradiance_volume_offset,
+        decal_offset,
         last_clusterable_offset
     );
 
@@ -24707,7 +24650,7 @@ fn unpack_clusterable_object_index_ranges(cluster_index: u32) -> ClusterableObje
     let offset_b = offset_a + offset_and_counts.y;
     let offset_c = offset_b + offset_and_counts.z;
 
-    return ClusterableObjectIndexRanges(offset_a, offset_b, offset_c, offset_c, offset_c);
+    return ClusterableObjectIndexRanges(offset_a, offset_b, offset_c, offset_c, offset_c, offset_c);
 
 #endif  // AVAILABLE_STORAGE_BUFFER_BINDINGS >= 3
 }
@@ -24787,9 +24730,7 @@ fn cluster_debug_visualization(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_transmission
-
 ```rust
 #define_import_path bevy_pbr::transmission
 
@@ -24808,7 +24749,7 @@ fn cluster_debug_visualization(
 #endif
 
 fn specular_transmissive_light(world_position: vec4<f32>, frag_coord: vec3<f32>, view_z: f32, N: vec3<f32>, V: vec3<f32>, F0: vec3<f32>, ior: f32, thickness: f32, perceptual_roughness: f32, specular_transmissive_color: vec3<f32>, transmitted_environment_light_specular: vec3<f32>) -> vec3<f32> {
-    // Calculate the ratio between refaction indexes. Assume air/vacuum for the space outside the mesh
+    // Calculate the ratio between refraction indexes. Assume air/vacuum for the space outside the mesh
     let eta = 1.0 / ior;
 
     // Calculate incidence vector (opposite to view vector) and its dot product with the mesh normal
@@ -24819,7 +24760,7 @@ fn specular_transmissive_light(world_position: vec4<f32>, frag_coord: vec3<f32>,
     let k = 1.0 - eta * eta * (1.0 - NdotI * NdotI);
     let T = eta * I - (eta * NdotI + sqrt(k)) * N;
 
-    // Calculate the exit position of the refracted ray, by propagating refacted direction through thickness
+    // Calculate the exit position of the refracted ray, by propagating refracted direction through thickness
     let exit_position = world_position.xyz + T * thickness;
 
     // Transform exit_position into clip space
@@ -24985,9 +24926,7 @@ fn fetch_transmissive_background(offset_position: vec2<f32>, frag_coord: vec3<f3
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-morph
-
 ```rust
 #define_import_path bevy_pbr::morph
 
@@ -25043,9 +24982,7 @@ fn morph(vertex_index: u32, component_offset: u32, weight_index: u32) -> vec3<f3
 #endif // MORPH_TARGETS
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-mesh_types
-
 ```rust
 #define_import_path bevy_pbr::mesh_types
 
@@ -25067,10 +25004,12 @@ struct Mesh {
     // The index of the mesh's first vertex in the vertex buffer.
     first_vertex_index: u32,
     current_skin_index: u32,
-    previous_skin_index: u32,
     // Low 16 bits: index of the material inside the bind group data.
     // High 16 bits: index of the lightmap in the binding array.
     material_and_lightmap_bind_group_slot: u32,
+    // User supplied index to identify the mesh instance
+    tag: u32,
+    pad: u32,
 };
 
 #ifdef SKINNED
@@ -25097,9 +25036,7 @@ const MESH_FLAGS_TRANSMITTED_SHADOW_RECEIVER_BIT: u32 = 1073741824u;
 const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-mesh_view_bindings
-
 ```rust
 #define_import_path bevy_pbr::mesh_view_bindings
 
@@ -25173,52 +25110,56 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 @group(0) @binding(22) var irradiance_volume_sampler: sampler;
 #endif
 
+#ifdef CLUSTERED_DECALS_ARE_USABLE
+@group(0) @binding(23) var<storage> clustered_decals: types::ClusteredDecals;
+@group(0) @binding(24) var clustered_decal_textures: binding_array<texture_2d<f32>, 8u>;
+@group(0) @binding(25) var clustered_decal_sampler: sampler;
+#endif  // CLUSTERED_DECALS_ARE_USABLE
+
 // NB: If you change these, make sure to update `tonemapping_shared.wgsl` too.
-@group(0) @binding(23) var dt_lut_texture: texture_3d<f32>;
-@group(0) @binding(24) var dt_lut_sampler: sampler;
+@group(0) @binding(26) var dt_lut_texture: texture_3d<f32>;
+@group(0) @binding(27) var dt_lut_sampler: sampler;
 
 #ifdef MULTISAMPLED
 #ifdef DEPTH_PREPASS
-@group(0) @binding(25) var depth_prepass_texture: texture_depth_multisampled_2d;
+@group(0) @binding(28) var depth_prepass_texture: texture_depth_multisampled_2d;
 #endif // DEPTH_PREPASS
 #ifdef NORMAL_PREPASS
-@group(0) @binding(26) var normal_prepass_texture: texture_multisampled_2d<f32>;
+@group(0) @binding(29) var normal_prepass_texture: texture_multisampled_2d<f32>;
 #endif // NORMAL_PREPASS
 #ifdef MOTION_VECTOR_PREPASS
-@group(0) @binding(27) var motion_vector_prepass_texture: texture_multisampled_2d<f32>;
+@group(0) @binding(30) var motion_vector_prepass_texture: texture_multisampled_2d<f32>;
 #endif // MOTION_VECTOR_PREPASS
 
 #else // MULTISAMPLED
 
 #ifdef DEPTH_PREPASS
-@group(0) @binding(25) var depth_prepass_texture: texture_depth_2d;
+@group(0) @binding(28) var depth_prepass_texture: texture_depth_2d;
 #endif // DEPTH_PREPASS
 #ifdef NORMAL_PREPASS
-@group(0) @binding(26) var normal_prepass_texture: texture_2d<f32>;
+@group(0) @binding(29) var normal_prepass_texture: texture_2d<f32>;
 #endif // NORMAL_PREPASS
 #ifdef MOTION_VECTOR_PREPASS
-@group(0) @binding(27) var motion_vector_prepass_texture: texture_2d<f32>;
+@group(0) @binding(30) var motion_vector_prepass_texture: texture_2d<f32>;
 #endif // MOTION_VECTOR_PREPASS
 
 #endif // MULTISAMPLED
 
 #ifdef DEFERRED_PREPASS
-@group(0) @binding(28) var deferred_prepass_texture: texture_2d<u32>;
+@group(0) @binding(31) var deferred_prepass_texture: texture_2d<u32>;
 #endif // DEFERRED_PREPASS
 
-@group(0) @binding(29) var view_transmission_texture: texture_2d<f32>;
-@group(0) @binding(30) var view_transmission_sampler: sampler;
+@group(0) @binding(32) var view_transmission_texture: texture_2d<f32>;
+@group(0) @binding(33) var view_transmission_sampler: sampler;
 
 #ifdef OIT_ENABLED
-@group(0) @binding(31) var<storage, read_write> oit_layers: array<vec2<u32>>;
-@group(0) @binding(32) var<storage, read_write> oit_layer_ids: array<atomic<i32>>;
-@group(0) @binding(33) var<uniform> oit_settings: types::OrderIndependentTransparencySettings;
+@group(0) @binding(34) var<storage, read_write> oit_layers: array<vec2<u32>>;
+@group(0) @binding(35) var<storage, read_write> oit_layer_ids: array<atomic<i32>>;
+@group(0) @binding(36) var<uniform> oit_settings: types::OrderIndependentTransparencySettings;
 #endif // OIT_ENABLED
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_functions
 
@@ -25255,9 +25196,8 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 #endif
 
 
-// Biasing info needed to sample from a texture when calling `sample_texture`.
-// How this is done depends on whether we're rendering meshlets or regular
-// meshes.
+// Biasing info needed to sample from a texture. How this is done depends on
+// whether we're rendering meshlets or regular meshes.
 struct SampleBias {
 #ifdef MESHLET_MESH_MATERIAL_PASS
     ddx_uv: vec2<f32>,
@@ -25464,7 +25404,7 @@ fn bend_normal_for_anisotropy(lighting_input: ptr<function, lighting::LightingIn
     (*lighting_input).layers[LAYER_BASE].R = R;
 }
 
-#endif  // STANDARD_MATERIAL_ANISTROPY
+#endif  // STANDARD_MATERIAL_ANISOTROPY
 
 // NOTE: Correctly calculates the view vector depending on whether
 // the projection is orthographic or perspective.
@@ -25496,7 +25436,7 @@ fn calculate_diffuse_color(
 
 // Remapping [0,1] reflectance to F0
 // See https://google.github.io/filament/Filament.html#materialsystem/parameterization/remapping
-fn calculate_F0(base_color: vec3<f32>, metallic: f32, reflectance: f32) -> vec3<f32> {
+fn calculate_F0(base_color: vec3<f32>, metallic: f32, reflectance: vec3<f32>) -> vec3<f32> {
     return 0.16 * reflectance * reflectance * (1.0 - metallic) + base_color * metallic;
 }
 
@@ -25665,7 +25605,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::point_light(light_id, &transmissive_lighting_input);
+            lighting::point_light(light_id, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -25723,7 +25663,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::spot_light(light_id, &transmissive_lighting_input);
+            lighting::spot_light(light_id, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -25779,7 +25719,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::directional_light(i, &transmissive_lighting_input);
+            lighting::directional_light(i, &transmissive_lighting_input, enable_diffuse);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -25982,6 +25922,7 @@ fn apply_pbr_lighting(
 }
 #endif // PREPASS_FRAGMENT
 
+#ifdef DISTANCE_FOG
 fn apply_fog(fog_params: mesh_view_types::Fog, input_color: vec4<f32>, fragment_world_position: vec3<f32>, view_world_position: vec3<f32>) -> vec4<f32> {
     let view_to_world = fragment_world_position.xyz - view_world_position.xyz;
 
@@ -26019,6 +25960,7 @@ fn apply_fog(fog_params: mesh_view_types::Fog, input_color: vec4<f32>, fragment_
         return input_color;
     }
 }
+#endif  // DISTANCE_FOG
 
 #ifdef PREMULTIPLY_ALPHA
 fn premultiply_alpha(standard_material_flags: u32, color: vec4<f32>) -> vec4<f32> {
@@ -26080,10 +26022,12 @@ fn main_pass_post_lighting_processing(
 ) -> vec4<f32> {
     var output_color = input_color;
 
+#ifdef DISTANCE_FOG
     // fog
-    if (view_bindings::fog.mode != mesh_view_types::FOG_MODE_OFF && (pbr_input.material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_FOG_ENABLED_BIT) != 0u) {
+    if ((pbr_input.material.flags & pbr_types::STANDARD_MATERIAL_FLAGS_FOG_ENABLED_BIT) != 0u) {
         output_color = apply_fog(view_bindings::fog, output_color, pbr_input.world_position.xyz, view_bindings::view.world_position.xyz);
     }
+#endif  // DISTANCE_FOG
 
 #ifdef TONEMAP_IN_SHADER
     output_color = tone_mapping(output_color, view_bindings::view.color_grading);
@@ -26104,9 +26048,7 @@ fn main_pass_post_lighting_processing(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_lighting
-
 ```rust
 #define_import_path bevy_pbr::lighting
 
@@ -26739,9 +26681,7 @@ fn directional_light(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-rgb9e5
-
 ```rust
 #define_import_path bevy_pbr::rgb9e5
 
@@ -26808,9 +26748,7 @@ fn rgb9e5_to_vec3_(v: u32) -> vec3<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_prepass
-
 ```rust
 #import bevy_pbr::{
     pbr_prepass_functions,
@@ -26824,9 +26762,15 @@ fn rgb9e5_to_vec3_(v: u32) -> vec3<f32> {
     mesh_view_bindings::view,
 }
 
+#import bevy_render::bindless::{bindless_samplers_filtering, bindless_textures_2d}
+
 #ifdef MESHLET_MESH_MATERIAL_PASS
 #import bevy_pbr::meshlet_visibility_buffer_resolve::resolve_vertex_output
 #endif
+
+#ifdef BINDLESS
+#import bevy_pbr::pbr_bindings::material_indices
+#endif  // BINDLESS
 
 #ifdef PREPASS_FRAGMENT
 @fragment
@@ -26845,8 +26789,8 @@ fn fragment(
 
 #ifdef BINDLESS
     let slot = mesh[in.instance_index].material_and_lightmap_bind_group_slot & 0xffffu;
-    let flags = pbr_bindings::material[slot].flags;
-    let uv_transform = pbr_bindings::material[slot].uv_transform;
+    let flags = pbr_bindings::material_array[material_indices[slot].material].flags;
+    let uv_transform = pbr_bindings::material_array[material_indices[slot].material].uv_transform;
 #else   // BINDLESS
     let flags = pbr_bindings::material.flags;
     let uv_transform = pbr_bindings::material.uv_transform;
@@ -26907,8 +26851,8 @@ fn fragment(
             textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                pbr_bindings::normal_map_texture[slot],
-                pbr_bindings::normal_map_sampler[slot],
+                bindless_textures_2d[material_indices[slot].normal_map_texture],
+                bindless_samplers_filtering[material_indices[slot].normal_map_sampler],
 #else   // BINDLESS
                 pbr_bindings::normal_map_texture,
                 pbr_bindings::normal_map_sampler,
@@ -26959,9 +26903,7 @@ fn fragment(in: prepass_io::VertexOutput) {
 #endif // PREPASS_FRAGMENT
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-skinning
-
 ```rust
 #define_import_path bevy_pbr::skinning
 
@@ -26999,7 +26941,7 @@ fn skin_model(
         + weights.z * joint_matrices.data[indexes.z]
         + weights.w * joint_matrices.data[indexes.w];
 #else   // SKINS_USE_UNIFORM_BUFFERS
-    let skin_index = mesh[instance_index].current_skin_index;
+    var skin_index = mesh[instance_index].current_skin_index;
     return weights.x * joint_matrices[skin_index + indexes.x]
         + weights.y * joint_matrices[skin_index + indexes.y]
         + weights.z * joint_matrices[skin_index + indexes.z]
@@ -27022,7 +26964,7 @@ fn skin_prev_model(
         + weights.z * prev_joint_matrices.data[indexes.z]
         + weights.w * prev_joint_matrices.data[indexes.w];
 #else   // SKINS_USE_UNIFORM_BUFFERS
-    let skin_index = mesh[instance_index].previous_skin_index;
+    let skin_index = mesh[instance_index].current_skin_index;
     return weights.x * prev_joint_matrices[skin_index + indexes.x]
         + weights.y * prev_joint_matrices[skin_index + indexes.y]
         + weights.z * prev_joint_matrices[skin_index + indexes.z]
@@ -27060,9 +27002,7 @@ fn skin_normals(
 #endif
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-fog
-
 ```rust
 #define_import_path bevy_pbr::fog
 
@@ -27145,14 +27085,13 @@ fn atmospheric_fog(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr
-
 ```rust
 #import bevy_pbr::{
     pbr_types,
     pbr_functions::alpha_discard,
     pbr_fragment::pbr_input_from_standard_material,
+    decal::clustered::apply_decal_base_color,
 }
 
 #ifdef PREPASS_PIPELINE
@@ -27177,19 +27116,25 @@ fn atmospheric_fog(
 #import bevy_core_pipeline::oit::oit_draw
 #endif // OIT_ENABLED
 
+#ifdef FORWARD_DECAL
+#import bevy_pbr::decal::forward::get_forward_decal_info
+#endif
+
 @fragment
 fn fragment(
 #ifdef MESHLET_MESH_MATERIAL_PASS
     @builtin(position) frag_coord: vec4<f32>,
 #else
-    in: VertexOutput,
+    vertex_output: VertexOutput,
     @builtin(front_facing) is_front: bool,
 #endif
 ) -> FragmentOutput {
 #ifdef MESHLET_MESH_MATERIAL_PASS
-    let in = resolve_vertex_output(frag_coord);
+    let vertex_output = resolve_vertex_output(frag_coord);
     let is_front = true;
 #endif
+
+    var in = vertex_output;
 
     // If we're in the crossfade section of a visibility range, conditionally
     // discard the fragment according to the visibility pattern.
@@ -27197,11 +27142,24 @@ fn fragment(
     pbr_functions::visibility_range_dither(in.position, in.visibility_range_dither);
 #endif
 
+#ifdef FORWARD_DECAL
+    let forward_decal_info = get_forward_decal_info(in);
+    in.world_position = forward_decal_info.world_position;
+    in.uv = forward_decal_info.uv;
+#endif
+
     // generate a PbrInput struct from the StandardMaterial bindings
     var pbr_input = pbr_input_from_standard_material(in, is_front);
 
     // alpha discard
     pbr_input.material.base_color = alpha_discard(pbr_input.material, pbr_input.material.base_color);
+
+    // clustered decals
+    pbr_input.material.base_color = apply_decal_base_color(
+        in.world_position.xyz,
+        in.position.xy,
+        pbr_input.material.base_color
+    );
 
 #ifdef PREPASS_PIPELINE
     // write the gbuffer, lighting pass id, and optionally normal and motion_vector textures
@@ -27230,13 +27188,15 @@ fn fragment(
     }
 #endif // OIT_ENABLED
 
-    return out;
+#ifdef FORWARD_DECAL
+        out.color.a = min(forward_decal_info.alpha, out.color.a);
+#endif
+
+        return out;
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-render-shadows
-
 ```rust
 #define_import_path bevy_pbr::shadows
 
@@ -27481,9 +27441,41 @@ fn cascade_debug_visualization(
 }
 
 ```
+### bevy-crates-bevy_pbr-src-render-occlusion_culling
+```rust
+// Occlusion culling utility functions.
 
+#define_import_path bevy_pbr::occlusion_culling
+
+fn get_aabb_size_in_pixels(aabb: vec4<f32>, depth_pyramid: texture_2d<f32>) -> vec2<f32> {
+    let depth_pyramid_size_mip_0 = vec2<f32>(textureDimensions(depth_pyramid, 0));
+    let aabb_width_pixels = (aabb.z - aabb.x) * depth_pyramid_size_mip_0.x;
+    let aabb_height_pixels = (aabb.w - aabb.y) * depth_pyramid_size_mip_0.y;
+    return vec2(aabb_width_pixels, aabb_height_pixels);
+}
+
+fn get_occluder_depth(
+    aabb: vec4<f32>,
+    aabb_pixel_size: vec2<f32>,
+    depth_pyramid: texture_2d<f32>
+) -> f32 {
+    let aabb_width_pixels = aabb_pixel_size.x;
+    let aabb_height_pixels = aabb_pixel_size.y;
+
+    let depth_pyramid_size_mip_0 = vec2<f32>(textureDimensions(depth_pyramid, 0));
+    let depth_level = max(0, i32(ceil(log2(max(aabb_width_pixels, aabb_height_pixels))))); // TODO: Naga doesn't like this being a u32
+    let depth_pyramid_size = vec2<f32>(textureDimensions(depth_pyramid, depth_level));
+    let aabb_top_left = vec2<u32>(aabb.xy * depth_pyramid_size);
+
+    let depth_quad_a = textureLoad(depth_pyramid, aabb_top_left, depth_level).x;
+    let depth_quad_b = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 0u), depth_level).x;
+    let depth_quad_c = textureLoad(depth_pyramid, aabb_top_left + vec2(0u, 1u), depth_level).x;
+    let depth_quad_d = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 1u), depth_level).x;
+    return min(min(depth_quad_a, depth_quad_b), min(depth_quad_c, depth_quad_d));
+}
+
+```
 ### bevy-crates-bevy_pbr-src-render-mesh_functions
-
 ```rust
 #define_import_path bevy_pbr::mesh_functions
 
@@ -27499,6 +27491,7 @@ fn cascade_debug_visualization(
 }
 #import bevy_render::maths::{affine3_to_square, mat2x4_f32_to_mat3x3_unpack}
 
+#ifndef MESHLET_MESH_MATERIAL_PASS
 
 fn get_world_from_local(instance_index: u32) -> mat4x4<f32> {
     return affine3_to_square(mesh[instance_index].world_from_local);
@@ -27507,6 +27500,35 @@ fn get_world_from_local(instance_index: u32) -> mat4x4<f32> {
 fn get_previous_world_from_local(instance_index: u32) -> mat4x4<f32> {
     return affine3_to_square(mesh[instance_index].previous_world_from_local);
 }
+
+fn get_local_from_world(instance_index: u32) -> mat4x4<f32> {
+    // the model matrix is translation * rotation * scale
+    // the inverse is then scale^-1 * rotation ^-1 * translation^-1        
+    // the 3x3 matrix only contains the information for the rotation and scale
+    let inverse_model_3x3 = transpose(mat2x4_f32_to_mat3x3_unpack(
+        mesh[instance_index].local_from_world_transpose_a,
+        mesh[instance_index].local_from_world_transpose_b,
+    ));
+    // construct scale^-1 * rotation^-1 from the 3x3
+    let inverse_model_4x4_no_trans = mat4x4<f32>(
+        vec4(inverse_model_3x3[0], 0.0),
+        vec4(inverse_model_3x3[1], 0.0),
+        vec4(inverse_model_3x3[2], 0.0),
+        vec4(0.0,0.0,0.0,1.0)
+    );
+    // we can get translation^-1 by negating the translation of the model
+    let model = get_world_from_local(instance_index);
+    let inverse_model_4x4_only_trans = mat4x4<f32>(
+        vec4(1.0,0.0,0.0,0.0),
+        vec4(0.0,1.0,0.0,0.0),
+        vec4(0.0,0.0,1.0,0.0),
+        vec4(-model[3].xyz, 1.0)
+    );
+
+    return inverse_model_4x4_no_trans * inverse_model_4x4_only_trans;
+}
+
+#endif  // MESHLET_MESH_MATERIAL_PASS
 
 fn mesh_position_local_to_world(world_from_local: mat4x4<f32>, vertex_position: vec4<f32>) -> vec4<f32> {
     return world_from_local * vertex_position;
@@ -27519,6 +27541,8 @@ fn mesh_position_local_to_clip(world_from_local: mat4x4<f32>, vertex_position: v
     let world_position = mesh_position_local_to_world(world_from_local, vertex_position);
     return position_world_to_clip(world_position.xyz);
 }
+
+#ifndef MESHLET_MESH_MATERIAL_PASS
 
 fn mesh_normal_local_to_world(vertex_normal: vec3<f32>, instance_index: u32) -> vec3<f32> {
     // NOTE: The mikktspace method of normal mapping requires that the world normal is
@@ -27540,6 +27564,8 @@ fn mesh_normal_local_to_world(vertex_normal: vec3<f32>, instance_index: u32) -> 
     }
 }
 
+#endif  // MESHLET_MESH_MATERIAL_PASS
+
 // Calculates the sign of the determinant of the 3x3 model matrix based on a
 // mesh flag
 fn sign_determinant_model_3x3m(mesh_flags: u32) -> f32 {
@@ -27548,6 +27574,8 @@ fn sign_determinant_model_3x3m(mesh_flags: u32) -> f32 {
     // * 2.0 - 1.0 remaps 0.0 or 1.0 to -1.0 or 1.0 respectively
     return f32(bool(mesh_flags & MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT)) * 2.0 - 1.0;
 }
+
+#ifndef MESHLET_MESH_MATERIAL_PASS
 
 fn mesh_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: vec4<f32>, instance_index: u32) -> vec4<f32> {
     // NOTE: The mikktspace method of normal mapping requires that the world tangent is
@@ -27574,6 +27602,8 @@ fn mesh_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: ve
         return vertex_tangent;
     }
 }
+
+#endif  // MESHLET_MESH_MATERIAL_PASS
 
 // Returns an appropriate dither level for the current mesh instance.
 //
@@ -27609,12 +27639,19 @@ fn get_visibility_range_dither_level(instance_index: u32, world_position: vec4<f
 }
 #endif
 
+
+#ifndef MESHLET_MESH_MATERIAL_PASS
+fn get_tag(instance_index: u32) -> u32 {
+    return mesh[instance_index].tag;
+}
+#endif
+
 ```
-
 ### bevy-crates-bevy_pbr-src-render-pbr_fragment
-
 ```rust
 #define_import_path bevy_pbr::pbr_fragment
+
+#import bevy_render::bindless::{bindless_samplers_filtering, bindless_textures_2d}
 
 #import bevy_pbr::{
     pbr_functions,
@@ -27641,6 +27678,10 @@ fn get_visibility_range_dither_level(instance_index: u32, world_position: vec4<f
 #else
 #import bevy_pbr::forward_io::VertexOutput
 #endif
+
+#ifdef BINDLESS
+#import bevy_pbr::pbr_bindings::material_indices
+#endif  // BINDLESS
 
 // prepare a basic PbrInput from the vertex stage output, mesh binding and view binding
 fn pbr_input_from_vertex_output(
@@ -27686,11 +27727,16 @@ fn pbr_input_from_standard_material(
     in: VertexOutput,
     is_front: bool,
 ) -> pbr_types::PbrInput {
-#ifdef BINDLESS
+#ifdef MESHLET_MESH_MATERIAL_PASS
+    let slot = in.material_bind_group_slot;
+#else   // MESHLET_MESH_MATERIAL_PASS
     let slot = mesh[in.instance_index].material_and_lightmap_bind_group_slot & 0xffffu;
-    let flags = pbr_bindings::material[slot].flags;
-    let base_color = pbr_bindings::material[slot].base_color;
-    let deferred_lighting_pass_id = pbr_bindings::material[slot].deferred_lighting_pass_id;
+#endif  // MESHLET_MESH_MATERIAL_PASS
+#ifdef BINDLESS
+    let flags = pbr_bindings::material_array[material_indices[slot].material].flags;
+    let base_color = pbr_bindings::material_array[material_indices[slot].material].base_color;
+    let deferred_lighting_pass_id =
+        pbr_bindings::material_array[material_indices[slot].material].deferred_lighting_pass_id;
 #else   // BINDLESS
     let flags = pbr_bindings::material.flags;
     let base_color = pbr_bindings::material.base_color;
@@ -27720,7 +27766,7 @@ fn pbr_input_from_standard_material(
 #ifdef VERTEX_UVS
 
 #ifdef BINDLESS
-    let uv_transform = pbr_bindings::material[slot].uv_transform;
+    let uv_transform = pbr_bindings::material_array[material_indices[slot].material].uv_transform;
 #else   // BINDLESS
     let uv_transform = pbr_bindings::material.uv_transform;
 #endif  // BINDLESS
@@ -27749,9 +27795,9 @@ fn pbr_input_from_standard_material(
         // TODO: Transforming UVs mean we need to apply derivative chain rule for meshlet mesh material pass
         uv = parallaxed_uv(
 #ifdef BINDLESS
-            pbr_bindings::material[slot].parallax_depth_scale,
-            pbr_bindings::material[slot].max_parallax_layer_count,
-            pbr_bindings::material[slot].max_relief_mapping_search_steps,
+            pbr_bindings::material_array[material_indices[slot].material].parallax_depth_scale,
+            pbr_bindings::material_array[material_indices[slot].material].max_parallax_layer_count,
+            pbr_bindings::material_array[material_indices[slot].material].max_relief_mapping_search_steps,
 #else   // BINDLESS
             pbr_bindings::material.parallax_depth_scale,
             pbr_bindings::material.max_parallax_layer_count,
@@ -27762,7 +27808,7 @@ fn pbr_input_from_standard_material(
             // parallax mapping algorithm easier to understand and reason
             // about.
             -Vt,
-            in.instance_index,
+            slot,
         );
 #endif
 
@@ -27770,9 +27816,9 @@ fn pbr_input_from_standard_material(
         // TODO: Transforming UVs mean we need to apply derivative chain rule for meshlet mesh material pass
         uv_b = parallaxed_uv(
 #ifdef BINDLESS
-            pbr_bindings::material[slot].parallax_depth_scale,
-            pbr_bindings::material[slot].max_parallax_layer_count,
-            pbr_bindings::material[slot].max_relief_mapping_search_steps,
+            pbr_bindings::material_array[material_indices[slot].material].parallax_depth_scale,
+            pbr_bindings::material_array[material_indices[slot].material].max_parallax_layer_count,
+            pbr_bindings::material_array[material_indices[slot].material].max_relief_mapping_search_steps,
 #else   // BINDLESS
             pbr_bindings::material.parallax_depth_scale,
             pbr_bindings::material.max_parallax_layer_count,
@@ -27783,7 +27829,7 @@ fn pbr_input_from_standard_material(
             // parallax mapping algorithm easier to understand and reason
             // about.
             -Vt,
-            in.instance_index,
+            slot,
         );
 #else
         uv_b = uv;
@@ -27799,8 +27845,8 @@ fn pbr_input_from_standard_material(
             textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                pbr_bindings::base_color_texture[slot],
-                pbr_bindings::base_color_sampler[slot],
+                bindless_textures_2d[material_indices[slot].base_color_texture],
+                bindless_samplers_filtering[material_indices[slot].base_color_sampler],
 #else   // BINDLESS
                 pbr_bindings::base_color_texture,
                 pbr_bindings::base_color_sampler,
@@ -27826,7 +27872,7 @@ fn pbr_input_from_standard_material(
     if alpha_mode == pbr_types::STANDARD_MATERIAL_FLAGS_ALPHA_MODE_ALPHA_TO_COVERAGE {
 
 #ifdef BINDLESS
-        let alpha_cutoff = pbr_bindings::material[slot].alpha_cutoff;
+        let alpha_cutoff = pbr_bindings::material_array[material_indices[slot].material].alpha_cutoff;
 #else   // BINDLESS
         let alpha_cutoff = pbr_bindings::material.alpha_cutoff;
 #endif  // BINDLESS
@@ -27844,22 +27890,99 @@ fn pbr_input_from_standard_material(
     // NOTE: Unlit bit not set means == 0 is true, so the true case is if lit
     if ((flags & pbr_types::STANDARD_MATERIAL_FLAGS_UNLIT_BIT) == 0u) {
 #ifdef BINDLESS
-        pbr_input.material.reflectance = pbr_bindings::material[slot].reflectance;
-        pbr_input.material.ior = pbr_bindings::material[slot].ior;
-        pbr_input.material.attenuation_color = pbr_bindings::material[slot].attenuation_color;
-        pbr_input.material.attenuation_distance = pbr_bindings::material[slot].attenuation_distance;
-        pbr_input.material.alpha_cutoff = pbr_bindings::material[slot].alpha_cutoff;
+        pbr_input.material.ior = pbr_bindings::material_array[material_indices[slot].material].ior;
+        pbr_input.material.attenuation_color =
+                pbr_bindings::material_array[material_indices[slot].material].attenuation_color;
+        pbr_input.material.attenuation_distance =
+                pbr_bindings::material_array[material_indices[slot].material].attenuation_distance;
+        pbr_input.material.alpha_cutoff =
+                pbr_bindings::material_array[material_indices[slot].material].alpha_cutoff;
 #else   // BINDLESS
-        pbr_input.material.reflectance = pbr_bindings::material.reflectance;
         pbr_input.material.ior = pbr_bindings::material.ior;
         pbr_input.material.attenuation_color = pbr_bindings::material.attenuation_color;
         pbr_input.material.attenuation_distance = pbr_bindings::material.attenuation_distance;
         pbr_input.material.alpha_cutoff = pbr_bindings::material.alpha_cutoff;
 #endif  // BINDLESS
 
+        // reflectance
+#ifdef BINDLESS
+        pbr_input.material.reflectance =
+                pbr_bindings::material_array[material_indices[slot].material].reflectance;
+#else   // BINDLESS
+        pbr_input.material.reflectance = pbr_bindings::material.reflectance;
+#endif  // BINDLESS
+
+#ifdef PBR_SPECULAR_TEXTURES_SUPPORTED
+#ifdef VERTEX_UVS
+
+        // Specular texture
+        if ((flags & pbr_types::STANDARD_MATERIAL_FLAGS_SPECULAR_TEXTURE_BIT) != 0u) {
+            let specular =
+#ifdef MESHLET_MESH_MATERIAL_PASS
+                textureSampleGrad(
+#else   // MESHLET_MESH_MATERIAL_PASS
+                textureSampleBias(
+#endif  // MESHLET_MESH_MATERIAL_PASS
+#ifdef BINDLESS
+                bindless_textures_2d[material_indices[slot].specular_texture],
+                bindless_samplers_filtering[material_indices[slot].specular_sampler],
+#else   // BINDLESS
+                pbr_bindings::specular_texture,
+                pbr_bindings::specular_sampler,
+#endif  // BINDLESS
+#ifdef STANDARD_MATERIAL_SPECULAR_UV_B
+                uv_b,
+#else   // STANDARD_MATERIAL_SPECULAR_UV_B
+                uv,
+#endif  // STANDARD_MATERIAL_SPECULAR_UV_B
+#ifdef MESHLET_MESH_MATERIAL_PASS
+                    bias.ddx_uv,
+                    bias.ddy_uv,
+#else   // MESHLET_MESH_MATERIAL_PASS
+                    bias.mip_bias,
+#endif  // MESHLET_MESH_MATERIAL_PASS
+            ).a;
+            // This 0.5 factor is from the `KHR_materials_specular` specification:
+            // <https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_materials_specular#materials-with-reflectance-parameter>
+            pbr_input.material.reflectance *= specular * 0.5;
+        }
+
+        // Specular tint texture
+        if ((flags & pbr_types::STANDARD_MATERIAL_FLAGS_SPECULAR_TINT_TEXTURE_BIT) != 0u) {
+            let specular_tint =
+#ifdef MESHLET_MESH_MATERIAL_PASS
+                textureSampleGrad(
+#else   // MESHLET_MESH_MATERIAL_PASS
+                textureSampleBias(
+#endif  // MESHLET_MESH_MATERIAL_PASS
+#ifdef BINDLESS
+                bindless_textures_2d[material_indices[slot].specular_tint_texture],
+                bindless_samplers_filtering[material_indices[slot].specular_tint_sampler],
+#else   // BINDLESS
+                pbr_bindings::specular_tint_texture,
+                pbr_bindings::specular_tint_sampler,
+#endif  // BINDLESS
+#ifdef STANDARD_MATERIAL_SPECULAR_TINT_UV_B
+                uv_b,
+#else   // STANDARD_MATERIAL_SPECULAR_TINT_UV_B
+                uv,
+#endif  // STANDARD_MATERIAL_SPECULAR_TINT_UV_B
+#ifdef MESHLET_MESH_MATERIAL_PASS
+                    bias.ddx_uv,
+                    bias.ddy_uv,
+#else   // MESHLET_MESH_MATERIAL_PASS
+                    bias.mip_bias,
+#endif  // MESHLET_MESH_MATERIAL_PASS
+            ).rgb;
+            pbr_input.material.reflectance *= specular_tint;
+        }
+
+#endif  // VERTEX_UVS
+#endif  // PBR_SPECULAR_TEXTURES_SUPPORTED
+
         // emissive
 #ifdef BINDLESS
-        var emissive: vec4<f32> = pbr_bindings::material[slot].emissive;
+        var emissive: vec4<f32> = pbr_bindings::material_array[material_indices[slot].material].emissive;
 #else   // BINDLESS
         var emissive: vec4<f32> = pbr_bindings::material.emissive;
 #endif  // BINDLESS
@@ -27873,8 +27996,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::emissive_texture[slot],
-                    pbr_bindings::emissive_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].emissive_texture],
+                    bindless_samplers_filtering[material_indices[slot].emissive_sampler],
 #else   // BINDLESS
                     pbr_bindings::emissive_texture,
                     pbr_bindings::emissive_sampler,
@@ -27898,8 +28021,8 @@ fn pbr_input_from_standard_material(
 
         // metallic and perceptual roughness
 #ifdef BINDLESS
-        var metallic: f32 = pbr_bindings::material[slot].metallic;
-        var perceptual_roughness: f32 = pbr_bindings::material[slot].perceptual_roughness;
+        var metallic: f32 = pbr_bindings::material_array[material_indices[slot].material].metallic;
+        var perceptual_roughness: f32 = pbr_bindings::material_array[material_indices[slot].material].perceptual_roughness;
 #else   // BINDLESS
         var metallic: f32 = pbr_bindings::material.metallic;
         var perceptual_roughness: f32 = pbr_bindings::material.perceptual_roughness;
@@ -27915,8 +28038,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::metallic_roughness_texture[slot],
-                    pbr_bindings::metallic_roughness_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].metallic_roughness_texture],
+                    bindless_samplers_filtering[material_indices[slot].metallic_roughness_sampler],
 #else   // BINDLESS
                     pbr_bindings::metallic_roughness_texture,
                     pbr_bindings::metallic_roughness_sampler,
@@ -27943,7 +28066,8 @@ fn pbr_input_from_standard_material(
 
         // Clearcoat factor
 #ifdef BINDLESS
-        pbr_input.material.clearcoat = pbr_bindings::material[slot].clearcoat;
+        pbr_input.material.clearcoat =
+                pbr_bindings::material_array[material_indices[slot].material].clearcoat;
 #else   // BINDLESS
         pbr_input.material.clearcoat = pbr_bindings::material.clearcoat;
 #endif  // BINDLESS
@@ -27958,8 +28082,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::clearcoat_texture[slot],
-                    pbr_bindings::clearcoat_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].clearcoat_texture],
+                    bindless_samplers_filtering[material_indices[slot].clearcoat_sampler],
 #else   // BINDLESS
                     pbr_bindings::clearcoat_texture,
                     pbr_bindings::clearcoat_sampler,
@@ -27983,7 +28107,7 @@ fn pbr_input_from_standard_material(
         // Clearcoat roughness
 #ifdef BINDLESS
         pbr_input.material.clearcoat_perceptual_roughness =
-            pbr_bindings::material[slot].clearcoat_perceptual_roughness;
+            pbr_bindings::material_array[material_indices[slot].material].clearcoat_perceptual_roughness;
 #else   // BINDLESS
         pbr_input.material.clearcoat_perceptual_roughness =
             pbr_bindings::material.clearcoat_perceptual_roughness;
@@ -27999,8 +28123,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::clearcoat_roughness_texture[slot],
-                    pbr_bindings::clearcoat_roughness_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].clearcoat_roughness_texture],
+                    bindless_samplers_filtering[material_indices[slot].clearcoat_roughness_sampler],
 #else   // BINDLESS
                     pbr_bindings::clearcoat_roughness_texture,
                     pbr_bindings::clearcoat_roughness_sampler,
@@ -28022,7 +28146,7 @@ fn pbr_input_from_standard_material(
 #endif  // VERTEX_UVS
 
 #ifdef BINDLESS
-        var specular_transmission: f32 = pbr_bindings::material[slot].specular_transmission;
+        var specular_transmission: f32 = pbr_bindings::material_array[slot].specular_transmission;
 #else   // BINDLESS
         var specular_transmission: f32 = pbr_bindings::material.specular_transmission;
 #endif  // BINDLESS
@@ -28037,8 +28161,12 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::specular_transmission_texture[slot],
-                    pbr_bindings::specular_transmission_sampler[slot],
+                    bindless_textures_2d[
+                        material_indices[slot].specular_transmission_texture
+                    ],
+                    bindless_samplers_filtering[
+                        material_indices[slot].specular_transmission_sampler
+                    ],
 #else   // BINDLESS
                     pbr_bindings::specular_transmission_texture,
                     pbr_bindings::specular_transmission_sampler,
@@ -28061,7 +28189,7 @@ fn pbr_input_from_standard_material(
         pbr_input.material.specular_transmission = specular_transmission;
 
 #ifdef BINDLESS
-        var thickness: f32 = pbr_bindings::material[slot].thickness;
+        var thickness: f32 = pbr_bindings::material_array[material_indices[slot].material].thickness;
 #else   // BINDLESS
         var thickness: f32 = pbr_bindings::material.thickness;
 #endif  // BINDLESS
@@ -28076,8 +28204,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::thickness_texture[slot],
-                    pbr_bindings::thickness_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].thickness_texture],
+                    bindless_samplers_filtering[material_indices[slot].thickness_sampler],
 #else   // BINDLESS
                     pbr_bindings::thickness_texture,
                     pbr_bindings::thickness_sampler,
@@ -28107,7 +28235,8 @@ fn pbr_input_from_standard_material(
         pbr_input.material.thickness = thickness;
 
 #ifdef BINDLESS
-        var diffuse_transmission = pbr_bindings::material[slot].diffuse_transmission;
+        var diffuse_transmission =
+                pbr_bindings::material_array[material_indices[slot].material].diffuse_transmission;
 #else   // BINDLESS
         var diffuse_transmission = pbr_bindings::material.diffuse_transmission;
 #endif  // BINDLESS
@@ -28122,8 +28251,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::diffuse_transmission_texture[slot],
-                    pbr_bindings::diffuse_transmission_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].diffuse_transmission_texture],
+                    bindless_samplers_filtering[material_indices[slot].diffuse_transmission_sampler],
 #else   // BINDLESS
                     pbr_bindings::diffuse_transmission_texture,
                     pbr_bindings::diffuse_transmission_sampler,
@@ -28156,8 +28285,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::occlusion_texture[slot],
-                    pbr_bindings::occlusion_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].occlusion_texture],
+                    bindless_samplers_filtering[material_indices[slot].occlusion_sampler],
 #else   // BINDLESS
                     pbr_bindings::occlusion_texture,
                     pbr_bindings::occlusion_sampler,
@@ -28207,8 +28336,8 @@ fn pbr_input_from_standard_material(
             textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                pbr_bindings::normal_map_texture[slot],
-                pbr_bindings::normal_map_sampler[slot],
+                bindless_textures_2d[material_indices[slot].normal_map_texture],
+                bindless_samplers_filtering[material_indices[slot].normal_map_sampler],
 #else   // BINDLESS
                 pbr_bindings::normal_map_texture,
                 pbr_bindings::normal_map_sampler,
@@ -28245,8 +28374,8 @@ fn pbr_input_from_standard_material(
             textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                pbr_bindings::clearcoat_normal_texture[slot],
-                pbr_bindings::clearcoat_normal_sampler[slot],
+                bindless_textures_2d[material_indices[slot].clearcoat_normal_texture],
+                bindless_samplers_filtering[material_indices[slot].clearcoat_normal_sampler],
 #else   // BINDLESS
                 pbr_bindings::clearcoat_normal_texture,
                 pbr_bindings::clearcoat_normal_sampler,
@@ -28288,8 +28417,10 @@ fn pbr_input_from_standard_material(
 #ifdef STANDARD_MATERIAL_ANISOTROPY
 
 #ifdef BINDLESS
-        var anisotropy_strength = pbr_bindings::material[slot].anisotropy_strength;
-        var anisotropy_direction = pbr_bindings::material[slot].anisotropy_rotation;
+        var anisotropy_strength =
+                pbr_bindings::material_array[material_indices[slot].material].anisotropy_strength;
+        var anisotropy_direction =
+                pbr_bindings::material_array[material_indices[slot].material].anisotropy_rotation;
 #else   // BINDLESS
         var anisotropy_strength = pbr_bindings::material.anisotropy_strength;
         var anisotropy_direction = pbr_bindings::material.anisotropy_rotation;
@@ -28304,8 +28435,8 @@ fn pbr_input_from_standard_material(
                 textureSampleBias(
 #endif  // MESHLET_MESH_MATERIAL_PASS
 #ifdef BINDLESS
-                    pbr_bindings::anisotropy_texture[slot],
-                    pbr_bindings::anisotropy_sampler[slot],
+                    bindless_textures_2d[material_indices[slot].anisotropy_texture],
+                    bindless_samplers_filtering[material_indices[slot].anisotropy_sampler],
 #else   // BINDLESS
                     pbr_bindings::anisotropy_texture,
                     pbr_bindings::anisotropy_sampler,
@@ -28348,7 +28479,8 @@ fn pbr_input_from_standard_material(
 #ifdef LIGHTMAP
 
 #ifdef BINDLESS
-        let lightmap_exposure = pbr_bindings::material[slot].lightmap_exposure;
+        let lightmap_exposure =
+                pbr_bindings::material_array[material_indices[slot].material].lightmap_exposure;
 #else   // BINDLESS
         let lightmap_exposure = pbr_bindings::material.lightmap_exposure;
 #endif  // BINDLESS
@@ -28361,9 +28493,153 @@ fn pbr_input_from_standard_material(
 }
 
 ```
+### bevy-crates-bevy_pbr-src-render-build_indirect_params
+```rust
+// Builds GPU indirect draw parameters from metadata.
+//
+// This only runs when indirect drawing is enabled. It takes the output of
+// `mesh_preprocess.wgsl` and creates indirect parameters for the GPU.
+//
+// This shader runs separately for indexed and non-indexed meshes. Unlike
+// `mesh_preprocess.wgsl`, which runs one instance per mesh *instance*, one
+// instance of this shader corresponds to a single *batch* which could contain
+// arbitrarily many instances of a single mesh.
 
+#import bevy_pbr::mesh_preprocess_types::{
+    IndirectBatchSet,
+    IndirectParametersIndexed,
+    IndirectParametersNonIndexed,
+    IndirectParametersCpuMetadata,
+    IndirectParametersGpuMetadata,
+    MeshInput
+}
+
+// The data for each mesh that the CPU supplied to the GPU.
+@group(0) @binding(0) var<storage> current_input: array<MeshInput>;
+
+// Data that we use to generate the indirect parameters.
+//
+// The `mesh_preprocess.wgsl` shader emits these.
+@group(0) @binding(1) var<storage> indirect_parameters_cpu_metadata:
+    array<IndirectParametersCpuMetadata>;
+
+@group(0) @binding(2) var<storage> indirect_parameters_gpu_metadata:
+    array<IndirectParametersGpuMetadata>;
+
+// Information about each batch set.
+//
+// A *batch set* is a set of meshes that might be multi-drawn together.
+@group(0) @binding(3) var<storage, read_write> indirect_batch_sets: array<IndirectBatchSet>;
+
+#ifdef INDEXED
+// The buffer of indirect draw parameters that we generate, and that the GPU
+// reads to issue the draws.
+//
+// This buffer is for indexed meshes.
+@group(0) @binding(4) var<storage, read_write> indirect_parameters:
+    array<IndirectParametersIndexed>;
+#else   // INDEXED
+// The buffer of indirect draw parameters that we generate, and that the GPU
+// reads to issue the draws.
+//
+// This buffer is for non-indexed meshes.
+@group(0) @binding(4) var<storage, read_write> indirect_parameters:
+    array<IndirectParametersNonIndexed>;
+#endif  // INDEXED
+
+@compute
+@workgroup_size(64)
+fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
+    // Figure out our instance index (i.e. batch index). If this thread doesn't
+    // correspond to any index, bail.
+    let instance_index = global_invocation_id.x;
+    if (instance_index >= arrayLength(&indirect_parameters_cpu_metadata)) {
+        return;
+    }
+
+    // Unpack the metadata for this batch.
+    let base_output_index = indirect_parameters_cpu_metadata[instance_index].base_output_index;
+    let batch_set_index = indirect_parameters_cpu_metadata[instance_index].batch_set_index;
+    let mesh_index = indirect_parameters_gpu_metadata[instance_index].mesh_index;
+
+    // If we aren't using `multi_draw_indirect_count`, we have a 1:1 fixed
+    // assignment of batches to slots in the indirect parameters buffer, so we
+    // can just use the instance index as the index of our indirect parameters.
+    let early_instance_count =
+        indirect_parameters_gpu_metadata[instance_index].early_instance_count;
+    let late_instance_count = indirect_parameters_gpu_metadata[instance_index].late_instance_count;
+
+    // If in the early phase, we draw only the early meshes. If in the late
+    // phase, we draw only the late meshes. If in the main phase, draw all the
+    // meshes.
+#ifdef EARLY_PHASE
+    let instance_count = early_instance_count;
+#else   // EARLY_PHASE
+#ifdef LATE_PHASE
+    let instance_count = late_instance_count;
+#else   // LATE_PHASE
+    let instance_count = early_instance_count + late_instance_count;
+#endif  // LATE_PHASE
+#endif  // EARLY_PHASE
+
+    var indirect_parameters_index = instance_index;
+
+    // If the current hardware and driver support `multi_draw_indirect_count`,
+    // dynamically reserve an index for the indirect parameters we're to
+    // generate.
+#ifdef MULTI_DRAW_INDIRECT_COUNT_SUPPORTED
+    // If this batch belongs to a batch set, then allocate space for the
+    // indirect commands in that batch set.
+    if (batch_set_index != 0xffffffffu) {
+        // Bail out now if there are no instances. Note that we can only bail if
+        // we're in a batch set. That's because only batch sets are drawn using
+        // `multi_draw_indirect_count`. If we aren't using
+        // `multi_draw_indirect_count`, then we need to continue in order to
+        // zero out the instance count; otherwise, it'll have garbage data in
+        // it.
+        if (instance_count == 0u) {
+            return;
+        }
+
+        let indirect_parameters_base =
+            indirect_batch_sets[batch_set_index].indirect_parameters_base;
+        let indirect_parameters_offset =
+            atomicAdd(&indirect_batch_sets[batch_set_index].indirect_parameters_count, 1u);
+
+        indirect_parameters_index = indirect_parameters_base + indirect_parameters_offset;
+    }
+#endif  // MULTI_DRAW_INDIRECT_COUNT_SUPPORTED
+
+    // Build up the indirect parameters. The structures for indexed and
+    // non-indexed meshes are slightly different.
+
+    indirect_parameters[indirect_parameters_index].instance_count = instance_count;
+
+#ifdef LATE_PHASE
+    // The late mesh instances are stored after the early mesh instances, so we
+    // offset the output index by the number of early mesh instances.
+    indirect_parameters[indirect_parameters_index].first_instance =
+        base_output_index + early_instance_count;
+#else   // LATE_PHASE
+    indirect_parameters[indirect_parameters_index].first_instance = base_output_index;
+#endif  // LATE_PHASE
+
+    indirect_parameters[indirect_parameters_index].base_vertex =
+        current_input[mesh_index].first_vertex_index;
+
+#ifdef INDEXED
+    indirect_parameters[indirect_parameters_index].index_count =
+        current_input[mesh_index].index_count;
+    indirect_parameters[indirect_parameters_index].first_index =
+        current_input[mesh_index].first_index_index;
+#else   // INDEXED
+    indirect_parameters[indirect_parameters_index].vertex_count =
+        current_input[mesh_index].index_count;
+#endif  // INDEXED
+}
+
+```
 ### bevy-crates-bevy_pbr-src-render-mesh_view_types
-
 ```rust
 #define_import_path bevy_pbr::mesh_view_types
 
@@ -28380,8 +28656,8 @@ struct ClusterableObject {
     spot_light_tan_angle: f32,
     soft_shadow_size: f32,
     shadow_map_near_z: f32,
-    pad_a: f32,
-    pad_b: f32,
+    texture_index: u32,
+    pad: f32,
 };
 
 const POINT_LIGHT_FLAGS_SHADOWS_ENABLED_BIT: u32                    = 1u;
@@ -28540,10 +28816,20 @@ struct OrderIndependentTransparencySettings {
   alpha_threshold: f32,
 };
 
+struct ClusteredDecal {
+    local_from_world: mat4x4<f32>,
+    image_index: i32,
+    tag: u32,
+    pad_a: u32,
+    pad_b: u32,
+}
+
+struct ClusteredDecals {
+    decals: array<ClusteredDecal>,
+}
+
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-remap_1d_to_2d_dispatch
-
 ```rust
 /// Remaps an indirect 1d to 2d dispatch for devices with low dispatch size limit.
 
@@ -28570,9 +28856,7 @@ fn remap_dispatch() {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_resolve
-
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
 
@@ -28670,6 +28954,7 @@ struct VertexOutput {
     world_tangent: vec4<f32>,
     mesh_flags: u32,
     cluster_id: u32,
+    material_bind_group_slot: u32,
 #ifdef PREPASS_FRAGMENT
 #ifdef MOTION_VECTOR_PREPASS
     motion_vector: vec2<f32>,
@@ -28679,8 +28964,7 @@ struct VertexOutput {
 
 /// Load the visibility buffer texture and resolve it into a VertexOutput.
 fn resolve_vertex_output(frag_coord: vec4<f32>) -> VertexOutput {
-    let frag_coord_1d = u32(frag_coord.y) * u32(view.viewport.z) + u32(frag_coord.x);
-    let packed_ids = u32(meshlet_visibility_buffer[frag_coord_1d]); // TODO: Might be faster to load the correct u32 directly
+    let packed_ids = u32(textureLoad(meshlet_visibility_buffer, vec2<u32>(frag_coord.xy)).r);
     let cluster_id = packed_ids >> 7u;
     let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
     var meshlet = meshlets[meshlet_id];
@@ -28749,6 +29033,7 @@ fn resolve_vertex_output(frag_coord: vec4<f32>) -> VertexOutput {
         world_tangent,
         instance_uniform.flags,
         instance_id ^ meshlet_id,
+        instance_uniform.material_and_lightmap_bind_group_slot & 0xffffu,
 #ifdef PREPASS_FRAGMENT
 #ifdef MOTION_VECTOR_PREPASS
         motion_vector,
@@ -28815,9 +29100,7 @@ fn calculate_world_tangent(
 #endif
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-cull_clusters
-
 ```rust
 #import bevy_pbr::meshlet_bindings::{
     meshlet_cluster_meshlet_ids,
@@ -29015,42 +29298,63 @@ fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4
 }
 
 ```
+### bevy-crates-bevy_pbr-src-meshlet-clear_visibility_buffer
+```rust
+#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+@group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, write>;
+#else
+@group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r32uint, write>;
+#endif
+var<push_constant> view_size: vec2<u32>;
 
+@compute
+@workgroup_size(16, 16, 1)
+fn clear_visibility_buffer(@builtin(global_invocation_id) global_id: vec3<u32>) {
+    if any(global_id.xy >= view_size) { return; }
+
+#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+    textureStore(meshlet_visibility_buffer, global_id.xy, vec4(0lu));
+#else
+    textureStore(meshlet_visibility_buffer, global_id.xy, vec4(0u));
+#endif
+}
+
+```
 ### bevy-crates-bevy_pbr-src-meshlet-resolve_render_targets
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-@group(0) @binding(0) var<storage, read> meshlet_visibility_buffer: array<u64>; // Per pixel
+@group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, read>;
 #else
-@group(0) @binding(0) var<storage, read> meshlet_visibility_buffer: array<u32>; // Per pixel
+@group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r32uint, read>;
 #endif
 @group(0) @binding(1) var<storage, read> meshlet_cluster_instance_ids: array<u32>;  // Per cluster
 @group(0) @binding(2) var<storage, read> meshlet_instance_material_ids: array<u32>; // Per entity instance
-var<push_constant> view_width: u32;
 
 /// This pass writes out the depth texture.
 @fragment
 fn resolve_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f32 {
-    let frag_coord_1d = u32(in.position.y) * view_width + u32(in.position.x);
-    let visibility = meshlet_visibility_buffer[frag_coord_1d];
+    let visibility = textureLoad(meshlet_visibility_buffer, vec2<u32>(in.position.xy)).r;
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-    return bitcast<f32>(u32(visibility >> 32u));
+    let depth = u32(visibility >> 32u);
 #else
-    return bitcast<f32>(visibility);
+    let depth = visibility;
 #endif
+
+    if depth == 0u { discard; }
+
+    return bitcast<f32>(depth);
 }
 
 /// This pass writes out the material depth texture.
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
 @fragment
 fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f32 {
-    let frag_coord_1d = u32(in.position.y) * view_width + u32(in.position.x);
-    let visibility = meshlet_visibility_buffer[frag_coord_1d];
+    let visibility = textureLoad(meshlet_visibility_buffer, vec2<u32>(in.position.xy)).r;
 
     let depth = visibility >> 32u;
-    if depth == 0lu { return 0.0; }
+    if depth == 0lu { discard; }
 
     let cluster_id = u32(visibility) >> 7u;
     let instance_id = meshlet_cluster_instance_ids[cluster_id];
@@ -29060,9 +29364,7 @@ fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f3
 #endif
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-meshlet_mesh_material
-
 ```rust
 #import bevy_pbr::{
     meshlet_visibility_buffer_resolve::resolve_vertex_output,
@@ -29118,9 +29420,7 @@ fn prepass_fragment(@builtin(position) frag_coord: vec4<f32>) -> prepass_io::Fra
 #endif
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_hardware_raster
-
 ```rust
 #import bevy_pbr::{
     meshlet_bindings::{
@@ -29178,16 +29478,13 @@ fn vertex(@builtin(instance_index) instance_index: u32, @builtin(vertex_index) v
 
 @fragment
 fn fragment(vertex_output: VertexOutput) {
-    let frag_coord_1d = u32(vertex_output.position.y) * u32(view.viewport.z) + u32(vertex_output.position.x);
-
+    let depth = bitcast<u32>(vertex_output.position.z);
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-    let depth = bitcast<u32>(vertex_output.position.z);
     let visibility = (u64(depth) << 32u) | u64(vertex_output.packed_ids);
-    atomicMax(&meshlet_visibility_buffer[frag_coord_1d], visibility);
 #else
-    let depth = bitcast<u32>(vertex_output.position.z);
-    atomicMax(&meshlet_visibility_buffer[frag_coord_1d], depth);
+    let visibility = depth;
 #endif
+    textureAtomicMax(meshlet_visibility_buffer, vec2<u32>(vertex_output.position.xy), visibility);
 }
 
 fn dummy_vertex() -> VertexOutput {
@@ -29205,9 +29502,7 @@ fn divide(a: f32, b: f32) -> f32 {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-visibility_buffer_software_raster
-
 ```rust
 #import bevy_pbr::{
     meshlet_bindings::{
@@ -29378,16 +29673,13 @@ fn rasterize_cluster(
 }
 
 fn write_visibility_buffer_pixel(x: f32, y: f32, z: f32, packed_ids: u32) {
-    let frag_coord_1d = u32(y * view.viewport.z + x);
-
+    let depth = bitcast<u32>(z);
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-    let depth = bitcast<u32>(z);
     let visibility = (u64(depth) << 32u) | u64(packed_ids);
-    atomicMax(&meshlet_visibility_buffer[frag_coord_1d], visibility);
 #else
-    let depth = bitcast<u32>(z);
-    atomicMax(&meshlet_visibility_buffer[frag_coord_1d], depth);
+    let visibility = depth;
 #endif
+    textureAtomicMax(meshlet_visibility_buffer, vec2(u32(x), u32(y)), visibility);
 }
 
 fn edge_function(a: vec2<f32>, b: vec2<f32>, c: vec2<f32>) -> f32 {
@@ -29403,9 +29695,7 @@ fn max3(a: f32, b: f32, c: f32) -> f32 {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-fill_cluster_buffers
-
 ```rust
 #import bevy_pbr::meshlet_bindings::{
     scene_instance_count,
@@ -29459,9 +29749,7 @@ fn fill_cluster_buffers(
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-meshlet-dummy_visibility_buffer_resolve
-
 ```rust
 #define_import_path bevy_pbr::meshlet_visibility_buffer_resolve
 
@@ -29469,329 +29757,7 @@ fn fill_cluster_buffers(
 /// as naga_oil tries to resolve imports even if they're behind an #ifdef.
 
 ```
-
-### bevy-crates-bevy_pbr-src-meshlet-downsample_depth
-
-```rust
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-@group(0) @binding(0) var<storage, read> mip_0: array<u64>; // Per pixel
-#else
-@group(0) @binding(0) var<storage, read> mip_0: array<u32>; // Per pixel
-#endif
-@group(0) @binding(1) var mip_1: texture_storage_2d<r32float, write>;
-@group(0) @binding(2) var mip_2: texture_storage_2d<r32float, write>;
-@group(0) @binding(3) var mip_3: texture_storage_2d<r32float, write>;
-@group(0) @binding(4) var mip_4: texture_storage_2d<r32float, write>;
-@group(0) @binding(5) var mip_5: texture_storage_2d<r32float, write>;
-@group(0) @binding(6) var mip_6: texture_storage_2d<r32float, read_write>;
-@group(0) @binding(7) var mip_7: texture_storage_2d<r32float, write>;
-@group(0) @binding(8) var mip_8: texture_storage_2d<r32float, write>;
-@group(0) @binding(9) var mip_9: texture_storage_2d<r32float, write>;
-@group(0) @binding(10) var mip_10: texture_storage_2d<r32float, write>;
-@group(0) @binding(11) var mip_11: texture_storage_2d<r32float, write>;
-@group(0) @binding(12) var mip_12: texture_storage_2d<r32float, write>;
-@group(0) @binding(13) var samplr: sampler;
-struct Constants { max_mip_level: u32, view_width: u32 }
-var<push_constant> constants: Constants;
-
-/// Generates a hierarchical depth buffer.
-/// Based on FidelityFX SPD v2.1 https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/d7531ae47d8b36a5d4025663e731a47a38be882f/sdk/include/FidelityFX/gpu/spd/ffx_spd.h#L528
-
-// TODO:
-// * Subgroup support
-// * True single pass downsampling
-
-var<workgroup> intermediate_memory: array<array<f32, 16>, 16>;
-
-@compute
-@workgroup_size(256, 1, 1)
-fn downsample_depth_first(
-    @builtin(num_workgroups) num_workgroups: vec3u,
-    @builtin(workgroup_id) workgroup_id: vec3u,
-    @builtin(local_invocation_index) local_invocation_index: u32,
-) {
-    let sub_xy = remap_for_wave_reduction(local_invocation_index % 64u);
-    let x = sub_xy.x + 8u * ((local_invocation_index >> 6u) % 2u);
-    let y = sub_xy.y + 8u * (local_invocation_index >> 7u);
-
-    downsample_mips_0_and_1(x, y, workgroup_id.xy, local_invocation_index);
-
-    downsample_mips_2_to_5(x, y, workgroup_id.xy, local_invocation_index);
-}
-
-@compute
-@workgroup_size(256, 1, 1)
-fn downsample_depth_second(@builtin(local_invocation_index) local_invocation_index: u32) {
-    let sub_xy = remap_for_wave_reduction(local_invocation_index % 64u);
-    let x = sub_xy.x + 8u * ((local_invocation_index >> 6u) % 2u);
-    let y = sub_xy.y + 8u * (local_invocation_index >> 7u);
-
-    downsample_mips_6_and_7(x, y);
-
-    downsample_mips_8_to_11(x, y, local_invocation_index);
-}
-
-fn downsample_mips_0_and_1(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
-    var v: vec4f;
-
-    var tex = vec2(workgroup_id * 64u) + vec2(x * 2u, y * 2u);
-    var pix = vec2(workgroup_id * 32u) + vec2(x, y);
-    v[0] = reduce_load_mip_0(tex);
-    textureStore(mip_1, pix, vec4(v[0]));
-
-    tex = vec2(workgroup_id * 64u) + vec2(x * 2u + 32u, y * 2u);
-    pix = vec2(workgroup_id * 32u) + vec2(x + 16u, y);
-    v[1] = reduce_load_mip_0(tex);
-    textureStore(mip_1, pix, vec4(v[1]));
-
-    tex = vec2(workgroup_id * 64u) + vec2(x * 2u, y * 2u + 32u);
-    pix = vec2(workgroup_id * 32u) + vec2(x, y + 16u);
-    v[2] = reduce_load_mip_0(tex);
-    textureStore(mip_1, pix, vec4(v[2]));
-
-    tex = vec2(workgroup_id * 64u) + vec2(x * 2u + 32u, y * 2u + 32u);
-    pix = vec2(workgroup_id * 32u) + vec2(x + 16u, y + 16u);
-    v[3] = reduce_load_mip_0(tex);
-    textureStore(mip_1, pix, vec4(v[3]));
-
-    if constants.max_mip_level <= 1u { return; }
-
-    for (var i = 0u; i < 4u; i++) {
-        intermediate_memory[x][y] = v[i];
-        workgroupBarrier();
-        if local_invocation_index < 64u {
-            v[i] = reduce_4(vec4(
-                intermediate_memory[x * 2u + 0u][y * 2u + 0u],
-                intermediate_memory[x * 2u + 1u][y * 2u + 0u],
-                intermediate_memory[x * 2u + 0u][y * 2u + 1u],
-                intermediate_memory[x * 2u + 1u][y * 2u + 1u],
-            ));
-            pix = (workgroup_id * 16u) + vec2(
-                x + (i % 2u) * 8u,
-                y + (i / 2u) * 8u,
-            );
-            textureStore(mip_2, pix, vec4(v[i]));
-        }
-        workgroupBarrier();
-    }
-
-    if local_invocation_index < 64u {
-        intermediate_memory[x + 0u][y + 0u] = v[0];
-        intermediate_memory[x + 8u][y + 0u] = v[1];
-        intermediate_memory[x + 0u][y + 8u] = v[2];
-        intermediate_memory[x + 8u][y + 8u] = v[3];
-    }
-}
-
-fn downsample_mips_2_to_5(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
-    if constants.max_mip_level <= 2u { return; }
-    workgroupBarrier();
-    downsample_mip_2(x, y, workgroup_id, local_invocation_index);
-
-    if constants.max_mip_level <= 3u { return; }
-    workgroupBarrier();
-    downsample_mip_3(x, y, workgroup_id, local_invocation_index);
-
-    if constants.max_mip_level <= 4u { return; }
-    workgroupBarrier();
-    downsample_mip_4(x, y, workgroup_id, local_invocation_index);
-
-    if constants.max_mip_level <= 5u { return; }
-    workgroupBarrier();
-    downsample_mip_5(workgroup_id, local_invocation_index);
-}
-
-fn downsample_mip_2(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
-    if local_invocation_index < 64u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 2u + 0u][y * 2u + 0u],
-            intermediate_memory[x * 2u + 1u][y * 2u + 0u],
-            intermediate_memory[x * 2u + 0u][y * 2u + 1u],
-            intermediate_memory[x * 2u + 1u][y * 2u + 1u],
-        ));
-        textureStore(mip_3, (workgroup_id * 8u) + vec2(x, y), vec4(v));
-        intermediate_memory[x * 2u + y % 2u][y * 2u] = v;
-    }
-}
-
-fn downsample_mip_3(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
-    if local_invocation_index < 16u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 4u + 0u + 0u][y * 4u + 0u],
-            intermediate_memory[x * 4u + 2u + 0u][y * 4u + 0u],
-            intermediate_memory[x * 4u + 0u + 1u][y * 4u + 2u],
-            intermediate_memory[x * 4u + 2u + 1u][y * 4u + 2u],
-        ));
-        textureStore(mip_4, (workgroup_id * 4u) + vec2(x, y), vec4(v));
-        intermediate_memory[x * 4u + y][y * 4u] = v;
-    }
-}
-
-fn downsample_mip_4(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
-    if local_invocation_index < 4u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 8u + 0u + 0u + y * 2u][y * 8u + 0u],
-            intermediate_memory[x * 8u + 4u + 0u + y * 2u][y * 8u + 0u],
-            intermediate_memory[x * 8u + 0u + 1u + y * 2u][y * 8u + 4u],
-            intermediate_memory[x * 8u + 4u + 1u + y * 2u][y * 8u + 4u],
-        ));
-        textureStore(mip_5, (workgroup_id * 2u) + vec2(x, y), vec4(v));
-        intermediate_memory[x + y * 2u][0u] = v;
-    }
-}
-
-fn downsample_mip_5(workgroup_id: vec2u, local_invocation_index: u32) {
-    if local_invocation_index < 1u {
-        let v = reduce_4(vec4(
-            intermediate_memory[0u][0u],
-            intermediate_memory[1u][0u],
-            intermediate_memory[2u][0u],
-            intermediate_memory[3u][0u],
-        ));
-        textureStore(mip_6, workgroup_id, vec4(v));
-    }
-}
-
-fn downsample_mips_6_and_7(x: u32, y: u32) {
-    var v: vec4f;
-
-    var tex = vec2(x * 4u + 0u, y * 4u + 0u);
-    var pix = vec2(x * 2u + 0u, y * 2u + 0u);
-    v[0] = reduce_load_mip_6(tex);
-    textureStore(mip_7, pix, vec4(v[0]));
-
-    tex = vec2(x * 4u + 2u, y * 4u + 0u);
-    pix = vec2(x * 2u + 1u, y * 2u + 0u);
-    v[1] = reduce_load_mip_6(tex);
-    textureStore(mip_7, pix, vec4(v[1]));
-
-    tex = vec2(x * 4u + 0u, y * 4u + 2u);
-    pix = vec2(x * 2u + 0u, y * 2u + 1u);
-    v[2] = reduce_load_mip_6(tex);
-    textureStore(mip_7, pix, vec4(v[2]));
-
-    tex = vec2(x * 4u + 2u, y * 4u + 2u);
-    pix = vec2(x * 2u + 1u, y * 2u + 1u);
-    v[3] = reduce_load_mip_6(tex);
-    textureStore(mip_7, pix, vec4(v[3]));
-
-    if constants.max_mip_level <= 7u { return; }
-
-    let vr = reduce_4(v);
-    textureStore(mip_8, vec2(x, y), vec4(vr));
-    intermediate_memory[x][y] = vr;
-}
-
-fn downsample_mips_8_to_11(x: u32, y: u32, local_invocation_index: u32) {
-    if constants.max_mip_level <= 8u { return; }
-    workgroupBarrier();
-    downsample_mip_8(x, y, local_invocation_index);
-
-    if constants.max_mip_level <= 9u { return; }
-    workgroupBarrier();
-    downsample_mip_9(x, y, local_invocation_index);
-
-    if constants.max_mip_level <= 10u { return; }
-    workgroupBarrier();
-    downsample_mip_10(x, y, local_invocation_index);
-
-    if constants.max_mip_level <= 11u { return; }
-    workgroupBarrier();
-    downsample_mip_11(local_invocation_index);
-}
-
-fn downsample_mip_8(x: u32, y: u32, local_invocation_index: u32) {
-    if local_invocation_index < 64u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 2u + 0u][y * 2u + 0u],
-            intermediate_memory[x * 2u + 1u][y * 2u + 0u],
-            intermediate_memory[x * 2u + 0u][y * 2u + 1u],
-            intermediate_memory[x * 2u + 1u][y * 2u + 1u],
-        ));
-        textureStore(mip_9, vec2(x, y), vec4(v));
-        intermediate_memory[x * 2u + y % 2u][y * 2u] = v;
-    }
-}
-
-fn downsample_mip_9(x: u32, y: u32, local_invocation_index: u32) {
-    if local_invocation_index < 16u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 4u + 0u + 0u][y * 4u + 0u],
-            intermediate_memory[x * 4u + 2u + 0u][y * 4u + 0u],
-            intermediate_memory[x * 4u + 0u + 1u][y * 4u + 2u],
-            intermediate_memory[x * 4u + 2u + 1u][y * 4u + 2u],
-        ));
-        textureStore(mip_10, vec2(x, y), vec4(v));
-        intermediate_memory[x * 4u + y][y * 4u] = v;
-    }
-}
-
-fn downsample_mip_10(x: u32, y: u32, local_invocation_index: u32) {
-    if local_invocation_index < 4u {
-        let v = reduce_4(vec4(
-            intermediate_memory[x * 8u + 0u + 0u + y * 2u][y * 8u + 0u],
-            intermediate_memory[x * 8u + 4u + 0u + y * 2u][y * 8u + 0u],
-            intermediate_memory[x * 8u + 0u + 1u + y * 2u][y * 8u + 4u],
-            intermediate_memory[x * 8u + 4u + 1u + y * 2u][y * 8u + 4u],
-        ));
-        textureStore(mip_11, vec2(x, y), vec4(v));
-        intermediate_memory[x + y * 2u][0u] = v;
-    }
-}
-
-fn downsample_mip_11(local_invocation_index: u32) {
-    if local_invocation_index < 1u {
-        let v = reduce_4(vec4(
-            intermediate_memory[0u][0u],
-            intermediate_memory[1u][0u],
-            intermediate_memory[2u][0u],
-            intermediate_memory[3u][0u],
-        ));
-        textureStore(mip_12, vec2(0u, 0u), vec4(v));
-    }
-}
-
-fn remap_for_wave_reduction(a: u32) -> vec2u {
-    return vec2(
-        insertBits(extractBits(a, 2u, 3u), a, 0u, 1u),
-        insertBits(extractBits(a, 3u, 3u), extractBits(a, 1u, 2u), 0u, 2u),
-    );
-}
-
-fn reduce_load_mip_0(tex: vec2u) -> f32 {
-    let a = load_mip_0(tex.x, tex.y);
-    let b = load_mip_0(tex.x + 1u, tex.y);
-    let c = load_mip_0(tex.x, tex.y + 1u);
-    let d = load_mip_0(tex.x + 1u, tex.y + 1u);
-    return reduce_4(vec4(a, b, c, d));
-}
-
-fn reduce_load_mip_6(tex: vec2u) -> f32 {
-    return reduce_4(vec4(
-        textureLoad(mip_6, tex + vec2(0u, 0u)).r,
-        textureLoad(mip_6, tex + vec2(0u, 1u)).r,
-        textureLoad(mip_6, tex + vec2(1u, 0u)).r,
-        textureLoad(mip_6, tex + vec2(1u, 1u)).r,
-    ));
-}
-
-fn load_mip_0(x: u32, y: u32) -> f32 {
-    let i = y * constants.view_width + x;
-#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-    return bitcast<f32>(u32(mip_0[i] >> 32u));
-#else
-    return bitcast<f32>(mip_0[i]);
-#endif
-}
-
-fn reduce_4(v: vec4f) -> f32 {
-    return min(min(v.x, v.y), min(v.z, v.w));
-}
-
-```
-
 ### bevy-crates-bevy_pbr-src-meshlet-meshlet_bindings
-
 ```rust
 #define_import_path bevy_pbr::meshlet_bindings
 
@@ -29895,9 +29861,9 @@ fn cluster_is_second_pass_candidate(cluster_id: u32) -> bool {
 @group(0) @binding(6) var<storage, read> meshlet_raster_clusters: array<u32>; // Single object shared between all workgroups
 @group(0) @binding(7) var<storage, read> meshlet_software_raster_cluster_count: u32;
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-@group(0) @binding(8) var<storage, read_write> meshlet_visibility_buffer: array<atomic<u64>>; // Per pixel
+@group(0) @binding(8) var meshlet_visibility_buffer: texture_storage_2d<r64uint, atomic>;
 #else
-@group(0) @binding(8) var<storage, read_write> meshlet_visibility_buffer: array<atomic<u32>>; // Per pixel
+@group(0) @binding(8) var meshlet_visibility_buffer: texture_storage_2d<r32uint, atomic>;
 #endif
 @group(0) @binding(9) var<uniform> view: View;
 
@@ -29944,7 +29910,7 @@ fn get_meshlet_vertex_position(meshlet: ptr<function, Meshlet>, vertex_id: u32) 
 #endif
 
 #ifdef MESHLET_MESH_MATERIAL_PASS
-@group(1) @binding(0) var<storage, read> meshlet_visibility_buffer: array<u64>; // Per pixel
+@group(1) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, read>;
 @group(1) @binding(1) var<storage, read> meshlet_cluster_meshlet_ids: array<u32>; // Per cluster
 @group(1) @binding(2) var<storage, read> meshlets: array<Meshlet>; // Per meshlet
 @group(1) @binding(3) var<storage, read> meshlet_indices: array<u32>; // Many per meshlet
@@ -30006,17 +29972,258 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
 #endif
 
 ```
+### bevy-crates-bevy_pbr-src-decal-clustered
+```rust
+// Support code for clustered decals.
+//
+// This module provides an iterator API, which you may wish to use in your own
+// shaders if you want clustered decals to provide textures other than the base
+// color. The iterator API allows you to iterate over all decals affecting the
+// current fragment. Use `clustered_decal_iterator_new()` and
+// `clustered_decal_iterator_next()` as follows:
+//
+//      let view_z = get_view_z(vec4(world_position, 1.0));
+//      let is_orthographic = view_is_orthographic();
+//
+//      let cluster_index =
+//          clustered_forward::fragment_cluster_index(frag_coord, view_z, is_orthographic);
+//      var clusterable_object_index_ranges =
+//          clustered_forward::unpack_clusterable_object_index_ranges(cluster_index);
+//
+//      var iterator = clustered_decal_iterator_new(world_position, &clusterable_object_index_ranges);
+//      while (clustered_decal_iterator_next(&iterator)) {
+//          ... sample from the texture at iterator.texture_index at iterator.uv ...
+//      }
+//
+// In this way, in conjunction with a custom material, you can provide your own
+// texture arrays that mirror `mesh_view_bindings::clustered_decal_textures` in
+// order to support decals with normal maps, etc.
+//
+// Note that the order in which decals are returned is currently unpredictable,
+// though generally stable from frame to frame.
 
+#define_import_path bevy_pbr::decal::clustered
+
+#import bevy_pbr::clustered_forward
+#import bevy_pbr::clustered_forward::ClusterableObjectIndexRanges
+#import bevy_pbr::mesh_view_bindings
+#import bevy_render::maths
+
+// An object that allows stepping through all clustered decals that affect a
+// single fragment.
+struct ClusteredDecalIterator {
+    // Public fields follow:
+    // The index of the decal texture in the binding array.
+    texture_index: i32,
+    // The UV coordinates at which to sample that decal texture.
+    uv: vec2<f32>,
+    // A custom tag you can use for your own purposes.
+    tag: u32,
+
+    // Private fields follow:
+    // The current offset of the index in the `ClusterableObjectIndexRanges` list.
+    decal_index_offset: i32,
+    // The end offset of the index in the `ClusterableObjectIndexRanges` list.
+    end_offset: i32,
+    // The world-space position of the fragment.
+    world_position: vec3<f32>,
+}
+
+#ifdef CLUSTERED_DECALS_ARE_USABLE
+
+// Creates a new iterator over the decals at the current fragment.
+//
+// You can retrieve `clusterable_object_index_ranges` as follows:
+//
+//      let view_z = get_view_z(world_position);
+//      let is_orthographic = view_is_orthographic();
+//
+//      let cluster_index =
+//          clustered_forward::fragment_cluster_index(frag_coord, view_z, is_orthographic);
+//      var clusterable_object_index_ranges =
+//          clustered_forward::unpack_clusterable_object_index_ranges(cluster_index);
+fn clustered_decal_iterator_new(
+    world_position: vec3<f32>,
+    clusterable_object_index_ranges: ptr<function, ClusterableObjectIndexRanges>
+) -> ClusteredDecalIterator {
+    return ClusteredDecalIterator(
+        -1,
+        vec2(0.0),
+        0u,
+        // We subtract 1 because the first thing `decal_iterator_next` does is
+        // add 1.
+        i32((*clusterable_object_index_ranges).first_decal_offset) - 1,
+        i32((*clusterable_object_index_ranges).last_clusterable_object_index_offset),
+        world_position,
+    );
+}
+
+// Populates the `iterator.texture_index` and `iterator.uv` fields for the next
+// decal overlapping the current world position.
+//
+// Returns true if another decal was found or false if no more decals were found
+// for this position.
+fn clustered_decal_iterator_next(iterator: ptr<function, ClusteredDecalIterator>) -> bool {
+    if ((*iterator).decal_index_offset == (*iterator).end_offset) {
+        return false;
+    }
+
+    (*iterator).decal_index_offset += 1;
+
+    while ((*iterator).decal_index_offset < (*iterator).end_offset) {
+        let decal_index = i32(clustered_forward::get_clusterable_object_id(
+            u32((*iterator).decal_index_offset)
+        ));
+        let decal_space_vector =
+            (mesh_view_bindings::clustered_decals.decals[decal_index].local_from_world *
+            vec4((*iterator).world_position, 1.0)).xyz;
+
+        if (all(decal_space_vector >= vec3(-0.5)) && all(decal_space_vector <= vec3(0.5))) {
+            (*iterator).texture_index =
+                i32(mesh_view_bindings::clustered_decals.decals[decal_index].image_index);
+            (*iterator).uv = decal_space_vector.xy * vec2(1.0, -1.0) + vec2(0.5);
+            (*iterator).tag =
+                mesh_view_bindings::clustered_decals.decals[decal_index].tag;
+            return true;
+        }
+
+        (*iterator).decal_index_offset += 1;
+    }
+
+    return false;
+}
+
+#endif  // CLUSTERED_DECALS_ARE_USABLE
+
+// Returns the view-space Z coordinate for the given world position.
+fn get_view_z(world_position: vec3<f32>) -> f32 {
+    return dot(vec4<f32>(
+        mesh_view_bindings::view.view_from_world[0].z,
+        mesh_view_bindings::view.view_from_world[1].z,
+        mesh_view_bindings::view.view_from_world[2].z,
+        mesh_view_bindings::view.view_from_world[3].z
+    ), vec4(world_position, 1.0));
+}
+
+// Returns true if the current view describes an orthographic projection or
+// false otherwise.
+fn view_is_orthographic() -> bool {
+    return mesh_view_bindings::view.clip_from_view[3].w == 1.0;
+}
+
+// Modifies the base color at the given position to account for decals.
+//
+// Returns the new base color with decals taken into account. If no decals
+// overlap the current world position, returns the supplied base color
+// unmodified.
+fn apply_decal_base_color(
+    world_position: vec3<f32>,
+    frag_coord: vec2<f32>,
+    initial_base_color: vec4<f32>,
+) -> vec4<f32> {
+    var base_color = initial_base_color;
+
+#ifdef CLUSTERED_DECALS_ARE_USABLE
+    // Fetch the clusterable object index ranges for this world position.
+
+    let view_z = get_view_z(world_position);
+    let is_orthographic = view_is_orthographic();
+
+    let cluster_index =
+        clustered_forward::fragment_cluster_index(frag_coord, view_z, is_orthographic);
+    var clusterable_object_index_ranges =
+        clustered_forward::unpack_clusterable_object_index_ranges(cluster_index);
+
+    // Iterate over decals.
+
+    var iterator = clustered_decal_iterator_new(world_position, &clusterable_object_index_ranges);
+    while (clustered_decal_iterator_next(&iterator)) {
+        // Sample the current decal.
+        let decal_base_color = textureSampleLevel(
+            mesh_view_bindings::clustered_decal_textures[iterator.texture_index],
+            mesh_view_bindings::clustered_decal_sampler,
+            iterator.uv,
+            0.0
+        );
+
+        // Blend with the accumulated fragment.
+        base_color = vec4(
+            mix(base_color.rgb, decal_base_color.rgb, decal_base_color.a),
+            base_color.a + decal_base_color.a
+        );
+    }
+#endif  // CLUSTERED_DECALS_ARE_USABLE
+
+    return base_color;
+}
+
+
+```
+### bevy-crates-bevy_pbr-src-decal-forward_decal
+```rust
+#define_import_path bevy_pbr::decal::forward
+
+#import bevy_pbr::{
+    forward_io::VertexOutput,
+    mesh_functions::get_world_from_local,
+    mesh_view_bindings::view,
+    pbr_functions::calculate_tbn_mikktspace,
+    prepass_utils::prepass_depth,
+    view_transformations::depth_ndc_to_view_z,
+}
+#import bevy_render::maths::project_onto
+
+@group(2) @binding(200)
+var<uniform> depth_fade_factor: f32;
+
+struct ForwardDecalInformation {
+    world_position: vec4<f32>,
+    uv: vec2<f32>,
+    alpha: f32,
+}
+
+fn get_forward_decal_info(in: VertexOutput) -> ForwardDecalInformation {
+    let world_from_local = get_world_from_local(in.instance_index);
+    let scale = (world_from_local * vec4(1.0, 1.0, 1.0, 0.0)).xyz;
+    let scaled_tangent = vec4(in.world_tangent.xyz / scale, in.world_tangent.w);
+
+    let V = normalize(view.world_position - in.world_position.xyz);
+
+    // Transform V from fragment to camera in world space to tangent space.
+    let TBN = calculate_tbn_mikktspace(in.world_normal, scaled_tangent);
+    let T = TBN[0];
+    let B = TBN[1];
+    let N = TBN[2];
+    let Vt = vec3(dot(V, T), dot(V, B), dot(V, N));
+
+    let frag_depth = depth_ndc_to_view_z(in.position.z);
+    let depth_pass_depth = depth_ndc_to_view_z(prepass_depth(in.position, 0u));
+    let diff_depth = frag_depth - depth_pass_depth;
+    let diff_depth_abs = abs(diff_depth);
+
+    // Apply UV parallax
+    let contact_on_decal = project_onto(V * diff_depth, in.world_normal);
+    let normal_depth = length(contact_on_decal);
+    let view_steepness = abs(Vt.z);
+    let delta_uv = normal_depth * Vt.xy * vec2(1.0, -1.0) / view_steepness;
+    let uv = in.uv + delta_uv;
+
+    let world_position = vec4(in.world_position.xyz + V * diff_depth_abs, in.world_position.w);
+    let alpha = saturate(1.0 - normal_depth * depth_fade_factor);
+
+    return ForwardDecalInformation(world_position, uv, alpha);
+}
+
+```
 ### bevy-crates-bevy_pbr-src-lightmap-lightmap
-
 ```rust
 #define_import_path bevy_pbr::lightmap
 
 #import bevy_pbr::mesh_bindings::mesh
 
 #ifdef MULTIPLE_LIGHTMAPS_IN_ARRAY
-@group(1) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>>;
-@group(1) @binding(5) var lightmaps_samplers: binding_array<sampler>;
+@group(1) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>, 4>;
+@group(1) @binding(5) var lightmaps_samplers: binding_array<sampler, 4>;
 #else   // MULTIPLE_LIGHTMAPS_IN_ARRAY
 @group(1) @binding(4) var lightmaps_texture: texture_2d<f32>;
 @group(1) @binding(5) var lightmaps_sampler: sampler;
@@ -30025,41 +30232,93 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
 // Samples the lightmap, if any, and returns indirect illumination from it.
 fn lightmap(uv: vec2<f32>, exposure: f32, instance_index: u32) -> vec3<f32> {
     let packed_uv_rect = mesh[instance_index].lightmap_uv_rect;
-    let uv_rect = vec4<f32>(vec4<u32>(
-        packed_uv_rect.x & 0xffffu,
-        packed_uv_rect.x >> 16u,
-        packed_uv_rect.y & 0xffffu,
-        packed_uv_rect.y >> 16u)) / 65535.0;
-
+    let uv_rect = vec4<f32>(
+        unpack2x16unorm(packed_uv_rect.x),
+        unpack2x16unorm(packed_uv_rect.y),
+    );
     let lightmap_uv = mix(uv_rect.xy, uv_rect.zw, uv);
+    let lightmap_slot = mesh[instance_index].material_and_lightmap_bind_group_slot >> 16u;
 
+    // Bicubic 4-tap
+    // https://developer.nvidia.com/gpugems/gpugems2/part-iii-high-quality-rendering/chapter-20-fast-third-order-texture-filtering
+    // https://advances.realtimerendering.com/s2021/jpatry_advances2021/index.html#/111/0/2
+#ifdef LIGHTMAP_BICUBIC_SAMPLING
+    let texture_size = vec2<f32>(lightmap_size(lightmap_slot));
+    let texel_size = 1.0 / texture_size;
+    let puv = lightmap_uv * texture_size + 0.5;
+    let iuv = floor(puv);
+    let fuv = fract(puv);
+    let g0x = g0(fuv.x);
+    let g1x = g1(fuv.x);
+    let h0x = h0_approx(fuv.x);
+    let h1x = h1_approx(fuv.x);
+    let h0y = h0_approx(fuv.y);
+    let h1y = h1_approx(fuv.y);
+    let p0 = (vec2(iuv.x + h0x, iuv.y + h0y) - 0.5) * texel_size;
+    let p1 = (vec2(iuv.x + h1x, iuv.y + h0y) - 0.5) * texel_size;
+    let p2 = (vec2(iuv.x + h0x, iuv.y + h1y) - 0.5) * texel_size;
+    let p3 = (vec2(iuv.x + h1x, iuv.y + h1y) - 0.5) * texel_size;
+    let color = g0(fuv.y) * (g0x * sample(p0, lightmap_slot) + g1x * sample(p1, lightmap_slot)) + g1(fuv.y) * (g0x * sample(p2, lightmap_slot) + g1x * sample(p3, lightmap_slot));
+#else
+    let color = sample(lightmap_uv, lightmap_slot);
+#endif
+
+    return color * exposure;
+}
+
+fn lightmap_size(lightmap_slot: u32) -> vec2<u32> {
+#ifdef MULTIPLE_LIGHTMAPS_IN_ARRAY
+    return textureDimensions(lightmaps_textures[lightmap_slot]);
+#else
+    return textureDimensions(lightmaps_texture);
+#endif
+}
+
+fn sample(uv: vec2<f32>, lightmap_slot: u32) -> vec3<f32> {
     // Mipmapping lightmaps is usually a bad idea due to leaking across UV
     // islands, so there's no harm in using mip level 0 and it lets us avoid
     // control flow uniformity problems.
-    //
-    // TODO(pcwalton): Consider bicubic filtering.
 #ifdef MULTIPLE_LIGHTMAPS_IN_ARRAY
-    let lightmap_slot = mesh[instance_index].material_and_lightmap_bind_group_slot >> 16u;
-    return textureSampleLevel(
-        lightmaps_textures[lightmap_slot],
-        lightmaps_samplers[lightmap_slot],
-        lightmap_uv,
-        0.0
-    ).rgb * exposure;
-#else   // MULTIPLE_LIGHTMAPS_IN_ARRAY
-    return textureSampleLevel(
-        lightmaps_texture,
-        lightmaps_sampler,
-        lightmap_uv,
-        0.0
-    ).rgb * exposure;
-#endif  // MULTIPLE_LIGHTMAPS_IN_ARRAY
+    return textureSampleLevel(lightmaps_textures[lightmap_slot], lightmaps_samplers[lightmap_slot], uv, 0.0).rgb;
+#else
+    return textureSampleLevel(lightmaps_texture, lightmaps_sampler, uv, 0.0).rgb;
+#endif
+}
+
+fn w0(a: f32) -> f32 {
+    return (1.0 / 6.0) * (a * (a * (-a + 3.0) - 3.0) + 1.0);
+}
+
+fn w1(a: f32) -> f32 {
+    return (1.0 / 6.0) * (a * a * (3.0 * a - 6.0) + 4.0);
+}
+
+fn w2(a: f32) -> f32 {
+    return (1.0 / 6.0) * (a * (a * (-3.0 * a + 3.0) + 3.0) + 1.0);
+}
+
+fn w3(a: f32) -> f32 {
+    return (1.0 / 6.0) * (a * a * a);
+}
+
+fn g0(a: f32) -> f32 {
+    return w0(a) + w1(a);
+}
+
+fn g1(a: f32) -> f32 {
+    return w2(a) + w3(a);
+}
+
+fn h0_approx(a: f32) -> f32 {
+    return -0.2 - a * (0.24 * a - 0.44);
+}
+
+fn h1_approx(a: f32) -> f32 {
+    return 1.0 + a * (0.24 * a - 0.04);
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-light_probe-light_probe
-
 ```rust
 #define_import_path bevy_pbr::light_probe
 
@@ -30115,7 +30374,7 @@ fn query_light_probe(
     var end_offset: u32;
     if is_irradiance_volume {
         start_offset = (*clusterable_object_index_ranges).first_irradiance_volume_index_offset;
-        end_offset = (*clusterable_object_index_ranges).last_clusterable_object_index_offset;
+        end_offset = (*clusterable_object_index_ranges).first_decal_offset;
     } else {
         start_offset = (*clusterable_object_index_ranges).first_reflection_probe_index_offset;
         end_offset = (*clusterable_object_index_ranges).first_irradiance_volume_index_offset;
@@ -30217,9 +30476,7 @@ fn query_light_probe(
 #endif  // AVAILABLE_STORAGE_BUFFER_BINDINGS >= 3
 
 ```
-
 ### bevy-crates-bevy_pbr-src-light_probe-irradiance_volume
-
 ```rust
 #define_import_path bevy_pbr::irradiance_volume
 
@@ -30296,9 +30553,7 @@ fn irradiance_volume_light(
 #endif  // IRRADIANCE_VOLUMES_ARE_USABLE
 
 ```
-
 ### bevy-crates-bevy_pbr-src-light_probe-environment_map
-
 ```rust
 #define_import_path bevy_pbr::environment_map
 
@@ -30583,9 +30838,997 @@ fn radiance_sample_direction(N: vec3<f32>, R: vec3<f32>, roughness: f32) -> vec3
 }
 
 ```
+### bevy-crates-bevy_pbr-src-atmosphere-multiscattering_lut
+```rust
+#import bevy_pbr::{
+    mesh_view_types::{Lights, DirectionalLight},
+    atmosphere::{
+        types::{Atmosphere, AtmosphereSettings},
+        bindings::{atmosphere, settings},
+        functions::{
+            multiscattering_lut_uv_to_r_mu, sample_transmittance_lut,
+            get_local_r, get_local_up, sample_atmosphere, FRAC_4_PI,
+            max_atmosphere_distance, rayleigh, henyey_greenstein,
+            zenith_azimuth_to_ray_dir,
+        },
+        bruneton_functions::{
+            distance_to_top_atmosphere_boundary, distance_to_bottom_atmosphere_boundary, ray_intersects_ground
+        }
+    }
+}
 
+#import bevy_render::maths::{PI,PI_2}
+
+const PHI_2: vec2<f32> = vec2(1.3247179572447460259609088, 1.7548776662466927600495087);
+
+@group(0) @binding(13) var multiscattering_lut_out: texture_storage_2d<rgba16float, write>;
+
+fn s2_sequence(n: u32) -> vec2<f32> {
+    return fract(0.5 + f32(n) * PHI_2);
+}
+
+// Lambert equal-area projection. 
+fn uv_to_sphere(uv: vec2<f32>) -> vec3<f32> {
+    let phi = PI_2 * uv.y;
+    let sin_lambda = 2 * uv.x - 1;
+    let cos_lambda = sqrt(1 - sin_lambda * sin_lambda);
+
+    return vec3(cos_lambda * cos(phi), cos_lambda * sin(phi), sin_lambda);
+}
+
+// Shared memory arrays for workgroup communication
+var<workgroup> multi_scat_shared_mem: array<vec3<f32>, 64>;
+var<workgroup> l_shared_mem: array<vec3<f32>, 64>;
+
+@compute 
+@workgroup_size(1, 1, 64)
+fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
+    var uv = (vec2<f32>(global_id.xy) + 0.5) / vec2<f32>(settings.multiscattering_lut_size);
+
+    let r_mu = multiscattering_lut_uv_to_r_mu(uv);
+    let light_dir = normalize(vec3(0.0, r_mu.y, -1.0));
+
+    let ray_dir = uv_to_sphere(s2_sequence(global_id.z));
+    let ms_sample = sample_multiscattering_dir(r_mu.x, ray_dir, light_dir);
+    
+    // Calculate the contribution for this sample
+    let sphere_solid_angle = 4.0 * PI;
+    let sample_weight = sphere_solid_angle / 64.0;
+    multi_scat_shared_mem[global_id.z] = ms_sample.f_ms * sample_weight;
+    l_shared_mem[global_id.z] = ms_sample.l_2 * sample_weight;
+
+    workgroupBarrier();
+
+    // Parallel reduction bitshift to the right to divide by 2 each step
+    for (var step = 32u; step > 0u; step >>= 1u) {
+        if global_id.z < step {
+            multi_scat_shared_mem[global_id.z] += multi_scat_shared_mem[global_id.z + step];
+            l_shared_mem[global_id.z] += l_shared_mem[global_id.z + step];
+        }
+        workgroupBarrier();
+    }
+
+    if global_id.z > 0u {
+        return;
+    }
+
+    // Apply isotropic phase function
+    let f_ms = multi_scat_shared_mem[0] * FRAC_4_PI;
+    let l_2 = l_shared_mem[0] * FRAC_4_PI;
+    
+    // Equation 10 from the paper: Geometric series for infinite scattering
+    let psi_ms = l_2 / (1.0 - f_ms);
+    textureStore(multiscattering_lut_out, global_id.xy, vec4<f32>(psi_ms, 1.0));
+}
+
+struct MultiscatteringSample {
+    l_2: vec3<f32>,
+    f_ms: vec3<f32>,
+};
+
+fn sample_multiscattering_dir(r: f32, ray_dir: vec3<f32>, light_dir: vec3<f32>) -> MultiscatteringSample {
+    // get the cosine of the zenith angle of the view direction with respect to the light direction
+    let mu_view = ray_dir.y;
+    let t_max = max_atmosphere_distance(r, mu_view);
+
+    let dt = t_max / f32(settings.multiscattering_lut_samples);
+    var optical_depth = vec3<f32>(0.0);
+
+    var l_2 = vec3(0.0);
+    var f_ms = vec3(0.0);
+    var throughput = vec3(1.0);
+    for (var i: u32 = 0u; i < settings.multiscattering_lut_samples; i++) {
+        let t_i = dt * (f32(i) + 0.5);
+        let local_r = get_local_r(r, mu_view, t_i);
+        let local_up = get_local_up(r, t_i, ray_dir);
+
+        let local_atmosphere = sample_atmosphere(local_r);
+        let sample_optical_depth = local_atmosphere.extinction * dt;
+        let sample_transmittance = exp(-sample_optical_depth);
+        optical_depth += sample_optical_depth;
+
+        let mu_light = dot(light_dir, local_up);
+        let scattering_no_phase = local_atmosphere.rayleigh_scattering + local_atmosphere.mie_scattering;
+
+        let ms = scattering_no_phase;
+        let ms_int = (ms - ms * sample_transmittance) / local_atmosphere.extinction;
+        f_ms += throughput * ms_int;
+
+        let transmittance_to_light = sample_transmittance_lut(local_r, mu_light);
+        let shadow_factor = transmittance_to_light * f32(!ray_intersects_ground(local_r, mu_light));
+
+        let s = scattering_no_phase * shadow_factor * FRAC_4_PI;
+        let s_int = (s - s * sample_transmittance) / local_atmosphere.extinction;
+        l_2 += throughput * s_int;
+
+        throughput *= sample_transmittance;
+        if all(throughput < vec3(0.001)) {
+            break;
+        }
+    }
+
+    //include reflected luminance from planet ground 
+    if ray_intersects_ground(r, mu_view) {
+        let transmittance_to_ground = exp(-optical_depth);
+        let local_up = get_local_up(r, t_max, ray_dir);
+        let mu_light = dot(light_dir, local_up);
+        let transmittance_to_light = sample_transmittance_lut(0.0, mu_light);
+        let ground_luminance = transmittance_to_light * transmittance_to_ground * max(mu_light, 0.0) * atmosphere.ground_albedo;
+        l_2 += ground_luminance;
+    }
+
+    return MultiscatteringSample(l_2, f_ms);
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-bruneton_functions
+```rust
+// Copyright (c) 2017 Eric Bruneton
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holders nor the names of its
+//    contributors may be used to endorse or promote products derived from
+//    this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+// THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Precomputed Atmospheric Scattering
+// Copyright (c) 2008 INRIA
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+// 1. Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holders nor the names of its
+//    contributors may be used to endorse or promote products derived from
+//    this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+// THE POSSIBILITY OF SUCH DAMAGE.
+
+#define_import_path bevy_pbr::atmosphere::bruneton_functions
+
+#import bevy_pbr::atmosphere::{
+    types::Atmosphere,
+    bindings::atmosphere,
+}
+
+// Mapping from view height (r) and zenith cos angle (mu) to UV coordinates in the transmittance LUT
+// Assuming r between ground and top atmosphere boundary, and mu= cos(zenith_angle)
+// Chosen to increase precision near the ground and to work around a discontinuity at the horizon
+// See Bruneton and Neyret 2008, "Precomputed Atmospheric Scattering" section 4
+fn transmittance_lut_r_mu_to_uv(r: f32, mu: f32) -> vec2<f32> {
+  // Distance along a horizontal ray from the ground to the top atmosphere boundary
+    let H = sqrt(atmosphere.top_radius * atmosphere.top_radius - atmosphere.bottom_radius * atmosphere.bottom_radius);
+
+  // Distance from a point at height r to the horizon
+  // ignore the case where r <= atmosphere.bottom_radius
+    let rho = sqrt(max(r * r - atmosphere.bottom_radius * atmosphere.bottom_radius, 0.0));
+
+  // Distance from a point at height r to the top atmosphere boundary at zenith angle mu
+    let d = distance_to_top_atmosphere_boundary(r, mu);
+
+  // Minimum and maximum distance to the top atmosphere boundary from a point at height r
+    let d_min = atmosphere.top_radius - r; // length of the ray straight up to the top atmosphere boundary
+    let d_max = rho + H; // length of the ray to the top atmosphere boundary and grazing the horizon
+
+    let u = (d - d_min) / (d_max - d_min);
+    let v = rho / H;
+    return vec2<f32>(u, v);
+}
+
+// Inverse of the mapping above, mapping from UV coordinates in the transmittance LUT to view height (r) and zenith cos angle (mu)
+fn transmittance_lut_uv_to_r_mu(uv: vec2<f32>) -> vec2<f32> {
+  // Distance to top atmosphere boundary for a horizontal ray at ground level
+    let H = sqrt(atmosphere.top_radius * atmosphere.top_radius - atmosphere.bottom_radius * atmosphere.bottom_radius);
+
+  // Distance to the horizon, from which we can compute r:
+    let rho = H * uv.y;
+    let r = sqrt(rho * rho + atmosphere.bottom_radius * atmosphere.bottom_radius);
+
+  // Distance to the top atmosphere boundary for the ray (r,mu), and its minimum
+  // and maximum values over all mu- obtained for (r,1) and (r,mu_horizon) -
+  // from which we can recover mu:
+    let d_min = atmosphere.top_radius - r;
+    let d_max = rho + H;
+    let d = d_min + uv.x * (d_max - d_min);
+
+    var mu: f32;
+    if d == 0.0 {
+        mu = 1.0;
+    } else {
+        mu = (H * H - rho * rho - d * d) / (2.0 * r * d);
+    }
+
+    mu = clamp(mu, -1.0, 1.0);
+
+    return vec2<f32>(r, mu);
+}
+
+/// Simplified ray-sphere intersection
+/// where:
+/// Ray origin, o = [0,0,r] with r <= atmosphere.top_radius
+/// mu is the cosine of spherical coordinate theta (-1.0 <= mu <= 1.0)
+/// so ray direction in spherical coordinates is [1,acos(mu),0] which needs to be converted to cartesian
+/// Direction of ray, u = [0,sqrt(1-mu*mu),mu]
+/// Center of sphere, c = [0,0,0]
+/// Radius of sphere, r = atmosphere.top_radius
+/// This function solves the quadratic equation for line-sphere intersection simplified under these assumptions
+fn distance_to_top_atmosphere_boundary(r: f32, mu: f32) -> f32 {
+  // ignore the case where r > atmosphere.top_radius
+    let positive_discriminant = max(r * r * (mu * mu - 1.0) + atmosphere.top_radius * atmosphere.top_radius, 0.0);
+    return max(-r * mu + sqrt(positive_discriminant), 0.0);
+}
+
+/// Simplified ray-sphere intersection
+/// as above for intersections with the ground
+fn distance_to_bottom_atmosphere_boundary(r: f32, mu: f32) -> f32 {
+    let positive_discriminant = max(r * r * (mu * mu - 1.0) + atmosphere.bottom_radius * atmosphere.bottom_radius, 0.0);
+    return max(-r * mu - sqrt(positive_discriminant), 0.0);
+}
+
+fn ray_intersects_ground(r: f32, mu: f32) -> bool {
+    return mu < 0.0 && r * r * (mu * mu - 1.0) + atmosphere.bottom_radius * atmosphere.bottom_radius >= 0.0;
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-bindings
+```rust
+#define_import_path bevy_pbr::atmosphere::bindings
+
+#import bevy_render::view::View;
+
+#import bevy_pbr::{
+    mesh_view_types::Lights,
+    atmosphere::types::{Atmosphere, AtmosphereSettings, AtmosphereTransforms}
+}
+
+@group(0) @binding(0) var<uniform> atmosphere: Atmosphere;
+@group(0) @binding(1) var<uniform> settings: AtmosphereSettings;
+@group(0) @binding(2) var<uniform> atmosphere_transforms: AtmosphereTransforms;
+@group(0) @binding(3) var<uniform> view: View;
+@group(0) @binding(4) var<uniform> lights: Lights;
+@group(0) @binding(5) var transmittance_lut: texture_2d<f32>;
+@group(0) @binding(6) var transmittance_lut_sampler: sampler;
+@group(0) @binding(7) var multiscattering_lut: texture_2d<f32>;
+@group(0) @binding(8) var multiscattering_lut_sampler: sampler;
+@group(0) @binding(9) var sky_view_lut: texture_2d<f32>;
+@group(0) @binding(10) var sky_view_lut_sampler: sampler;
+@group(0) @binding(11) var aerial_view_lut: texture_3d<f32>;
+@group(0) @binding(12) var aerial_view_lut_sampler: sampler;
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-render_sky
+```rust
+#import bevy_pbr::atmosphere::{
+    types::{Atmosphere, AtmosphereSettings},
+    bindings::{atmosphere, view, atmosphere_transforms},
+    functions::{
+        sample_transmittance_lut, sample_transmittance_lut_segment,
+        sample_sky_view_lut, direction_world_to_atmosphere,
+        uv_to_ray_direction, uv_to_ndc, sample_aerial_view_lut,
+        view_radius, sample_sun_illuminance, ndc_to_camera_dist
+    },
+};
+#import bevy_render::view::View;
+
+#import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
+
+#ifdef MULTISAMPLED
+@group(0) @binding(13) var depth_texture: texture_depth_multisampled_2d;
+#else
+@group(0) @binding(13) var depth_texture: texture_depth_2d;
+#endif
+
+struct RenderSkyOutput {
+    @location(0) inscattering: vec4<f32>,
+    @location(0) @second_blend_source transmittance: vec4<f32>,
+}
+
+@fragment
+fn main(in: FullscreenVertexOutput) -> RenderSkyOutput {
+    let depth = textureLoad(depth_texture, vec2<i32>(in.position.xy), 0);
+
+    let ray_dir_ws = uv_to_ray_direction(in.uv);
+    let r = view_radius();
+    let mu = ray_dir_ws.y;
+
+    var transmittance: vec3<f32>;
+    var inscattering: vec3<f32>;
+    if depth == 0.0 {
+        let ray_dir_as = direction_world_to_atmosphere(ray_dir_ws.xyz);
+        transmittance = sample_transmittance_lut(r, mu);
+        inscattering += sample_sky_view_lut(r, ray_dir_as);
+        inscattering += sample_sun_illuminance(ray_dir_ws.xyz, transmittance);
+    } else {
+        let t = ndc_to_camera_dist(vec3(uv_to_ndc(in.uv), depth));
+        inscattering = sample_aerial_view_lut(in.uv, t);
+        transmittance = sample_transmittance_lut_segment(r, mu, t);
+    }
+    return RenderSkyOutput(vec4(inscattering, 0.0), vec4(transmittance, 1.0));
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-aerial_view_lut
+```rust
+#import bevy_pbr::{
+    mesh_view_types::{Lights, DirectionalLight},
+    atmosphere::{
+        types::{Atmosphere, AtmosphereSettings},
+        bindings::{atmosphere, settings, view, lights, aerial_view_lut_out},
+        functions::{
+            sample_transmittance_lut, sample_atmosphere, rayleigh, henyey_greenstein,
+            sample_multiscattering_lut, AtmosphereSample, sample_local_inscattering,
+            get_local_r, get_local_up, view_radius, uv_to_ndc, max_atmosphere_distance,
+            uv_to_ray_direction, MIDPOINT_RATIO
+        },
+    }
+}
+
+
+@group(0) @binding(13) var aerial_view_lut_out: texture_storage_3d<rgba16float, write>;
+
+@compute
+@workgroup_size(16, 16, 1)
+fn main(@builtin(global_invocation_id) idx: vec3<u32>) {
+    if any(idx.xy > settings.aerial_view_lut_size.xy) { return; }
+
+    let uv = (vec2<f32>(idx.xy) + 0.5) / vec2<f32>(settings.aerial_view_lut_size.xy);
+    let ray_dir = uv_to_ray_direction(uv);
+    let r = view_radius();
+    let mu = ray_dir.y;
+    let t_max = settings.aerial_view_lut_max_distance;
+
+    var prev_t = 0.0;
+    var total_inscattering = vec3(0.0);
+    var throughput = vec3(1.0);
+
+    for (var slice_i: u32 = 0; slice_i < settings.aerial_view_lut_size.z; slice_i++) {
+        for (var step_i: u32 = 0; step_i < settings.aerial_view_lut_samples; step_i++) {
+            let t_i = t_max * (f32(slice_i) + ((f32(step_i) + MIDPOINT_RATIO) / f32(settings.aerial_view_lut_samples))) / f32(settings.aerial_view_lut_size.z);
+            let dt = (t_i - prev_t);
+            prev_t = t_i;
+
+            let local_r = get_local_r(r, mu, t_i);
+            let local_up = get_local_up(r, t_i, ray_dir.xyz);
+
+            let local_atmosphere = sample_atmosphere(local_r);
+            let sample_optical_depth = local_atmosphere.extinction * dt;
+            let sample_transmittance = exp(-sample_optical_depth);
+
+            // evaluate one segment of the integral
+            var inscattering = sample_local_inscattering(local_atmosphere, ray_dir.xyz, local_r, local_up);
+
+            // Analytical integration of the single scattering term in the radiance transfer equation
+            let s_int = (inscattering - inscattering * sample_transmittance) / local_atmosphere.extinction;
+            total_inscattering += throughput * s_int;
+
+            throughput *= sample_transmittance;
+            if all(throughput < vec3(0.001)) {
+                break;
+            }
+        }
+
+        // Store in log space to allow linear interpolation of exponential values between slices
+        let log_inscattering = log(max(total_inscattering, vec3(1e-6)));
+        textureStore(aerial_view_lut_out, vec3(vec2<u32>(idx.xy), slice_i), vec4(log_inscattering, 0.0));
+    }
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-functions
+```rust
+#define_import_path bevy_pbr::atmosphere::functions
+
+#import bevy_render::maths::{PI, HALF_PI, PI_2, fast_acos, fast_acos_4, fast_atan2}
+
+#import bevy_pbr::atmosphere::{
+    types::Atmosphere,
+    bindings::{
+        atmosphere, settings, view, lights, transmittance_lut, transmittance_lut_sampler, 
+        multiscattering_lut, multiscattering_lut_sampler, sky_view_lut, sky_view_lut_sampler,
+        aerial_view_lut, aerial_view_lut_sampler, atmosphere_transforms
+    },
+    bruneton_functions::{
+        transmittance_lut_r_mu_to_uv, transmittance_lut_uv_to_r_mu, 
+        ray_intersects_ground, distance_to_top_atmosphere_boundary, 
+        distance_to_bottom_atmosphere_boundary
+    },
+}
+
+// NOTE FOR CONVENTIONS: 
+// r:
+//   radius, or distance from planet center 
+//
+// altitude:
+//   distance from planet **surface**
+//
+// mu:
+//   cosine of the zenith angle of a ray with
+//   respect to the planet normal
+//
+// atmosphere space:
+//   abbreviated as "as" (contrast with vs, cs, ws), this space is similar
+//   to view space, but with the camera positioned horizontally on the planet
+//   surface, so the horizon is a horizontal line centered vertically in the
+//   frame. This enables the non-linear latitude parametrization the paper uses 
+//   to concentrate detail near the horizon 
+
+
+// CONSTANTS
+
+const FRAC_PI: f32 = 0.3183098862; // 1 / π
+const FRAC_2_PI: f32 = 0.15915494309;  // 1 / (2π)
+const FRAC_3_16_PI: f32 = 0.0596831036594607509; // 3 / (16π)
+const FRAC_4_PI: f32 = 0.07957747154594767; // 1 / (4π)
+const ROOT_2: f32 = 1.41421356; // √2
+
+// During raymarching, each segment is sampled at a single point. This constant determines
+// where in the segment that sample is taken (0.0 = start, 0.5 = middle, 1.0 = end).
+// We use 0.3 to sample closer to the start of each segment, which better approximates
+// the exponential falloff of atmospheric density.
+const MIDPOINT_RATIO: f32 = 0.3;
+
+// LUT UV PARAMATERIZATIONS
+
+fn unit_to_sub_uvs(val: vec2<f32>, resolution: vec2<f32>) -> vec2<f32> {
+    return (val + 0.5f / resolution) * (resolution / (resolution + 1.0f));
+}
+
+fn sub_uvs_to_unit(val: vec2<f32>, resolution: vec2<f32>) -> vec2<f32> {
+    return (val - 0.5f / resolution) * (resolution / (resolution - 1.0f));
+}
+
+fn multiscattering_lut_r_mu_to_uv(r: f32, mu: f32) -> vec2<f32> {
+    let u = 0.5 + 0.5 * mu;
+    let v = saturate((r - atmosphere.bottom_radius) / (atmosphere.top_radius - atmosphere.bottom_radius)); //TODO
+    return unit_to_sub_uvs(vec2(u, v), vec2<f32>(settings.multiscattering_lut_size));
+}
+
+fn multiscattering_lut_uv_to_r_mu(uv: vec2<f32>) -> vec2<f32> {
+    let adj_uv = sub_uvs_to_unit(uv, vec2<f32>(settings.multiscattering_lut_size));
+    let r = mix(atmosphere.bottom_radius, atmosphere.top_radius, adj_uv.y);
+    let mu = adj_uv.x * 2 - 1;
+    return vec2(r, mu);
+}
+
+fn sky_view_lut_r_mu_azimuth_to_uv(r: f32, mu: f32, azimuth: f32) -> vec2<f32> {
+    let u = (azimuth * FRAC_2_PI) + 0.5;
+
+    let v_horizon = sqrt(r * r - atmosphere.bottom_radius * atmosphere.bottom_radius);
+    let cos_beta = v_horizon / r;
+    // Using fast_acos_4 for better precision at small angles
+    // to avoid artifacts at the horizon
+    let beta = fast_acos_4(cos_beta);
+    let horizon_zenith = PI - beta;
+    let view_zenith = fast_acos_4(mu);
+
+    // Apply non-linear transformation to compress more texels 
+    // near the horizon where high-frequency details matter most
+    // l is latitude in [-π/2, π/2] and v is texture coordinate in [0,1]
+    let l = view_zenith - horizon_zenith;
+    let abs_l = abs(l);
+
+    let v = 0.5 + 0.5 * sign(l) * sqrt(abs_l / HALF_PI);
+
+    return unit_to_sub_uvs(vec2(u, v), vec2<f32>(settings.sky_view_lut_size));
+}
+
+fn sky_view_lut_uv_to_zenith_azimuth(r: f32, uv: vec2<f32>) -> vec2<f32> {
+    let adj_uv = sub_uvs_to_unit(vec2(uv.x, 1.0 - uv.y), vec2<f32>(settings.sky_view_lut_size));
+    let azimuth = (adj_uv.x - 0.5) * PI_2;
+
+    // Horizon parameters
+    let v_horizon = sqrt(r * r - atmosphere.bottom_radius * atmosphere.bottom_radius);
+    let cos_beta = v_horizon / r;
+    let beta = fast_acos_4(cos_beta);
+    let horizon_zenith = PI - beta;
+
+    // Inverse of horizon-detail mapping to recover original latitude from texture coordinate
+    let t = abs(2.0 * (adj_uv.y - 0.5));
+    let l = sign(adj_uv.y - 0.5) * HALF_PI * t * t;
+
+    return vec2(horizon_zenith - l, azimuth);
+}
+
+// LUT SAMPLING
+
+fn sample_transmittance_lut(r: f32, mu: f32) -> vec3<f32> {
+    let uv = transmittance_lut_r_mu_to_uv(r, mu);
+    return textureSampleLevel(transmittance_lut, transmittance_lut_sampler, uv, 0.0).rgb;
+}
+
+// NOTICE: This function is copyrighted by Eric Bruneton and INRIA, and falls
+// under the license reproduced in bruneton_functions.wgsl (variant of MIT license)
+//
+// FIXME: this function should be in bruneton_functions.wgsl, but because naga_oil doesn't 
+// support cyclic imports it's stuck here
+fn sample_transmittance_lut_segment(r: f32, mu: f32, t: f32) -> vec3<f32> {
+    let r_t = get_local_r(r, mu, t);
+    let mu_t = clamp((r * mu + t) / r_t, -1.0, 1.0);
+
+    if ray_intersects_ground(r, mu) {
+        return min(
+            sample_transmittance_lut(r_t, -mu_t) / sample_transmittance_lut(r, -mu),
+            vec3(1.0)
+        );
+    } else {
+        return min(
+            sample_transmittance_lut(r, mu) / sample_transmittance_lut(r_t, mu_t), vec3(1.0)
+        );
+    }
+}
+
+fn sample_multiscattering_lut(r: f32, mu: f32) -> vec3<f32> {
+    let uv = multiscattering_lut_r_mu_to_uv(r, mu);
+    return textureSampleLevel(multiscattering_lut, multiscattering_lut_sampler, uv, 0.0).rgb;
+}
+
+fn sample_sky_view_lut(r: f32, ray_dir_as: vec3<f32>) -> vec3<f32> {
+    let mu = ray_dir_as.y;
+    let azimuth = fast_atan2(ray_dir_as.x, -ray_dir_as.z);
+    let uv = sky_view_lut_r_mu_azimuth_to_uv(r, mu, azimuth);
+    return textureSampleLevel(sky_view_lut, sky_view_lut_sampler, uv, 0.0).rgb;
+}
+
+fn ndc_to_camera_dist(ndc: vec3<f32>) -> f32 {
+    let view_pos = view.view_from_clip * vec4(ndc, 1.0);
+    let t = length(view_pos.xyz / view_pos.w) * settings.scene_units_to_m;
+    return t;
+}
+
+// RGB channels: total inscattered light along the camera ray to the current sample.
+// A channel: average transmittance across all wavelengths to the current sample.
+fn sample_aerial_view_lut(uv: vec2<f32>, t: f32) -> vec3<f32> {
+    let t_max = settings.aerial_view_lut_max_distance;
+    let num_slices = f32(settings.aerial_view_lut_size.z);
+    // Each texel stores the value of the scattering integral over the whole slice,
+    // which requires us to offset the w coordinate by half a slice. For
+    // example, if we wanted the value of the integral at the boundary between slices,
+    // we'd need to sample at the center of the previous slice, and vice-versa for
+    // sampling in the center of a slice.
+    let uvw = vec3(uv, saturate(t / t_max - 0.5 / num_slices));
+    let sample = textureSampleLevel(aerial_view_lut, aerial_view_lut_sampler, uvw, 0.0);
+    // Since sampling anywhere between w=0 and w=t_slice will clamp to the first slice,
+    // we need to do a linear step over the first slice towards zero at the camera's
+    // position to recover the correct integral value.
+    let t_slice = t_max / num_slices;
+    let fade = saturate(t / t_slice);
+    // Recover the values from log space
+    return exp(sample.rgb) * fade;
+}
+
+// PHASE FUNCTIONS
+
+// -(L . V) == (L . -V). -V here is our ray direction, which points away from the view 
+// instead of towards it (which would be the *view direction*, V)
+
+// evaluates the rayleigh phase function, which describes the likelihood
+// of a rayleigh scattering event scattering light from the light direction towards the view
+fn rayleigh(neg_LdotV: f32) -> f32 {
+    return FRAC_3_16_PI * (1 + (neg_LdotV * neg_LdotV));
+}
+
+// evaluates the henyey-greenstein phase function, which describes the likelihood
+// of a mie scattering event scattering light from the light direction towards the view
+fn henyey_greenstein(neg_LdotV: f32) -> f32 {
+    let g = atmosphere.mie_asymmetry;
+    let denom = 1.0 + g * g - 2.0 * g * neg_LdotV;
+    return FRAC_4_PI * (1.0 - g * g) / (denom * sqrt(denom));
+}
+
+// ATMOSPHERE SAMPLING
+
+struct AtmosphereSample {
+    /// units: m^-1
+    rayleigh_scattering: vec3<f32>,
+
+    /// units: m^-1
+    mie_scattering: f32,
+
+    /// the sum of scattering and absorption. Since the phase function doesn't
+    /// matter for this, we combine rayleigh and mie extinction to a single 
+    //  value.
+    //
+    /// units: m^-1
+    extinction: vec3<f32>
+}
+
+/// Samples atmosphere optical densities at a given radius
+fn sample_atmosphere(r: f32) -> AtmosphereSample {
+    let altitude = clamp(r, atmosphere.bottom_radius, atmosphere.top_radius) - atmosphere.bottom_radius;
+
+    // atmosphere values at altitude
+    let mie_density = exp(-atmosphere.mie_density_exp_scale * altitude);
+    let rayleigh_density = exp(-atmosphere.rayleigh_density_exp_scale * altitude);
+    var ozone_density: f32 = max(0.0, 1.0 - (abs(altitude - atmosphere.ozone_layer_altitude) / (atmosphere.ozone_layer_width * 0.5)));
+
+    let mie_scattering = mie_density * atmosphere.mie_scattering;
+    let mie_absorption = mie_density * atmosphere.mie_absorption;
+    let mie_extinction = mie_scattering + mie_absorption;
+
+    let rayleigh_scattering = rayleigh_density * atmosphere.rayleigh_scattering;
+    // no rayleigh absorption
+    // rayleigh extinction is the sum of scattering and absorption
+
+    // ozone doesn't contribute to scattering
+    let ozone_absorption = ozone_density * atmosphere.ozone_absorption;
+
+    var sample: AtmosphereSample;
+    sample.rayleigh_scattering = rayleigh_scattering;
+    sample.mie_scattering = mie_scattering;
+    sample.extinction = rayleigh_scattering + mie_extinction + ozone_absorption;
+
+    return sample;
+}
+
+/// evaluates L_scat, equation 3 in the paper, which gives the total single-order scattering towards the view at a single point
+fn sample_local_inscattering(local_atmosphere: AtmosphereSample, ray_dir: vec3<f32>, local_r: f32, local_up: vec3<f32>) -> vec3<f32> {
+    var inscattering = vec3(0.0);
+    for (var light_i: u32 = 0u; light_i < lights.n_directional_lights; light_i++) {
+        let light = &lights.directional_lights[light_i];
+
+        let mu_light = dot((*light).direction_to_light, local_up);
+
+        // -(L . V) == (L . -V). -V here is our ray direction, which points away from the view
+        // instead of towards it (as is the convention for V)
+        let neg_LdotV = dot((*light).direction_to_light, ray_dir);
+
+        // Phase functions give the proportion of light
+        // scattered towards the camera for each scattering type
+        let rayleigh_phase = rayleigh(neg_LdotV);
+        let mie_phase = henyey_greenstein(neg_LdotV);
+        let scattering_coeff = local_atmosphere.rayleigh_scattering * rayleigh_phase + local_atmosphere.mie_scattering * mie_phase;
+
+        let transmittance_to_light = sample_transmittance_lut(local_r, mu_light);
+        let shadow_factor = transmittance_to_light * f32(!ray_intersects_ground(local_r, mu_light));
+
+        // Transmittance from scattering event to light source
+        let scattering_factor = shadow_factor * scattering_coeff;
+
+        // Additive factor from the multiscattering LUT
+        let psi_ms = sample_multiscattering_lut(local_r, mu_light);
+        let multiscattering_factor = psi_ms * (local_atmosphere.rayleigh_scattering + local_atmosphere.mie_scattering);
+
+        inscattering += (*light).color.rgb * (scattering_factor + multiscattering_factor);
+    }
+    return inscattering * view.exposure;
+}
+
+const SUN_ANGULAR_SIZE: f32 = 0.0174533; // angular diameter of sun in radians
+
+fn sample_sun_illuminance(ray_dir_ws: vec3<f32>, transmittance: vec3<f32>) -> vec3<f32> {
+    let r = view_radius();
+    let mu_view = ray_dir_ws.y;
+    let shadow_factor = f32(!ray_intersects_ground(r, mu_view));
+    var sun_illuminance = vec3(0.0);
+    for (var light_i: u32 = 0u; light_i < lights.n_directional_lights; light_i++) {
+        let light = &lights.directional_lights[light_i];
+        let neg_LdotV = dot((*light).direction_to_light, ray_dir_ws);
+        let angle_to_sun = fast_acos(neg_LdotV);
+        let pixel_size = fwidth(angle_to_sun);
+        let factor = smoothstep(0.0, -pixel_size * ROOT_2, angle_to_sun - SUN_ANGULAR_SIZE * 0.5);
+        let sun_solid_angle = (SUN_ANGULAR_SIZE * SUN_ANGULAR_SIZE) * 4.0 * FRAC_PI;
+        sun_illuminance += ((*light).color.rgb / sun_solid_angle) * factor * shadow_factor;
+    }
+    return sun_illuminance * transmittance * view.exposure;
+}
+
+// TRANSFORM UTILITIES
+
+fn max_atmosphere_distance(r: f32, mu: f32) -> f32 {
+    let t_top = distance_to_top_atmosphere_boundary(r, mu);
+    let t_bottom = distance_to_bottom_atmosphere_boundary(r, mu);
+    let hits = ray_intersects_ground(r, mu);
+    return mix(t_top, t_bottom, f32(hits));
+}
+
+/// Assuming y=0 is the planet ground, returns the view radius in meters
+fn view_radius() -> f32 {
+    return view.world_position.y * settings.scene_units_to_m + atmosphere.bottom_radius;
+}
+
+// We assume the `up` vector at the view position is the y axis, since the world is locally flat/level.
+// t = distance along view ray in atmosphere space
+// NOTE: this means that if your world is actually spherical, this will be wrong.
+fn get_local_up(r: f32, t: f32, ray_dir: vec3<f32>) -> vec3<f32> {
+    return normalize(vec3(0.0, r, 0.0) + t * ray_dir);
+}
+
+// Given a ray starting at radius r, with mu = cos(zenith angle),
+// and a t = distance along the ray, gives the new radius at point t
+fn get_local_r(r: f32, mu: f32, t: f32) -> f32 {
+    return sqrt(t * t + 2.0 * r * mu * t + r * r);
+}
+
+// Convert uv [0.0 .. 1.0] coordinate to ndc space xy [-1.0 .. 1.0]
+fn uv_to_ndc(uv: vec2<f32>) -> vec2<f32> {
+    return uv * vec2(2.0, -2.0) + vec2(-1.0, 1.0);
+}
+
+/// Convert ndc space xy coordinate [-1.0 .. 1.0] to uv [0.0 .. 1.0]
+fn ndc_to_uv(ndc: vec2<f32>) -> vec2<f32> {
+    return ndc * vec2(0.5, -0.5) + vec2(0.5);
+}
+
+/// Converts a direction in world space to atmosphere space
+fn direction_world_to_atmosphere(dir_ws: vec3<f32>) -> vec3<f32> {
+    let dir_as = atmosphere_transforms.atmosphere_from_world * vec4(dir_ws, 0.0);
+    return dir_as.xyz;
+}
+
+/// Converts a direction in atmosphere space to world space
+fn direction_atmosphere_to_world(dir_as: vec3<f32>) -> vec3<f32> {
+    let dir_ws = atmosphere_transforms.world_from_atmosphere * vec4(dir_as, 0.0);
+    return dir_ws.xyz;
+}
+
+// Modified from skybox.wgsl. For this pass we don't need to apply a separate sky transform or consider camera viewport.
+// w component is the cosine of the view direction with the view forward vector, to correct step distance at the edges of the viewport
+fn uv_to_ray_direction(uv: vec2<f32>) -> vec4<f32> {
+    // Using world positions of the fragment and camera to calculate a ray direction
+    // breaks down at large translations. This code only needs to know the ray direction.
+    // The ray direction is along the direction from the camera to the fragment position.
+    // In view space, the camera is at the origin, so the view space ray direction is
+    // along the direction of the fragment position - (0,0,0) which is just the
+    // fragment position.
+    // Use the position on the near clipping plane to avoid -inf world position
+    // because the far plane of an infinite reverse projection is at infinity.
+    let view_position_homogeneous = view.view_from_clip * vec4(
+        uv_to_ndc(uv),
+        1.0,
+        1.0,
+    );
+
+    let view_ray_direction = view_position_homogeneous.xyz / view_position_homogeneous.w;
+    // Transforming the view space ray direction by the inverse view matrix, transforms the
+    // direction to world space. Note that the w element is set to 0.0, as this is a
+    // vector direction, not a position, That causes the matrix multiplication to ignore
+    // the translations from the view matrix.
+    let ray_direction = (view.world_from_view * vec4(view_ray_direction, 0.0)).xyz;
+
+    return vec4(normalize(ray_direction), -view_ray_direction.z);
+}
+
+fn zenith_azimuth_to_ray_dir(zenith: f32, azimuth: f32) -> vec3<f32> {
+    let sin_zenith = sin(zenith);
+    let mu = cos(zenith);
+    let sin_azimuth = sin(azimuth);
+    let cos_azimuth = cos(azimuth);
+    return vec3(sin_azimuth * sin_zenith, mu, -cos_azimuth * sin_zenith);
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-sky_view_lut
+```rust
+#import bevy_pbr::{
+    mesh_view_types::Lights,
+    atmosphere::{
+        types::{Atmosphere, AtmosphereSettings},
+        bindings::{atmosphere, view, settings},
+        functions::{
+            sample_atmosphere, get_local_up, AtmosphereSample,
+            sample_local_inscattering, get_local_r, view_radius,
+            max_atmosphere_distance, direction_atmosphere_to_world,
+            sky_view_lut_uv_to_zenith_azimuth, zenith_azimuth_to_ray_dir,
+            MIDPOINT_RATIO
+        },
+    }
+}
+
+#import bevy_render::{
+    view::View,
+    maths::HALF_PI,
+}
+#import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
+
+@group(0) @binding(13) var sky_view_lut_out: texture_storage_2d<rgba16float, write>;
+
+@compute
+@workgroup_size(16, 16, 1)
+fn main(@builtin(global_invocation_id) idx: vec3<u32>) {
+    let uv = vec2<f32>(idx.xy) / vec2<f32>(settings.sky_view_lut_size);
+
+    let r = view_radius();
+    var zenith_azimuth = sky_view_lut_uv_to_zenith_azimuth(r, uv);
+
+    let ray_dir_as = zenith_azimuth_to_ray_dir(zenith_azimuth.x, zenith_azimuth.y);
+    let ray_dir_ws = direction_atmosphere_to_world(ray_dir_as);
+
+    let mu = ray_dir_ws.y;
+    let t_max = max_atmosphere_distance(r, mu);
+
+    let sample_count = mix(1.0, f32(settings.sky_view_lut_samples), clamp(t_max * 0.01, 0.0, 1.0));
+    var total_inscattering = vec3(0.0);
+    var throughput = vec3(1.0);
+    var prev_t = 0.0;
+    for (var s = 0.0; s < sample_count; s += 1.0) {
+        let t_i = t_max * (s + MIDPOINT_RATIO) / sample_count;
+        let dt_i = (t_i - prev_t);
+        prev_t = t_i;
+
+        let local_r = get_local_r(r, mu, t_i);
+        let local_up = get_local_up(r, t_i, ray_dir_ws);
+        let local_atmosphere = sample_atmosphere(local_r);
+
+        let sample_optical_depth = local_atmosphere.extinction * dt_i;
+        let sample_transmittance = exp(-sample_optical_depth);
+
+        let inscattering = sample_local_inscattering(
+            local_atmosphere,
+            ray_dir_ws,
+            local_r,
+            local_up
+        );
+
+        // Analytical integration of the single scattering term in the radiance transfer equation
+        let s_int = (inscattering - inscattering * sample_transmittance) / local_atmosphere.extinction;
+        total_inscattering += throughput * s_int;
+
+        throughput *= sample_transmittance;
+        if all(throughput < vec3(0.001)) {
+            break;
+        }
+    }
+
+    textureStore(sky_view_lut_out, idx.xy, vec4(total_inscattering, 1.0));
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-transmittance_lut
+```rust
+#import bevy_pbr::atmosphere::{
+    types::{Atmosphere, AtmosphereSettings},
+    bindings::{settings, atmosphere},
+    functions::{AtmosphereSample, sample_atmosphere, get_local_r, max_atmosphere_distance, MIDPOINT_RATIO},
+    bruneton_functions::{transmittance_lut_uv_to_r_mu, distance_to_bottom_atmosphere_boundary, distance_to_top_atmosphere_boundary},
+}
+
+
+#import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
+
+@group(0) @binding(13) var transmittance_lut_out: texture_storage_2d<rgba16float, write>;
+
+@compute 
+@workgroup_size(16, 16, 1)
+fn main(@builtin(global_invocation_id) idx: vec3<u32>) {
+    let uv: vec2<f32> = (vec2<f32>(idx.xy) + 0.5) / vec2<f32>(settings.transmittance_lut_size);
+    // map UV coordinates to view height (r) and zenith cos angle (mu)
+    let r_mu = transmittance_lut_uv_to_r_mu(uv);
+
+    // compute the optical depth from view height r to the top atmosphere boundary
+    let optical_depth = ray_optical_depth(r_mu.x, r_mu.y, settings.transmittance_lut_samples);
+    let transmittance = exp(-optical_depth);
+
+    textureStore(transmittance_lut_out, idx.xy, vec4(transmittance, 1.0));
+}
+
+/// Compute the optical depth of the atmosphere from the ground to the top atmosphere boundary
+/// at a given view height (r) and zenith cos angle (mu)
+fn ray_optical_depth(r: f32, mu: f32, sample_count: u32) -> vec3<f32> {
+    let t_max = max_atmosphere_distance(r, mu);
+    var optical_depth = vec3<f32>(0.0f);
+    var prev_t = 0.0f;
+
+    for (var i = 0u; i < sample_count; i++) {
+        let t_i = t_max * (f32(i) + MIDPOINT_RATIO) / f32(sample_count);
+        let dt = t_i - prev_t;
+        prev_t = t_i;
+
+        let r_i = get_local_r(r, mu, t_i);
+
+        let atmosphere_sample = sample_atmosphere(r_i);
+        let sample_optical_depth = atmosphere_sample.extinction * dt;
+
+        optical_depth += sample_optical_depth;
+    }
+
+    return optical_depth;
+}
+
+```
+### bevy-crates-bevy_pbr-src-atmosphere-types
+```rust
+#define_import_path bevy_pbr::atmosphere::types
+
+struct Atmosphere {
+    // Radius of the planet
+    bottom_radius: f32, // units: m
+
+    // Radius at which we consider the atmosphere to 'end' for out calculations (from center of planet)
+    top_radius: f32, // units: m
+
+    ground_albedo: vec3<f32>,
+
+    rayleigh_density_exp_scale: f32,
+    rayleigh_scattering: vec3<f32>,
+
+    mie_density_exp_scale: f32,
+    mie_scattering: f32, // units: m^-1
+    mie_absorption: f32, // units: m^-1
+    mie_asymmetry: f32, // the "asymmetry" value of the phase function, unitless. Domain: (-1, 1)
+
+    ozone_layer_altitude: f32, // units: m
+    ozone_layer_width: f32, // units: m
+    ozone_absorption: vec3<f32>, // ozone absorption. units: m^-1
+}
+
+struct AtmosphereSettings {
+    transmittance_lut_size: vec2<u32>,
+    multiscattering_lut_size: vec2<u32>,
+    sky_view_lut_size: vec2<u32>,
+    aerial_view_lut_size: vec3<u32>,
+    transmittance_lut_samples: u32,
+    multiscattering_lut_dirs: u32,
+    multiscattering_lut_samples: u32,
+    sky_view_lut_samples: u32,
+    aerial_view_lut_samples: u32,
+    aerial_view_lut_max_distance: f32,
+    scene_units_to_m: f32,
+}
+
+
+// "Atmosphere space" is just the view position with y=0 and oriented horizontally,
+// so the horizon stays a horizontal line in our luts
+struct AtmosphereTransforms {
+    world_from_atmosphere: mat4x4<f32>,
+    atmosphere_from_world: mat4x4<f32>,
+}
+
+```
 ### bevy-crates-bevy_pbr-src-ssao-ssao
-
 ```rust
 // Visibility Bitmask Ambient Occlusion (VBAO)
 // Paper: ttps://ar5iv.labs.arxiv.org/html/2301.11376
@@ -30599,7 +31842,7 @@ fn radiance_sample_direction(N: vec3<f32>, R: vec3<f32>, roughness: f32) -> vec3
 // Source code base on SSRT3 implementation
 // https://github.com/cdrinmatane/SSRT3
 
-#import bevy_pbr::ssao_utils::fast_acos
+#import bevy_render::maths::fast_acos
 
 #import bevy_render::{
     view::View,
@@ -30789,9 +32032,7 @@ fn ssao(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-ssao-spatial_denoise
-
 ```rust
 // 3x3 bilaterial filter (edge-preserving blur)
 // https://people.csail.mit.edu/sparis/bf_course/course_notes.pdf
@@ -30880,9 +32121,7 @@ fn spatial_denoise(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-ssao-preprocess_depth
-
 ```rust
 // Inputs a depth texture and outputs a MIP-chain of depths.
 //
@@ -30988,9 +32227,7 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-ssao-ssao_utils
-
 ```rust
 #define_import_path bevy_pbr::ssao_utils
 
@@ -31006,21 +32243,8 @@ fn ssao_multibounce(visibility: f32, base_color: vec3<f32>) -> vec3<f32> {
     return max(x, ((x * a + b) * x + c) * x);
 }
 
-fn fast_sqrt(x: f32) -> f32 {
-    return bitcast<f32>(0x1fbd1df5 + (bitcast<i32>(x) >> 1u));
-}
-
-fn fast_acos(in_x: f32) -> f32 {
-    let x = abs(in_x);
-    var res = -0.156583 * x + HALF_PI;
-    res *= fast_sqrt(1.0 - x);
-    return select(PI - res, res, in_x >= 0.0);
-}
-
 ```
-
 ### bevy-crates-bevy_pbr-src-deferred-pbr_deferred_functions
-
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_functions
 
@@ -31047,21 +32271,24 @@ fn fast_acos(in_x: f32) -> f32 {
 
 // Creates the deferred gbuffer from a PbrInput.
 fn deferred_gbuffer_from_pbr_input(in: PbrInput) -> vec4<u32> {
-     // Only monochrome occlusion supported. May not be worth including at all.
-     // Some models have baked occlusion, GLTF only supports monochrome.
-     // Real time occlusion is applied in the deferred lighting pass.
-     // Deriving luminance via Rec. 709. coefficients
-     // https://en.wikipedia.org/wiki/Rec._709
-    let diffuse_occlusion = dot(in.diffuse_occlusion, vec3<f32>(0.2126, 0.7152, 0.0722));
+    // Only monochrome occlusion supported. May not be worth including at all.
+    // Some models have baked occlusion, GLTF only supports monochrome.
+    // Real time occlusion is applied in the deferred lighting pass.
+    // Deriving luminance via Rec. 709. coefficients
+    // https://en.wikipedia.org/wiki/Rec._709
+    let rec_709_coeffs = vec3<f32>(0.2126, 0.7152, 0.0722);
+    let diffuse_occlusion = dot(in.diffuse_occlusion, rec_709_coeffs);
+    // Only monochrome specular supported.
+    let reflectance = dot(in.material.reflectance, rec_709_coeffs);
 #ifdef WEBGL2 // More crunched for webgl so we can also fit depth.
     var props = deferred_types::pack_unorm3x4_plus_unorm_20_(vec4(
-        in.material.reflectance,
+        reflectance,
         in.material.metallic,
         diffuse_occlusion,
         in.frag_coord.z));
 #else
     var props = deferred_types::pack_unorm4x8_(vec4(
-        in.material.reflectance, // could be fewer bits
+        reflectance, // could be fewer bits
         in.material.metallic, // could be fewer bits
         diffuse_occlusion, // is this worth including?
         0.0)); // spare
@@ -31124,10 +32351,10 @@ fn pbr_input_from_deferred_gbuffer(frag_coord: vec4<f32>, gbuffer: vec4<u32>) ->
 #ifdef WEBGL2 // More crunched for webgl so we can also fit depth.
     let props = deferred_types::unpack_unorm3x4_plus_unorm_20_(gbuffer.b);
     // Bias to 0.5 since that's the value for almost all materials.
-    pbr.material.reflectance = saturate(props.r - 0.03333333333);
+    pbr.material.reflectance = vec3(saturate(props.r - 0.03333333333));
 #else
     let props = deferred_types::unpack_unorm4x8_(gbuffer.b);
-    pbr.material.reflectance = props.r;
+    pbr.material.reflectance = vec3(props.r);
 #endif // WEBGL2
     pbr.material.metallic = props.g;
     pbr.diffuse_occlusion = vec3(props.b);
@@ -31174,9 +32401,7 @@ fn deferred_output(in: VertexOutput, pbr_input: PbrInput) -> FragmentOutput {
 #endif
 
 ```
-
 ### bevy-crates-bevy_pbr-src-deferred-pbr_deferred_types
-
 ```rust
 #define_import_path bevy_pbr::pbr_deferred_types
 
@@ -31269,9 +32494,7 @@ fn unpack_unorm3x4_plus_unorm_20_(v: u32) -> vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-deferred-deferred_lighting
-
 ```rust
 #import bevy_pbr::{
     prepass_utils,
@@ -31363,9 +32586,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy-crates-bevy_pbr-src-ssr-raymarch
-
 ```rust
 // Copyright (c) 2023 Tomasz Stachowiak
 //
@@ -31611,9 +32832,9 @@ fn depth_raymarch_distance_fn_evaluate(
     // * The shrink-wrap surface is no longer continuous, so it's possible for rays to miss it.
 
     let linear_depth =
-        1.0 / textureSampleLevel(depth_prepass_texture, depth_linear_sampler, interp_uv, 0.0);
+        1.0 / textureSampleLevel(depth_prepass_texture, depth_linear_sampler, interp_uv, 0u);
     let unfiltered_depth =
-        1.0 / textureSampleLevel(depth_prepass_texture, depth_nearest_sampler, interp_uv, 0.0);
+        1.0 / textureSampleLevel(depth_prepass_texture, depth_nearest_sampler, interp_uv, 0u);
 
     var max_depth: f32;
     var min_depth: f32;
@@ -31655,7 +32876,7 @@ struct DepthRayMarchResult {
     /// Range: `0..=1` as a lerp factor over `ray_start_cs..=ray_end_cs`.
     hit_t: f32,
 
-    /// UV correspindong to `hit_t`.
+    /// UV corresponding to `hit_t`.
     hit_uv: vec2<f32>,
 
     /// The distance that the hit point penetrates into the hit surface.
@@ -31880,9 +33101,7 @@ fn depth_ray_march_march(raymarch: ptr<function, DepthRayMarch>) -> DepthRayMarc
 }
 
 ```
-
 ### bevy-crates-bevy_pbr-src-ssr-ssr
-
 ```rust
 // A postprocessing pass that performs screen-space reflections.
 
@@ -32080,9 +33299,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_bindings
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_bindings
 
@@ -32097,9 +33314,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 @group(0) @binding(3) var dt_lut_sampler: sampler;
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_bindings
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_bindings
 
@@ -32112,9 +33327,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 #endif // PER_OBJECT_BUFFER_BATCH_SIZE
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-wireframe2d
-
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
@@ -32129,9 +33342,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_vertex_output
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_vertex_output
 
@@ -32151,9 +33362,7 @@ struct VertexOutput {
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-color_material
-
 ```rust
 #import bevy_sprite::{
     mesh2d_vertex_output::VertexOutput,
@@ -32166,6 +33375,7 @@ struct VertexOutput {
 
 struct ColorMaterial {
     color: vec4<f32>,
+    uv_transform: mat3x3<f32>,
     // 'flags' is a bit field indicating various options. u32 is 32 bits so we have up to 32 options.
     flags: u32,
     alpha_cutoff: f32,
@@ -32191,8 +33401,10 @@ fn fragment(
     output_color = output_color * mesh.color;
 #endif
 
+    let uv = (material.uv_transform * vec3(mesh.uv, 1.0)).xy;
+
     if ((material.flags & COLOR_MATERIAL_FLAGS_TEXTURE_BIT) != 0u) {
-        output_color = output_color * textureSample(texture, texture_sampler, mesh.uv);
+        output_color = output_color * textureSample(texture, texture_sampler, uv);
     }
 
     output_color = alpha_discard(material, output_color);
@@ -32225,9 +33437,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
     return color;
 }
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_view_types
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_view_types
 
@@ -32235,9 +33445,7 @@ fn alpha_discard(material: ColorMaterial, output_color: vec4<f32>) -> vec4<f32> 
 #import bevy_render::globals
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d
-
 ```rust
 #import bevy_sprite::{
     mesh2d_functions as mesh_functions,
@@ -32317,9 +33525,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_types
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_types
 
@@ -32339,9 +33545,7 @@ struct Mesh2d {
 };
 
 ```
-
 ### bevy-crates-bevy_sprite-src-mesh2d-mesh2d_functions
-
 ```rust
 #define_import_path bevy_sprite::mesh2d_functions
 
@@ -32390,9 +33594,7 @@ fn mesh2d_tangent_local_to_world(world_from_local: mat4x4<f32>, vertex_tangent: 
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-render-sprite
-
 ```rust
 #ifdef TONEMAP_IN_SHADER
 #import bevy_core_pipeline::tonemapping
@@ -32459,9 +33661,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_sprite-src-render-sprite_view_bindings
-
 ```rust
 #define_import_path bevy_sprite::sprite_view_bindings
 
@@ -32474,9 +33674,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy-crates-bevy_render-src-globals
-
 ```rust
 #define_import_path bevy_render::globals
 
@@ -32496,9 +33694,7 @@ struct Globals {
 };
 
 ```
-
 ### bevy-crates-bevy_render-src-maths
-
 ```rust
 #define_import_path bevy_render::maths
 
@@ -32596,10 +33792,110 @@ fn powsafe(color: vec3<f32>, power: f32) -> vec3<f32> {
     return pow(abs(color), vec3(power)) * sign(color);
 }
 
+// https://en.wikipedia.org/wiki/Vector_projection#Vector_projection_2
+fn project_onto(lhs: vec3<f32>, rhs: vec3<f32>) -> vec3<f32> {
+    let other_len_sq_rcp = 1.0 / dot(rhs, rhs);
+    return rhs * dot(lhs, rhs) * other_len_sq_rcp;
+}
+
+// Below are fast approximations of common irrational and trig functions. These
+// are likely most useful when raymarching, for example, where complete numeric
+// accuracy can be sacrificed for greater sample count.
+
+fn fast_sqrt(x: f32) -> f32 {
+    let n = bitcast<f32>(0x1fbd1df5 + (bitcast<i32>(x) >> 1u));
+    // One Newton's method iteration for better precision
+    return 0.5 * (n + x / n);
+}
+
+// Slightly less accurate than fast_acos_4, but much simpler.
+fn fast_acos(in_x: f32) -> f32 {
+    let x = abs(in_x);
+    var res = -0.156583 * x + HALF_PI;
+    res *= fast_sqrt(1.0 - x);
+    return select(PI - res, res, in_x >= 0.0);
+}
+
+// 4th order polynomial approximation
+// 4 VGRP, 16 ALU Full Rate
+// 7 * 10^-5 radians precision
+// Reference : Handbook of Mathematical Functions (chapter : Elementary Transcendental Functions), M. Abramowitz and I.A. Stegun, Ed.
+fn fast_acos_4(x: f32) -> f32 {
+    let x1 = abs(x);
+    let x2 = x1 * x1;
+    let x3 = x2 * x1;
+    var s: f32;
+
+    s = -0.2121144 * x1 + 1.5707288;
+    s = 0.0742610 * x2 + s;
+    s = -0.0187293 * x3 + s;
+    s = fast_sqrt(1.0 - x1) * s;
+
+	// acos function mirroring
+    return select(PI - s, s, x >= 0.0);
+}
+
+fn fast_atan2(y: f32, x: f32) -> f32 {
+    var t0 = max(abs(x), abs(y));
+    var t1 = min(abs(x), abs(y));
+    var t3 = t1 / t0;
+    var t4 = t3 * t3;
+
+    t0 = 0.0872929;
+    t0 = t0 * t4 - 0.301895;
+    t0 = t0 * t4 + 1.0;
+    t3 = t0 * t3;
+
+    t3 = select(t3, (0.5 * PI) - t3, abs(y) > abs(x));
+    t3 = select(t3, PI - t3, x < 0);
+    t3 = select(-t3, t3, y > 0);
+
+    return t3;
+}
+
 ```
+### bevy-crates-bevy_render-src-bindless
+```rust
+// Defines the common arrays used to access bindless resources.
+//
+// This need to be kept up to date with the `BINDING_NUMBERS` table in
+// `bindless.rs`.
+//
+// You access these by indexing into the bindless index table, and from there
+// indexing into the appropriate binding array. For example, to access the base
+// color texture of a `StandardMaterial` in bindless mode, write
+// `bindless_textures_2d[materials[slot].base_color_texture]`, where
+// `materials` is the bindless index table and `slot` is the index into that
+// table (which can be found in the `Mesh`).
 
+#define_import_path bevy_render::bindless
+
+#ifdef BINDLESS
+
+// Binding 0 is the bindless index table.
+// Filtering samplers.
+@group(2) @binding(1) var bindless_samplers_filtering: binding_array<sampler>;
+// Non-filtering samplers (nearest neighbor).
+@group(2) @binding(2) var bindless_samplers_non_filtering: binding_array<sampler>;
+// Comparison samplers (typically for shadow mapping).
+@group(2) @binding(3) var bindless_samplers_comparison: binding_array<sampler>;
+// 1D textures.
+@group(2) @binding(4) var bindless_textures_1d: binding_array<texture_1d<f32>>;
+// 2D textures.
+@group(2) @binding(5) var bindless_textures_2d: binding_array<texture_2d<f32>>;
+// 2D array textures.
+@group(2) @binding(6) var bindless_textures_2d_array: binding_array<texture_2d_array<f32>>;
+// 3D textures.
+@group(2) @binding(7) var bindless_textures_3d: binding_array<texture_3d<f32>>;
+// Cubemap textures.
+@group(2) @binding(8) var bindless_textures_cube: binding_array<texture_cube<f32>>;
+// Cubemap array textures.
+@group(2) @binding(9) var bindless_textures_cube_array: binding_array<texture_cube_array<f32>>;
+
+#endif  // BINDLESS
+
+```
 ### bevy-crates-bevy_render-src-color_operations
-
 ```rust
 #define_import_path bevy_render::color_operations
 
@@ -32650,10 +33946,8 @@ fn rgb_to_hsv(rgb: vec3<f32>) -> vec3<f32> {
 
 
 ```
-
 ### bevy-crates-bevy_render-src-view-view
-
-````rust
+```rust
 #define_import_path bevy_render::view
 
 struct ColorGrading {
@@ -32716,12 +34010,11 @@ struct View {
     frustum: array<vec4<f32>, 6>,
     color_grading: ColorGrading,
     mip_bias: f32,
+    frame_count: u32,
 };
 
-````
-
+```
 ### bevy-crates-bevy_render-src-view-window-screenshot
-
 ```rust
 // This vertex shader will create a triangle that will cover the entire screen
 // with minimal effort, avoiding the need for a vertex buffer etc.
@@ -32741,9 +34034,80 @@ fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
 }
 
 ```
+### bevy-crates-bevy_render-src-experimental-occlusion_culling-mesh_preprocess_types
+```rust
+// Types needed for GPU mesh uniform building.
 
+#define_import_path bevy_pbr::mesh_preprocess_types
+
+// Per-frame data that the CPU supplies to the GPU.
+struct MeshInput {
+    // The model transform.
+    world_from_local: mat3x4<f32>,
+    // The lightmap UV rect, packed into 64 bits.
+    lightmap_uv_rect: vec2<u32>,
+    // Various flags.
+    flags: u32,
+    previous_input_index: u32,
+    first_vertex_index: u32,
+    first_index_index: u32,
+    index_count: u32,
+    current_skin_index: u32,
+    // Low 16 bits: index of the material inside the bind group data.
+    // High 16 bits: index of the lightmap in the binding array.
+    material_and_lightmap_bind_group_slot: u32,
+    timestamp: u32,
+    // User supplied index to identify the mesh instance
+    tag: u32,
+    pad: u32,
+}
+
+// The `wgpu` indirect parameters structure. This is a union of two structures.
+// For more information, see the corresponding comment in
+// `gpu_preprocessing.rs`.
+struct IndirectParametersIndexed {
+    // `vertex_count` or `index_count`.
+    index_count: u32,
+    // `instance_count` in both structures.
+    instance_count: u32,
+    // `first_vertex` or `first_index`.
+    first_index: u32,
+    // `base_vertex` or `first_instance`.
+    base_vertex: u32,
+    // A read-only copy of `instance_index`.
+    first_instance: u32,
+}
+
+struct IndirectParametersNonIndexed {
+    vertex_count: u32,
+    instance_count: u32,
+    base_vertex: u32,
+    first_instance: u32,
+}
+
+struct IndirectParametersCpuMetadata {
+    base_output_index: u32,
+    batch_set_index: u32,
+}
+
+struct IndirectParametersGpuMetadata {
+    mesh_index: u32,
+#ifdef WRITE_INDIRECT_PARAMETERS_METADATA
+    early_instance_count: atomic<u32>,
+    late_instance_count: atomic<u32>,
+#else   // WRITE_INDIRECT_PARAMETERS_METADATA
+    early_instance_count: u32,
+    late_instance_count: u32,
+#endif  // WRITE_INDIRECT_PARAMETERS_METADATA
+}
+
+struct IndirectBatchSet {
+    indirect_parameters_count: atomic<u32>,
+    indirect_parameters_base: u32,
+}
+
+```
 ### bevy-crates-bevy_core_pipeline-src-motion_blur-motion_blur
-
 ```rust
 #import bevy_pbr::prepass_utils
 #import bevy_pbr::utils
@@ -32904,9 +34268,7 @@ fn fragment(
     return accumulator / weight_total;
 }
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-bloom-bloom
-
 ```rust
 // Bloom works by creating an intermediate texture with a bunch of mip levels, each half the size of the previous.
 // You then downsample each mip (starting with the original texture) to the lower resolution mip under it, going in order.
@@ -32919,8 +34281,8 @@ fn fragment(
 struct BloomUniforms {
     threshold_precomputations: vec4<f32>,
     viewport: vec4<f32>,
+    scale: vec2<f32>,
     aspect: f32,
-    uv_offset: f32
 };
 
 @group(0) @binding(0) var input_texture: texture_2d<f32>;
@@ -32961,6 +34323,14 @@ fn karis_average(color: vec3<f32>) -> f32 {
 
 // [COD] slide 153
 fn sample_input_13_tap(uv: vec2<f32>) -> vec3<f32> {
+#ifdef UNIFORM_SCALE
+    // This is the fast path. When the bloom scale is uniform, the 13 tap sampling kernel can be
+    // expressed with constant offsets.
+    //
+    // It's possible that this isn't meaningfully faster than the "slow" path. However, because it
+    // is hard to test performance on all platforms, and uniform bloom is the most common case, this
+    // path was retained when adding non-uniform (anamorphic) bloom. This adds a small, but nonzero,
+    // cost to maintainability, but it does help me sleep at night.
     let a = textureSample(input_texture, s, uv, vec2<i32>(-2, 2)).rgb;
     let b = textureSample(input_texture, s, uv, vec2<i32>(0, 2)).rgb;
     let c = textureSample(input_texture, s, uv, vec2<i32>(2, 2)).rgb;
@@ -32974,6 +34344,35 @@ fn sample_input_13_tap(uv: vec2<f32>) -> vec3<f32> {
     let k = textureSample(input_texture, s, uv, vec2<i32>(1, 1)).rgb;
     let l = textureSample(input_texture, s, uv, vec2<i32>(-1, -1)).rgb;
     let m = textureSample(input_texture, s, uv, vec2<i32>(1, -1)).rgb;
+#else
+    // This is the flexible, but potentially slower, path for non-uniform sampling. Because the
+    // sample is not a constant, and it can fall outside of the limits imposed on constant sample
+    // offsets (-8..8), we have to compute the pixel offset in uv coordinates using the size of the
+    // texture.
+    //
+    // It isn't clear if this is meaningfully slower than using the offset syntax, the spec doesn't
+    // mention it anywhere: https://www.w3.org/TR/WGSL/#texturesample, but the fact that the offset
+    // syntax uses a const-expr implies that it allows some compiler optimizations - maybe more
+    // impactful on mobile?
+    let scale = uniforms.scale;
+    let ps = scale / vec2<f32>(textureDimensions(input_texture));
+    let pl = 2.0 * ps;
+    let ns = -1.0 * ps;
+    let nl = -2.0 * ps;
+    let a = textureSample(input_texture, s, uv + vec2<f32>(nl.x, pl.y)).rgb;
+    let b = textureSample(input_texture, s, uv + vec2<f32>(0.00, pl.y)).rgb;
+    let c = textureSample(input_texture, s, uv + vec2<f32>(pl.x, pl.y)).rgb;
+    let d = textureSample(input_texture, s, uv + vec2<f32>(nl.x, 0.00)).rgb;
+    let e = textureSample(input_texture, s, uv).rgb;
+    let f = textureSample(input_texture, s, uv + vec2<f32>(pl.x, 0.00)).rgb;
+    let g = textureSample(input_texture, s, uv + vec2<f32>(nl.x, nl.y)).rgb;
+    let h = textureSample(input_texture, s, uv + vec2<f32>(0.00, nl.y)).rgb;
+    let i = textureSample(input_texture, s, uv + vec2<f32>(pl.x, nl.y)).rgb;
+    let j = textureSample(input_texture, s, uv + vec2<f32>(ns.x, ps.y)).rgb;
+    let k = textureSample(input_texture, s, uv + vec2<f32>(ps.x, ps.y)).rgb;
+    let l = textureSample(input_texture, s, uv + vec2<f32>(ns.x, ns.y)).rgb;
+    let m = textureSample(input_texture, s, uv + vec2<f32>(ps.x, ns.y)).rgb;
+#endif
 
 #ifdef FIRST_DOWNSAMPLE
     // [COD] slide 168
@@ -33005,9 +34404,11 @@ fn sample_input_13_tap(uv: vec2<f32>) -> vec3<f32> {
 
 // [COD] slide 162
 fn sample_input_3x3_tent(uv: vec2<f32>) -> vec3<f32> {
-    // UV offsets configured from uniforms.
-    let x = uniforms.uv_offset / uniforms.aspect;
-    let y = uniforms.uv_offset;
+    // While this is probably technically incorrect, it makes nonuniform bloom smoother, without
+    // having any impact on uniform bloom, which simply evaluates to 1.0 here.
+    let frag_size = uniforms.scale / vec2<f32>(textureDimensions(input_texture));
+    let x = frag_size.x;
+    let y = frag_size.y;
 
     let a = textureSample(input_texture, s, vec2<f32>(uv.x - x, uv.y + y)).rgb;
     let b = textureSample(input_texture, s, vec2<f32>(uv.x, uv.y + y)).rgb;
@@ -33058,9 +34459,7 @@ fn upsample(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-contrast_adaptive_sharpening-robust_contrast_adaptive_sharpening
-
 ```rust
 // Copyright (c) 2022 Advanced Micro Devices, Inc. All rights reserved.
 //
@@ -33159,9 +34558,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-post_process-chromatic_aberration
-
 ```rust
 // The chromatic aberration postprocessing effect.
 //
@@ -33257,9 +34654,7 @@ fn chromatic_aberration(start_pos: vec2<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-post_process-post_process
-
 ```rust
 // Miscellaneous postprocessing effects, currently just chromatic aberration.
 
@@ -33272,9 +34667,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-tonemapping-lut_bindings
-
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping_lut_bindings
 
@@ -33283,9 +34676,7 @@ fn fragment_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping
-
 ```rust
 #define TONEMAPPING_PASS
 
@@ -33323,9 +34714,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-tonemapping-tonemapping_shared
-
 ```rust
 #define_import_path bevy_core_pipeline::tonemapping
 
@@ -33734,9 +35123,7 @@ fn approximate_inverse_tone_mapping(in: vec4<f32>, color_grading: ColorGrading) 
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-blit-blit
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
@@ -33749,9 +35136,7 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-smaa-smaa
-
 ```rust
 /**
  * Copyright (C) 2013 Jorge Jimenez (jorge@iryoku.com)
@@ -33799,7 +35184,7 @@ fn fs_main(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
  * Here you'll find instructions to get the shader up and running as fast as
  * possible.
  *
- * IMPORTANTE NOTICE: when updating, remember to update both this file and the
+ * IMPORTANT NOTICE: when updating, remember to update both this file and the
  * precomputed textures! They may change from version to version.
  *
  * The shader has three passes, chained together as follows:
@@ -34184,7 +35569,7 @@ const SMAA_CORNER_ROUNDING: u32 = 25u;
 // "SMAA Presets".)
 
 /**
- * If there is an neighbor edge that has SMAA_LOCAL_CONTRAST_FACTOR times
+ * If there is a neighbor edge that has SMAA_LOCAL_CONTRAST_FACTOR times
  * bigger contrast than current edge, current edge will be discarded.
  *
  * This allows to eliminate spurious crossing edges, and is based on the fact
@@ -34861,9 +36246,7 @@ fn neighborhood_blending_fragment_main(in: NeighborhoodBlendingVaryings) -> @loc
 #endif  // SMAA_NEIGHBORHOOD_BLENDING
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-dof-dof
-
 ```rust
 // Performs depth of field postprocessing, with both Gaussian and bokeh kernels.
 //
@@ -35168,9 +36551,7 @@ fn bokeh_pass_1(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 #endif
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-auto_exposure-auto_exposure
-
 ```rust
 // Auto exposure
 //
@@ -35367,9 +36748,7 @@ fn compute_average(@builtin(local_invocation_index) local_index: u32) {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-fxaa-fxaa
-
 ```rust
 // NVIDIA FXAA 3.11
 // Original source code by TIMOTHY LOTTES
@@ -35647,9 +37026,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-oit-oit_draw
-
 ```rust
 #define_import_path bevy_core_pipeline::oit
 
@@ -35701,9 +37078,7 @@ fn unpack_24bit_depth_8bit_alpha(packed: u32) -> vec2<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-skybox-skybox_prepass
-
 ```rust
 #import bevy_render::view::View
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
@@ -35728,9 +37103,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(1) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-skybox-skybox
-
 ```rust
 #import bevy_render::view::View
 #import bevy_pbr::utils::coords_to_viewport_uv
@@ -35768,13 +37141,13 @@ fn coords_to_ray_direction(position: vec2<f32>, viewport: vec4<f32>) -> vec3<f32
     // Transforming the view space ray direction by the skybox transform matrix, it is 
     // equivalent to rotating the skybox itself.
     var view_ray_direction = view_position_homogeneous.xyz / view_position_homogeneous.w;
-    view_ray_direction = (uniforms.transform * vec4(view_ray_direction, 1.0)).xyz;
+    view_ray_direction = (view.world_from_view * vec4(view_ray_direction, 0.0)).xyz;
 
     // Transforming the view space ray direction by the view matrix, transforms the
     // direction to world space. Note that the w element is set to 0.0, as this is a
     // vector direction, not a position, That causes the matrix multiplication to ignore
     // the translations from the view matrix.
-    let ray_direction = (view.world_from_view * vec4(view_ray_direction, 0.0)).xyz;
+    let ray_direction = (uniforms.transform * vec4(view_ray_direction, 0.0)).xyz;
 
     return normalize(ray_direction);
 }
@@ -35797,14 +37170,12 @@ struct VertexOutput {
 @vertex
 fn skybox_vertex(@builtin(vertex_index) vertex_index: u32) -> VertexOutput {
     // See the explanation above for how this works.
-    let clip_position = vec4(
+    let clip_position = vec2(
         f32(vertex_index & 1u),
         f32((vertex_index >> 1u) & 1u),
-        0.25,
-        0.5
-    ) * 4.0 - vec4(1.0);
+    ) * 4.0 - vec2(1.0);
 
-    return VertexOutput(clip_position);
+    return VertexOutput(vec4(clip_position, 0.0, 1.0));
 }
 
 @fragment
@@ -35817,9 +37188,7 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-taa-taa
-
 ```rust
 // References:
 // https://www.elopezr.com/temporal-aa-and-the-quest-for-the-holy-trail
@@ -36024,9 +37393,7 @@ fn taa(@location(0) uv: vec2<f32>) -> Output {
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-fullscreen_vertex_shader-fullscreen
-
 ```rust
 #define_import_path bevy_core_pipeline::fullscreen_vertex_shader
 
@@ -36064,9 +37431,7 @@ fn fullscreen_vertex_shader(@builtin(vertex_index) vertex_index: u32) -> Fullscr
 }
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-deferred-copy_deferred_lighting_id
-
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
 
@@ -36088,9 +37453,7 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 
 
 ```
-
 ### bevy-crates-bevy_core_pipeline-src-oit-resolve-oit_resolve
-
 ```rust
 #import bevy_render::view::View
 
@@ -36211,9 +37574,349 @@ fn blend(color_a: vec4<f32>, color_b: vec4<f32>) -> vec4<f32> {
 }
 
 ```
+### bevy-crates-bevy_core_pipeline-src-experimental-mip_generation-downsample_depth
+```rust
+#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+@group(0) @binding(0) var mip_0: texture_storage_2d<r64uint, read>;
+#else
+#ifdef MESHLET
+@group(0) @binding(0) var mip_0: texture_storage_2d<r32uint, read>;
+#else   // MESHLET
+#ifdef MULTISAMPLE
+@group(0) @binding(0) var mip_0: texture_depth_multisampled_2d;
+#else   // MULTISAMPLE
+@group(0) @binding(0) var mip_0: texture_depth_2d;
+#endif  // MULTISAMPLE
+#endif  // MESHLET
+#endif  // MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+@group(0) @binding(1) var mip_1: texture_storage_2d<r32float, write>;
+@group(0) @binding(2) var mip_2: texture_storage_2d<r32float, write>;
+@group(0) @binding(3) var mip_3: texture_storage_2d<r32float, write>;
+@group(0) @binding(4) var mip_4: texture_storage_2d<r32float, write>;
+@group(0) @binding(5) var mip_5: texture_storage_2d<r32float, write>;
+@group(0) @binding(6) var mip_6: texture_storage_2d<r32float, read_write>;
+@group(0) @binding(7) var mip_7: texture_storage_2d<r32float, write>;
+@group(0) @binding(8) var mip_8: texture_storage_2d<r32float, write>;
+@group(0) @binding(9) var mip_9: texture_storage_2d<r32float, write>;
+@group(0) @binding(10) var mip_10: texture_storage_2d<r32float, write>;
+@group(0) @binding(11) var mip_11: texture_storage_2d<r32float, write>;
+@group(0) @binding(12) var mip_12: texture_storage_2d<r32float, write>;
+@group(0) @binding(13) var samplr: sampler;
+struct Constants { max_mip_level: u32 }
+var<push_constant> constants: Constants;
 
+/// Generates a hierarchical depth buffer.
+/// Based on FidelityFX SPD v2.1 https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/d7531ae47d8b36a5d4025663e731a47a38be882f/sdk/include/FidelityFX/gpu/spd/ffx_spd.h#L528
+
+// TODO:
+// * Subgroup support
+// * True single pass downsampling
+
+var<workgroup> intermediate_memory: array<array<f32, 16>, 16>;
+
+@compute
+@workgroup_size(256, 1, 1)
+fn downsample_depth_first(
+    @builtin(workgroup_id) workgroup_id: vec3u,
+    @builtin(local_invocation_index) local_invocation_index: u32,
+) {
+    let sub_xy = remap_for_wave_reduction(local_invocation_index % 64u);
+    let x = sub_xy.x + 8u * ((local_invocation_index >> 6u) % 2u);
+    let y = sub_xy.y + 8u * (local_invocation_index >> 7u);
+
+    downsample_mips_0_and_1(x, y, workgroup_id.xy, local_invocation_index);
+
+    downsample_mips_2_to_5(x, y, workgroup_id.xy, local_invocation_index);
+}
+
+@compute
+@workgroup_size(256, 1, 1)
+fn downsample_depth_second(@builtin(local_invocation_index) local_invocation_index: u32) {
+    let sub_xy = remap_for_wave_reduction(local_invocation_index % 64u);
+    let x = sub_xy.x + 8u * ((local_invocation_index >> 6u) % 2u);
+    let y = sub_xy.y + 8u * (local_invocation_index >> 7u);
+
+    downsample_mips_6_and_7(x, y);
+
+    downsample_mips_8_to_11(x, y, local_invocation_index);
+}
+
+fn downsample_mips_0_and_1(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
+    var v: vec4f;
+
+    var tex = vec2(workgroup_id * 64u) + vec2(x * 2u, y * 2u);
+    var pix = vec2(workgroup_id * 32u) + vec2(x, y);
+    v[0] = reduce_load_mip_0(tex);
+    textureStore(mip_1, pix, vec4(v[0]));
+
+    tex = vec2(workgroup_id * 64u) + vec2(x * 2u + 32u, y * 2u);
+    pix = vec2(workgroup_id * 32u) + vec2(x + 16u, y);
+    v[1] = reduce_load_mip_0(tex);
+    textureStore(mip_1, pix, vec4(v[1]));
+
+    tex = vec2(workgroup_id * 64u) + vec2(x * 2u, y * 2u + 32u);
+    pix = vec2(workgroup_id * 32u) + vec2(x, y + 16u);
+    v[2] = reduce_load_mip_0(tex);
+    textureStore(mip_1, pix, vec4(v[2]));
+
+    tex = vec2(workgroup_id * 64u) + vec2(x * 2u + 32u, y * 2u + 32u);
+    pix = vec2(workgroup_id * 32u) + vec2(x + 16u, y + 16u);
+    v[3] = reduce_load_mip_0(tex);
+    textureStore(mip_1, pix, vec4(v[3]));
+
+    if constants.max_mip_level <= 1u { return; }
+
+    for (var i = 0u; i < 4u; i++) {
+        intermediate_memory[x][y] = v[i];
+        workgroupBarrier();
+        if local_invocation_index < 64u {
+            v[i] = reduce_4(vec4(
+                intermediate_memory[x * 2u + 0u][y * 2u + 0u],
+                intermediate_memory[x * 2u + 1u][y * 2u + 0u],
+                intermediate_memory[x * 2u + 0u][y * 2u + 1u],
+                intermediate_memory[x * 2u + 1u][y * 2u + 1u],
+            ));
+            pix = (workgroup_id * 16u) + vec2(
+                x + (i % 2u) * 8u,
+                y + (i / 2u) * 8u,
+            );
+            textureStore(mip_2, pix, vec4(v[i]));
+        }
+        workgroupBarrier();
+    }
+
+    if local_invocation_index < 64u {
+        intermediate_memory[x + 0u][y + 0u] = v[0];
+        intermediate_memory[x + 8u][y + 0u] = v[1];
+        intermediate_memory[x + 0u][y + 8u] = v[2];
+        intermediate_memory[x + 8u][y + 8u] = v[3];
+    }
+}
+
+fn downsample_mips_2_to_5(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
+    if constants.max_mip_level <= 2u { return; }
+    workgroupBarrier();
+    downsample_mip_2(x, y, workgroup_id, local_invocation_index);
+
+    if constants.max_mip_level <= 3u { return; }
+    workgroupBarrier();
+    downsample_mip_3(x, y, workgroup_id, local_invocation_index);
+
+    if constants.max_mip_level <= 4u { return; }
+    workgroupBarrier();
+    downsample_mip_4(x, y, workgroup_id, local_invocation_index);
+
+    if constants.max_mip_level <= 5u { return; }
+    workgroupBarrier();
+    downsample_mip_5(workgroup_id, local_invocation_index);
+}
+
+fn downsample_mip_2(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
+    if local_invocation_index < 64u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 2u + 0u][y * 2u + 0u],
+            intermediate_memory[x * 2u + 1u][y * 2u + 0u],
+            intermediate_memory[x * 2u + 0u][y * 2u + 1u],
+            intermediate_memory[x * 2u + 1u][y * 2u + 1u],
+        ));
+        textureStore(mip_3, (workgroup_id * 8u) + vec2(x, y), vec4(v));
+        intermediate_memory[x * 2u + y % 2u][y * 2u] = v;
+    }
+}
+
+fn downsample_mip_3(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
+    if local_invocation_index < 16u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 4u + 0u + 0u][y * 4u + 0u],
+            intermediate_memory[x * 4u + 2u + 0u][y * 4u + 0u],
+            intermediate_memory[x * 4u + 0u + 1u][y * 4u + 2u],
+            intermediate_memory[x * 4u + 2u + 1u][y * 4u + 2u],
+        ));
+        textureStore(mip_4, (workgroup_id * 4u) + vec2(x, y), vec4(v));
+        intermediate_memory[x * 4u + y][y * 4u] = v;
+    }
+}
+
+fn downsample_mip_4(x: u32, y: u32, workgroup_id: vec2u, local_invocation_index: u32) {
+    if local_invocation_index < 4u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 8u + 0u + 0u + y * 2u][y * 8u + 0u],
+            intermediate_memory[x * 8u + 4u + 0u + y * 2u][y * 8u + 0u],
+            intermediate_memory[x * 8u + 0u + 1u + y * 2u][y * 8u + 4u],
+            intermediate_memory[x * 8u + 4u + 1u + y * 2u][y * 8u + 4u],
+        ));
+        textureStore(mip_5, (workgroup_id * 2u) + vec2(x, y), vec4(v));
+        intermediate_memory[x + y * 2u][0u] = v;
+    }
+}
+
+fn downsample_mip_5(workgroup_id: vec2u, local_invocation_index: u32) {
+    if local_invocation_index < 1u {
+        let v = reduce_4(vec4(
+            intermediate_memory[0u][0u],
+            intermediate_memory[1u][0u],
+            intermediate_memory[2u][0u],
+            intermediate_memory[3u][0u],
+        ));
+        textureStore(mip_6, workgroup_id, vec4(v));
+    }
+}
+
+fn downsample_mips_6_and_7(x: u32, y: u32) {
+    var v: vec4f;
+
+    var tex = vec2(x * 4u + 0u, y * 4u + 0u);
+    var pix = vec2(x * 2u + 0u, y * 2u + 0u);
+    v[0] = reduce_load_mip_6(tex);
+    textureStore(mip_7, pix, vec4(v[0]));
+
+    tex = vec2(x * 4u + 2u, y * 4u + 0u);
+    pix = vec2(x * 2u + 1u, y * 2u + 0u);
+    v[1] = reduce_load_mip_6(tex);
+    textureStore(mip_7, pix, vec4(v[1]));
+
+    tex = vec2(x * 4u + 0u, y * 4u + 2u);
+    pix = vec2(x * 2u + 0u, y * 2u + 1u);
+    v[2] = reduce_load_mip_6(tex);
+    textureStore(mip_7, pix, vec4(v[2]));
+
+    tex = vec2(x * 4u + 2u, y * 4u + 2u);
+    pix = vec2(x * 2u + 1u, y * 2u + 1u);
+    v[3] = reduce_load_mip_6(tex);
+    textureStore(mip_7, pix, vec4(v[3]));
+
+    if constants.max_mip_level <= 7u { return; }
+
+    let vr = reduce_4(v);
+    textureStore(mip_8, vec2(x, y), vec4(vr));
+    intermediate_memory[x][y] = vr;
+}
+
+fn downsample_mips_8_to_11(x: u32, y: u32, local_invocation_index: u32) {
+    if constants.max_mip_level <= 8u { return; }
+    workgroupBarrier();
+    downsample_mip_8(x, y, local_invocation_index);
+
+    if constants.max_mip_level <= 9u { return; }
+    workgroupBarrier();
+    downsample_mip_9(x, y, local_invocation_index);
+
+    if constants.max_mip_level <= 10u { return; }
+    workgroupBarrier();
+    downsample_mip_10(x, y, local_invocation_index);
+
+    if constants.max_mip_level <= 11u { return; }
+    workgroupBarrier();
+    downsample_mip_11(local_invocation_index);
+}
+
+fn downsample_mip_8(x: u32, y: u32, local_invocation_index: u32) {
+    if local_invocation_index < 64u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 2u + 0u][y * 2u + 0u],
+            intermediate_memory[x * 2u + 1u][y * 2u + 0u],
+            intermediate_memory[x * 2u + 0u][y * 2u + 1u],
+            intermediate_memory[x * 2u + 1u][y * 2u + 1u],
+        ));
+        textureStore(mip_9, vec2(x, y), vec4(v));
+        intermediate_memory[x * 2u + y % 2u][y * 2u] = v;
+    }
+}
+
+fn downsample_mip_9(x: u32, y: u32, local_invocation_index: u32) {
+    if local_invocation_index < 16u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 4u + 0u + 0u][y * 4u + 0u],
+            intermediate_memory[x * 4u + 2u + 0u][y * 4u + 0u],
+            intermediate_memory[x * 4u + 0u + 1u][y * 4u + 2u],
+            intermediate_memory[x * 4u + 2u + 1u][y * 4u + 2u],
+        ));
+        textureStore(mip_10, vec2(x, y), vec4(v));
+        intermediate_memory[x * 4u + y][y * 4u] = v;
+    }
+}
+
+fn downsample_mip_10(x: u32, y: u32, local_invocation_index: u32) {
+    if local_invocation_index < 4u {
+        let v = reduce_4(vec4(
+            intermediate_memory[x * 8u + 0u + 0u + y * 2u][y * 8u + 0u],
+            intermediate_memory[x * 8u + 4u + 0u + y * 2u][y * 8u + 0u],
+            intermediate_memory[x * 8u + 0u + 1u + y * 2u][y * 8u + 4u],
+            intermediate_memory[x * 8u + 4u + 1u + y * 2u][y * 8u + 4u],
+        ));
+        textureStore(mip_11, vec2(x, y), vec4(v));
+        intermediate_memory[x + y * 2u][0u] = v;
+    }
+}
+
+fn downsample_mip_11(local_invocation_index: u32) {
+    if local_invocation_index < 1u {
+        let v = reduce_4(vec4(
+            intermediate_memory[0u][0u],
+            intermediate_memory[1u][0u],
+            intermediate_memory[2u][0u],
+            intermediate_memory[3u][0u],
+        ));
+        textureStore(mip_12, vec2(0u, 0u), vec4(v));
+    }
+}
+
+fn remap_for_wave_reduction(a: u32) -> vec2u {
+    return vec2(
+        insertBits(extractBits(a, 2u, 3u), a, 0u, 1u),
+        insertBits(extractBits(a, 3u, 3u), extractBits(a, 1u, 2u), 0u, 2u),
+    );
+}
+
+fn reduce_load_mip_0(tex: vec2u) -> f32 {
+    let a = load_mip_0(tex.x, tex.y);
+    let b = load_mip_0(tex.x + 1u, tex.y);
+    let c = load_mip_0(tex.x, tex.y + 1u);
+    let d = load_mip_0(tex.x + 1u, tex.y + 1u);
+    return reduce_4(vec4(a, b, c, d));
+}
+
+fn reduce_load_mip_6(tex: vec2u) -> f32 {
+    return reduce_4(vec4(
+        textureLoad(mip_6, tex + vec2(0u, 0u)).r,
+        textureLoad(mip_6, tex + vec2(0u, 1u)).r,
+        textureLoad(mip_6, tex + vec2(1u, 0u)).r,
+        textureLoad(mip_6, tex + vec2(1u, 1u)).r,
+    ));
+}
+
+fn load_mip_0(x: u32, y: u32) -> f32 {
+#ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+    let visibility = textureLoad(mip_0, vec2(x, y)).r;
+    return bitcast<f32>(u32(visibility >> 32u));
+#else   // MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+#ifdef MESHLET
+    let visibility = textureLoad(mip_0, vec2(x, y)).r;
+    return bitcast<f32>(visibility);
+#else   // MESHLET
+    // Downsample the top level.
+#ifdef MULTISAMPLE
+    // The top level is multisampled, so we need to loop over all the samples
+    // and reduce them to 1.
+    var result = textureLoad(mip_0, vec2(x, y), 0);
+    let sample_count = i32(textureNumSamples(mip_0));
+    for (var sample = 1; sample < sample_count; sample += 1) {
+        result = min(result, textureLoad(mip_0, vec2(x, y), sample));
+    }
+    return result;
+#else   // MULTISAMPLE
+    return textureLoad(mip_0, vec2(x, y), 0);
+#endif  // MULTISAMPLE
+#endif  // MESHLET
+#endif  // MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
+}
+
+fn reduce_4(v: vec4f) -> f32 {
+    return min(min(v.x, v.y), min(v.z, v.w));
+}
+
+```
 ### bevy-crates-bevy_gizmos-src-lines
-
 ```rust
 // TODO use common view binding
 #import bevy_render::{view::View, maths::affine3_to_square}
@@ -36225,9 +37928,12 @@ struct LineGizmoUniform {
     world_from_local: mat3x4<f32>,
     line_width: f32,
     depth_bias: f32,
+    _joints_resolution: u32,
+    gap_scale: f32,
+    line_scale: f32,
 #ifdef SIXTEEN_BYTE_ALIGNMENT
     // WebGL2 structs must be 16 byte aligned.
-    _padding: vec2<f32>,
+    _padding: vec3<f32>,
 #endif
 }
 
@@ -36245,6 +37951,7 @@ struct VertexOutput {
     @builtin(position) clip_position: vec4<f32>,
     @location(0) color: vec4<f32>,
     @location(1) uv: f32,
+    @location(2) line_fraction: f32,
 };
 
 const EPSILON: f32 = 4.88e-04;
@@ -36343,7 +38050,9 @@ fn vertex(vertex: VertexInput) -> VertexOutput {
 
     var clip_position = vec4(clip.w * ((2. * screen) / resolution - 1.), depth, clip.w);
 
-    return VertexOutput(clip_position, color, uv);
+    let line_fraction = 2.0 * line_gizmo.line_scale / (line_gizmo.gap_scale + line_gizmo.line_scale);
+    uv /= (line_gizmo.gap_scale + line_gizmo.line_scale) / 2.0;
+    return VertexOutput(clip_position, color, uv, line_fraction);
 }
 
 fn clip_near_plane(a: vec4<f32>, b: vec4<f32>) -> vec4<f32> {
@@ -36364,6 +38073,7 @@ struct FragmentInput {
     @builtin(position) position: vec4<f32>,
     @location(0) color: vec4<f32>,
     @location(1) uv: f32,
+    @location(2) line_fraction: f32,
 };
 
 struct FragmentOutput {
@@ -36386,10 +38096,20 @@ fn fragment_dotted(in: FragmentInput) -> FragmentOutput {
     return FragmentOutput(vec4(in.color.xyz, in.color.w * alpha));
 }
 
+@fragment
+fn fragment_dashed(in: FragmentInput) -> FragmentOutput {
+#ifdef PERSPECTIVE
+    let uv = in.uv;
+#else
+    let uv = in.uv * in.position.w;
+#endif
+    let alpha = 1.0 - floor(min((uv % 2.0) / in.line_fraction, 1.0));
+    
+    return FragmentOutput(vec4(in.color.xyz, in.color.w * alpha));
+}
+
 ```
-
 ### bevy-crates-bevy_gizmos-src-line_joints
-
 ```rust
 #import bevy_render::{view::View, maths::affine3_to_square}
 
@@ -36648,9 +38368,7 @@ fn fragment(in: FragmentInput) -> FragmentOutput {
 }
 
 ```
-
 ### bevy-assets-shaders-irradiance_volume_voxel_visualization
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_pbr::irradiance_volume
@@ -36703,9 +38421,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-tonemapping_test_patterns
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings,
@@ -36718,19 +38434,19 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 #import bevy_core_pipeline::tonemapping::tone_mapping
 #endif
 
-// Sweep across hues on y axis with value from 0.0 to +15EV across x axis 
+// Sweep across hues on y axis with value from 0.0 to +15EV across x axis
 // quantized into 24 steps for both axis.
 fn color_sweep(uv_input: vec2<f32>) -> vec3<f32> {
     var uv = uv_input;
     let steps = 24.0;
     uv.y = uv.y * (1.0 + 1.0 / steps);
     let ratio = 2.0;
-    
+
     let h = PI * 2.0 * floor(1.0 + steps * uv.y) / steps;
     let L = floor(uv.x * steps * ratio) / (steps * ratio) - 0.5;
-    
+
     var color = vec3(0.0);
-    if uv.y < 1.0 { 
+    if uv.y < 1.0 {
         color = cos(h + vec3(0.0, 1.0, 2.0) * PI * 2.0 / 3.0);
         let maxRGB = max(color.r, max(color.g, color.b));
         let minRGB = min(color.r, min(color.g, color.b));
@@ -36772,9 +38488,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-post_processing
-
 ```rust
 // This shader computes the chromatic aberration effect
 
@@ -36825,9 +38539,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### bevy-assets-shaders-game_of_life
-
 ```rust
 // The shader reads the previous frame's state from the `input` texture, and writes the new state of
 // each pixel to the `output` texture. The textures are flipped each step to progress the
@@ -36902,9 +38614,7 @@ fn update(@builtin(global_invocation_id) invocation_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy-assets-shaders-custom_material_screenspace_texture
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings::view,
@@ -36925,9 +38635,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-custom_gltf_2d
-
 ```rust
 #import bevy_sprite::{
     mesh2d_view_bindings::globals,
@@ -36970,9 +38678,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-fallback_image_test
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -36998,9 +38704,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 fn fragment(in: VertexOutput) {}
 
 ```
-
 ### bevy-assets-shaders-gpu_readback
-
 ```rust
 // This shader is used for the gpu_readback example
 // The actual work it does is not important for the example
@@ -37019,15 +38723,13 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
-
 ### bevy-assets-shaders-custom_ui_material
-
 ```rust
 // Draws a progress bar with properties defined in CustomUiMaterial
 #import bevy_ui::ui_vertex_output::UiVertexOutput
 
 @group(1) @binding(0) var<uniform> color: vec4<f32>;
-@group(1) @binding(1) var<uniform> slider: f32;
+@group(1) @binding(1) var<uniform> slider: vec4<f32>;
 @group(1) @binding(2) var material_color_texture: texture_2d<f32>;
 @group(1) @binding(3) var material_color_sampler: sampler;
 @group(1) @binding(4) var<uniform> border_color: vec4<f32>;
@@ -37035,17 +38737,47 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
 @fragment
 fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
-    let r = in.uv - 0.5;
+    let output_color = textureSample(material_color_texture, material_color_sampler, in.uv) * color;
+
+    // half size of the UI node
+    let half_size = 0.5 * in.size;
+
+    // position relative to the center of the UI node
+    let p = in.uv * in.size - half_size;
+
+    // thickness of the border closest to the current position
     let b = vec2(
-        select(in.border_widths.x, in.border_widths.y, r.x < 0.),
-        select(in.border_widths.z, in.border_widths.w, r.y < 0.)
+        select(in.border_widths.x, in.border_widths.z, 0. < p.x),
+        select(in.border_widths.y, in.border_widths.w, 0. < p.y)
     );
 
-    if any(0.5 - b < abs(r)) {
-        return border_color;
+    // select radius for the nearest corner
+    let rs = select(in.border_radius.xy, in.border_radius.wz, 0.0 < p.y);
+    let radius = select(rs.x, rs.y, 0.0 < p.x);
+
+    // distance along each axis from the corner
+    let d = half_size - abs(p);
+
+    // if the distance to the edge from the current position on any axis 
+    // is less than the border width on that axis then the position is within 
+    // the border and we return the border color
+    if d.x < b.x || d.y < b.y {
+        // select radius for the nearest corner
+        let rs = select(in.border_radius.xy, in.border_radius.wz, 0.0 < p.y);
+        let radius = select(rs.x, rs.y, 0.0 < p.x);
+
+        // determine if the point is inside the curved corner and return the corresponding color
+        let q = radius - d;
+        if radius < min(max(q.x, q.y), 0.0) + length(vec2(max(q.x, 0.0), max(q.y, 0.0))) {
+            return vec4(0.0);
+        } else {
+            return border_color;
+        }
     }
 
-    if in.uv.x < slider {
+    // sample the texture at this position if it's to the left of the slider value
+    // otherwise return a fully transparent color
+    if in.uv.x < slider.x {
         let output_color = textureSample(material_color_texture, material_color_sampler, in.uv) * color;
         return output_color;
     } else {
@@ -37054,9 +38786,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-instancing
-
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
 
@@ -37096,9 +38826,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-array_texture
-
 ```rust
 #import bevy_pbr::{
     forward_io::VertexOutput,
@@ -37160,9 +38888,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-line_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -37180,9 +38906,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-cubemap_unlit
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -37207,9 +38931,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-custom_material_2d
-
 ```rust
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 // we can import items from shader modules in the assets folder with a quoted path
@@ -37225,9 +38947,52 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+### bevy-assets-shaders-custom_stencil
+```rust
+//! A shader showing how to use the vertex position data to output the 
+//! stencil in the right position
 
+// First we import everything we need from bevy_pbr
+// A 2d shader would be vevry similar but import from bevy_sprite instead
+#import bevy_pbr::{
+    mesh_functions,
+    view_transformations::position_world_to_clip
+}
+
+struct Vertex {
+    // This is needed if you are using batching and/or gpu preprocessing
+    // It's a built in so you don't need to define it in the vertex layout
+    @builtin(instance_index) instance_index: u32,
+    // Like we defined for the vertex layout
+    // position is at location 0
+    @location(0) position: vec3<f32>,
+};
+
+// This is the output of the vertex shader and we also use it as the input for the fragment shader
+struct VertexOutput {
+    @builtin(position) clip_position: vec4<f32>,
+    @location(0) world_position: vec4<f32>,
+};
+
+@vertex
+fn vertex(vertex: Vertex) -> VertexOutput {
+    var out: VertexOutput;
+    // This is how bevy computes the world position
+    // The vertex.instance_index is very important. Especially if you are using batching and gpu preprocessing
+    var world_from_local = mesh_functions::get_world_from_local(vertex.instance_index);
+    out.world_position = mesh_functions::mesh_position_local_to_world(world_from_local, vec4(vertex.position, 1.0));
+    out.clip_position = position_world_to_clip(out.world_position.xyz);
+    return out;
+}
+
+@fragment
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
+    // Output a red color to represent the stencil of the mesh
+    return vec4(1.0, 0.0, 0.0, 1.0);
+}
+
+```
 ### bevy-assets-shaders-animate_shader
-
 ```rust
 // The time since startup data is in the globals binding which is part of the mesh_view_bindings import
 #import bevy_pbr::{
@@ -37276,21 +39041,27 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-bindless_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_pbr::mesh_bindings::mesh
+#import bevy_render::bindless::{bindless_samplers_filtering, bindless_textures_2d}
 
 struct Color {
     base_color: vec4<f32>,
 }
 
+// This structure is a mapping from bindless index to the index in the
+// appropriate slab
+struct MaterialBindings {
+    material: u32,              // 0
+    color_texture: u32,         // 1
+    color_texture_sampler: u32, // 2
+}
+
 #ifdef BINDLESS
-@group(2) @binding(0) var<storage> material_color: binding_array<Color, 4>;
-@group(2) @binding(1) var material_color_texture: binding_array<texture_2d<f32>, 4>;
-@group(2) @binding(2) var material_color_sampler: binding_array<sampler, 4>;
+@group(2) @binding(0) var<storage> materials: array<MaterialBindings>;
+@group(2) @binding(10) var<storage> material_color: binding_array<Color>;
 #else   // BINDLESS
 @group(2) @binding(0) var<uniform> material_color: Color;
 @group(2) @binding(1) var material_color_texture: texture_2d<f32>;
@@ -37301,15 +39072,15 @@ struct Color {
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 #ifdef BINDLESS
     let slot = mesh[in.instance_index].material_and_lightmap_bind_group_slot & 0xffffu;
-    let base_color = material_color[slot].base_color;
+    let base_color = material_color[materials[slot].material].base_color;
 #else   // BINDLESS
     let base_color = material_color.base_color;
 #endif  // BINDLESS
 
     return base_color * textureSampleLevel(
 #ifdef BINDLESS
-        material_color_texture[slot],
-        material_color_sampler[slot],
+        bindless_textures_2d[materials[slot].color_texture],
+        bindless_samplers_filtering[materials[slot].color_texture_sampler],
 #else   // BINDLESS
         material_color_texture,
         material_color_sampler,
@@ -37320,9 +39091,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-extended_material
-
 ```rust
 #import bevy_pbr::{
     pbr_fragment::pbr_input_from_standard_material,
@@ -37385,9 +39154,53 @@ fn fragment(
 }
 
 ```
+### bevy-assets-shaders-automatic_instancing
+```rust
+#import bevy_pbr::{
+    mesh_functions,
+    view_transformations::position_world_to_clip
+}
 
+@group(2) @binding(0) var texture: texture_2d<f32>;
+@group(2) @binding(1) var texture_sampler: sampler;
+
+struct Vertex {
+    @builtin(instance_index) instance_index: u32,
+    @location(0) position: vec3<f32>,
+};
+
+struct VertexOutput {
+    @builtin(position) clip_position: vec4<f32>,
+    @location(0) world_position: vec4<f32>,
+    @location(1) color: vec4<f32>,
+};
+
+@vertex
+fn vertex(vertex: Vertex) -> VertexOutput {
+    var out: VertexOutput;
+
+    // Lookup the tag for the given mesh
+    let tag = mesh_functions::get_tag(vertex.instance_index);
+    var world_from_local = mesh_functions::get_world_from_local(vertex.instance_index);
+    out.world_position = mesh_functions::mesh_position_local_to_world(world_from_local, vec4(vertex.position, 1.0));
+    out.clip_position = position_world_to_clip(out.world_position.xyz);
+
+    let tex_dim = textureDimensions(texture);
+    // Find the texel coordinate as derived from the tag
+    let texel_coord = vec2<u32>(tag % tex_dim.x, tag / tex_dim.x);
+
+    out.color = textureLoad(texture, texel_coord, 0);
+    return out;
+}
+
+@fragment
+fn fragment(
+    mesh: VertexOutput,
+) -> @location(0) vec4<f32> {
+    return mesh.color;
+}
+```
 ### bevy-assets-shaders-show_prepass
-
 ```rust
 #import bevy_pbr::{
     mesh_view_bindings::globals,
@@ -37429,15 +39242,13 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-specialized_mesh_pipeline
-
 ```rust
 //! Very simple shader used to demonstrate how to get the world position and pass data
 //! between the vertex and fragment shader. Also shows the custom vertex layout.
 
 // First we import everything we need from bevy_pbr
-// A 2d shader would be vevry similar but import from bevy_sprite instead
+// A 2D shader would be very similar but import from bevy_sprite instead
 #import bevy_pbr::{
     mesh_functions,
     view_transformations::position_world_to_clip
@@ -37465,7 +39276,7 @@ struct VertexOutput {
 fn vertex(vertex: Vertex) -> VertexOutput {
     var out: VertexOutput;
     // This is how bevy computes the world position
-    // The vertex.instance_index is very important. Esepecially if you are using batching and gpu preprocessing
+    // The vertex.instance_index is very important. Especially if you are using batching and gpu preprocessing
     var world_from_local = mesh_functions::get_world_from_local(vertex.instance_index);
     out.world_position = mesh_functions::mesh_position_local_to_world(world_from_local, vec4(vertex.position, 1.0));
     out.clip_position = position_world_to_clip(out.world_position.xyz);
@@ -37481,10 +39292,9 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // output the color directly
     return vec4(in.color, 1.0);
 }
+
 ```
-
 ### bevy-assets-shaders-water_material
-
 ```rust
 // A shader that creates water ripples by overlaying 4 normal maps on top of one
 // another.
@@ -37547,9 +39357,7 @@ fn fragment(in: VertexOutput, @builtin(front_facing) is_front: bool) -> Fragment
 }
 
 ```
-
 ### bevy-assets-shaders-custom_phase_item
-
 ```rust
 // `custom_phase_item.wgsl`
 //
@@ -37589,17 +39397,103 @@ fn fragment(vertex_output: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+### bevy-assets-shaders-custom_clustered_decal
+```rust
+// This shader, a part of the `clustered_decals` example, shows how to use the
+// decal `tag` field to apply arbitrary decal effects.
 
+#import bevy_pbr::{
+    clustered_forward,
+    decal::clustered,
+    forward_io::{VertexOutput, FragmentOutput},
+    mesh_view_bindings,
+    pbr_fragment::pbr_input_from_standard_material,
+    pbr_functions::{alpha_discard, apply_pbr_lighting, main_pass_post_lighting_processing},
+}
+
+@fragment
+fn fragment(
+    in: VertexOutput,
+    @builtin(front_facing) is_front: bool,
+) -> FragmentOutput {
+    // Generate a `PbrInput` struct from the `StandardMaterial` bindings.
+    var pbr_input = pbr_input_from_standard_material(in, is_front);
+
+    // Alpha discard.
+    pbr_input.material.base_color = alpha_discard(pbr_input.material, pbr_input.material.base_color);
+
+    // Apply the normal decals.
+    pbr_input.material.base_color = clustered::apply_decal_base_color(
+        in.world_position.xyz,
+        in.position.xy,
+        pbr_input.material.base_color
+    );
+
+    // Here we tint the color based on the tag of the decal.
+    // We could optionally do other things, such as adjust the normal based on a normal map.
+    let view_z = clustered::get_view_z(in.world_position.xyz);
+    let is_orthographic = clustered::view_is_orthographic();
+    let cluster_index =
+        clustered_forward::fragment_cluster_index(in.position.xy, view_z, is_orthographic);
+    var clusterable_object_index_ranges =
+        clustered_forward::unpack_clusterable_object_index_ranges(cluster_index);
+    var decal_iterator = clustered::clustered_decal_iterator_new(
+        in.world_position.xyz,
+        &clusterable_object_index_ranges
+    );
+    while (clustered::clustered_decal_iterator_next(&decal_iterator)) {
+        var decal_base_color = textureSampleLevel(
+            mesh_view_bindings::clustered_decal_textures[decal_iterator.texture_index],
+            mesh_view_bindings::clustered_decal_sampler,
+            decal_iterator.uv,
+            0.0
+        );
+
+        switch (decal_iterator.tag) {
+            case 1u: {
+                // Tint with red.
+                decal_base_color = vec4(
+                    mix(pbr_input.material.base_color.rgb, vec3(1.0, 0.0, 0.0), 0.5),
+                    decal_base_color.a,
+                );
+            }
+            case 2u: {
+                // Tint with blue.
+                decal_base_color = vec4(
+                    mix(pbr_input.material.base_color.rgb, vec3(0.0, 0.0, 1.0), 0.5),
+                    decal_base_color.a,
+                );
+            }
+            default: {}
+        }
+
+        pbr_input.material.base_color = vec4(
+            mix(pbr_input.material.base_color.rgb, decal_base_color.rgb, decal_base_color.a),
+            pbr_input.material.base_color.a + decal_base_color.a
+        );
+    }
+
+    // Apply lighting.
+    var out: FragmentOutput;
+    out.color = apply_pbr_lighting(pbr_input);
+
+    // Apply in-shader post processing (fog, alpha-premultiply, and also
+    // tonemapping, debanding if the camera is non-HDR). Note this does not
+    // include fullscreen postprocessing effects like bloom.
+    out.color = main_pass_post_lighting_processing(pbr_input, out.color);
+
+    return out;
+}
+
+
+```
 ### bevy-assets-shaders-custom_material_import
-
 ```rust
 // this is made available to the importing module
 const COLOR_MULTIPLIER: vec4<f32> = vec4<f32>(1.0, 1.0, 1.0, 0.5);
 
 ```
-
 ### bevy-assets-shaders-custom_material
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 // we can import items from shader modules in the assets folder with a quoted path
@@ -37617,9 +39511,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-custom_vertex_attribute
-
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
 
@@ -37660,9 +39552,7 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### bevy-assets-shaders-texture_binding_array
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -37683,9 +39573,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-shader_defs
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
@@ -37707,9 +39595,7 @@ fn fragment(
 }
 
 ```
-
 ### bevy-assets-shaders-storage_buffer
-
 ```rust
 #import bevy_pbr::{
     mesh_functions,
@@ -37732,14 +39618,12 @@ struct VertexOutput {
 @vertex
 fn vertex(vertex: Vertex) -> VertexOutput {
     var out: VertexOutput;
+    let tag = mesh_functions::get_tag(vertex.instance_index);
     var world_from_local = mesh_functions::get_world_from_local(vertex.instance_index);
     out.world_position = mesh_functions::mesh_position_local_to_world(world_from_local, vec4(vertex.position, 1.0));
     out.clip_position = position_world_to_clip(out.world_position.xyz);
 
-    // We have 5 colors in the storage buffer, but potentially many instances of the mesh, so
-    // we use the instance index to select a color from the storage buffer.
-    out.color = colors[vertex.instance_index % 5];
-
+    out.color = colors[tag];
     return out;
 }
 
@@ -37750,9 +39634,7 @@ fn fragment(
     return mesh.color;
 }
 ```
-
 ### assets-shaders-indexing_into_vec_with_loop
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals  // for 2D
@@ -37785,9 +39667,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### assets-shaders-aura
-
 ```rust
 #import bevy_pbr::forward_io::{VertexOutput, FragmentOutput};
 #import bevy_pbr::mesh_view_bindings::globals
@@ -37857,9 +39737,7 @@ fn sdCircle(p: vec2f, r: f32) -> f32 {
 
 
 ```
-
 ### assets-shaders-myshader_2d
-
 ```rust
 /// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
@@ -37876,9 +39754,9 @@ fn sdCircle(p: vec2f, r: f32) -> f32 {
 const SPEED:f32 = 1.0;
 
 @fragment
-fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
-    var uv = mesh.uv;
+    var uv = in.uv;
     uv = (uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
     let t = globals.time * SPEED;
@@ -37890,9 +39768,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     
 
 ```
-
 ### assets-shaders-howto-texture
-
 ```rust
 //! Showing how to use a texture, drag-n-drop for you own texture will be supported soon.
 
@@ -37906,48 +39782,43 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     let texture_uvs = in.uv;
 
-    let tex: vec4f = texture_sample(texture, texture_sampler, texture_uvs); 
+    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); 
 
     return tex;
 }    
     
 
 ```
-
 ### assets-shaders-myshader
-
 ```rust
 //!
 //! The default 3d Shader.
 //!
-#import bevy_pbr::forward_io::VertexOutput, FragmentOutput
-#import bevy_pbr::mesh_view_bindings::globals, View
+#import bevy_pbr::forward_io::VertexOutput
+#import bevy_pbr::mesh_view_bindings::globals;
 #import bevy_pbr::utils PI
 #import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D
+#import bevy_render::view::View
+ 
+@group(0) @binding(0) var<uniform> view: View;
 
-// @group(0) @binding(0) var<uniform> view: View;
-// @group(1) @binding(1)var<uniform> color: vec4f;
+@group(2) @binding(100)var<uniform> color: vec4f;
+@group(2) @binding(101) var texture: texture_2d<f32>;
+@group(2) @binding(102) var texture_sampler: sampler;
 
-// @group(1) @binding(2) var texture: texture_2d<f32>;
-// @group(1) @binding(3) var texture_sampler: sampler;
-
-// const SPEED:f32 = 1.0;
+const SPEED:f32 = 1.0;
 
 @fragment
-fn fragment(in: VertexOutput) -> @location(0) vec4f {
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     // ensure our uv coords match shadertoy/the-lil-book-of-shaders
-    // let texture_uvs = in.uv;
-    // let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); // textureSample is provided by wgsl?
-    // return tex;
+    let texture_uvs = in.uv;
 
-    return 0.0
+    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); // textureSample is provided by wgsl?
+    return tex;
 
 }
-
 ```
-
 ### assets-shaders-WIP-total_noob
-
 ```rust
 /// This is a port of 'total noob' by dynamite
 /// Source material: https://www.shadertoy.com/view/XdlSDs
@@ -38034,9 +39905,7 @@ fn circle_charge_beam(uv: vec2f, resolution: vec2f, angle: f32, t: f32) -> vec4<
  
 
 ```
-
 ### assets-shaders-WIP-black-hole
-
 ```rust
 #import bevy_pbr::mesh_vertex_output      VertexOutput
 #import bevy_pbr::utils                   PI
@@ -38315,9 +40184,7 @@ fn hash(x: f32) -> f32 {
 }
 
 ```
-
 ### assets-shaders-electro_cube
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -38369,9 +40236,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### assets-shaders-fast_dots
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -38409,9 +40274,7 @@ fn N22(pp: vec2<f32>)->vec2<f32>{
 }
 
 ```
-
 ### assets-shaders-WIP-waterPool
-
 ```rust
 /// ***************************** ///
 /// This is a prot of WaterPool by rubaotree, on shadertoy: https://www.shadertoy.com/view/ctcBRn
@@ -38623,9 +40486,7 @@ fn palette(_t: f32, _a: vec3<f32>, _b: vec3<f32>, _c: vec3<f32>, _d: vec3<f32>) 
 
 
 ```
-
 ### assets-shaders-rain_generator
-
 ```rust
 /// ***************************** ///
 /// This is a port of RainGenerator:
@@ -38705,9 +40566,7 @@ fn over(a: vec4f, b: vec4f) -> vec4f {
 }
 
 ```
-
 ### assets-shaders-howto-mouse
-
 ```rust
 /// How to use the mouse, in shadplay.
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -38744,9 +40603,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 
 ```
-
 ### assets-shaders-four_to_the_floor
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals 
 #import bevy_pbr::forward_io::VertexOutput
@@ -38795,9 +40652,7 @@ fn hsv_to_srgb(c: vec3<f32>) -> vec3<f32> {
 
 
 ```
-
 ### assets-shaders-grid_with_colours
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
 #import bevy_pbr::forward_io::VertexOutput
@@ -38849,9 +40704,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### assets-Gallery-perlin-waves-perlin-waves
-
 ```rust
 /// ***************************** ///
 /// This is a port of 'Perlin Waves' by zilian: https://www.shadertoy.com/view/DlVcRW ///
@@ -38964,9 +40817,7 @@ fn palette(t: f32) -> vec3<f32> {
 
 
 ```
-
 ### assets-Gallery-lines-dotted_line
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals 
 #import bevy_pbr::forward_io::VertexOutput
@@ -39002,9 +40853,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### assets-Gallery-fbmCloud-fmb_cloud
-
 ```rust
 /// ***************************** ///
 /// This is a port fo the FBM quick example in the little book of shaders: Author @patriciogv - 2015 http://patriciogonzalezvivo.com
@@ -39106,9 +40955,7 @@ fn fbm(_uv: vec2<f32>) -> f32 {
 
 
 ```
-
 ### assets-shaders-shadertoy-ports-polar-coords-experiments
-
 ```rust
 //! This is a shadertoy port of 'polar-coordinates-experiments' by toridango https://www.shadertoy.com/view/ttsGz8
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
@@ -39134,9 +40981,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
         
 
 ```
-
 ### assets-shaders-shadertoy-ports-cyber-anim-arrowX
-
 ```rust
 ///
 /// This is a port of CyberAnimArrowX by float1987 
@@ -39204,9 +41049,7 @@ fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
 
 
 ```
-
 ### assets-shaders-shadertoy-ports-light-spirals
-
 ```rust
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
@@ -39327,9 +41170,7 @@ fn gradient(t: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-octagon_fun
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
 #import bevy_pbr::forward_io::VertexOutput
@@ -39387,9 +41228,7 @@ fn sd_octogon(p: vec2<f32>, r: f32) -> f32 {
   return length(q) * sign(q.y);
 }
 ```
-
 ### assets-shaders-shadertoy-ports-flame
-
 ```rust
 /// ***************************** ///
 /// This is a port of 'Flame' by XT95 https://www.shadertoy.com/view/MdX3zr
@@ -39471,9 +41310,7 @@ fn raymarch(org: vec3<f32>, dir: vec3<f32>) -> vec4<f32> {
 
 
 ```
-
 ### assets-shaders-shadertoy-ports-shadertoy
-
 ```rust
 #define_import_path bevy_pbr::shadbang
 
@@ -39491,9 +41328,7 @@ fn shadertoy_default(uv: vec2<f32>)->vec4<f32>{
 }   
 
 ```
-
 ### assets-shaders-shadertoy-ports-cosmic
-
 ```rust
 /// A shadertoy port of 'Cosmic' https://www.shadertoy.com/view/msjXRK, by Xor.
 /// I have sligthly adjusted the colours, and used a smoothstep to improve the contrast too.
@@ -39546,9 +41381,7 @@ fn cosmic(uv: vec2f, r: vec2f) -> vec4f {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-voronoi_simple
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::forward_io::VertexOutput
@@ -39640,9 +41473,7 @@ fn N22(pp: vec2<f32>)->vec2<f32>{
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-sailing-beyond
-
 ```rust
 /// ***************************** ///
 /// This is a port of 'Sailing beyond' by patu https://www.shadertoy.com/view/4t2cR1
@@ -39883,9 +41714,7 @@ fn trace(o: vec3<f32>, d: vec3<f32>) -> Geometry {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-kishimisu
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::forward_io::VertexOutput
@@ -39931,9 +41760,7 @@ fn palette(t: f32) -> vec3<f32> {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-w10
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
@@ -40165,9 +41992,7 @@ fn nac(_p: vec3f, F: vec2f, o: vec3f) -> f32 {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-universe_within
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals 
@@ -40202,9 +42027,7 @@ fn shader_toy_default(t: f32, uv: vec2f) -> vec3f {
 
 
 ```
-
 ### assets-shaders-shadertoy-ports-warp
-
 ```rust
 ///
 /// This is a port of "WARP" by Alro https://www.shadertoy.com/view/ttlGDf
@@ -40279,9 +42102,7 @@ fn warp_with_aa(uv: vec2f, resolution: vec2f, time: f32) -> vec4f {
     return vec4<f32>(color, 1.0);
 }
 ```
-
 ### assets-shaders-shadertoy-ports-star
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals view
 #import bevy_pbr::forward_io::VertexOutput
@@ -40333,9 +42154,7 @@ fn hsv2rgb(c: vec3<f32>) -> vec3<f32> {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-water-caustic-tileable
-
 ```rust
 /// ***************************** ///
 /// This is a shadertoy port of 'Tileable Water Caustic' by Dave_Hoskins, who claims to of sound it on glsl sandbox, by 'joltz0r' 
@@ -40391,9 +42210,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-BROKEN_fbm_lightning
-
 ```rust
 #import bevy_pbr::mesh_view_bindings globals
 #import bevy_pbr::forward_io::VertexOutput
@@ -40472,9 +42289,7 @@ fn fbm(pp: vec2<f32>, octave_count: i32) -> f32 {
     return value;
 }
 ```
-
 ### assets-shaders-shadertoy-ports-discoteq2
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals
@@ -40507,9 +42322,7 @@ fn line(uv: vec2f, speed: f32, height: f32, col: vec3f) -> vec4f {
 
 
 ```
-
 ### assets-shaders-shadertoy-ports-semi-circle-wave
-
 ```rust
 //
 // This is a port of the Semi-circle Wave Animation by Shane https://www.shadertoy.com/view/cdycRt
@@ -40585,9 +42398,7 @@ fn radial_arc_pattern(_uv: vec2f, resolution: vec2f, time: f32) -> vec4<f32> {
 }
 
 ```
-
 ### assets-shaders-shadertoy-ports-BROKEN_tuesday_tinkering
-
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings globals
@@ -40845,9 +42656,7 @@ fn transform(p: vec2<f32>, TIME: f32) -> vec2<f32> {
     return p;
 }
 ```
-
 ### assets-shaders-common-notes
-
 ```rust
 
 
