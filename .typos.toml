@@ -1,0 +1,73 @@
+[default]
+locale = "en-gb"  # Set default to UK English
+
+[files]
+extend-exclude = [
+    ".git",
+    ".vscode",
+    "all_wgsl.wgsl",
+    "bevy-shader-book.md"
+]
+
+# Allow both UK/US spellings in Markdown code blocks
+[type.markdown]
+extend-glob = ["*.md"]
+extend-ignore-re = [
+  # Allow all variants inside code fences (```...```)
+  "(?s)```.*?```",
+  # Allow inline code (`...`)
+  "`.*?`",
+
+  # for .html usage in markdown...
+  "\\bcenter\\b",  # US spelling
+  "\\bcentre\\b"   # UK spelling
+
+]
+
+
+[type.rust]
+extend-glob = ["*.rs"]
+extend-ignore-words-re = [
+  # Existing rules
+  "(?i)\\b(colou?ri[sz]e|normali[sz]e)\\b",
+  "(?i)\\b(colou?r)\\b",
+  "(?i)\\b(seriali[sz]e|deseriali[sz]e)\\b",
+  "(?i)\\b(analy[sz]e)\\b",  # Fixes typo in your original ("anyalze" → "analyze")
+
+  # Additional common US/UK pairs (z/s and others)
+  "(?i)\\b(organi[sz]e|organi[sz]ation)\\b",
+  "(?i)\\b(recogni[sz]e|recogni[sz]ation)\\b",
+  "(?i)\\b(apologi[sz]e|apologi[sz]ation)\\b",
+  "(?i)\\b(behaviou?r|behaviou?ral)\\b",
+  "(?i)\\b(favou?rite|favou?r)\\b",
+  "(?i)\\b(hono?ur|hono?urable)\\b",
+  "(?i)\\b(labo?ur)\\b",
+  "(?i)\\b(licen[cs]e|licen[cs]ing)\\b",  # "license" (US) vs "licence" (UK)
+  "(?i)\\b(practi[cs]e|practi[cs]ing)\\b",  # "practice" (noun) vs "practise" (verb, UK)
+  "(?i)\\b(programme)\\b",  # UK uses "programme" for events, "program" for code
+  "(?i)\\b(speciali[sz]e|speciali[sz]ation)\\b",
+  "(?i)\\b(theori[sz]e|theori[sz]ation)\\b",
+  "(?i)\\b(travelled|travelling)\\b",  # Double-L (UK) vs single-L (US)
+  "(?i)\\b(utili[sz]e|utili[sz]ation)\\b",
+
+  # Common technical terms (case-insensitive)
+  "(?i)\\b(initiali[sz]e|initiali[sz]ation)\\b",
+  "(?i)\\b(finali[sz]e|finali[sz]ation)\\b",
+  "(?i)\\b(parametri[sz]e|parametri[sz]ation)\\b",  # "parameterize" vs "parametrise"
+  "(?i)\\b(digitali[sz]e|digitali[sz]ation)\\b",
+  "(?i)\\b(stabili[sz]e|stabili[sz]ation)\\b",
+  "(?i)\\b(standardi[sz]e|standardi[sz]ation)\\b"
+]
+
+[type.wgsl]
+extend-glob = ["*.wgsl"]
+extend-ignore-words-re = [
+  "(?i)\\b(colourize|colourise)\\b",
+  "(?i)\\b(normalize|normalise)\\b"
+]
+
+[type.python]
+extend-glob = ["*.py"]
+extend-ignore-words-re = [
+  "(?i)\\b(colou?r)\\b"  # Case-insensitive (matches COLOR, Colour, etc.)
+]
