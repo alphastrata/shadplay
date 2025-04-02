@@ -444,7 +444,10 @@ pub fn max_mon_res(
     winit_windows: NonSend<WinitWindows>,
     mut mon_specs: ResMut<MonitorsSpecs>,
 ) {
-    let entity = window_query.single();
+    let Ok(entity) = window_query.single() else {
+        error!("Unable to pull single Window, this is a horrible thing to have happen.");
+        return;
+    };
     if let Some(winit_window) = winit_windows.get_window(entity) {
         let current_monitor = winit_window.current_monitor().unwrap();
         let (w, h) = (current_monitor.size().width, current_monitor.size().height);

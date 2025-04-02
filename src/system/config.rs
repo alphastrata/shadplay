@@ -168,7 +168,6 @@ impl UserSession {
         new_scratch.resize(size);
 
         if let Some(current_buffer) = images.get_mut(&self.gif_buffer.clone().unwrap()) {
-
             Ok(std::mem::replace(current_buffer, new_scratch))
         } else {
             anyhow::bail!("Failed to swap the buffers..");
