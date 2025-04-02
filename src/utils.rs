@@ -139,7 +139,13 @@ pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
 pub fn switch_level(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     //TODO: move logic to helper func and have this trigger on key or Event.
     if input.just_pressed(KeyCode::KeyL) {
-        let mut window = windows.single_mut();
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
 
         window.window_level = match window.window_level {
             WindowLevel::AlwaysOnBottom => WindowLevel::Normal,
@@ -176,7 +182,7 @@ pub fn toggle_transparency(
             *clear_colour = ClearColor(Color::NONE);
         }
         **transparency_set = !**transparency_set;
-        event.send(RequestRedraw);
+        event.write(RequestRedraw);
     }
 }
 
@@ -215,8 +221,13 @@ pub fn switch_shape(
 /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
 pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     if input.just_pressed(KeyCode::KeyD) {
-        let mut window = windows.single_mut();
-
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
         window.decorations = !window.decorations;
 
         info!("WINDOW_DECORATIONS: {:?}", window.decorations);
@@ -226,16 +237,19 @@ pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&
 /// System:
 /// Toggle mouse passthrough.
 pub fn toggle_window_passthrough(
-    keyboard_input: Res<ButtonInput<KeyCode>>,
+    _keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::KeyP) {
-        #[allow(unused_mut)]
-        let mut window = windows.single_mut();
-        info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+    let mut window = match windows.single_mut() {
+        Ok(w) => w,
+        Err(e) => {
+            error!("No primary window found {}", e);
+            return;
+        }
+    };
+    info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
-        window.cursor_options.hit_test = !window.cursor_options.hit_test;
-    }
+    window.cursor_options.hit_test = !window.cursor_options.hit_test;
 }
 
 /// System: Startup, initialises the scene's geometry. 3d only.
