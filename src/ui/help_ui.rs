@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
-use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Rounding, Vec2};
+use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Vec2};
 use bevy_egui::{egui, EguiContexts};
 
 /// Plugin:
