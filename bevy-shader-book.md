@@ -24375,7 +24375,7 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
     let aabb_center = mesh_culling_data[input_index].aabb_center.xyz;
     let aabb_half_extents = mesh_culling_data[input_index].aabb_half_extents.xyz;
 
-    // Initialize the AABB and the maximum depth.
+    // Initialise the AABB and the maximum depth.
     let infinity = bitcast<f32>(0x7f800000u);
     let neg_infinity = bitcast<f32>(0xff800000u);
     var aabb = vec4(infinity, infinity, neg_infinity, neg_infinity);
@@ -41488,7 +41488,7 @@ var<uniform> material: DottedLineShader;
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv: vec2<f32> = (in.uv * 2.0) - 1.0; // normalize uvs to [-1..1]
     let t = globals.time; //TODO: animate.
-    var col: vec4<f32> = vec4(0.0); // Initialize to transparent
+    var col: vec4<f32> = vec4(0.0); // Initialise to transparent
        
     // draw x line
     if abs(uv.x) < 0.025{
@@ -42484,7 +42484,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
         stash = rot(dir.xy, d2r(92.0)); //xy
         dir.x = stash.y;
 
-         // Initialize variables
+         // Initialise variables
         var pos: vec3<f32> = vec3<f32>(
             -0.1 + sin(globals.time * 0.3) * 0.1,
             2.0 + cos(globals.time * 0.4) * 0.1,

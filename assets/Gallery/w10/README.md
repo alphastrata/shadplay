@@ -53,7 +53,7 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
         stash = rot(dir.xy, d2r(92.0)); //xy
         dir.x = stash.y;
 
-         // Initialize variables
+         // Initialise variables
         var pos: vec3<f32> = vec3<f32>(
             -0.1 + sin(globals.time * 0.3) * 0.1,
             2.0 + cos(globals.time * 0.4) * 0.1,
