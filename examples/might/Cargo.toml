@@ -4,14 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "release-0.16.0", features = [
+bevy = { version = "0.16.0-rc.3", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",
 ] }
 
 bevy_panorbit_camera = { git = "https://github.com/aloucks/bevy_panorbit_camera", branch = "bevy-0.16" }
-
-
-[dev-dependencies.bevy]
-opt-level = 3

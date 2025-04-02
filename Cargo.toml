@@ -1,6 +1,6 @@
 [package]
 name = "shadplay"
-version = "0.0.2"
+version = "0.0.3"
 resolver = "2"
 edition = "2021"
 authors = ["jeremy webb <alphastrata@gmail.com>"]
@@ -22,7 +22,7 @@ ui = []
 [dependencies]
 # Bump-a-lots
 # bevy = { version = "0.15.3", features = ["file_watcher", "jpeg"] }
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "release-0.16.0", features = [
+bevy = { version = "0.16.0-rc.3", features = [
   "file_watcher",
   "jpeg",
 ] }
@@ -41,7 +41,7 @@ serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.10"
 
 [dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", branch = "release-0.16.0", features = [
+bevy = { version = "0.16.0-rc.3", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",

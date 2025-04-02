@@ -122,7 +122,7 @@ impl UserSession {
     /// System: When the screen dims change, we update the Self we have in the bevy [`Resource`]s.
     pub fn runtime_updater(mut user_config: ResMut<UserSession>, windows: Query<&Window>) {
         let win = windows
-            .get_single()
+            .single()
             .expect("Should be impossible to NOT get a window");
 
         let (width, height) = (win.width(), win.height());

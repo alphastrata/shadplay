@@ -337,11 +337,11 @@ pub fn cleanup_3d(
     mut shape_q: Query<(Entity, &Transform), With<Shape>>,
 ) {
     for (ent, _cam) in cam_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned 3D camera.")
     }
     for (ent, _tf) in shape_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned shape.")
     }
 }
@@ -349,7 +349,7 @@ pub fn cleanup_3d(
 /// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in cam_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned 2D camera.")
     }
 }
@@ -390,7 +390,7 @@ pub fn setup_2d(
     info!("Spawned 2d Cam");
 
     let win = windows
-        .get_single()
+        .single()
         .expect("Should be impossible to NOT get a window");
     let (width, height) = (win.width(), win.height());
 
@@ -422,7 +422,7 @@ pub fn size_quad(
     // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
-        .get_single()
+        .single()
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
@@ -459,7 +459,7 @@ pub fn update_mouse_pos(
     mut shader_mat: ResMut<Assets<YourShader2D>>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
-    let win = match window.get_single() {
+    let win = match window.single() {
         Ok(w) => w,
         Err(_) => return,
     };
