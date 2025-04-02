@@ -243,17 +243,18 @@ pub fn toggle_window_passthrough(
     mut windows: Query<&mut Window>,
 ) {
     if input.just_pressed(KeyCode::KeyX) {
-    let mut window = match windows.single_mut() {
-        Ok(w) => w,
-        Err(e) => {
-            error!("No primary window found {}", e);
-            return;
-        }
-    };
-    debug!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
+        debug!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
-    window.cursor_options.hit_test = !window.cursor_options.hit_test;
-}}
+        window.cursor_options.hit_test = !window.cursor_options.hit_test;
+    }
+}
 
 /// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(

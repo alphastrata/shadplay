@@ -8,6 +8,8 @@ pub mod utils;
 
 pub mod prelude {
     //! The Shadplay Prelude, you'll probably find yourself wanting things from/adding things to this, if you're working on Shadplay.
+    #[cfg(target_os = "windows")]
+    pub use crate::utils::toggle_window_passthrough;
     pub use crate::{
         shader_utils::{
             common::ShadplayShaderLibrary,
@@ -23,8 +25,8 @@ pub mod prelude {
         utils::{
             self, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes, quit, rotate, setup_2d,
             setup_3d, size_quad, switch_level, switch_shape, toggle_rotate, toggle_transparency,
-            toggle_window_passthrough, update_mouse_pos, AppState, MonitorsSpecs, Rotating,
-            ShadplayWindowDims, ShapeOptions, TransparencySet,
+            update_mouse_pos, AppState, MonitorsSpecs, Rotating, ShadplayWindowDims, ShapeOptions,
+            TransparencySet,
         },
     };
 }
