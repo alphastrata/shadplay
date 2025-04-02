@@ -62,6 +62,7 @@ impl Plugin for ShadPlayPlugin {
                     quit,
                     switch_level,
                     toggle_transparency,
+                    #[cfg(target_os = "windows")]
                     toggle_window_passthrough,
                 ),
             )

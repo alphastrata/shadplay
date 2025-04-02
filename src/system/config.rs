@@ -122,7 +122,7 @@ impl UserSession {
     /// System: When the screen dims change, we update the Self we have in the bevy [`Resource`]s.
     pub fn runtime_updater(mut user_config: ResMut<UserSession>, windows: Query<&Window>) {
         let win = windows
-            .get_single()
+            .single()
             .expect("Should be impossible to NOT get a window");
 
         let (width, height) = (win.width(), win.height());
@@ -168,9 +168,6 @@ impl UserSession {
         new_scratch.resize(size);
 
         if let Some(current_buffer) = images.get_mut(&self.gif_buffer.clone().unwrap()) {
-            log::debug!("CurrSize: {}b", current_buffer.data.len());
-            log::debug!("ScratchSize: {}b", new_scratch.data.len());
-
             Ok(std::mem::replace(current_buffer, new_scratch))
         } else {
             anyhow::bail!("Failed to swap the buffers..");
@@ -188,7 +185,6 @@ impl UserSession {
         // let filename = format!(".gif_scratch/{:05}.png", *local);
         let filename = "output.png".to_string();
         let format = image::ImageFormat::from_path(filename.clone()).unwrap();
-        log::debug!("ImSize: {}b", image.data.len());
         log::debug!("ImCompressed: {}", image.is_compressed());
         let img_out = dynamic.to_rgb8();
 

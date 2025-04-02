@@ -70,6 +70,7 @@ The app has some simple hotkeys:
 | <kbd>tab</kbd>      | Toggles the colour picker (should be supported on most systems...)                |
 | <kbd>t</kbd>        | Switch to 2D/ShaderToy Mode                                                       |
 | <kbd>h</kbd>        | Switch to 3D                                                                      |
+| <kbd>x</kbd>        | WINDOWS ONLY Toggle Window Fallthrough 3D                                                                      |
 | <kbd>l</kbd>        | Window-Level                                                                      |
 | <kbd>d</kbd>        | Toggle Decorations (not all OSes)                                                 |
 | <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)             |

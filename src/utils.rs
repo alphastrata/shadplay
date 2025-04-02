@@ -139,7 +139,13 @@ pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
 pub fn switch_level(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     //TODO: move logic to helper func and have this trigger on key or Event.
     if input.just_pressed(KeyCode::KeyL) {
-        let mut window = windows.single_mut();
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
 
         window.window_level = match window.window_level {
             WindowLevel::AlwaysOnBottom => WindowLevel::Normal,
@@ -176,7 +182,7 @@ pub fn toggle_transparency(
             *clear_colour = ClearColor(Color::NONE);
         }
         **transparency_set = !**transparency_set;
-        event.send(RequestRedraw);
+        event.write(RequestRedraw);
     }
 }
 
@@ -215,8 +221,13 @@ pub fn switch_shape(
 /// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
 pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     if input.just_pressed(KeyCode::KeyD) {
-        let mut window = windows.single_mut();
-
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
         window.decorations = !window.decorations;
 
         info!("WINDOW_DECORATIONS: {:?}", window.decorations);
@@ -225,14 +236,21 @@ pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&
 
 /// System:
 /// Toggle mouse passthrough.
+/// This is ONLY supported on Windows.
+#[cfg(target_os = "windows")]
 pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::KeyP) {
-        #[allow(unused_mut)]
-        let mut window = windows.single_mut();
-        info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+    if input.just_pressed(KeyCode::KeyX) {
+        let mut window = match windows.single_mut() {
+            Ok(w) => w,
+            Err(e) => {
+                error!("No primary window found {}", e);
+                return;
+            }
+        };
+        debug!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
         window.cursor_options.hit_test = !window.cursor_options.hit_test;
     }
@@ -323,11 +341,11 @@ pub fn cleanup_3d(
     mut shape_q: Query<(Entity, &Transform), With<Shape>>,
 ) {
     for (ent, _cam) in cam_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned 3D camera.")
     }
     for (ent, _tf) in shape_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned shape.")
     }
 }
@@ -335,7 +353,7 @@ pub fn cleanup_3d(
 /// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
     for (ent, _q) in cam_q.iter_mut() {
-        commands.entity(ent).despawn_recursive();
+        commands.entity(ent).despawn();
         info!("Despawned 2D camera.")
     }
 }
@@ -376,7 +394,7 @@ pub fn setup_2d(
     info!("Spawned 2d Cam");
 
     let win = windows
-        .get_single()
+        .single()
         .expect("Should be impossible to NOT get a window");
     let (width, height) = (win.width(), win.height());
 
@@ -408,7 +426,7 @@ pub fn size_quad(
     // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
-        .get_single()
+        .single()
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
@@ -430,7 +448,10 @@ pub fn max_mon_res(
     winit_windows: NonSend<WinitWindows>,
     mut mon_specs: ResMut<MonitorsSpecs>,
 ) {
-    let entity = window_query.single();
+    let Ok(entity) = window_query.single() else {
+        error!("Unable to pull single Window, this is a horrible thing to have happen.");
+        return;
+    };
     if let Some(winit_window) = winit_windows.get_window(entity) {
         let current_monitor = winit_window.current_monitor().unwrap();
         let (w, h) = (current_monitor.size().width, current_monitor.size().height);
@@ -442,7 +463,7 @@ pub fn update_mouse_pos(
     mut shader_mat: ResMut<Assets<YourShader2D>>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
-    let win = match window.get_single() {
+    let win = match window.single() {
         Ok(w) => w,
         Err(_) => return,
     };

@@ -34,13 +34,13 @@ pub fn file_drag_and_drop_listener(
                     .extension()
                     .is_some_and(|x| x.to_string_lossy().contains(fmt))
             }) {
-                texture_tx.send(UserAddedTexture(path_buf.clone()));
+                texture_tx.write(UserAddedTexture(path_buf.clone()));
             } else if WGSL_FORMATS.iter().any(|fmt| {
                 path_buf
                     .extension()
                     .is_some_and(|x| x.to_string_lossy().contains(fmt))
             }) {
-                shader_tx.send(DragNDropShader {
+                shader_tx.write(DragNDropShader {
                     path: path_buf.clone(),
                 });
             }

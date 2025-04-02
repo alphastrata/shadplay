@@ -17,7 +17,7 @@ var<uniform> material: DottedLineShader;
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv: vec2<f32> = (in.uv * 2.0) - 1.0; // normalize uvs to [-1..1]
     let t = globals.time; //TODO: animate.
-    var col: vec4<f32> = vec4(0.0); // Initialize to transparent
+    var col: vec4<f32> = vec4(0.0); // Initialise to transparent
        
     // draw x line
     if abs(uv.x) < 0.025{
