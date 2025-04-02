@@ -236,10 +236,13 @@ pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&
 
 /// System:
 /// Toggle mouse passthrough.
+/// This is ONLY supported on Windows.
+#[cfg(target_os = "windows")]
 pub fn toggle_window_passthrough(
-    _keyboard_input: Res<ButtonInput<KeyCode>>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
+    if input.just_pressed(KeyCode::KeyX) {
     let mut window = match windows.single_mut() {
         Ok(w) => w,
         Err(e) => {
@@ -247,10 +250,10 @@ pub fn toggle_window_passthrough(
             return;
         }
     };
-    info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+    debug!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
 
     window.cursor_options.hit_test = !window.cursor_options.hit_test;
-}
+}}
 
 /// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(
