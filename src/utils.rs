@@ -242,7 +242,7 @@ pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
-    if input.just_pressed(KeyCode::KeyX) {
+    if keyboard_input.just_pressed(KeyCode::KeyX) {
         let mut window = match windows.single_mut() {
             Ok(w) => w,
             Err(e) => {
