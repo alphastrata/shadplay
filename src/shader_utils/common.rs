@@ -1,13 +1,13 @@
 //! Bundles in our shader functions/consts etc declared in `shader_utils/common.wgsl` to make them importable.
 use bevy::{
-    asset::load_internal_asset,
+    asset::{load_internal_asset, weak_handle},
     prelude::{App, Handle, Plugin, Shader},
 };
 
 pub struct ShadplayShaderLibrary;
 
 pub const SHADPLAY_SHADER_LIBRARY_HANDLE: Handle<Shader> =
-    Handle::weak_from_u128(16813517719070609599);
+    weak_handle!("1d4373c8-5cfe-4779-9e71-f268b2e43fa9");
 
 impl Plugin for ShadplayShaderLibrary {
     fn build(&self, app: &mut App) {
