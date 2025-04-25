@@ -22,7 +22,7 @@ ui = []
 [dependencies]
 # Bump-a-lots
 # bevy = { version = "0.15.3", features = ["file_watcher", "jpeg"] }
-bevy = { version = "0.16.0-rc.3", features = ["file_watcher", "jpeg"] }
+bevy = { version = "0.16.0", features = ["file_watcher", "jpeg"] }
 # bevy_egui = { version = "0.33.0" }
 bevy_egui = { git = "https://github.com/Friz64/bevy_egui", branch = "bevy-0.16" }
 # bevy_panorbit_camera = "0.23.0"
@@ -38,7 +38,7 @@ serde = { version = "1.0.190", features = ["derive"] }
 toml = "0.8.10"
 
 [dev-dependencies]
-bevy = { version = "0.16.0-rc.3", features = [
+bevy = { version = "0.16.0", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",
