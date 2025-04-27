@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = { version = "0.16.0-rc.3", features = [
+bevy = { version = "0.16.0", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",

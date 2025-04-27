@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
 
     let current_dir = env::current_dir()?;
-    println!("Current directory: {:?}", current_dir);
+    println!("Current directory: {current_dir:?}");
 
     let urls = [
         "https://raw.githubusercontent.com/bevyengine/bevy/main/assets/environment_maps/pisa_diffuse_rgb9e5_zstd.ktx2",

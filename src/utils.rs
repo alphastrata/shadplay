@@ -242,7 +242,13 @@ pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<&mut Window>,
 ) {
-    if input.just_pressed(KeyCode::KeyX) {
+    if keyboard_input.just_pressed(KeyCode::KeyP) {
+        #[allow(unused_mut)]
+        let mut window = windows.single_mut().unwrap();
+        info!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyX) {
         let mut window = match windows.single_mut() {
             Ok(w) => w,
             Err(e) => {
@@ -251,7 +257,6 @@ pub fn toggle_window_passthrough(
             }
         };
         debug!("PASSTHROUGH TOGGLED.: {:?}", window.decorations);
-
         window.cursor_options.hit_test = !window.cursor_options.hit_test;
     }
 }
