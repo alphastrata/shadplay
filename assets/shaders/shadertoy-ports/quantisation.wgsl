@@ -9,12 +9,6 @@
 #import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
 
-@group(2) @binding(0) var<uniform> mouse: YourShader2D;
-struct YourShader2D{
-    mouse_pos : vec2f,
-}
-
-
 const PI: f32 = 3.141592653589;
 const BITS_PER_CHANNEL: f32 = 4.0;
 const BASE_PIXEL_COUNT: f32 = 2000.0;
