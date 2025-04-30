@@ -1,7 +1,7 @@
 // Water Shader with Interactive Controls
 // Port of "Water" shader from https://www.shadertoy.com/view/Ms2SD1
 // Original by afl_ext (MIT License)
-// Modifications: Toggleable sun, speed/zoom controls, enhanced comments
+// Modifications: Toggleable sun, speed/zoom controls, hopefully informative? comments
 
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, PI}
@@ -303,7 +303,7 @@ fn fragment(input: VertexOutput) -> @location(0) vec4f {
     var normal = calculate_normal(surface_pos.xz, 0.01, WATER_DEPTH, adjusted_time);
     normal = mix(normal, vec3f(0.0,1.0,0.0), 0.8*min(1.0, sqrt(dist*0.01)*1.1));
     
-    // Fresnel effect calculation
+    // Fresnel effect calculation (I do not understand the magics here...)
     let fresnel = 0.04 + 0.96*pow(1.0 - max(0.0, dot(-normal, ray)),5.0);
     
     // Reflection vector with upward bias
