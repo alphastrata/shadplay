@@ -1,7 +1,6 @@
-/// ***************************** ///
-/// THIS IS THE DEFAULT 2D SHADER ///
-/// You can always get back to this with `python3 scripts/reset-2d.py` ///
-/// ***************************** ///
+///
+/// Port of https://www.shadertoy.com/view/XXyGzh by https://www.shadertoy.com/user/SnoopethDuckDuck
+/// 
 
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
@@ -11,6 +10,9 @@
 @group(0) @binding(0) var<uniform> view: View;
 
 const ANIMATION_SPEED: f32 = 1.0;
+// The zoom here is quite cool, if made small enough you can see we're just really zoomed in on the far
+// edge of a circle, locally within that zoomed in frame of reference it's disorientating enough to seem 
+// utterly random.
 const BASE_ZOOM: f32 = 0.01;
 const ITERATION_COUNT: f32 = 19.0;
 const COLOR_INTENSITY: f32 = 5.9;
