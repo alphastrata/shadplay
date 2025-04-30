@@ -6,7 +6,7 @@
 
 [![bevy tracking](https://img.shields.io/badge/bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
 
-<!-- Badges to insert at some stage... 
+<!-- Badges to insert at some stage...
 [![docs.rs](https://docs.rs/shadplay/badge.svg)](https://docs.rs/shadplay) SOME DAY...
 [![License](https://img.shields.io/badge/license-MIT.svg)](https://github.com/shadplay/bevy#license)
 [![Crates.io](https://img.shields.io/crates/v/bevy.svg)](https://crates.io/crates/bevy)
@@ -25,13 +25,13 @@ A tertiary goal is to surface the builtins/existing library code that bevy's cod
 
 You will notice a large swath of the `wgsl` code from the Bevy codebase here, _we_ want it to be available to you and searchable (within your IDE) as, the `lsp` story for `wgsl` is not a great one... _yet_!.
 
-______________________________________________________________________
+---
 
 ### Why?
 
 > I have found, and continue to find the shader-universe impenetrable, however: I'd rather attempt to write up and document the content I _wish_ I'd been able to find in my first google search, than complain.
 
-______________________________________________________________________
+---
 
 ## Features
 
@@ -63,33 +63,33 @@ ______________________________________________________________________
 
 The app has some simple hotkeys:
 
-| Hotkey              | Action                                                                            |
-| ------------------- | --------------------------------------------------------------------------------- |
-| <kbd>q</kbd>        | Quit                                                                              |
-| <kbd>s</kbd>        | Change Shape in 3D                                                                |
-| <kbd>tab</kbd>      | Toggles the colour picker (should be supported on most systems...)                |
-| <kbd>t</kbd>        | Switch to 2D/ShaderToy Mode                                                       |
-| <kbd>h</kbd>        | Switch to 3D                                                                      |
-| <kbd>x</kbd>        | WINDOWS ONLY Toggle Window Fallthrough 3D                                                                      |
-| <kbd>l</kbd>        | Window-Level                                                                      |
-| <kbd>d</kbd>        | Toggle Decorations (not all OSes)                                                 |
-| <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)             |
-| <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                   |
-| <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                |
-| <kbd>return</kbd>   | Takes screenshots continiously, hit `return` again to stop capture                |
-| <kbd>0</kbd>        | Select the `texture` at index 0                                                   |
+| Hotkey              | Action                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| <kbd>q</kbd>        | Quit                                                                                  |
+| <kbd>s</kbd>        | Change Shape in 3D                                                                    |
+| <kbd>tab</kbd>      | Toggles the colour picker (should be supported on most systems...)                    |
+| <kbd>t</kbd>        | Switch to 2D/ShaderToy Mode                                                           |
+| <kbd>h</kbd>        | Switch to 3D                                                                          |
+| <kbd>x</kbd>        | WINDOWS ONLY Toggle Window Fallthrough 3D                                             |
+| <kbd>l</kbd>        | Window-Level                                                                          |
+| <kbd>d</kbd>        | Toggle Decorations (not all OSes)                                                     |
+| <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)                 |
+| <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                       |
+| <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                    |
+| <kbd>return</kbd>   | Takes screenshots continiously, hit `return` again to stop capture                    |
+| <kbd>0</kbd>        | Select the `texture` at index 0                                                       |
 | <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a texture onto Shadplay) |
-| <kbd>2</kbd>        | Select the `texture` at index 2                                                   |
-| <kbd>3</kbd>        | Select the `texture` at index 3                                                   |
-| <kbd>4</kbd>        | Select the `texture` at index 4                                                   |
-| <kbd>5</kbd>        | Select the `texture` at index 5                                                   |
-| <kbd>6</kbd>        | Select the `texture` at index 6                                                   |
-| <kbd>7</kbd>        | Select the `texture` at index 7                                                   |
-| <kbd>8</kbd>        | Select the `texture` at index 8                                                   |
-| <kbd>9</kbd>        | Select the `texture` at index 9                                                   |
-| <kbd>?</kbd>        | Opens the Help UI                                                                 |
+| <kbd>2</kbd>        | Select the `texture` at index 2                                                       |
+| <kbd>3</kbd>        | Select the `texture` at index 3                                                       |
+| <kbd>4</kbd>        | Select the `texture` at index 4                                                       |
+| <kbd>5</kbd>        | Select the `texture` at index 5                                                       |
+| <kbd>6</kbd>        | Select the `texture` at index 6                                                       |
+| <kbd>7</kbd>        | Select the `texture` at index 7                                                       |
+| <kbd>8</kbd>        | Select the `texture` at index 8                                                       |
+| <kbd>9</kbd>        | Select the `texture` at index 9                                                       |
+| <kbd>?</kbd>        | Opens the Help UI                                                                     |
 
-______________________________________________________________________
+---
 
 ### To run shadplay, you'll need the following:
 
@@ -110,20 +110,20 @@ then:
 
 - Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
 
-______________________________________________________________________
+---
 
 ## Stability:
 
 The shaders in `assets/shaders/shadertoy-ports` _should_ usually work with the latest bevy.
 With _other_ shaders, for example those prefaced with `BROKEN_...` your mileage will vary, I cannot update all the shaders every single time `wgsl/bevy/naga/wgpu` change stuff :(, if _you_ can than see below:
 
-______________________________________________________________________
+---
 
 ## Contributing:
 
 See the [guide](./CONTRIBUTING.md)
 
-______________________________________________________________________
+---
 
 ## TODO:
 
@@ -131,7 +131,7 @@ ______________________________________________________________________
 - \[\] drag n drop obj/stl/gltf opening?
 - \[\] left/right arrows to swap between shaders from the assets' dir
 
-______________________________________________________________________
+---
 
 ## Resources:
 
@@ -144,7 +144,7 @@ ______________________________________________________________________
 - [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
 - [Alain's blog](https://alain.xyz/blog)
 
-______________________________________________________________________
+---
 
 # Gallery:
 
@@ -178,11 +178,11 @@ ______________________________________________________________________
   </tr>
   <tr>
     <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
-    <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
+    <td><img src="readme_assets/zippy-zap-example.gif.gif" alt="screenshot" width="50%"></td>
   </tr>
 </table>
 
-______________________________________________________________________
+---
 
 # FAQ:
 
@@ -192,7 +192,7 @@ A: It could be that the shader was contributed some time ago and was, likely mad
 Q: What version of bevy are you targeting??
 A: `{version = "*"}`
 
-______________________________________________________________________
+---
 
 # LICENSE:
 
