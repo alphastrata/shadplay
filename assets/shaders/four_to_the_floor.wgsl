@@ -1,5 +1,5 @@
-#import bevy_pbr::mesh_view_bindings globals 
-#import bevy_pbr::forward_io::VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#import bevy_sprite::mesh2d_view_bindings::globals 
 
 const TAU:f32 =  6.28318530718;
 

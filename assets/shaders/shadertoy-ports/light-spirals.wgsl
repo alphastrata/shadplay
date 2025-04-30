@@ -1,7 +1,11 @@
+//
+// This is a port of `light spirals` by `felipetovarhenao` on shadertoy. https://www.shadertoy.com/view/DlccR7
+//
+
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 #import bevy_render::view::View
-#import bevy_pbr::forward_io::VertexOutput;
 
 @group(0) @binding(0) var<uniform> view: View;
 
@@ -10,7 +14,6 @@ const PI: f32 = 3.14159265359;
 const TWO_PI = 6.2848;
 const NUM_ITER = 8.0;
 
-// This is a port of `light spirals` by `felipetovarhenao` on shadertoy. https://www.shadertoy.com/view/DlccR7
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     var uv = (in.uv * 2.0) - 1.0;

@@ -1,6 +1,6 @@
 //! Showing how to use a texture, drag-n-drop for you own texture will be supported soon.
 
-#import bevy_pbr::mesh_vertex_output      VertexOutput
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 @group(2) @binding(1) var texture: texture_2d<f32>;
 @group(2) @binding(2) var texture_sampler: sampler;

@@ -1,9 +1,11 @@
 ///
 /// This is a port of "WARP" by Alro https://www.shadertoy.com/view/ttlGDf
 ///
-#import bevy_pbr::forward_io::VertexOutput;
-#import bevy_sprite::mesh2d_view_bindings globals;
-#import bevy_render::view View;
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#import bevy_sprite::mesh2d_view_bindings::globals  // for 2D
+#import bevy_render::view::View
+#import bevy_pbr::utils::PI
+#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TAU, TWO_PI}
 
 @group(0) @binding(0) var<uniform> view: View;
 
