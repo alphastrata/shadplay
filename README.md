@@ -183,6 +183,10 @@ See the [guide](./CONTRIBUTING.md)
     <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
     <td><img src="readme_assets/zippy-zap-example.gif" alt="screenshot" width="59%"></td>
   </tr>
+    <tr>
+    <td><img src="readme_assets/procedural-ocean-example.gif" alt="screenshot" width="50%"></td>
+    <!-- <td><img src="readme_assets/zippy-zap-example.gif" alt="screenshot" width="59%"></td> -->
+  </tr>
 </table>
 
 ---
