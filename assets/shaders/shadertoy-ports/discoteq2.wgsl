@@ -1,12 +1,15 @@
-#import bevy_pbr::forward_io::VertexOutput
-#import bevy_sprite::mesh2d_view_bindings globals
+//
+// This is a port of Discoteq2 https://www.shadertoy.com/view/DtXfDr by 'supah' https://www.shadertoy.com/user/supah
+//
+
+#import bevy_sprite::mesh2d_view_bindings::globals 
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 const HEIGHT:f32 = 4.0;
 const INTENSITY:f32 = 5.0;
 const NUM_LINES:f32 = 4.0;
 const SPEED:f32 = 1.0;
 
-// This is a port of Discoteq2 https://www.shadertoy.com/view/DtXfDr by 'supah' https://www.shadertoy.com/user/supah
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let uv = (in.uv * 2.0) - 1.0;
@@ -21,9 +24,9 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     return col;
 }
 
-fn line(uv: vec2f, speed: f32, height: f32, col: vec3f) -> vec4f {
-    var uv = uv;
-    uv.y += smoothstep(1.0, 0.0, abs(uv.x)) * sin(globals.time * speed + uv.x * height) * 0.2;
-    return vec4(smoothstep(.06 * smoothstep(.2, .9, abs(uv.x)), 0., abs(uv.y) - .004) * col, 1.0) * smoothstep(1., .3, abs(uv.x));
+fn line(uv_in: vec2f, speed: f32, height: f32, col: vec3f) -> vec4f {
+    var uv_t = uv_in;
+    uv_t.y += smoothstep(1.0, 0.0, abs(uv_t.x)) * sin(globals.time * speed + uv_t.x * height) * 0.2;
+    return vec4(smoothstep(.06 * smoothstep(.2, .9, abs(uv_t.x)), 0., abs(uv_t.y) - .004) * col, 1.0) * smoothstep(1., .3, abs(uv_t.x));
 }
 

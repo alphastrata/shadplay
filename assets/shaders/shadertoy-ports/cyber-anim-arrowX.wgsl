@@ -3,11 +3,11 @@
 /// Source: https://www.shadertoy.com/view/DsjfDt
 /// Authour: https://www.shadertoy.com/user/float1987
 ///
+#import bevy_sprite::mesh2d_view_bindings::globals 
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
-#import bevy_sprite::mesh2d_view_bindings globals 
-#import shadplay::shader_utils::common rotate2D, QUARTER_PI
+#import shadplay::shader_utils::common::{rotate2D, QUARTER_PI}
 
-#import bevy_render::view  View
+#import bevy_render::view::View
 @group(0) @binding(0) var<uniform> view: View;
 
 const SPEED:f32 = 0.2;    //Global Speed multiplier
@@ -45,8 +45,8 @@ fn cyber_anim_arror_x(uv: vec2f, t: f32) -> vec4f {
 }
 
 /// Draws an sdf_arrow, by manipulating a square
-fn draw_arrow(uv: vec2f, offset: f32) -> f32 {
-    var uv = uv;
+fn draw_arrow(uv_in: vec2f, offset: f32) -> f32 {
+    var uv = uv_in;
     var sign_x = sign(uv.x);
 
     uv.y = abs(uv.y);
