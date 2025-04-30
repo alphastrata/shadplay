@@ -143,6 +143,9 @@ See the [guide](./CONTRIBUTING.md)
 - [GLSL2WGSL converter](https://eliotbo.github.io/glsl2wgsl/), it's a mixed bag..
 - [bevy_shadertoy_wgsl](https://github.com/eliotbo/bevy_shadertoy_wgsl)
 - [Alain's blog](https://alain.xyz/blog)
+- [GM Shaders](https://gmshaders.com/)
+- [WGSL function reference](https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl-function-reference.html)
+- [My blog, sometimes I write about shaders/gp-gpu programming](https://jeremyfwebb.ninja/blog)
 
 ---
 
@@ -179,6 +182,10 @@ See the [guide](./CONTRIBUTING.md)
   <tr>
     <td><img src="readme_assets/shadertoy-default-gif-example.gif" alt="screenshot" width="50%"></td>
     <td><img src="readme_assets/zippy-zap-example.gif" alt="screenshot" width="59%"></td>
+  </tr>
+    <tr>
+    <td><img src="readme_assets/procedural-ocean-example.gif" alt="screenshot" width="50%"></td>
+    <!-- <td><img src="readme_assets/zippy-zap-example.gif" alt="screenshot" width="59%"></td> -->
   </tr>
 </table>
 
