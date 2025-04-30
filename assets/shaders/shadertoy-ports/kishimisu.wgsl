@@ -1,5 +1,6 @@
-#import bevy_pbr::mesh_view_bindings globals
-#import bevy_pbr::forward_io::VertexOutput
+// #import bevy_sprite::mesh2d_view_bindings::globals 
+#import bevy_render::globals
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 
 @fragment

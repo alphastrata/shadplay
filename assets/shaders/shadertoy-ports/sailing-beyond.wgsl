@@ -1,13 +1,13 @@
 /// ***************************** ///
 /// This is a port of 'Sailing beyond' by patu https://www.shadertoy.com/view/4t2cR1
 /// ***************************** ///
+#import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#import bevy_sprite::mesh2d_view_bindings::globals  // for 2D
+#import bevy_render::view::View;
+#import shadplay::shader_utils::common::{rotate2D, PI, TAU}
 
-#import bevy_pbr::forward_io::VertexOutput
-#import bevy_sprite::mesh2d_view_bindings globals 
-#import shadplay::shader_utils::common rotate2D, PI, TAU
-
-#import bevy_render::view  View
 @group(0) @binding(0) var<uniform> view: View;
+
 
 const FAR: f32 = 1e3;
 const INFINITY: f32 = 1e32;
