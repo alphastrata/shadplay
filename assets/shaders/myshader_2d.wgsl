@@ -1,22 +1,21 @@
 //
-// Port of "Water" shader from https://www.shadertoy.com/view/Ms2SD1
+// Port of "Very fast Procedural ocean" shader from https://www.shadertoy.com/view/Ms2SD1
 // Original by afl_ext (MIT License)
 //
 
 #import bevy_sprite::mesh2d_view_bindings::globals 
-#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
+#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI, PI}
 #import bevy_render::view::View
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 @group(0) @binding(0) var<uniform> view: View;
 
 // Constants
-const DRAG_MULT: f32 = 0.38;       // How much waves pull on the water
+const DRAG_MULT: f32 = 0.2;       // How much waves pull on the water
 const WATER_DEPTH: f32 = 1.0;      // Depth of the water
-const CAMERA_HEIGHT: f32 = 1.5;     // Camera height above water
+const CAMERA_HEIGHT: f32 = 1.0;     // Camera height above water
 const ITERATIONS_RAYMARCH: i32 = 12; // Wave iterations for raymarching
-const ITERATIONS_NORMAL: i32 = 36;   // Wave iterations for normal calculation
-const PI: f32 = 3.141592653589793;
+const ITERATIONS_NORMAL: i32 = 96;   // Wave iterations for normal calculation
 
 // Helper function: Creates a rotation matrix around an axis by given angle
 fn create_rotation_matrix_axis_angle(axis: vec3f, angle: f32) -> mat3x3f {
@@ -161,7 +160,7 @@ fn get_sun(dir: vec3f) -> f32 {
     return pow(max(0.0, dot(dir, get_sun_direction())), 720.0) * 210.0;
 }
 
-// ACES tonemapping function - corrected WGSL version
+// ACES tonemapping function
 fn aces_tonemap(color: vec3f) -> vec3f {  
     let m1 = mat3x3f(
         0.59719, 0.07600, 0.02840,
@@ -196,7 +195,7 @@ fn fragment(input: VertexOutput) -> @location(0) vec4f {
     let water_plane_low = vec3f(0.0, -WATER_DEPTH, 0.0);
     
     // Define ray origin (moving forward over time)
-    let origin = vec3f(globals.time * 0.2, CAMERA_HEIGHT, 1.0);
+    let origin = vec3f(globals.time * 0.02, CAMERA_HEIGHT, 1.0);
     
     // Calculate intersections with water planes
     let high_plane_hit = intersect_plane(origin, ray, water_plane_high, vec3f(0.0, 1.0, 0.0));
