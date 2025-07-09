@@ -70,7 +70,7 @@ fn help_window(mut ctx: EguiContexts) {
             stroke: egui::Stroke::NONE,
         })
         .anchor(Align2::RIGHT_BOTTOM, Vec2::new(-35.0, -30.0))
-        .show(ctx.ctx_mut(), |ui| {
+        .show(ctx.ctx_mut().unwrap(), |ui| {
             ui.label(RichText::new("/   -   Toggles help(this) menu").color(Color32::WHITE));
             ui.label(RichText::new("D   -   Toggles window decorations").color(Color32::WHITE));
             ui.label(RichText::new("H   -   Switch to 3D Mode").color(Color32::WHITE));

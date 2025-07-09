@@ -72,7 +72,7 @@ impl ColourPickerTool {
                 stroke: egui::Stroke::NONE,
             })
             .anchor(Align2::RIGHT_BOTTOM, Vec2::new(-35.0, -30.0))
-            .show(ctx.ctx_mut(), |ui| {
+            .show(ctx.ctx_mut().unwrap(), |ui| {
                 ui.label(RichText::new("Colour Picker").color(Color32::WHITE));
                 ui.color_edit_button_rgb(&mut picker.colour);
 

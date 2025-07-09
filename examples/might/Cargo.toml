@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bevy = { version = "0.16.0", features = [
+bevy = { version = "0.16.1", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",
 ] }
 
-bevy_panorbit_camera = { git = "https://github.com/aloucks/bevy_panorbit_camera", branch = "bevy-0.16" }
+bevy_panorbit_camera = "0.27.0"
