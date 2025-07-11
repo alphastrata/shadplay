@@ -26,7 +26,9 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/color_operations](#bevy_shaders-color_operations)
 - [bevy_shaders/copy_deferred_lighting_id](#bevy_shaders-copy_deferred_lighting_id)
 - [bevy_shaders/cubemap_unlit](#bevy_shaders-cubemap_unlit)
+- [bevy_shaders/cull_bvh](#bevy_shaders-cull_bvh)
 - [bevy_shaders/cull_clusters](#bevy_shaders-cull_clusters)
+- [bevy_shaders/cull_instances](#bevy_shaders-cull_instances)
 - [bevy_shaders/custom_clustered_decal](#bevy_shaders-custom_clustered_decal)
 - [bevy_shaders/custom_gltf_2d](#bevy_shaders-custom_gltf_2d)
 - [bevy_shaders/custom_material](#bevy_shaders-custom_material)
@@ -46,15 +48,18 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/extended_material_bindless](#bevy_shaders-extended_material_bindless)
 - [bevy_shaders/fallback_image_test](#bevy_shaders-fallback_image_test)
 - [bevy_shaders/fill_cluster_buffers](#bevy_shaders-fill_cluster_buffers)
+- [bevy_shaders/fill_counts](#bevy_shaders-fill_counts)
 - [bevy_shaders/fog](#bevy_shaders-fog)
 - [bevy_shaders/forward_decal](#bevy_shaders-forward_decal)
 - [bevy_shaders/forward_io](#bevy_shaders-forward_io)
+- [bevy_shaders/frame_time_graph](#bevy_shaders-frame_time_graph)
 - [bevy_shaders/fullscreen](#bevy_shaders-fullscreen)
 - [bevy_shaders/functions](#bevy_shaders-functions)
 - [bevy_shaders/fxaa](#bevy_shaders-fxaa)
 - [bevy_shaders/game_of_life](#bevy_shaders-game_of_life)
 - [bevy_shaders/globals](#bevy_shaders-globals)
 - [bevy_shaders/gpu_readback](#bevy_shaders-gpu_readback)
+- [bevy_shaders/gradient](#bevy_shaders-gradient)
 - [bevy_shaders/instancing](#bevy_shaders-instancing)
 - [bevy_shaders/irradiance_volume](#bevy_shaders-irradiance_volume)
 - [bevy_shaders/irradiance_volume_voxel_visualization](#bevy_shaders-irradiance_volume_voxel_visualization)
@@ -64,6 +69,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/line_joints](#bevy_shaders-line_joints)
 - [bevy_shaders/line_material](#bevy_shaders-line_material)
 - [bevy_shaders/lut_bindings](#bevy_shaders-lut_bindings)
+- [bevy_shaders/manual_material](#bevy_shaders-manual_material)
 - [bevy_shaders/maths](#bevy_shaders-maths)
 - [bevy_shaders/mesh](#bevy_shaders-mesh)
 - [bevy_shaders/mesh2d](#bevy_shaders-mesh2d)
@@ -74,6 +80,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/mesh2d_view_bindings](#bevy_shaders-mesh2d_view_bindings)
 - [bevy_shaders/mesh2d_view_types](#bevy_shaders-mesh2d_view_types)
 - [bevy_shaders/meshlet_bindings](#bevy_shaders-meshlet_bindings)
+- [bevy_shaders/meshlet_cull_shared](#bevy_shaders-meshlet_cull_shared)
 - [bevy_shaders/meshlet_mesh_material](#bevy_shaders-meshlet_mesh_material)
 - [bevy_shaders/mesh_bindings](#bevy_shaders-mesh_bindings)
 - [bevy_shaders/mesh_functions](#bevy_shaders-mesh_functions)
@@ -89,6 +96,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/oit_draw](#bevy_shaders-oit_draw)
 - [bevy_shaders/oit_resolve](#bevy_shaders-oit_resolve)
 - [bevy_shaders/parallax_mapping](#bevy_shaders-parallax_mapping)
+- [bevy_shaders/pathtracer](#bevy_shaders-pathtracer)
 - [bevy_shaders/pbr](#bevy_shaders-pbr)
 - [bevy_shaders/pbr_ambient](#bevy_shaders-pbr_ambient)
 - [bevy_shaders/pbr_bindings](#bevy_shaders-pbr_bindings)
@@ -109,12 +117,15 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/prepass_utils](#bevy_shaders-prepass_utils)
 - [bevy_shaders/preprocess_depth](#bevy_shaders-preprocess_depth)
 - [bevy_shaders/raymarch](#bevy_shaders-raymarch)
+- [bevy_shaders/raytracing_scene_bindings](#bevy_shaders-raytracing_scene_bindings)
 - [bevy_shaders/remap_1d_to_2d_dispatch](#bevy_shaders-remap_1d_to_2d_dispatch)
 - [bevy_shaders/render_sky](#bevy_shaders-render_sky)
 - [bevy_shaders/reset_indirect_batch_sets](#bevy_shaders-reset_indirect_batch_sets)
 - [bevy_shaders/resolve_render_targets](#bevy_shaders-resolve_render_targets)
+- [bevy_shaders/restir_di](#bevy_shaders-restir_di)
 - [bevy_shaders/rgb9e5](#bevy_shaders-rgb9e5)
 - [bevy_shaders/robust_contrast_adaptive_sharpening](#bevy_shaders-robust_contrast_adaptive_sharpening)
+- [bevy_shaders/sampling](#bevy_shaders-sampling)
 - [bevy_shaders/screenshot](#bevy_shaders-screenshot)
 - [bevy_shaders/shader_defs](#bevy_shaders-shader_defs)
 - [bevy_shaders/shadows](#bevy_shaders-shadows)
@@ -135,6 +146,7 @@ This document is really to give you an easy, one-stop-shop to reference all the 
 - [bevy_shaders/storage_buffer](#bevy_shaders-storage_buffer)
 - [bevy_shaders/taa](#bevy_shaders-taa)
 - [bevy_shaders/texture_binding_array](#bevy_shaders-texture_binding_array)
+- [bevy_shaders/tilemap_chunk_material](#bevy_shaders-tilemap_chunk_material)
 - [bevy_shaders/tonemapping](#bevy_shaders-tonemapping)
 - [bevy_shaders/tonemapping_shared](#bevy_shaders-tonemapping_shared)
 - [bevy_shaders/tonemapping_test_patterns](#bevy_shaders-tonemapping_test_patterns)
@@ -3481,8 +3493,8 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 #import bevy_core_pipeline::tonemapping::tone_mapping
 
-@group(2) @binding(0) var my_array_texture: texture_2d_array<f32>;
-@group(2) @binding(1) var my_array_texture_sampler: sampler;
+@group(3) @binding(0) var my_array_texture: texture_2d_array<f32>;
+@group(3) @binding(1) var my_array_texture_sampler: sampler;
 
 @fragment
 fn fragment(
@@ -3539,8 +3551,8 @@ fn fragment(
     view_transformations::position_world_to_clip
 }
 
-@group(2) @binding(0) var texture: texture_2d<f32>;
-@group(2) @binding(1) var texture_sampler: sampler;
+@group(3) @binding(0) var texture: texture_2d<f32>;
+@group(3) @binding(1) var texture_sampler: sampler;
 
 struct Vertex {
     @builtin(instance_index) instance_index: u32,
@@ -3821,23 +3833,23 @@ fn compute_average(@builtin(local_invocation_index) local_index: u32) {
 
 // Binding 0 is the bindless index table.
 // Filtering samplers.
-@group(2) @binding(1) var bindless_samplers_filtering: binding_array<sampler>;
+@group(3) @binding(1) var bindless_samplers_filtering: binding_array<sampler>;
 // Non-filtering samplers (nearest neighbor).
-@group(2) @binding(2) var bindless_samplers_non_filtering: binding_array<sampler>;
+@group(3) @binding(2) var bindless_samplers_non_filtering: binding_array<sampler>;
 // Comparison samplers (typically for shadow mapping).
-@group(2) @binding(3) var bindless_samplers_comparison: binding_array<sampler>;
+@group(3) @binding(3) var bindless_samplers_comparison: binding_array<sampler>;
 // 1D textures.
-@group(2) @binding(4) var bindless_textures_1d: binding_array<texture_1d<f32>>;
+@group(3) @binding(4) var bindless_textures_1d: binding_array<texture_1d<f32>>;
 // 2D textures.
-@group(2) @binding(5) var bindless_textures_2d: binding_array<texture_2d<f32>>;
+@group(3) @binding(5) var bindless_textures_2d: binding_array<texture_2d<f32>>;
 // 2D array textures.
-@group(2) @binding(6) var bindless_textures_2d_array: binding_array<texture_2d_array<f32>>;
+@group(3) @binding(6) var bindless_textures_2d_array: binding_array<texture_2d_array<f32>>;
 // 3D textures.
-@group(2) @binding(7) var bindless_textures_3d: binding_array<texture_3d<f32>>;
+@group(3) @binding(7) var bindless_textures_3d: binding_array<texture_3d<f32>>;
 // Cubemap textures.
-@group(2) @binding(8) var bindless_textures_cube: binding_array<texture_cube<f32>>;
+@group(3) @binding(8) var bindless_textures_cube: binding_array<texture_cube<f32>>;
 // Cubemap array textures.
-@group(2) @binding(9) var bindless_textures_cube_array: binding_array<texture_cube_array<f32>>;
+@group(3) @binding(9) var bindless_textures_cube_array: binding_array<texture_cube_array<f32>>;
 
 #endif  // BINDLESS
 
@@ -3861,12 +3873,12 @@ struct MaterialBindings {
 }
 
 #ifdef BINDLESS
-@group(2) @binding(0) var<storage> materials: array<MaterialBindings>;
-@group(2) @binding(10) var<storage> material_color: binding_array<Color>;
+@group(3) @binding(0) var<storage> materials: array<MaterialBindings>;
+@group(3) @binding(10) var<storage> material_color: binding_array<Color>;
 #else   // BINDLESS
-@group(2) @binding(0) var<uniform> material_color: Color;
-@group(2) @binding(1) var material_color_texture: texture_2d<f32>;
-@group(2) @binding(2) var material_color_sampler: sampler;
+@group(3) @binding(0) var<uniform> material_color: Color;
+@group(3) @binding(1) var material_color_texture: texture_2d<f32>;
+@group(3) @binding(2) var material_color_sampler: sampler;
 #endif  // BINDLESS
 
 @fragment
@@ -5142,12 +5154,12 @@ fn fragment(in: FullscreenVertexOutput) -> FragmentOutput {
 #import bevy_pbr::forward_io::VertexOutput
 
 #ifdef CUBEMAP_ARRAY
-@group(2) @binding(0) var base_color_texture: texture_cube_array<f32>;
+@group(3) @binding(0) var base_color_texture: texture_cube_array<f32>;
 #else
-@group(2) @binding(0) var base_color_texture: texture_cube<f32>;
+@group(3) @binding(0) var base_color_texture: texture_cube<f32>;
 #endif
 
-@group(2) @binding(1) var base_color_sampler: sampler;
+@group(3) @binding(1) var base_color_sampler: sampler;
 
 @fragment
 fn fragment(
@@ -5162,200 +5174,293 @@ fn fragment(
 }
 
 ```
+### bevy_shaders-cull_bvh
+```rust
+#import bevy_pbr::meshlet_bindings::{
+    InstancedOffset,
+    get_aabb,
+    get_aabb_error,
+    get_aabb_child_offset,
+    constants,
+    meshlet_bvh_nodes,
+    meshlet_bvh_cull_count_read,
+    meshlet_bvh_cull_count_write,
+    meshlet_bvh_cull_dispatch,
+    meshlet_bvh_cull_queue,
+    meshlet_meshlet_cull_count_early,
+    meshlet_meshlet_cull_count_late,
+    meshlet_meshlet_cull_dispatch_early,
+    meshlet_meshlet_cull_dispatch_late,
+    meshlet_meshlet_cull_queue,
+    meshlet_second_pass_bvh_count,
+    meshlet_second_pass_bvh_dispatch,
+    meshlet_second_pass_bvh_queue,
+}
+#import bevy_pbr::meshlet_cull_shared::{
+    lod_error_is_imperceptible,
+    aabb_in_frustum,
+    should_occlusion_cull_aabb,
+}
+
+@compute
+@workgroup_size(128, 1, 1) // 8 threads per node, 16 nodes per workgroup
+fn cull_bvh(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
+    // Calculate the queue ID for this thread
+    let dispatch_id = global_invocation_id.x;
+    var node = dispatch_id >> 3u;
+    let subnode = dispatch_id & 7u;
+    if node >= meshlet_bvh_cull_count_read { return; }
+
+    node = select(node, constants.rightmost_slot - node, constants.read_from_front == 0u);
+    let instanced_offset = meshlet_bvh_cull_queue[node];
+    let instance_id = instanced_offset.instance_id;
+    let bvh_node = &meshlet_bvh_nodes[instanced_offset.offset];
+
+    var aabb_error_offset = (*bvh_node).aabbs[subnode];
+    let aabb = get_aabb(&aabb_error_offset);
+    let parent_error = get_aabb_error(&aabb_error_offset);
+    let lod_sphere = (*bvh_node).lod_bounds[subnode];
+
+    let parent_is_imperceptible = lod_error_is_imperceptible(lod_sphere, parent_error, instance_id);
+    // Error and frustum cull, in both passes
+    if parent_is_imperceptible || !aabb_in_frustum(aabb, instance_id) { return; }
+
+    let child_offset = get_aabb_child_offset(&aabb_error_offset);
+    let index = subnode >> 2u;
+    let bit_offset = subnode & 3u;
+    let packed_child_count = (*bvh_node).child_counts[index];
+    let child_count = extractBits(packed_child_count, bit_offset * 8u, 8u);
+    var value = InstancedOffset(instance_id, child_offset);
+
+    // If we pass, try occlusion culling
+    // If this node was occluded, push it's children to the second pass to check against this frame's HZB
+    if should_occlusion_cull_aabb(aabb, instance_id) {
+#ifdef MESHLET_FIRST_CULLING_PASS
+        if child_count == 255u {
+            let id = atomicAdd(&meshlet_second_pass_bvh_count, 1u);
+            meshlet_second_pass_bvh_queue[id] = value;
+            if ((id & 15u) == 0u) {
+                atomicAdd(&meshlet_second_pass_bvh_dispatch.x, 1u);
+            }
+        } else {
+            let base = atomicAdd(&meshlet_meshlet_cull_count_late, child_count);
+            let start = constants.rightmost_slot - base;
+            for (var i = start; i < start - child_count; i--) {
+                meshlet_meshlet_cull_queue[i] = value;
+                value.offset += 1u;
+            }
+            let req = (base + child_count + 127u) >> 7u;
+            atomicMax(&meshlet_meshlet_cull_dispatch_late.x, req);
+        }
+#endif
+        return;
+    }
+
+    // If we pass, push the children to the next BVH cull
+    if child_count == 255u {
+        let id = atomicAdd(&meshlet_bvh_cull_count_write, 1u);
+        let index = select(constants.rightmost_slot - id, id, constants.read_from_front == 0u);
+        meshlet_bvh_cull_queue[index] = value;
+        if ((id & 15u) == 0u) {
+            atomicAdd(&meshlet_bvh_cull_dispatch.x, 1u);
+        }
+    } else {
+#ifdef MESHLET_FIRST_CULLING_PASS
+        let base = atomicAdd(&meshlet_meshlet_cull_count_early, child_count);
+        let end = base + child_count;
+        for (var i = base; i < end; i++) {
+            meshlet_meshlet_cull_queue[i] = value;
+            value.offset += 1u;
+        }
+        let req = (end + 127u) >> 7u;
+        atomicMax(&meshlet_meshlet_cull_dispatch_early.x, req);
+#else
+        let base = atomicAdd(&meshlet_meshlet_cull_count_late, child_count);
+        let start = constants.rightmost_slot - base;
+        for (var i = start; i < start - child_count; i--) {
+            meshlet_meshlet_cull_queue[i] = value;
+            value.offset += 1u;
+        }
+        let req = (base + child_count + 127u) >> 7u;
+        atomicMax(&meshlet_meshlet_cull_dispatch_late.x, req);
+#endif
+    }
+}
+
+```
 ### bevy_shaders-cull_clusters
 ```rust
 #import bevy_pbr::meshlet_bindings::{
-    meshlet_cluster_meshlet_ids,
-    meshlet_bounding_spheres,
-    meshlet_simplification_errors,
-    meshlet_cluster_instance_ids,
-    meshlet_instance_uniforms,
-    meshlet_second_pass_candidates,
-    depth_pyramid,
+    InstancedOffset,
+    get_aabb,
+    get_aabb_error,
+    constants,
     view,
-    previous_view,
-    should_cull_instance,
-    cluster_is_second_pass_candidate,
+    meshlet_instance_uniforms,
+    meshlet_cull_data,
     meshlet_software_raster_indirect_args,
     meshlet_hardware_raster_indirect_args,
+    meshlet_previous_raster_counts,
     meshlet_raster_clusters,
-    constants,
-    MeshletBoundingSphere,
+    meshlet_meshlet_cull_count_read,
+    meshlet_meshlet_cull_count_write,
+    meshlet_meshlet_cull_dispatch,
+    meshlet_meshlet_cull_queue,
+}
+#import bevy_pbr::meshlet_cull_shared::{
+    ScreenAabb,
+    project_aabb,
+    lod_error_is_imperceptible,
+    aabb_in_frustum,
+    should_occlusion_cull_aabb,
 }
 #import bevy_render::maths::affine3_to_square
 
-/// Culls individual clusters (1 per thread) in two passes (two pass occlusion culling), and outputs a bitmask of which clusters survived.
-/// 1. The first pass tests instance visibility, frustum culling, LOD selection, and finally occlusion culling using last frame's depth pyramid.
-/// 2. The second pass performs occlusion culling (using the depth buffer generated from the first pass) on all clusters that passed
-///    the instance, frustum, and LOD tests in the first pass, but were not visible last frame according to the occlusion culling.
-
 @compute
-@workgroup_size(128, 1, 1) // 128 threads per workgroup, 1 cluster per thread
-fn cull_clusters(
-    @builtin(workgroup_id) workgroup_id: vec3<u32>,
-    @builtin(num_workgroups) num_workgroups: vec3<u32>,
-    @builtin(local_invocation_index) local_invocation_index: u32,
-) {
-    // Calculate the cluster ID for this thread
-    let cluster_id = local_invocation_index + 128u * dot(workgroup_id, vec3(num_workgroups.x * num_workgroups.x, num_workgroups.x, 1u));
-    if cluster_id >= constants.scene_cluster_count { return; }
-
-#ifdef MESHLET_SECOND_CULLING_PASS
-    if !cluster_is_second_pass_candidate(cluster_id) { return; }
-#endif
-
-    // Check for instance culling
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
-#ifdef MESHLET_FIRST_CULLING_PASS
-    if should_cull_instance(instance_id) { return; }
-#endif
-
-    // Calculate world-space culling bounding sphere for the cluster
-    let instance_uniform = meshlet_instance_uniforms[instance_id];
-    let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
-    let world_from_local = affine3_to_square(instance_uniform.world_from_local);
-    let world_scale = max(length(world_from_local[0]), max(length(world_from_local[1]), length(world_from_local[2])));
-    let bounding_spheres = meshlet_bounding_spheres[meshlet_id];
-    let culling_bounding_sphere_center = world_from_local * vec4(bounding_spheres.culling_sphere.center, 1.0);
-    let culling_bounding_sphere_radius = world_scale * bounding_spheres.culling_sphere.radius;
+@workgroup_size(128, 1, 1) // 1 cluster per thread
+fn cull_clusters(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
+    if global_invocation_id.x >= meshlet_meshlet_cull_count_read { return; }
 
 #ifdef MESHLET_FIRST_CULLING_PASS
-    // Frustum culling
-    // TODO: Faster method from https://vkguide.dev/docs/gpudriven/compute_culling/#frustum-culling-function
-    for (var i = 0u; i < 6u; i++) {
-        if dot(view.frustum[i], culling_bounding_sphere_center) + culling_bounding_sphere_radius <= 0.0 {
-            return;
-        }
-    }
-
-    // Check LOD cut (cluster group error imperceptible, and parent group error not imperceptible)
-    let simplification_errors = unpack2x16float(meshlet_simplification_errors[meshlet_id]);
-    let lod_is_ok = lod_error_is_imperceptible(bounding_spheres.lod_group_sphere, simplification_errors.x, world_from_local, world_scale);
-    let parent_lod_is_ok = lod_error_is_imperceptible(bounding_spheres.lod_parent_group_sphere, simplification_errors.y, world_from_local, world_scale);
-    if !lod_is_ok || parent_lod_is_ok { return; }
-#endif
-
-    // Project the culling bounding sphere to view-space for occlusion culling
-#ifdef MESHLET_FIRST_CULLING_PASS
-    let previous_world_from_local = affine3_to_square(instance_uniform.previous_world_from_local);
-    let previous_world_from_local_scale = max(length(previous_world_from_local[0]), max(length(previous_world_from_local[1]), length(previous_world_from_local[2])));
-    let occlusion_culling_bounding_sphere_center = previous_world_from_local * vec4(bounding_spheres.culling_sphere.center, 1.0);
-    let occlusion_culling_bounding_sphere_radius = previous_world_from_local_scale * bounding_spheres.culling_sphere.radius;
-    let occlusion_culling_bounding_sphere_center_view_space = (previous_view.view_from_world * vec4(occlusion_culling_bounding_sphere_center.xyz, 1.0)).xyz;
+    let meshlet_id = global_invocation_id.x;
 #else
-    let occlusion_culling_bounding_sphere_center = culling_bounding_sphere_center;
-    let occlusion_culling_bounding_sphere_radius = culling_bounding_sphere_radius;
-    let occlusion_culling_bounding_sphere_center_view_space = (view.view_from_world * vec4(occlusion_culling_bounding_sphere_center.xyz, 1.0)).xyz;
+    let meshlet_id = constants.rightmost_slot - global_invocation_id.x;
 #endif
+    let instanced_offset = meshlet_meshlet_cull_queue[meshlet_id];
+    let instance_id = instanced_offset.instance_id;
+    let cull_data = &meshlet_cull_data[instanced_offset.offset];
+    var aabb_error_offset = (*cull_data).aabb;
+    let aabb = get_aabb(&aabb_error_offset);
+    let error = get_aabb_error(&aabb_error_offset);
+    let lod_sphere = (*cull_data).lod_group_sphere;
 
-    var aabb = project_view_space_sphere_to_screen_space_aabb(occlusion_culling_bounding_sphere_center_view_space, occlusion_culling_bounding_sphere_radius);
-    let depth_pyramid_size_mip_0 = vec2<f32>(textureDimensions(depth_pyramid, 0));
-    var aabb_width_pixels = (aabb.z - aabb.x) * depth_pyramid_size_mip_0.x;
-    var aabb_height_pixels = (aabb.w - aabb.y) * depth_pyramid_size_mip_0.y;
-    let depth_level = max(0, i32(ceil(log2(max(aabb_width_pixels, aabb_height_pixels))))); // TODO: Naga doesn't like this being a u32
-    let depth_pyramid_size = vec2<f32>(textureDimensions(depth_pyramid, depth_level));
-    let aabb_top_left = vec2<u32>(aabb.xy * depth_pyramid_size);
+    let is_imperceptible = lod_error_is_imperceptible(lod_sphere, error, instance_id);
+    // Error and frustum cull, in both passes
+    if !is_imperceptible || !aabb_in_frustum(aabb, instance_id) { return; }
 
-    let depth_quad_a = textureLoad(depth_pyramid, aabb_top_left, depth_level).x;
-    let depth_quad_b = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 0u), depth_level).x;
-    let depth_quad_c = textureLoad(depth_pyramid, aabb_top_left + vec2(0u, 1u), depth_level).x;
-    let depth_quad_d = textureLoad(depth_pyramid, aabb_top_left + vec2(1u, 1u), depth_level).x;
-    let occluder_depth = min(min(depth_quad_a, depth_quad_b), min(depth_quad_c, depth_quad_d));
-
-    // Check whether or not the cluster would be occluded if drawn
-    var cluster_visible: bool;
-    if view.clip_from_view[3][3] == 1.0 {
-        // Orthographic
-        let sphere_depth = view.clip_from_view[3][2] + (occlusion_culling_bounding_sphere_center_view_space.z + occlusion_culling_bounding_sphere_radius) * view.clip_from_view[2][2];
-        cluster_visible = sphere_depth >= occluder_depth;
-    } else {
-        // Perspective
-        let sphere_depth = -view.clip_from_view[3][2] / (occlusion_culling_bounding_sphere_center_view_space.z + occlusion_culling_bounding_sphere_radius);
-        cluster_visible = sphere_depth >= occluder_depth;
-    }
-
-    // Write if the cluster should be occlusion tested in the second pass
+    // If we pass, try occlusion culling
+    // If this node was occluded, push it's children to the second pass to check against this frame's HZB
+    if should_occlusion_cull_aabb(aabb, instance_id) {
 #ifdef MESHLET_FIRST_CULLING_PASS
-    if !cluster_visible {
-        let bit = 1u << cluster_id % 32u;
-        atomicOr(&meshlet_second_pass_candidates[cluster_id / 32u], bit);
-    }
+        let id = atomicAdd(&meshlet_meshlet_cull_count_write, 1u);
+        let value = InstancedOffset(instance_id, instanced_offset.offset);
+        meshlet_meshlet_cull_queue[constants.rightmost_slot - id] = value;
+        if ((id & 127u) == 0) {
+            atomicAdd(&meshlet_meshlet_cull_dispatch.x, 1u);
+        }
 #endif
+        return;
+    }
 
-    // Cluster would be occluded if drawn, so don't setup a draw for it
-    if !cluster_visible { return; }
-
+    // If we pass, rasterize the meshlet
     // Check how big the cluster is in screen space
-#ifdef MESHLET_FIRST_CULLING_PASS
-    let culling_bounding_sphere_center_view_space = (view.view_from_world * vec4(culling_bounding_sphere_center.xyz, 1.0)).xyz;
-    aabb = project_view_space_sphere_to_screen_space_aabb(culling_bounding_sphere_center_view_space, culling_bounding_sphere_radius);
-    aabb_width_pixels = (aabb.z - aabb.x) * view.viewport.z;
-    aabb_height_pixels = (aabb.w - aabb.y) * view.viewport.w;
-#endif
-    let cluster_is_small = all(vec2(aabb_width_pixels, aabb_height_pixels) < vec2(64.0));
-
-    // Let the hardware rasterizer handle near-plane clipping
-    let not_intersects_near_plane = dot(view.frustum[4u], culling_bounding_sphere_center) > culling_bounding_sphere_radius;
+    let world_from_local = affine3_to_square(meshlet_instance_uniforms[instance_id].world_from_local);
+    let clip_from_local  = view.clip_from_world * world_from_local;
+    let projection = view.clip_from_world;
+    var near: f32;
+    if projection[3][3] == 1.0 {
+        near = projection[3][2] / projection[2][2];
+    } else {
+        near = projection[3][2];
+    }
+    var screen_aabb = ScreenAabb(vec3<f32>(0.0), vec3<f32>(0.0));
+    var sw_raster = project_aabb(clip_from_local, near, aabb, &screen_aabb);
+    if sw_raster {
+        let aabb_size = (screen_aabb.max.xy - screen_aabb.min.xy) * view.viewport.zw;
+        sw_raster = all(aabb_size <= vec2<f32>(64.0));
+    }
 
     var buffer_slot: u32;
-    if cluster_is_small && not_intersects_near_plane {
+    if sw_raster {
         // Append this cluster to the list for software rasterization
         buffer_slot = atomicAdd(&meshlet_software_raster_indirect_args.x, 1u);
+        buffer_slot += meshlet_previous_raster_counts[0];
     } else {
         // Append this cluster to the list for hardware rasterization
         buffer_slot = atomicAdd(&meshlet_hardware_raster_indirect_args.instance_count, 1u);
-        buffer_slot = constants.meshlet_raster_cluster_rightmost_slot - buffer_slot;
+        buffer_slot += meshlet_previous_raster_counts[1];
+        buffer_slot = constants.rightmost_slot - buffer_slot;
     }
-    meshlet_raster_clusters[buffer_slot] = cluster_id;
+    meshlet_raster_clusters[buffer_slot] = InstancedOffset(instance_id, instanced_offset.offset);
 }
 
-// https://github.com/zeux/meshoptimizer/blob/1e48e96c7e8059321de492865165e9ef071bffba/demo/nanite.cpp#L115
-fn lod_error_is_imperceptible(lod_sphere: MeshletBoundingSphere, simplification_error: f32, world_from_local: mat4x4<f32>, world_scale: f32) -> bool {
-    let sphere_world_space = (world_from_local * vec4(lod_sphere.center, 1.0)).xyz;
-    let radius_world_space = world_scale * lod_sphere.radius;
-    let error_world_space = world_scale * simplification_error;
-
-    var projected_error = error_world_space;
-    if view.clip_from_view[3][3] != 1.0 {
-        // Perspective
-        let distance_to_closest_point_on_sphere = distance(sphere_world_space, view.world_position) - radius_world_space;
-        let distance_to_closest_point_on_sphere_clamped_to_znear = max(distance_to_closest_point_on_sphere, view.clip_from_view[3][2]);
-        projected_error /= distance_to_closest_point_on_sphere_clamped_to_znear;
-    }
-    projected_error *= view.clip_from_view[1][1] * 0.5;
-    projected_error *= view.viewport.w;
-
-    return projected_error < 1.0;
+```
+### bevy_shaders-cull_instances
+```rust
+#import bevy_pbr::meshlet_bindings::{
+    InstancedOffset,
+    constants,
+    meshlet_view_instance_visibility,
+    meshlet_instance_aabbs,
+    meshlet_instance_bvh_root_nodes,
+    meshlet_bvh_cull_count_write,
+    meshlet_bvh_cull_dispatch,
+    meshlet_bvh_cull_queue,
+    meshlet_second_pass_instance_count,
+    meshlet_second_pass_instance_dispatch,
+    meshlet_second_pass_instance_candidates,
+}
+#import bevy_pbr::meshlet_cull_shared::{
+    aabb_in_frustum,
+    should_occlusion_cull_aabb,
 }
 
-// https://zeux.io/2023/01/12/approximate-projected-bounds
-fn project_view_space_sphere_to_screen_space_aabb(cp: vec3<f32>, r: f32) -> vec4<f32> {
-    let inv_width = view.clip_from_view[0][0] * 0.5;
-    let inv_height = view.clip_from_view[1][1] * 0.5;
-    if view.clip_from_view[3][3] == 1.0 {
-        // Orthographic
-        let min_x = cp.x - r;
-        let max_x = cp.x + r;
+fn instance_count() -> u32 {
+#ifdef MESHLET_FIRST_CULLING_PASS
+    return constants.scene_instance_count;
+#else
+    return meshlet_second_pass_instance_count;
+#endif
+}
 
-        let min_y = cp.y - r;
-        let max_y = cp.y + r;
+fn map_instance_id(id: u32) -> u32 {
+#ifdef MESHLET_FIRST_CULLING_PASS
+    return id;
+#else
+    return meshlet_second_pass_instance_candidates[id];
+#endif
+}
 
-        return vec4(min_x * inv_width, 1.0 - max_y * inv_height, max_x * inv_width, 1.0 - min_y * inv_height);
-    } else {
-        // Perspective
-        let c = vec3(cp.xy, -cp.z);
-        let cr = c * r;
-        let czr2 = c.z * c.z - r * r;
+fn should_cull_instance(instance_id: u32) -> bool {
+    let bit_offset = instance_id >> 5u;
+    let packed_visibility = meshlet_view_instance_visibility[instance_id & 31u];
+    return bool(extractBits(packed_visibility, bit_offset, 1u));
+}
 
-        let vx = sqrt(c.x * c.x + czr2);
-        let min_x = (vx * c.x - cr.z) / (vx * c.z + cr.x);
-        let max_x = (vx * c.x + cr.z) / (vx * c.z - cr.x);
+@compute
+@workgroup_size(128, 1, 1) // 1 instance per thread
+fn cull_instances(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
+    // Calculate the instance ID for this thread
+    let dispatch_id = global_invocation_id.x;
+    if dispatch_id >= instance_count() { return; }
 
-        let vy = sqrt(c.y * c.y + czr2);
-        let min_y = (vy * c.y - cr.z) / (vy * c.z + cr.y);
-        let max_y = (vy * c.y + cr.z) / (vy * c.z - cr.y);
+    let instance_id = map_instance_id(dispatch_id);
+    let aabb = meshlet_instance_aabbs[instance_id];
 
-        return vec4(min_x * inv_width, -max_y * inv_height, max_x * inv_width, -min_y * inv_height) + vec4(0.5);
+    // Visibility and frustum cull, but only in the first pass
+#ifdef MESHLET_FIRST_CULLING_PASS
+    if should_cull_instance(instance_id) || !aabb_in_frustum(aabb, instance_id) { return; }
+#endif
+
+    // If we pass, try occlusion culling
+    // If this instance was occluded, push it to the second pass to check against this frame's HZB
+    if should_occlusion_cull_aabb(aabb, instance_id) {
+#ifdef MESHLET_FIRST_CULLING_PASS
+        let id = atomicAdd(&meshlet_second_pass_instance_count, 1u);
+        meshlet_second_pass_instance_candidates[id] = instance_id;
+        if ((id & 127u) == 0u) {
+            atomicAdd(&meshlet_second_pass_instance_dispatch.x, 1u);
+        }
+#endif
+        return;
+    }
+
+    // If we pass, push the instance's root node to BVH cull
+    let root_node = meshlet_instance_bvh_root_nodes[instance_id];
+    let id = atomicAdd(&meshlet_bvh_cull_count_write, 1u);
+    meshlet_bvh_cull_queue[id] = InstancedOffset(instance_id, root_node);
+    if ((id & 15u) == 0u) {
+        atomicAdd(&meshlet_bvh_cull_dispatch.x, 1u);
     }
 }
 
@@ -5499,9 +5604,9 @@ fn fragment(input: FragmentInput) -> @location(0) vec4<f32> {
 // we can import items from shader modules in the assets folder with a quoted path
 #import "shaders/custom_material_import.wgsl"::COLOR_MULTIPLIER
 
-@group(2) @binding(0) var<uniform> material_color: vec4<f32>;
-@group(2) @binding(1) var material_color_texture: texture_2d<f32>;
-@group(2) @binding(2) var material_color_sampler: sampler;
+@group(3) @binding(0) var<uniform> material_color: vec4<f32>;
+@group(3) @binding(1) var material_color_texture: texture_2d<f32>;
+@group(3) @binding(2) var material_color_sampler: sampler;
 
 @fragment
 fn fragment(
@@ -5541,8 +5646,8 @@ const COLOR_MULTIPLIER: vec4<f32> = vec4<f32>(1.0, 1.0, 1.0, 0.5);
     utils::coords_to_viewport_uv,
 }
 
-@group(2) @binding(0) var texture: texture_2d<f32>;
-@group(2) @binding(1) var texture_sampler: sampler;
+@group(3) @binding(0) var texture: texture_2d<f32>;
+@group(3) @binding(1) var texture_sampler: sampler;
 
 @fragment
 fn fragment(
@@ -5704,12 +5809,14 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 ```
 ### bevy_shaders-custom_vertex_attribute
 ```rust
+// For 2d replace `bevy_pbr::mesh_functions` with `bevy_sprite::mesh2d_functions`
+// and `mesh_position_local_to_clip` with `mesh2d_position_local_to_clip`.
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
 
 struct CustomMaterial {
     color: vec4<f32>,
 };
-@group(2) @binding(0) var<uniform> material: CustomMaterial;
+@group(3) @binding(0) var<uniform> material: CustomMaterial;
 
 struct Vertex {
     @builtin(instance_index) instance_index: u32,
@@ -5776,7 +5883,7 @@ struct PbrDeferredLightingDepthId {
     _webgl2_padding_2: f32,
 #endif
 }
-@group(1) @binding(0)
+@group(2) @binding(0)
 var<uniform> depth_id: PbrDeferredLightingDepthId;
 
 @vertex
@@ -6796,9 +6903,15 @@ fn radiance_sample_direction(N: vec3<f32>, R: vec3<f32>, roughness: f32) -> vec3
 
 struct MyExtendedMaterial {
     quantize_steps: u32,
+#ifdef SIXTEEN_BYTE_ALIGNMENT
+    // Web examples WebGL2 support: structs must be 16 byte aligned.
+    _webgl2_padding_8b: u32,
+    _webgl2_padding_12b: u32,
+    _webgl2_padding_16b: u32,
+#endif
 }
 
-@group(2) @binding(100)
+@group(3) @binding(100)
 var<uniform> my_extended_material: MyExtendedMaterial;
 
 @fragment
@@ -6884,19 +6997,19 @@ struct ExampleBindlessExtendedMaterial {
 
 // The indices of the bindless resources in the bindless resource arrays, for
 // the `ExampleBindlessExtension` fields.
-@group(2) @binding(100) var<storage> example_extended_material_indices:
+@group(3) @binding(100) var<storage> example_extended_material_indices:
     array<ExampleBindlessExtendedMaterialIndices>;
 // An array that holds the `ExampleBindlessExtendedMaterial` plain old data,
 // indexed by `ExampleBindlessExtendedMaterialIndices.material`.
-@group(2) @binding(101) var<storage> example_extended_material:
+@group(3) @binding(101) var<storage> example_extended_material:
     array<ExampleBindlessExtendedMaterial>;
 
 #else   // BINDLESS
 
 // In non-bindless mode, we simply use a uniform for the plain old data.
-@group(2) @binding(50) var<uniform> example_extended_material: ExampleBindlessExtendedMaterial;
-@group(2) @binding(51) var modulate_texture: texture_2d<f32>;
-@group(2) @binding(52) var modulate_sampler: sampler;
+@group(3) @binding(50) var<uniform> example_extended_material: ExampleBindlessExtendedMaterial;
+@group(3) @binding(51) var modulate_texture: texture_2d<f32>;
+@group(3) @binding(52) var modulate_sampler: sampler;
 
 #endif  // BINDLESS
 
@@ -6953,23 +7066,23 @@ fn fragment(
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
-@group(2) @binding(0) var test_texture_1d: texture_1d<f32>;
-@group(2) @binding(1) var test_texture_1d_sampler: sampler;
+@group(3) @binding(0) var test_texture_1d: texture_1d<f32>;
+@group(3) @binding(1) var test_texture_1d_sampler: sampler;
 
-@group(2) @binding(2) var test_texture_2d: texture_2d<f32>;
-@group(2) @binding(3) var test_texture_2d_sampler: sampler;
+@group(3) @binding(2) var test_texture_2d: texture_2d<f32>;
+@group(3) @binding(3) var test_texture_2d_sampler: sampler;
 
-@group(2) @binding(4) var test_texture_2d_array: texture_2d_array<f32>;
-@group(2) @binding(5) var test_texture_2d_array_sampler: sampler;
+@group(3) @binding(4) var test_texture_2d_array: texture_2d_array<f32>;
+@group(3) @binding(5) var test_texture_2d_array_sampler: sampler;
 
-@group(2) @binding(6) var test_texture_cube: texture_cube<f32>;
-@group(2) @binding(7) var test_texture_cube_sampler: sampler;
+@group(3) @binding(6) var test_texture_cube: texture_cube<f32>;
+@group(3) @binding(7) var test_texture_cube_sampler: sampler;
 
-@group(2) @binding(8) var test_texture_cube_array: texture_cube_array<f32>;
-@group(2) @binding(9) var test_texture_cube_array_sampler: sampler;
+@group(3) @binding(8) var test_texture_cube_array: texture_cube_array<f32>;
+@group(3) @binding(9) var test_texture_cube_array_sampler: sampler;
 
-@group(2) @binding(10) var test_texture_3d: texture_3d<f32>;
-@group(2) @binding(11) var test_texture_3d_sampler: sampler;
+@group(3) @binding(10) var test_texture_3d: texture_3d<f32>;
+@group(3) @binding(11) var test_texture_3d_sampler: sampler;
 
 @fragment
 fn fragment(in: VertexOutput) {}
@@ -7026,6 +7139,45 @@ fn fill_cluster_buffers(
         meshlet_cluster_instance_ids[cluster_id] = instance_id;
         meshlet_cluster_meshlet_ids[cluster_id] = meshlet_id;
     }
+}
+
+```
+### bevy_shaders-fill_counts
+```rust
+/// Copies the counts of meshlets in the hardware and software buckets, resetting the counters in the process.
+
+struct DispatchIndirectArgs {
+    x: u32,
+    y: u32,
+    z: u32,
+}
+
+struct DrawIndirectArgs {
+    vertex_count: u32,
+    instance_count: u32,
+    first_vertex: u32,
+    first_instance: u32,
+}
+
+@group(0) @binding(0) var<storage, read_write> meshlet_software_raster_indirect_args: DispatchIndirectArgs;
+@group(0) @binding(1) var<storage, read_write> meshlet_hardware_raster_indirect_args: DrawIndirectArgs;
+@group(0) @binding(2) var<storage, read_write> meshlet_previous_raster_counts: array<u32>;
+#ifdef MESHLET_2D_DISPATCH
+@group(0) @binding(3) var<storage, read_write> meshlet_software_raster_cluster_count: u32;
+#endif
+
+@compute
+@workgroup_size(1, 1, 1)
+fn fill_counts() {
+#ifdef MESHLET_2D_DISPATCH
+    meshlet_previous_raster_counts[0] += meshlet_software_raster_cluster_count;
+#else
+    meshlet_previous_raster_counts[0] += meshlet_software_raster_indirect_args.x;
+#endif
+    meshlet_software_raster_indirect_args.x = 0;
+
+    meshlet_previous_raster_counts[1] += meshlet_hardware_raster_indirect_args.instance_count;
+    meshlet_hardware_raster_indirect_args.instance_count = 0;
 }
 
 ```
@@ -7126,7 +7278,7 @@ fn atmospheric_fog(
 }
 #import bevy_render::maths::project_onto
 
-@group(2) @binding(200)
+@group(3) @binding(200)
 var<uniform> inv_depth_fade_factor: f32;
 
 struct ForwardDecalInformation {
@@ -7230,6 +7382,78 @@ struct VertexOutput {
 struct FragmentOutput {
     @location(0) color: vec4<f32>,
 }
+
+```
+### bevy_shaders-frame_time_graph
+```rust
+#import bevy_ui::ui_vertex_output::UiVertexOutput
+
+@group(1) @binding(0) var<storage> values: array<f32>;
+struct Config {
+    dt_min: f32,
+    dt_max: f32,
+    dt_min_log2: f32,
+    dt_max_log2: f32,
+    proportional_width: u32,
+}
+@group(1) @binding(1) var<uniform> config: Config;
+
+const RED: vec4<f32> = vec4(1.0, 0.0, 0.0, 1.0);
+const GREEN: vec4<f32> = vec4(0.0, 1.0, 0.0, 1.0);
+
+// Gets a color based on the delta time
+// TODO use customizable gradient
+fn color_from_dt(dt: f32) -> vec4<f32> {
+    return mix(GREEN, RED, dt / config.dt_max);
+}
+
+// Draw an SDF square
+fn sdf_square(pos: vec2<f32>, half_size: vec2<f32>, offset: vec2<f32>) -> f32 {
+    let p = pos - offset;
+    let dist = abs(p) - half_size;
+    let outside_dist = length(max(dist, vec2<f32>(0.0, 0.0)));
+    let inside_dist = min(max(dist.x, dist.y), 0.0);
+    return outside_dist + inside_dist;
+}
+
+@fragment
+fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
+    let dt_min = config.dt_min;
+    let dt_max = config.dt_max;
+    let dt_min_log2 = config.dt_min_log2;
+    let dt_max_log2 = config.dt_max_log2;
+
+    // The general algorithm is highly inspired by
+    // <https://asawicki.info/news_1758_an_idea_for_visualization_of_frame_times>
+
+    let len = arrayLength(&values);
+    var graph_width = 0.0;
+    for (var i = 0u; i <= len; i += 1u) {
+        let dt = values[len - i];
+
+        var frame_width: f32;
+        if config.proportional_width == 1u {
+            frame_width = (dt / dt_min) / f32(len);
+        } else {
+            frame_width = 0.015;
+        }
+
+        let frame_height_factor = (log2(dt) - dt_min_log2) / (dt_max_log2 - dt_min_log2);
+        let frame_height_factor_norm = min(max(0.0, frame_height_factor), 1.0);
+        let frame_height = mix(0.0, 1.0, frame_height_factor_norm);
+
+        let size = vec2(frame_width, frame_height) / 2.0;
+        let offset = vec2(1.0 - graph_width - size.x, 1. - size.y);
+        if (sdf_square(in.uv, size, offset) < 0.0) {
+            return color_from_dt(dt);
+        }
+
+        graph_width += frame_width;
+    }
+
+    return vec4(0.0, 0.0, 0.0, 0.5);
+}
+
 
 ```
 ### bevy_shaders-fullscreen
@@ -8045,6 +8269,459 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 
 ```
+### bevy_shaders-gradient
+```rust
+#import bevy_render::view::View
+#import bevy_ui::ui_node::{
+    draw_uinode_background,
+    draw_uinode_border,
+}
+
+const PI: f32 = 3.14159265358979323846;
+const TAU: f32 = 2. * PI;
+
+const TEXTURED = 1u;
+const RIGHT_VERTEX = 2u;
+const BOTTOM_VERTEX = 4u;
+// must align with BORDER_* shader_flags from bevy_ui/render/mod.rs
+const RADIAL: u32 = 16u;
+const FILL_START: u32 = 32u;
+const FILL_END: u32 = 64u;
+const CONIC: u32 = 128u;
+const BORDER_LEFT: u32 = 256u;
+const BORDER_TOP: u32 = 512u;
+const BORDER_RIGHT: u32 = 1024u;
+const BORDER_BOTTOM: u32 = 2048u;
+const BORDER_ANY: u32 = BORDER_LEFT + BORDER_TOP + BORDER_RIGHT + BORDER_BOTTOM;
+
+fn enabled(flags: u32, mask: u32) -> bool {
+    return (flags & mask) != 0u;
+}
+
+@group(0) @binding(0) var<uniform> view: View;
+
+struct GradientVertexOutput {
+    @location(0) uv: vec2<f32>,
+    @location(1) @interpolate(flat) size: vec2<f32>,
+    @location(2) @interpolate(flat) flags: u32,
+    @location(3) @interpolate(flat) radius: vec4<f32>,
+    @location(4) @interpolate(flat) border: vec4<f32>,    
+
+    // Position relative to the center of the rectangle.
+    @location(5) point: vec2<f32>,
+    @location(6) @interpolate(flat) g_start: vec2<f32>,
+    @location(7) @interpolate(flat) dir: vec2<f32>,
+    @location(8) @interpolate(flat) start_color: vec4<f32>,
+    @location(9) @interpolate(flat) start_len: f32,
+    @location(10) @interpolate(flat) end_len: f32,
+    @location(11) @interpolate(flat) end_color: vec4<f32>,
+    @location(12) @interpolate(flat) hint: f32,
+    @builtin(position) position: vec4<f32>,
+};
+
+@vertex
+fn vertex(
+    @location(0) vertex_position: vec3<f32>,
+    @location(1) vertex_uv: vec2<f32>,
+    @location(2) flags: u32,
+
+    // x: top left, y: top right, z: bottom right, w: bottom left.
+    @location(3) radius: vec4<f32>,
+
+    // x: left, y: top, z: right, w: bottom.
+    @location(4) border: vec4<f32>,
+    @location(5) size: vec2<f32>,
+    @location(6) point: vec2<f32>,
+    @location(7) @interpolate(flat) g_start: vec2<f32>,
+    @location(8) @interpolate(flat) dir: vec2<f32>,
+    @location(9) @interpolate(flat) start_color: vec4<f32>,
+    @location(10) @interpolate(flat) start_len: f32,
+    @location(11) @interpolate(flat) end_len: f32,
+    @location(12) @interpolate(flat) end_color: vec4<f32>,
+    @location(13) @interpolate(flat) hint: f32
+) -> GradientVertexOutput {
+    var out: GradientVertexOutput;
+    out.position = view.clip_from_world * vec4(vertex_position, 1.0);
+    out.uv = vertex_uv;
+    out.size = size;
+    out.flags = flags;
+    out.radius = radius;
+    out.border = border;
+    out.point = point;
+    out.dir = dir;
+    out.start_color = start_color;
+    out.start_len = start_len;
+    out.end_len = end_len;
+    out.end_color = end_color;
+    out.g_start = g_start;
+    out.hint = hint;
+
+    return out;
+}
+
+@fragment
+fn fragment(in: GradientVertexOutput) -> @location(0) vec4<f32> {
+    var g_distance: f32;
+    if enabled(in.flags, RADIAL) {
+        g_distance = radial_distance(in.point, in.g_start, in.dir.x);
+    } else if enabled(in.flags, CONIC) {
+        g_distance = conic_distance(in.dir.x, in.point, in.g_start);
+    } else {
+        g_distance = linear_distance(in.point, in.g_start, in.dir);
+    }
+
+    let gradient_color = interpolate_gradient(
+        g_distance,
+        in.start_color,
+        in.start_len,
+        in.end_color,
+        in.end_len,
+        in.hint,
+        in.flags
+    );
+
+    if enabled(in.flags, BORDER_ANY) {
+        return draw_uinode_border(gradient_color, in.point, in.size, in.radius, in.border, in.flags);
+    } else {
+        return draw_uinode_background(gradient_color, in.point, in.size, in.radius, in.border);
+    }
+}
+
+// This function converts two linear rgba colors to srgba space, mixes them, and then converts the result back to linear rgb space.
+fn mix_linear_rgba_in_srgba_space(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let a_srgb = pow(a.rgb, vec3(1. / 2.2));
+    let b_srgb = pow(b.rgb, vec3(1. / 2.2));
+    let mixed_srgb = mix(a_srgb, b_srgb, t);
+    return vec4(pow(mixed_srgb, vec3(2.2)), mix(a.a, b.a, t));
+}
+
+fn linear_rgba_to_oklaba(c: vec4<f32>) -> vec4<f32> {
+    let l = pow(0.41222146 * c.x + 0.53633255 * c.y + 0.051445995 * c.z, 1. / 3.);
+    let m = pow(0.2119035 * c.x + 0.6806995 * c.y + 0.10739696 * c.z, 1. / 3.);
+    let s = pow(0.08830246 * c.x + 0.28171885 * c.y + 0.6299787 * c.z, 1. / 3.);
+    return vec4(
+        0.21045426 * l + 0.7936178 * m - 0.004072047 * s,
+        1.9779985 * l - 2.4285922 * m + 0.4505937 * s,
+        0.025904037 * l + 0.78277177 * m - 0.80867577 * s,
+        c.a
+    );
+}
+
+fn oklaba_to_linear_rgba(c: vec4<f32>) -> vec4<f32> {
+    let l_ = c.x + 0.39633778 * c.y + 0.21580376 * c.z;
+    let m_ = c.x - 0.105561346 * c.y - 0.06385417 * c.z;
+    let s_ = c.x - 0.08948418 * c.y - 1.2914855 * c.z;
+    let l = l_ * l_ * l_;
+    let m = m_ * m_ * m_;
+    let s = s_ * s_ * s_;
+    return vec4(
+        4.0767417 * l - 3.3077116 * m + 0.23096994 * s,
+        -1.268438 * l + 2.6097574 * m - 0.34131938 * s,
+        -0.0041960863 * l - 0.7034186 * m + 1.7076147 * s,
+        c.a
+    );
+}
+
+fn mix_linear_rgba_in_oklaba_space(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    return oklaba_to_linear_rgba(mix(linear_rgba_to_oklaba(a), linear_rgba_to_oklaba(b), t));
+}
+
+fn linear_rgba_to_hsla(c: vec4<f32>) -> vec4<f32> {
+    let max = max(max(c.r, c.g), c.b);
+    let min = min(min(c.r, c.g), c.b);
+    let l = (max + min) * 0.5;
+    if max == min {
+        return vec4(0., 0., l, c.a);
+    } else {
+        let delta = max - min;
+        let s = delta / (1. - abs(2. * l - 1.));
+        var h = 0.;
+        if max == c.r {
+            h = ((c.g - c.b) / delta) % 6.;
+        } else if max == c.g {
+            h = ((c.b - c.r) / delta) + 2.;
+        } else {
+            h = ((c.r - c.g) / delta) + 4.;
+        }
+        h = h / 6.;
+        return vec4<f32>(h, s, l, c.a);
+    }
+}
+
+
+fn hsla_to_linear_rgba(hsl: vec4<f32>) -> vec4<f32> {
+    let h = hsl.x;
+    let s = hsl.y;
+    let l = hsl.z;
+    let c = (1.0 - abs(2.0 * l - 1.0)) * s;
+    let hp = h * 6.0;
+    let x = c * (1.0 - abs(hp % 2.0 - 1.0));
+    var r: f32 = 0.0;
+    var g: f32 = 0.0;
+    var b: f32 = 0.0;
+    if 0.0 <= hp && hp < 1.0 {
+        r = c; g = x; b = 0.0;
+    } else if 1.0 <= hp && hp < 2.0 {
+        r = x; g = c; b = 0.0;
+    } else if 2.0 <= hp && hp < 3.0 {
+        r = 0.0; g = c; b = x;
+    } else if 3.0 <= hp && hp < 4.0 {
+        r = 0.0; g = x; b = c;
+    } else if 4.0 <= hp && hp < 5.0 {
+        r = x; g = 0.0; b = c;
+    } else if 5.0 <= hp && hp < 6.0 {
+        r = c; g = 0.0; b = x;
+    }
+    let m = l - 0.5 * c;
+    return vec4<f32>(r + m, g + m, b + m, hsl.a);
+}
+
+fn linear_rgba_to_hsva(c: vec4<f32>) -> vec4<f32> {
+    let maxc = max(max(c.r, c.g), c.b);
+    let minc = min(min(c.r, c.g), c.b);
+    let delta = maxc - minc;
+    var h: f32 = 0.0;
+    var s: f32 = 0.0;
+    let v: f32 = maxc;
+    if delta != 0.0 {
+        s = delta / maxc;
+        if maxc == c.r {
+            h = ((c.g - c.b) / delta) % 6.0;
+        } else if maxc == c.g {
+            h = ((c.b - c.r) / delta) + 2.0;
+        } else {
+            h = ((c.r - c.g) / delta) + 4.0;
+        }
+        h = h / 6.0;
+        if h < 0.0 {
+            h = h + 1.0;
+        }
+    }
+    return vec4<f32>(h, s, v, c.a);
+}
+
+fn hsva_to_linear_rgba(hsva: vec4<f32>) -> vec4<f32> {
+    let h = hsva.x * 6.0;
+    let s = hsva.y;
+    let v = hsva.z;
+    let c = v * s;
+    let x = c * (1.0 - abs(h % 2.0 - 1.0));
+    let m = v - c;
+    var r: f32 = 0.0;
+    var g: f32 = 0.0;
+    var b: f32 = 0.0;
+    if 0.0 <= h && h < 1.0 {
+        r = c; g = x; b = 0.0;
+    } else if 1.0 <= h && h < 2.0 {
+        r = x; g = c; b = 0.0;
+    } else if 2.0 <= h && h < 3.0 {
+        r = 0.0; g = c; b = x;
+    } else if 3.0 <= h && h < 4.0 {
+        r = 0.0; g = x; b = c;
+    } else if 4.0 <= h && h < 5.0 {
+        r = x; g = 0.0; b = c;
+    } else if 5.0 <= h && h < 6.0 {
+        r = c; g = 0.0; b = x;
+    }
+    return vec4<f32>(r + m, g + m, b + m, hsva.a);
+}
+
+/// hue is left in radians and not converted to degrees
+fn linear_rgba_to_oklcha(c: vec4<f32>) -> vec4<f32> {
+    let o = linear_rgba_to_oklaba(c);
+    let chroma = sqrt(o.y * o.y + o.z * o.z);
+    let hue = atan2(o.z, o.y);
+    return vec4(o.x, chroma, rem_euclid(hue, TAU), o.a);
+}
+
+fn oklcha_to_linear_rgba(c: vec4<f32>) -> vec4<f32> {
+    let a = c.y * cos(c.z);
+    let b = c.y * sin(c.z);
+    return oklaba_to_linear_rgba(vec4(c.x, a, b, c.a));
+}
+
+fn rem_euclid(a: f32, b: f32) -> f32 {
+    return ((a % b) + b) % b;
+}
+
+fn lerp_hue(a: f32, b: f32, t: f32) -> f32 {
+    let diff = rem_euclid(b - a + PI, TAU) - PI;
+    return rem_euclid(a + diff * t, TAU);
+}
+
+fn lerp_hue_long(a: f32, b: f32, t: f32) -> f32 {
+    let diff = rem_euclid(b - a + PI, TAU) - PI;
+    return rem_euclid(a + (diff + select(TAU, -TAU, 0. < diff)) * t, TAU);
+}
+
+fn mix_oklcha(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ah = select(a.z, b.z, a.y == 0.);
+    let bh = select(b.z, a.z, b.y == 0.);
+    return vec4(
+        mix(a.xy, b.xy, t),
+        lerp_hue(ah, bh, t),
+        mix(a.a, b.a, t)
+    );
+}
+
+fn mix_oklcha_long(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ah = select(a.z, b.z, a.y == 0.);
+    let bh = select(b.z, a.z, b.y == 0.);
+    return vec4(
+        mix(a.xy, b.xy, t),
+        lerp_hue_long(ah, bh, t),
+        mix(a.w, b.w, t)
+    );
+}
+
+fn mix_linear_rgba_in_oklcha_space(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    return oklcha_to_linear_rgba(mix_oklcha(linear_rgba_to_oklcha(a), linear_rgba_to_oklcha(b), t));
+}
+
+fn mix_linear_rgba_in_oklcha_space_long(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    return oklcha_to_linear_rgba(mix_oklcha_long(linear_rgba_to_oklcha(a), linear_rgba_to_oklcha(b), t));
+}
+
+fn mix_linear_rgba_in_hsva_space(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ha = linear_rgba_to_hsva(a);
+    let hb = linear_rgba_to_hsva(b);
+    var h: f32;
+    if ha.y == 0. {
+        h = hb.x;
+    } else if hb.y == 0. {
+        h = ha.x;
+    } else {
+        h = lerp_hue(ha.x * TAU, hb.x * TAU, t) / TAU;
+    }
+    let s = mix(ha.y, hb.y, t);
+    let v = mix(ha.z, hb.z, t);
+    let a_alpha = mix(ha.a, hb.a, t);
+    return hsva_to_linear_rgba(vec4<f32>(h, s, v, a_alpha));
+}
+
+fn mix_linear_rgba_in_hsva_space_long(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ha = linear_rgba_to_hsva(a);
+    let hb = linear_rgba_to_hsva(b);
+    let h = lerp_hue_long(ha.x * TAU, hb.x * TAU, t) / TAU;
+    let s = mix(ha.y, hb.y, t);
+    let v = mix(ha.z, hb.z, t);
+    let a_alpha = mix(ha.a, hb.a, t);
+    return hsva_to_linear_rgba(vec4<f32>(h, s, v, a_alpha));
+}
+
+fn mix_linear_rgba_in_hsla_space(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ha = linear_rgba_to_hsla(a);
+    let hb = linear_rgba_to_hsla(b);
+    let h = lerp_hue(ha.x * TAU, hb.x * TAU, t) / TAU;
+    let s = mix(ha.y, hb.y, t);
+    let l = mix(ha.z, hb.z, t);
+    let a_alpha = mix(ha.a, hb.a, t);
+    return hsla_to_linear_rgba(vec4<f32>(h, s, l, a_alpha));
+}
+
+fn mix_linear_rgba_in_hsla_space_long(a: vec4<f32>, b: vec4<f32>, t: f32) -> vec4<f32> {
+    let ha = linear_rgba_to_hsla(a);
+    let hb = linear_rgba_to_hsla(b);
+    let h = lerp_hue_long(ha.x * TAU, hb.x * TAU, t) / TAU;
+    let s = mix(ha.y, hb.y, t);
+    let l = mix(ha.z, hb.z, t);
+    let a_alpha = mix(ha.a, hb.a, t);
+    return hsla_to_linear_rgba(vec4<f32>(h, s, l, a_alpha));
+}
+
+// These functions are used to calculate the distance in gradient space from the start of the gradient to the point.
+// The distance in gradient space is then used to interpolate between the start and end colors.
+
+fn linear_distance(
+    point: vec2<f32>,
+    g_start: vec2<f32>,
+    g_dir: vec2<f32>,
+) -> f32 {
+    return dot(point - g_start, g_dir);
+}
+
+fn radial_distance(
+    point: vec2<f32>,
+    center: vec2<f32>,
+    ratio: f32,
+) -> f32 {
+    let d = point - center;
+    return length(vec2(d.x, d.y * ratio));
+}
+
+fn conic_distance(
+    start: f32,
+    point: vec2<f32>,
+    center: vec2<f32>,
+) -> f32 {
+    let d = point - center;
+    let angle = atan2(-d.x, d.y) + PI;
+    return (((angle - start) % TAU) + TAU) % TAU;
+}
+
+fn interpolate_gradient(
+    distance: f32,
+    start_color: vec4<f32>,
+    start_distance: f32,
+    end_color: vec4<f32>,
+    end_distance: f32,
+    hint: f32,
+    flags: u32,
+) -> vec4<f32> {
+    if start_distance == end_distance {
+        if distance <= start_distance && enabled(flags, FILL_START) {
+            return start_color;
+        }
+        if start_distance <= distance && enabled(flags, FILL_END) {
+            return end_color;
+        }
+        return vec4(0.);
+    }
+
+    var t = (distance - start_distance) / (end_distance - start_distance);
+
+    if t < 0.0 {
+        if enabled(flags, FILL_START) {
+            return start_color;
+        }
+        return vec4(0.0);
+    }
+
+    if 1. < t {
+        if enabled(flags, FILL_END) {
+            return end_color;
+        }
+        return vec4(0.0);
+    }
+
+    if t < hint {
+        t = 0.5 * t / hint;
+    } else {
+        t = 0.5 * (1 + (t - hint) / (1.0 - hint));
+    }
+    
+#ifdef IN_SRGB
+    return mix_linear_rgba_in_srgba_space(start_color, end_color, t);
+#else ifdef IN_OKLAB
+    return mix_linear_rgba_in_oklaba_space(start_color, end_color, t);
+#else ifdef IN_OKLCH
+    return mix_linear_rgba_in_oklcha_space(start_color, end_color, t);
+#else ifdef IN_OKLCH_LONG
+    return mix_linear_rgba_in_oklcha_space_long(start_color, end_color, t);
+#else ifdef IN_HSV
+    return mix_linear_rgba_in_hsva_space(start_color, end_color, t);
+#else ifdef IN_HSV_LONG
+    return mix_linear_rgba_in_hsva_space_long(start_color, end_color, t);
+#else ifdef IN_HSL
+    return mix_linear_rgba_in_hsla_space(start_color, end_color, t);
+#else ifdef IN_HSL_LONG
+    return mix_linear_rgba_in_hsla_space_long(start_color, end_color, t);
+#else
+    return mix(start_color, end_color, t);
+#endif
+}
+
+```
 ### bevy_shaders-instancing
 ```rust
 #import bevy_pbr::mesh_functions::{get_world_from_local, mesh_position_local_to_clip}
@@ -8178,7 +8855,7 @@ struct VoxelVisualizationIrradianceVolumeInfo {
     intensity: f32,
 }
 
-@group(2) @binding(100)
+@group(3) @binding(100)
 var<uniform> irradiance_volume_info: VoxelVisualizationIrradianceVolumeInfo;
 
 @fragment
@@ -8222,11 +8899,11 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
 #import bevy_pbr::mesh_bindings::mesh
 
 #ifdef MULTIPLE_LIGHTMAPS_IN_ARRAY
-@group(1) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>, 4>;
-@group(1) @binding(5) var lightmaps_samplers: binding_array<sampler, 4>;
+@group(2) @binding(4) var lightmaps_textures: binding_array<texture_2d<f32>, 4>;
+@group(2) @binding(5) var lightmaps_samplers: binding_array<sampler, 4>;
 #else   // MULTIPLE_LIGHTMAPS_IN_ARRAY
-@group(1) @binding(4) var lightmaps_texture: texture_2d<f32>;
-@group(1) @binding(5) var lightmaps_sampler: sampler;
+@group(2) @binding(4) var lightmaps_texture: texture_2d<f32>;
+@group(2) @binding(5) var lightmaps_sampler: sampler;
 #endif  // MULTIPLE_LIGHTMAPS_IN_ARRAY
 
 // Samples the lightmap, if any, and returns indirect illumination from it.
@@ -8936,7 +9613,7 @@ struct LineMaterial {
     color: vec4<f32>,
 };
 
-@group(2) @binding(0) var<uniform> material: LineMaterial;
+@group(3) @binding(0) var<uniform> material: LineMaterial;
 
 @fragment
 fn fragment(
@@ -8953,6 +9630,21 @@ fn fragment(
 @group(0) @binding(#TONEMAPPING_LUT_TEXTURE_BINDING_INDEX) var dt_lut_texture: texture_3d<f32>;
 @group(0) @binding(#TONEMAPPING_LUT_SAMPLER_BINDING_INDEX) var dt_lut_sampler: sampler;
 
+
+```
+### bevy_shaders-manual_material
+```rust
+#import bevy_pbr::forward_io::VertexOutput
+
+@group(3) @binding(0) var material_color_texture: texture_2d<f32>;
+@group(3) @binding(1) var material_color_sampler: sampler;
+
+@fragment
+fn fragment(
+    mesh: VertexOutput,
+) -> @location(0) vec4<f32> {
+    return textureSample(material_color_texture, material_color_sampler, mesh.uv);
+}
 
 ```
 ### bevy_shaders-maths
@@ -9063,17 +9755,11 @@ fn project_onto(lhs: vec3<f32>, rhs: vec3<f32>) -> vec3<f32> {
 // are likely most useful when raymarching, for example, where complete numeric
 // accuracy can be sacrificed for greater sample count.
 
-fn fast_sqrt(x: f32) -> f32 {
-    let n = bitcast<f32>(0x1fbd1df5 + (bitcast<i32>(x) >> 1u));
-    // One Newton's method iteration for better precision
-    return 0.5 * (n + x / n);
-}
-
 // Slightly less accurate than fast_acos_4, but much simpler.
 fn fast_acos(in_x: f32) -> f32 {
     let x = abs(in_x);
     var res = -0.156583 * x + HALF_PI;
-    res *= fast_sqrt(1.0 - x);
+    res *= sqrt(1.0 - x);
     return select(PI - res, res, in_x >= 0.0);
 }
 
@@ -9090,7 +9776,7 @@ fn fast_acos_4(x: f32) -> f32 {
     s = -0.2121144 * x1 + 1.5707288;
     s = 0.0742610 * x2 + s;
     s = -0.0187293 * x3 + s;
-    s = fast_sqrt(1.0 - x1) * s;
+    s = sqrt(1.0 - x1) * s;
 
 	// acos function mirroring
     return select(PI - s, s, x >= 0.0);
@@ -9457,6 +10143,13 @@ struct VertexOutput {
 #import bevy_pbr::prepass_bindings::PreviousViewUniforms
 #import bevy_pbr::utils::octahedral_decode_signed
 
+struct BvhNode {
+    aabbs: array<MeshletAabbErrorOffset, 8>,
+    lod_bounds: array<vec4<f32>, 8>,
+    child_counts: array<u32, 2>,
+    _padding: vec2<u32>,
+}
+
 struct Meshlet {
     start_vertex_position_bit: u32,
     start_vertex_attribute_id: u32,
@@ -9476,15 +10169,34 @@ fn get_meshlet_triangle_count(meshlet: ptr<function, Meshlet>) -> u32 {
     return extractBits((*meshlet).packed_a, 8u, 8u);
 }
 
-struct MeshletBoundingSpheres {
-    culling_sphere: MeshletBoundingSphere,
-    lod_group_sphere: MeshletBoundingSphere,
-    lod_parent_group_sphere: MeshletBoundingSphere,
+struct MeshletCullData {
+    aabb: MeshletAabbErrorOffset,
+    lod_group_sphere: vec4<f32>,
 }
 
-struct MeshletBoundingSphere {
+struct MeshletAabb {
     center: vec3<f32>,
-    radius: f32,
+    half_extent: vec3<f32>,
+}
+
+struct MeshletAabbErrorOffset {
+    center_and_error: vec4<f32>,
+    half_extent_and_child_offset: vec4<f32>,
+}
+
+fn get_aabb(aabb: ptr<function, MeshletAabbErrorOffset>) -> MeshletAabb {
+    return MeshletAabb(
+        (*aabb).center_and_error.xyz,
+        (*aabb).half_extent_and_child_offset.xyz,
+    );
+}
+
+fn get_aabb_error(aabb: ptr<function, MeshletAabbErrorOffset>) -> f32 {
+    return (*aabb).center_and_error.w;
+}
+
+fn get_aabb_child_offset(aabb: ptr<function, MeshletAabbErrorOffset>) -> u32 {
+    return bitcast<u32>((*aabb).half_extent_and_child_offset.w);
 }
 
 struct DispatchIndirectArgs {
@@ -9500,63 +10212,133 @@ struct DrawIndirectArgs {
     first_instance: u32,
 }
 
+// Either a BVH node or a meshlet, along with the instance it is associated with.
+// Refers to BVH nodes in `meshlet_bvh_cull_queue` and `meshlet_second_pass_bvh_queue`, where `offset` is the index into `meshlet_bvh_nodes`.
+// Refers to meshlets in `meshlet_meshlet_cull_queue` and `meshlet_raster_clusters`.
+// In `meshlet_meshlet_cull_queue`, `offset` is the index into `meshlet_cull_data`.
+// In `meshlet_raster_clusters`, `offset` is the index into `meshlets`.
+struct InstancedOffset {
+    instance_id: u32,
+    offset: u32,
+}
+
 const CENTIMETERS_PER_METER = 100.0;
 
-#ifdef MESHLET_FILL_CLUSTER_BUFFERS_PASS
-var<push_constant> scene_instance_count: u32;
-@group(0) @binding(0) var<storage, read> meshlet_instance_meshlet_counts: array<u32>; // Per entity instance
-@group(0) @binding(1) var<storage, read> meshlet_instance_meshlet_slice_starts: array<u32>; // Per entity instance
-@group(0) @binding(2) var<storage, read_write> meshlet_cluster_instance_ids: array<u32>; // Per cluster
-@group(0) @binding(3) var<storage, read_write> meshlet_cluster_meshlet_ids: array<u32>; // Per cluster
-@group(0) @binding(4) var<storage, read_write> meshlet_global_cluster_count: atomic<u32>; // Single object shared between all workgroups
+#ifdef MESHLET_INSTANCE_CULLING_PASS
+struct Constants { scene_instance_count: u32 }
+var<push_constant> constants: Constants;
+
+// Cull data
+@group(0) @binding(0) var depth_pyramid: texture_2d<f32>;
+@group(0) @binding(1) var<uniform> view: View;
+@group(0) @binding(2) var<uniform> previous_view: PreviousViewUniforms;
+
+// Per entity instance data
+@group(0) @binding(3) var<storage, read> meshlet_instance_uniforms: array<Mesh>;
+@group(0) @binding(4) var<storage, read> meshlet_view_instance_visibility: array<u32>; // 1 bit per entity instance, packed as a bitmask
+@group(0) @binding(5) var<storage, read> meshlet_instance_aabbs: array<MeshletAabb>;
+@group(0) @binding(6) var<storage, read> meshlet_instance_bvh_root_nodes: array<u32>;
+
+// BVH cull queue data
+@group(0) @binding(7) var<storage, read_write> meshlet_bvh_cull_count_write: atomic<u32>;
+@group(0) @binding(8) var<storage, read_write> meshlet_bvh_cull_dispatch: DispatchIndirectArgs;
+@group(0) @binding(9) var<storage, read_write> meshlet_bvh_cull_queue: array<InstancedOffset>;
+
+// Second pass queue data
+#ifdef MESHLET_FIRST_CULLING_PASS
+@group(0) @binding(10) var<storage, read_write> meshlet_second_pass_instance_count: atomic<u32>;
+@group(0) @binding(11) var<storage, read_write> meshlet_second_pass_instance_dispatch: DispatchIndirectArgs;
+@group(0) @binding(12) var<storage, read_write> meshlet_second_pass_instance_candidates: array<u32>;
+#else
+@group(0) @binding(10) var<storage, read> meshlet_second_pass_instance_count: u32;
+@group(0) @binding(11) var<storage, read> meshlet_second_pass_instance_candidates: array<u32>;
+#endif
 #endif
 
-#ifdef MESHLET_CULLING_PASS
-struct Constants { scene_cluster_count: u32, meshlet_raster_cluster_rightmost_slot: u32 }
+#ifdef MESHLET_BVH_CULLING_PASS
+struct Constants { read_from_front: u32, rightmost_slot: u32 }
 var<push_constant> constants: Constants;
-@group(0) @binding(0) var<storage, read> meshlet_cluster_meshlet_ids: array<u32>; // Per cluster
-@group(0) @binding(1) var<storage, read> meshlet_bounding_spheres: array<MeshletBoundingSpheres>; // Per meshlet
-@group(0) @binding(2) var<storage, read> meshlet_simplification_errors: array<u32>; // Per meshlet
-@group(0) @binding(3) var<storage, read> meshlet_cluster_instance_ids: array<u32>; // Per cluster
-@group(0) @binding(4) var<storage, read> meshlet_instance_uniforms: array<Mesh>; // Per entity instance
-@group(0) @binding(5) var<storage, read> meshlet_view_instance_visibility: array<u32>; // 1 bit per entity instance, packed as a bitmask
-@group(0) @binding(6) var<storage, read_write> meshlet_second_pass_candidates: array<atomic<u32>>; // 1 bit per cluster , packed as a bitmask
-@group(0) @binding(7) var<storage, read_write> meshlet_software_raster_indirect_args: DispatchIndirectArgs; // Single object shared between all workgroups
-@group(0) @binding(8) var<storage, read_write> meshlet_hardware_raster_indirect_args: DrawIndirectArgs; // Single object shared between all workgroups
-@group(0) @binding(9) var<storage, read_write> meshlet_raster_clusters: array<u32>; // Single object shared between all workgroups
-@group(0) @binding(10) var depth_pyramid: texture_2d<f32>; // From the end of the last frame for the first culling pass, and from the first raster pass for the second culling pass
-@group(0) @binding(11) var<uniform> view: View;
-@group(0) @binding(12) var<uniform> previous_view: PreviousViewUniforms;
 
-fn should_cull_instance(instance_id: u32) -> bool {
-    let bit_offset = instance_id % 32u;
-    let packed_visibility = meshlet_view_instance_visibility[instance_id / 32u];
-    return bool(extractBits(packed_visibility, bit_offset, 1u));
-}
+// Cull data
+@group(0) @binding(0) var depth_pyramid: texture_2d<f32>; // From the end of the last frame for the first culling pass, and from the first raster pass for the second culling pass
+@group(0) @binding(1) var<uniform> view: View;
+@group(0) @binding(2) var<uniform> previous_view: PreviousViewUniforms;
 
-// TODO: Load 4x per workgroup instead of once per thread?
-fn cluster_is_second_pass_candidate(cluster_id: u32) -> bool {
-    let packed_candidates = meshlet_second_pass_candidates[cluster_id / 32u];
-    let bit_offset = cluster_id % 32u;
-    return bool(extractBits(packed_candidates, bit_offset, 1u));
-}
+// Global mesh data
+@group(0) @binding(3) var<storage, read> meshlet_bvh_nodes: array<BvhNode>;
+
+// Per entity instance data
+@group(0) @binding(4) var<storage, read> meshlet_instance_uniforms: array<Mesh>;
+
+// BVH cull queue data
+@group(0) @binding(5) var<storage, read> meshlet_bvh_cull_count_read: u32;
+@group(0) @binding(6) var<storage, read_write> meshlet_bvh_cull_count_write: atomic<u32>;
+@group(0) @binding(7) var<storage, read_write> meshlet_bvh_cull_dispatch: DispatchIndirectArgs;
+@group(0) @binding(8) var<storage, read_write> meshlet_bvh_cull_queue: array<InstancedOffset>;
+
+// Meshlet cull queue data
+@group(0) @binding(9) var<storage, read_write> meshlet_meshlet_cull_count_early: atomic<u32>;
+@group(0) @binding(10) var<storage, read_write> meshlet_meshlet_cull_count_late: atomic<u32>;
+@group(0) @binding(11) var<storage, read_write> meshlet_meshlet_cull_dispatch_early: DispatchIndirectArgs;
+@group(0) @binding(12) var<storage, read_write> meshlet_meshlet_cull_dispatch_late: DispatchIndirectArgs;
+@group(0) @binding(13) var<storage, read_write> meshlet_meshlet_cull_queue: array<InstancedOffset>;
+
+// Second pass queue data
+#ifdef MESHLET_FIRST_CULLING_PASS
+@group(0) @binding(14) var<storage, read_write> meshlet_second_pass_bvh_count: atomic<u32>;
+@group(0) @binding(15) var<storage, read_write> meshlet_second_pass_bvh_dispatch: DispatchIndirectArgs;
+@group(0) @binding(16) var<storage, read_write> meshlet_second_pass_bvh_queue: array<InstancedOffset>;
+#endif
+#endif
+
+#ifdef MESHLET_CLUSTER_CULLING_PASS
+struct Constants { rightmost_slot: u32 }
+var<push_constant> constants: Constants;
+
+// Cull data
+@group(0) @binding(0) var depth_pyramid: texture_2d<f32>; // From the end of the last frame for the first culling pass, and from the first raster pass for the second culling pass
+@group(0) @binding(1) var<uniform> view: View;
+@group(0) @binding(2) var<uniform> previous_view: PreviousViewUniforms;
+
+// Global mesh data
+@group(0) @binding(3) var<storage, read> meshlet_cull_data: array<MeshletCullData>;
+
+// Per entity instance data
+@group(0) @binding(4) var<storage, read> meshlet_instance_uniforms: array<Mesh>;
+
+// Raster queue data
+@group(0) @binding(5) var<storage, read_write> meshlet_software_raster_indirect_args: DispatchIndirectArgs;
+@group(0) @binding(6) var<storage, read_write> meshlet_hardware_raster_indirect_args: DrawIndirectArgs;
+@group(0) @binding(7) var<storage, read> meshlet_previous_raster_counts: array<u32>;
+@group(0) @binding(8) var<storage, read_write> meshlet_raster_clusters: array<InstancedOffset>;
+
+// Meshlet cull queue data
+@group(0) @binding(9) var<storage, read> meshlet_meshlet_cull_count_read: u32;
+
+// Second pass queue data
+#ifdef MESHLET_FIRST_CULLING_PASS
+@group(0) @binding(10) var<storage, read_write> meshlet_meshlet_cull_count_write: atomic<u32>;
+@group(0) @binding(11) var<storage, read_write> meshlet_meshlet_cull_dispatch: DispatchIndirectArgs;
+@group(0) @binding(12) var<storage, read_write> meshlet_meshlet_cull_queue: array<InstancedOffset>;
+#else
+@group(0) @binding(10) var<storage, read> meshlet_meshlet_cull_queue: array<InstancedOffset>;
+#endif
 #endif
 
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS
-@group(0) @binding(0) var<storage, read> meshlet_cluster_meshlet_ids: array<u32>; // Per cluster
+@group(0) @binding(0) var<storage, read> meshlet_raster_clusters: array<InstancedOffset>; // Per cluster
 @group(0) @binding(1) var<storage, read> meshlets: array<Meshlet>; // Per meshlet
 @group(0) @binding(2) var<storage, read> meshlet_indices: array<u32>; // Many per meshlet
 @group(0) @binding(3) var<storage, read> meshlet_vertex_positions: array<u32>; // Many per meshlet
-@group(0) @binding(4) var<storage, read> meshlet_cluster_instance_ids: array<u32>; // Per cluster
-@group(0) @binding(5) var<storage, read> meshlet_instance_uniforms: array<Mesh>; // Per entity instance
-@group(0) @binding(6) var<storage, read> meshlet_raster_clusters: array<u32>; // Single object shared between all workgroups
-@group(0) @binding(7) var<storage, read> meshlet_software_raster_cluster_count: u32;
+@group(0) @binding(4) var<storage, read> meshlet_instance_uniforms: array<Mesh>; // Per entity instance
+@group(0) @binding(5) var<storage, read> meshlet_previous_raster_counts: array<u32>;
+@group(0) @binding(6) var<storage, read> meshlet_software_raster_cluster_count: u32;
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
-@group(0) @binding(8) var meshlet_visibility_buffer: texture_storage_2d<r64uint, atomic>;
+@group(0) @binding(7) var meshlet_visibility_buffer: texture_storage_2d<r64uint, atomic>;
 #else
-@group(0) @binding(8) var meshlet_visibility_buffer: texture_storage_2d<r32uint, atomic>;
+@group(0) @binding(7) var meshlet_visibility_buffer: texture_storage_2d<r32uint, atomic>;
 #endif
-@group(0) @binding(9) var<uniform> view: View;
+@group(0) @binding(8) var<uniform> view: View;
 
 // TODO: Load only twice, instead of 3x in cases where you load 3 indices per thread?
 fn get_meshlet_vertex_id(index_id: u32) -> u32 {
@@ -9601,15 +10383,14 @@ fn get_meshlet_vertex_position(meshlet: ptr<function, Meshlet>, vertex_id: u32) 
 #endif
 
 #ifdef MESHLET_MESH_MATERIAL_PASS
-@group(1) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, read>;
-@group(1) @binding(1) var<storage, read> meshlet_cluster_meshlet_ids: array<u32>; // Per cluster
-@group(1) @binding(2) var<storage, read> meshlets: array<Meshlet>; // Per meshlet
-@group(1) @binding(3) var<storage, read> meshlet_indices: array<u32>; // Many per meshlet
-@group(1) @binding(4) var<storage, read> meshlet_vertex_positions: array<u32>; // Many per meshlet
-@group(1) @binding(5) var<storage, read> meshlet_vertex_normals: array<u32>; // Many per meshlet
-@group(1) @binding(6) var<storage, read> meshlet_vertex_uvs: array<vec2<f32>>; // Many per meshlet
-@group(1) @binding(7) var<storage, read> meshlet_cluster_instance_ids: array<u32>; // Per cluster
-@group(1) @binding(8) var<storage, read> meshlet_instance_uniforms: array<Mesh>; // Per entity instance
+@group(2) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, read>;
+@group(2) @binding(1) var<storage, read> meshlet_raster_clusters: array<InstancedOffset>; // Per cluster
+@group(2) @binding(2) var<storage, read> meshlets: array<Meshlet>; // Per meshlet
+@group(2) @binding(3) var<storage, read> meshlet_indices: array<u32>; // Many per meshlet
+@group(2) @binding(4) var<storage, read> meshlet_vertex_positions: array<u32>; // Many per meshlet
+@group(2) @binding(5) var<storage, read> meshlet_vertex_normals: array<u32>; // Many per meshlet
+@group(2) @binding(6) var<storage, read> meshlet_vertex_uvs: array<vec2<f32>>; // Many per meshlet
+@group(2) @binding(7) var<storage, read> meshlet_instance_uniforms: array<Mesh>; // Per entity instance
 
 // TODO: Load only twice, instead of 3x in cases where you load 3 indices per thread?
 fn get_meshlet_vertex_id(index_id: u32) -> u32 {
@@ -9661,6 +10442,217 @@ fn get_meshlet_vertex_uv(meshlet: ptr<function, Meshlet>, vertex_id: u32) -> vec
     return meshlet_vertex_uvs[(*meshlet).start_vertex_attribute_id + vertex_id];
 }
 #endif
+
+```
+### bevy_shaders-meshlet_cull_shared
+```rust
+#define_import_path bevy_pbr::meshlet_cull_shared
+
+#import bevy_pbr::meshlet_bindings::{
+    MeshletAabb,
+    DispatchIndirectArgs,
+    InstancedOffset,
+    depth_pyramid,
+    view,
+    previous_view,
+    meshlet_instance_uniforms,
+}
+#import bevy_render::maths::affine3_to_square
+
+// https://github.com/zeux/meshoptimizer/blob/1e48e96c7e8059321de492865165e9ef071bffba/demo/nanite.cpp#L115
+fn lod_error_is_imperceptible(lod_sphere: vec4<f32>, simplification_error: f32, instance_id: u32) -> bool {
+    let world_from_local = affine3_to_square(meshlet_instance_uniforms[instance_id].world_from_local);
+    let world_scale = max(length(world_from_local[0]), max(length(world_from_local[1]), length(world_from_local[2])));
+    let camera_pos = view.world_position;
+
+    let projection = view.clip_from_view;
+    if projection[3][3] == 1.0 {
+        // Orthographic
+        let world_error = simplification_error * world_scale;
+        let proj = projection[1][1];
+        let height = 2.0 / proj;
+        let norm_error = world_error / height;
+        return norm_error * view.viewport.w < 1.0;
+    } else {
+        // Perspective
+        var near = projection[3][2];
+        let world_sphere_center = (world_from_local * vec4<f32>(lod_sphere.xyz, 1.0)).xyz;
+        let world_sphere_radius = lod_sphere.w * world_scale;
+        let d_pos = world_sphere_center - camera_pos;
+        let d = sqrt(dot(d_pos, d_pos)) - world_sphere_radius;
+        let norm_error = simplification_error / max(d, near) * projection[1][1] * 0.5;
+        return norm_error * view.viewport.w < 1.0;
+    }
+}
+
+fn normalize_plane(p: vec4<f32>) -> vec4<f32> {
+    return p / length(p.xyz);
+}
+
+// https://fgiesen.wordpress.com/2012/08/31/frustum-planes-from-the-projection-matrix/
+// https://fgiesen.wordpress.com/2010/10/17/view-frustum-culling/
+fn aabb_in_frustum(aabb: MeshletAabb, instance_id: u32) -> bool {
+    let world_from_local = affine3_to_square(meshlet_instance_uniforms[instance_id].world_from_local);
+    let clip_from_local = view.clip_from_world * world_from_local;
+    let row_major = transpose(clip_from_local);
+    let planes = array(
+        row_major[3] + row_major[0],
+        row_major[3] - row_major[0],
+        row_major[3] + row_major[1],
+        row_major[3] - row_major[1],
+        row_major[2],
+    );
+
+    for (var i = 0; i < 5; i++) {
+        let plane = normalize_plane(planes[i]);
+        let flipped = aabb.half_extent * sign(plane.xyz);
+        if dot(aabb.center + flipped, plane.xyz) <= -plane.w {
+            return false;
+        }
+    }
+    return true;
+}
+
+struct ScreenAabb {
+    min: vec3<f32>,
+    max: vec3<f32>,
+}
+
+fn min8(a: vec3<f32>, b: vec3<f32>, c: vec3<f32>, d: vec3<f32>, e: vec3<f32>, f: vec3<f32>, g: vec3<f32>, h: vec3<f32>) -> vec3<f32> {
+    return min(min(min(a, b), min(c, d)), min(min(e, f), min(g, h)));
+}
+
+fn max8(a: vec3<f32>, b: vec3<f32>, c: vec3<f32>, d: vec3<f32>, e: vec3<f32>, f: vec3<f32>, g: vec3<f32>, h: vec3<f32>) -> vec3<f32> {
+    return max(max(max(a, b), max(c, d)), max(max(e, f), max(g, h)));
+}
+
+fn min8_4(a: vec4<f32>, b: vec4<f32>, c: vec4<f32>, d: vec4<f32>, e: vec4<f32>, f: vec4<f32>, g: vec4<f32>, h: vec4<f32>) -> vec4<f32> {
+    return min(min(min(a, b), min(c, d)), min(min(e, f), min(g, h)));
+}
+
+// https://zeux.io/2023/01/12/approximate-projected-bounds/
+fn project_aabb(clip_from_local: mat4x4<f32>, near: f32, aabb: MeshletAabb, out: ptr<function, ScreenAabb>) -> bool {
+    let extent = aabb.half_extent * 2.0;
+    let sx = clip_from_local * vec4<f32>(extent.x, 0.0, 0.0, 0.0);
+    let sy = clip_from_local * vec4<f32>(0.0, extent.y, 0.0, 0.0);
+    let sz = clip_from_local * vec4<f32>(0.0, 0.0, extent.z, 0.0);
+
+    let p0 = clip_from_local * vec4<f32>(aabb.center - aabb.half_extent, 1.0);
+    let p1 = p0 + sz;
+    let p2 = p0 + sy;
+    let p3 = p2 + sz;
+    let p4 = p0 + sx;
+    let p5 = p4 + sz;
+    let p6 = p4 + sy;
+    let p7 = p6 + sz;
+
+    let depth = min8_4(p0, p1, p2, p3, p4, p5, p6, p7).w;
+    // do not occlusion cull if we are inside the aabb
+    if depth < near {
+        return false;
+    }
+
+    let dp0 = p0.xyz / p0.w;
+    let dp1 = p1.xyz / p1.w;
+    let dp2 = p2.xyz / p2.w;
+    let dp3 = p3.xyz / p3.w;
+    let dp4 = p4.xyz / p4.w;
+    let dp5 = p5.xyz / p5.w;
+    let dp6 = p6.xyz / p6.w;
+    let dp7 = p7.xyz / p7.w;
+    let min = min8(dp0, dp1, dp2, dp3, dp4, dp5, dp6, dp7);
+    let max = max8(dp0, dp1, dp2, dp3, dp4, dp5, dp6, dp7);
+    var vaabb = vec4<f32>(min.xy, max.xy);
+    // convert ndc to texture coordinates by rescaling and flipping Y
+    vaabb = vaabb.xwzy * vec4<f32>(0.5, -0.5, 0.5, -0.5) + 0.5;
+    (*out).min = vec3<f32>(vaabb.xy, min.z);
+    (*out).max = vec3<f32>(vaabb.zw, max.z);
+    return true;
+}
+
+fn sample_hzb(smin: vec2<u32>, smax: vec2<u32>, mip: i32) -> f32 {
+    let texel = vec4<u32>(0, 1, 2, 3);
+    let sx = min(smin.x + texel, smax.xxxx);
+    let sy = min(smin.y + texel, smax.yyyy);
+    // TODO: switch to min samplers when wgpu has them
+    // sampling 16 times a finer mip is worth the extra cost for better culling
+    let a = sample_hzb_row(sx, sy.x, mip);
+    let b = sample_hzb_row(sx, sy.y, mip);
+    let c = sample_hzb_row(sx, sy.z, mip);
+    let d = sample_hzb_row(sx, sy.w, mip);
+    return min(min(a, b), min(c, d));
+}
+
+fn sample_hzb_row(sx: vec4<u32>, sy: u32, mip: i32) -> f32 {
+    let a = textureLoad(depth_pyramid, vec2(sx.x, sy), mip).x;
+    let b = textureLoad(depth_pyramid, vec2(sx.y, sy), mip).x;
+    let c = textureLoad(depth_pyramid, vec2(sx.z, sy), mip).x;
+    let d = textureLoad(depth_pyramid, vec2(sx.w, sy), mip).x;
+    return min(min(a, b), min(c, d));
+}
+
+// TODO: We should probably be using a POT HZB texture?
+fn occlusion_cull_screen_aabb(aabb: ScreenAabb, screen: vec2<f32>) -> bool {
+    let hzb_size = ceil(screen * 0.5);
+    let aabb_min = aabb.min.xy * hzb_size;
+    let aabb_max = aabb.max.xy * hzb_size;
+
+    let min_texel = vec2<u32>(max(aabb_min, vec2<f32>(0.0)));
+    let max_texel = vec2<u32>(min(aabb_max, hzb_size - 1.0));
+    let size = max_texel - min_texel;
+    let max_size = max(size.x, size.y);
+
+    // note: add 1 before max because the unsigned overflow behavior is intentional
+    // it wraps around firstLeadingBit(0) = ~0 to 0
+    // TODO: we actually sample a 4x4 block, so ideally this would be `max(..., 3u) - 3u`.
+    // However, since our HZB is not a power of two, we need to be extra-conservative to not over-cull, so we go up a mip.
+    var mip = max(firstLeadingBit(max_size) + 1u, 2u) - 2u;
+    
+    if any((max_texel >> vec2(mip)) > (min_texel >> vec2(mip)) + 3) {
+        mip += 1u;
+    }
+
+    let smin = min_texel >> vec2<u32>(mip);
+    let smax = max_texel >> vec2<u32>(mip);
+    
+    let curr_depth = sample_hzb(smin, smax, i32(mip));
+    return aabb.max.z <= curr_depth;
+}
+
+fn occlusion_cull_projection() -> mat4x4<f32> {
+#ifdef FIRST_CULLING_PASS
+    return view.clip_from_world;
+#else
+    return previous_view.clip_from_world;
+#endif
+}
+
+fn occlusion_cull_clip_from_local(instance_id: u32) -> mat4x4<f32> {
+#ifdef FIRST_CULLING_PASS
+    let prev_world_from_local = affine3_to_square(meshlet_instance_uniforms[instance_id].previous_world_from_local);
+    return previous_view.clip_from_world * prev_world_from_local;
+#else
+    let world_from_local = affine3_to_square(meshlet_instance_uniforms[instance_id].world_from_local);
+    return view.clip_from_world * world_from_local;
+#endif
+}
+
+fn should_occlusion_cull_aabb(aabb: MeshletAabb, instance_id: u32) -> bool {
+    let projection = occlusion_cull_projection();
+    var near: f32;
+    if projection[3][3] == 1.0 {
+        near = projection[3][2] / projection[2][2];
+    } else {
+        near = projection[3][2];
+    }
+
+    let clip_from_local = occlusion_cull_clip_from_local(instance_id);
+    var screen_aabb = ScreenAabb(vec3<f32>(0.0), vec3<f32>(0.0));
+    if project_aabb(clip_from_local, near, aabb, &screen_aabb) {
+        return occlusion_cull_screen_aabb(screen_aabb, view.viewport.zw);
+    }
+    return false;
+}
 
 ```
 ### bevy_shaders-meshlet_mesh_material
@@ -9727,9 +10719,9 @@ fn prepass_fragment(@builtin(position) frag_coord: vec4<f32>) -> prepass_io::Fra
 
 #ifndef MESHLET_MESH_MATERIAL_PASS
 #ifdef PER_OBJECT_BUFFER_BATCH_SIZE
-@group(1) @binding(0) var<uniform> mesh: array<Mesh, #{PER_OBJECT_BUFFER_BATCH_SIZE}u>;
+@group(2) @binding(0) var<uniform> mesh: array<Mesh, #{PER_OBJECT_BUFFER_BATCH_SIZE}u>;
 #else
-@group(1) @binding(0) var<storage> mesh: array<Mesh>;
+@group(2) @binding(0) var<storage> mesh: array<Mesh>;
 #endif // PER_OBJECT_BUFFER_BATCH_SIZE
 #endif  // MESHLET_MESH_MATERIAL_PASS
 
@@ -10399,15 +11391,12 @@ struct MorphWeights {
 #endif
 
 // [2^0, 2^16)
-const MESH_FLAGS_VISIBILITY_RANGE_INDEX_BITS: u32 = 65535u;
-// 2^28
-const MESH_FLAGS_NO_FRUSTUM_CULLING_BIT: u32 = 268435456u;
-// 2^29
-const MESH_FLAGS_SHADOW_RECEIVER_BIT: u32 = 536870912u;
-// 2^30
-const MESH_FLAGS_TRANSMITTED_SHADOW_RECEIVER_BIT: u32 = 1073741824u;
-// 2^31 - if the flag is set, the sign is positive, else it is negative
-const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32 = 2147483648u;
+const MESH_FLAGS_VISIBILITY_RANGE_INDEX_BITS: u32     = (1u << 16u) - 1u;
+const MESH_FLAGS_NO_FRUSTUM_CULLING_BIT: u32          = 1u << 28u;
+const MESH_FLAGS_SHADOW_RECEIVER_BIT: u32             = 1u << 29u;
+const MESH_FLAGS_TRANSMITTED_SHADOW_RECEIVER_BIT: u32 = 1u << 30u;
+// if the flag is set, the sign is positive, else it is negative
+const MESH_FLAGS_SIGN_DETERMINANT_MODEL_3X3_BIT: u32  = 1u << 31u;
 
 ```
 ### bevy_shaders-mesh_view_bindings
@@ -10464,73 +11453,73 @@ const VISIBILITY_RANGE_UNIFORM_BUFFER_SIZE: u32 = 64u;
 
 @group(0) @binding(15) var<uniform> ssr_settings: types::ScreenSpaceReflectionsSettings;
 @group(0) @binding(16) var screen_space_ambient_occlusion_texture: texture_2d<f32>;
-
-#ifdef MULTIPLE_LIGHT_PROBES_IN_ARRAY
-@group(0) @binding(17) var diffuse_environment_maps: binding_array<texture_cube<f32>, 8u>;
-@group(0) @binding(18) var specular_environment_maps: binding_array<texture_cube<f32>, 8u>;
-#else
-@group(0) @binding(17) var diffuse_environment_map: texture_cube<f32>;
-@group(0) @binding(18) var specular_environment_map: texture_cube<f32>;
-#endif
-@group(0) @binding(19) var environment_map_sampler: sampler;
-@group(0) @binding(20) var<uniform> environment_map_uniform: types::EnvironmentMapUniform;
-
-#ifdef IRRADIANCE_VOLUMES_ARE_USABLE
-#ifdef MULTIPLE_LIGHT_PROBES_IN_ARRAY
-@group(0) @binding(21) var irradiance_volumes: binding_array<texture_3d<f32>, 8u>;
-#else
-@group(0) @binding(21) var irradiance_volume: texture_3d<f32>;
-#endif
-@group(0) @binding(22) var irradiance_volume_sampler: sampler;
-#endif
-
-#ifdef CLUSTERED_DECALS_ARE_USABLE
-@group(0) @binding(23) var<storage> clustered_decals: types::ClusteredDecals;
-@group(0) @binding(24) var clustered_decal_textures: binding_array<texture_2d<f32>, 8u>;
-@group(0) @binding(25) var clustered_decal_sampler: sampler;
-#endif  // CLUSTERED_DECALS_ARE_USABLE
+@group(0) @binding(17) var<uniform> environment_map_uniform: types::EnvironmentMapUniform;
 
 // NB: If you change these, make sure to update `tonemapping_shared.wgsl` too.
-@group(0) @binding(26) var dt_lut_texture: texture_3d<f32>;
-@group(0) @binding(27) var dt_lut_sampler: sampler;
+@group(0) @binding(18) var dt_lut_texture: texture_3d<f32>;
+@group(0) @binding(19) var dt_lut_sampler: sampler;
 
 #ifdef MULTISAMPLED
 #ifdef DEPTH_PREPASS
-@group(0) @binding(28) var depth_prepass_texture: texture_depth_multisampled_2d;
+@group(0) @binding(20) var depth_prepass_texture: texture_depth_multisampled_2d;
 #endif // DEPTH_PREPASS
 #ifdef NORMAL_PREPASS
-@group(0) @binding(29) var normal_prepass_texture: texture_multisampled_2d<f32>;
+@group(0) @binding(21) var normal_prepass_texture: texture_multisampled_2d<f32>;
 #endif // NORMAL_PREPASS
 #ifdef MOTION_VECTOR_PREPASS
-@group(0) @binding(30) var motion_vector_prepass_texture: texture_multisampled_2d<f32>;
+@group(0) @binding(22) var motion_vector_prepass_texture: texture_multisampled_2d<f32>;
 #endif // MOTION_VECTOR_PREPASS
 
 #else // MULTISAMPLED
 
 #ifdef DEPTH_PREPASS
-@group(0) @binding(28) var depth_prepass_texture: texture_depth_2d;
+@group(0) @binding(20) var depth_prepass_texture: texture_depth_2d;
 #endif // DEPTH_PREPASS
 #ifdef NORMAL_PREPASS
-@group(0) @binding(29) var normal_prepass_texture: texture_2d<f32>;
+@group(0) @binding(21) var normal_prepass_texture: texture_2d<f32>;
 #endif // NORMAL_PREPASS
 #ifdef MOTION_VECTOR_PREPASS
-@group(0) @binding(30) var motion_vector_prepass_texture: texture_2d<f32>;
+@group(0) @binding(22) var motion_vector_prepass_texture: texture_2d<f32>;
 #endif // MOTION_VECTOR_PREPASS
 
 #endif // MULTISAMPLED
 
 #ifdef DEFERRED_PREPASS
-@group(0) @binding(31) var deferred_prepass_texture: texture_2d<u32>;
+@group(0) @binding(23) var deferred_prepass_texture: texture_2d<u32>;
 #endif // DEFERRED_PREPASS
 
-@group(0) @binding(32) var view_transmission_texture: texture_2d<f32>;
-@group(0) @binding(33) var view_transmission_sampler: sampler;
+@group(0) @binding(24) var view_transmission_texture: texture_2d<f32>;
+@group(0) @binding(25) var view_transmission_sampler: sampler;
 
 #ifdef OIT_ENABLED
-@group(0) @binding(34) var<storage, read_write> oit_layers: array<vec2<u32>>;
-@group(0) @binding(35) var<storage, read_write> oit_layer_ids: array<atomic<i32>>;
-@group(0) @binding(36) var<uniform> oit_settings: types::OrderIndependentTransparencySettings;
+@group(0) @binding(26) var<storage, read_write> oit_layers: array<vec2<u32>>;
+@group(0) @binding(27) var<storage, read_write> oit_layer_ids: array<atomic<i32>>;
+@group(0) @binding(28) var<uniform> oit_settings: types::OrderIndependentTransparencySettings;
 #endif // OIT_ENABLED
+
+#ifdef MULTIPLE_LIGHT_PROBES_IN_ARRAY
+@group(1) @binding(0) var diffuse_environment_maps: binding_array<texture_cube<f32>, 8u>;
+@group(1) @binding(1) var specular_environment_maps: binding_array<texture_cube<f32>, 8u>;
+#else
+@group(1) @binding(0) var diffuse_environment_map: texture_cube<f32>;
+@group(1) @binding(1) var specular_environment_map: texture_cube<f32>;
+#endif
+@group(1) @binding(2) var environment_map_sampler: sampler;
+
+#ifdef IRRADIANCE_VOLUMES_ARE_USABLE
+#ifdef MULTIPLE_LIGHT_PROBES_IN_ARRAY
+@group(1) @binding(3) var irradiance_volumes: binding_array<texture_3d<f32>, 8u>;
+#else
+@group(1) @binding(3) var irradiance_volume: texture_3d<f32>;
+#endif
+@group(1) @binding(4) var irradiance_volume_sampler: sampler;
+#endif
+
+#ifdef CLUSTERED_DECALS_ARE_USABLE
+@group(1) @binding(5) var<storage> clustered_decals: types::ClusteredDecals;
+@group(1) @binding(6) var clustered_decal_textures: binding_array<texture_2d<f32>, 8u>;
+@group(1) @binding(7) var clustered_decal_sampler: sampler;
+#endif  // CLUSTERED_DECALS_ARE_USABLE
 
 ```
 ### bevy_shaders-mesh_view_types
@@ -10550,14 +11539,14 @@ struct ClusterableObject {
     spot_light_tan_angle: f32,
     soft_shadow_size: f32,
     shadow_map_near_z: f32,
-    texture_index: u32,
+    decal_index: u32,
     pad: f32,
 };
 
-const POINT_LIGHT_FLAGS_SHADOWS_ENABLED_BIT: u32                    = 1u;
-const POINT_LIGHT_FLAGS_SPOT_LIGHT_Y_NEGATIVE: u32                  = 2u;
-const POINT_LIGHT_FLAGS_VOLUMETRIC_BIT: u32                         = 4u;
-const POINT_LIGHT_FLAGS_AFFECTS_LIGHTMAPPED_MESH_DIFFUSE_BIT: u32   = 8u;
+const POINT_LIGHT_FLAGS_SHADOWS_ENABLED_BIT: u32                    = 1u << 0u;
+const POINT_LIGHT_FLAGS_SPOT_LIGHT_Y_NEGATIVE: u32                  = 1u << 1u;
+const POINT_LIGHT_FLAGS_VOLUMETRIC_BIT: u32                         = 1u << 2u;
+const POINT_LIGHT_FLAGS_AFFECTS_LIGHTMAPPED_MESH_DIFFUSE_BIT: u32   = 1u << 3u;
 
 struct DirectionalCascade {
     clip_from_world: mat4x4<f32>,
@@ -10577,12 +11566,12 @@ struct DirectionalLight {
     num_cascades: u32,
     cascades_overlap_proportion: f32,
     depth_texture_base_index: u32,
-    skip: u32,
+    decal_index: u32,
 };
 
-const DIRECTIONAL_LIGHT_FLAGS_SHADOWS_ENABLED_BIT: u32                  = 1u;
-const DIRECTIONAL_LIGHT_FLAGS_VOLUMETRIC_BIT: u32                       = 2u;
-const DIRECTIONAL_LIGHT_FLAGS_AFFECTS_LIGHTMAPPED_MESH_DIFFUSE_BIT: u32 = 4u;
+const DIRECTIONAL_LIGHT_FLAGS_SHADOWS_ENABLED_BIT: u32                  = 1u << 0u;
+const DIRECTIONAL_LIGHT_FLAGS_VOLUMETRIC_BIT: u32                       = 1u << 1u;
+const DIRECTIONAL_LIGHT_FLAGS_AFFECTS_LIGHTMAPPED_MESH_DIFFUSE_BIT: u32 = 1u << 2u;
 
 struct Lights {
     // NOTE: this array size must be kept in sync with the constants defined in bevy_pbr/src/render/light.rs
@@ -10731,9 +11720,9 @@ struct ClusteredDecals {
 
 #import bevy_pbr::mesh_types::MorphWeights;
 
-@group(1) @binding(2) var<uniform> morph_weights: MorphWeights;
-@group(1) @binding(3) var morph_targets: texture_3d<f32>;
-@group(1) @binding(7) var<uniform> prev_morph_weights: MorphWeights;
+@group(2) @binding(2) var<uniform> morph_weights: MorphWeights;
+@group(2) @binding(3) var morph_targets: texture_3d<f32>;
+@group(2) @binding(7) var<uniform> prev_morph_weights: MorphWeights;
 
 // NOTE: Those are the "hardcoded" values found in `MorphAttributes` struct
 // in crates/bevy_render/src/mesh/morph/visitors.rs
@@ -11433,6 +12422,88 @@ fn parallaxed_uv(
 }
 
 ```
+### bevy_shaders-pathtracer
+```rust
+#import bevy_core_pipeline::tonemapping::tonemapping_luminance as luminance
+#import bevy_pbr::utils::{rand_f, rand_vec2f}
+#import bevy_render::maths::PI
+#import bevy_render::view::View
+#import bevy_solari::sampling::{sample_random_light, sample_cosine_hemisphere}
+#import bevy_solari::scene_bindings::{trace_ray, resolve_ray_hit_full, RAY_T_MIN, RAY_T_MAX}
+
+@group(1) @binding(0) var accumulation_texture: texture_storage_2d<rgba32float, read_write>;
+@group(1) @binding(1) var view_output: texture_storage_2d<rgba16float, write>;
+@group(1) @binding(2) var<uniform> view: View;
+
+@compute @workgroup_size(8, 8, 1)
+fn pathtrace(@builtin(global_invocation_id) global_id: vec3<u32>) {
+    if any(global_id.xy >= vec2u(view.viewport.zw)) {
+        return;
+    }
+
+    let old_color = textureLoad(accumulation_texture, global_id.xy);
+
+    // Setup RNG
+    let pixel_index = global_id.x + global_id.y * u32(view.viewport.z);
+    let frame_index = u32(old_color.a) * 5782582u;
+    var rng = pixel_index + frame_index;
+
+    // Shoot the first ray from the camera
+    let pixel_center = vec2<f32>(global_id.xy) + 0.5;
+    let jitter = rand_vec2f(&rng) - 0.5;
+    let pixel_uv = (pixel_center + jitter) / view.viewport.zw;
+    let pixel_ndc = (pixel_uv * 2.0) - 1.0;
+    let primary_ray_target = view.world_from_clip * vec4(pixel_ndc.x, -pixel_ndc.y, 1.0, 1.0);
+    var ray_origin = view.world_position;
+    var ray_direction = normalize((primary_ray_target.xyz / primary_ray_target.w) - ray_origin);
+    var ray_t_min = 0.0;
+
+    // Path trace
+    var radiance = vec3(0.0);
+    var throughput = vec3(1.0);
+    loop {
+        let ray_hit = trace_ray(ray_origin, ray_direction, ray_t_min, RAY_T_MAX, RAY_FLAG_NONE);
+        if ray_hit.kind != RAY_QUERY_INTERSECTION_NONE {
+            let ray_hit = resolve_ray_hit_full(ray_hit);
+
+            // Evaluate material BRDF
+            let diffuse_brdf = ray_hit.material.base_color / PI;
+
+            // Use emissive only on the first ray (coming from the camera)
+            if ray_t_min == 0.0 { radiance = ray_hit.material.emissive; }
+
+            // Sample direct lighting
+            radiance += throughput * diffuse_brdf * sample_random_light(ray_hit.world_position, ray_hit.world_normal, &rng);
+
+            // Sample new ray direction from the material BRDF for next bounce
+            ray_direction = sample_cosine_hemisphere(ray_hit.world_normal, &rng);
+
+            // Update other variables for next bounce
+            ray_origin = ray_hit.world_position;
+            ray_t_min = RAY_T_MIN;
+
+            // Update throughput for next bounce
+            let cos_theta = dot(-ray_direction, ray_hit.world_normal);
+            let cosine_hemisphere_pdf = cos_theta / PI; // Weight for the next bounce because we importance sampled the diffuse BRDF for the next ray direction
+            throughput *= (diffuse_brdf * cos_theta) / cosine_hemisphere_pdf;
+
+            // Russian roulette for early termination
+            let p = luminance(throughput);
+            if rand_f(&rng) > p { break; }
+            throughput /= p;
+        } else { break; }
+    }
+
+    // Camera exposure
+    radiance *= view.exposure;
+
+    // Accumulation over time via running average
+    let new_color = mix(old_color.rgb, radiance, 1.0 / (old_color.a + 1.0));
+    textureStore(accumulation_texture, global_id.xy, vec4(new_color, old_color.a + 1.0));
+    textureStore(view_output, global_id.xy, vec4(new_color, 1.0));
+}
+
+```
 ### bevy_shaders-pbr
 ```rust
 #import bevy_pbr::{
@@ -11618,53 +12689,53 @@ struct StandardMaterialBindings {
     specular_tint_sampler: u32,         // 30
 }
 
-@group(2) @binding(0) var<storage> material_indices: array<StandardMaterialBindings>;
-@group(2) @binding(10) var<storage> material_array: array<StandardMaterial>;
+@group(3) @binding(0) var<storage> material_indices: array<StandardMaterialBindings>;
+@group(3) @binding(10) var<storage> material_array: array<StandardMaterial>;
 
 #else   // BINDLESS
 
-@group(2) @binding(0) var<uniform> material: StandardMaterial;
-@group(2) @binding(1) var base_color_texture: texture_2d<f32>;
-@group(2) @binding(2) var base_color_sampler: sampler;
-@group(2) @binding(3) var emissive_texture: texture_2d<f32>;
-@group(2) @binding(4) var emissive_sampler: sampler;
-@group(2) @binding(5) var metallic_roughness_texture: texture_2d<f32>;
-@group(2) @binding(6) var metallic_roughness_sampler: sampler;
-@group(2) @binding(7) var occlusion_texture: texture_2d<f32>;
-@group(2) @binding(8) var occlusion_sampler: sampler;
-@group(2) @binding(9) var normal_map_texture: texture_2d<f32>;
-@group(2) @binding(10) var normal_map_sampler: sampler;
-@group(2) @binding(11) var depth_map_texture: texture_2d<f32>;
-@group(2) @binding(12) var depth_map_sampler: sampler;
+@group(3) @binding(0) var<uniform> material: StandardMaterial;
+@group(3) @binding(1) var base_color_texture: texture_2d<f32>;
+@group(3) @binding(2) var base_color_sampler: sampler;
+@group(3) @binding(3) var emissive_texture: texture_2d<f32>;
+@group(3) @binding(4) var emissive_sampler: sampler;
+@group(3) @binding(5) var metallic_roughness_texture: texture_2d<f32>;
+@group(3) @binding(6) var metallic_roughness_sampler: sampler;
+@group(3) @binding(7) var occlusion_texture: texture_2d<f32>;
+@group(3) @binding(8) var occlusion_sampler: sampler;
+@group(3) @binding(9) var normal_map_texture: texture_2d<f32>;
+@group(3) @binding(10) var normal_map_sampler: sampler;
+@group(3) @binding(11) var depth_map_texture: texture_2d<f32>;
+@group(3) @binding(12) var depth_map_sampler: sampler;
 
 #ifdef PBR_ANISOTROPY_TEXTURE_SUPPORTED
-@group(2) @binding(13) var anisotropy_texture: texture_2d<f32>;
-@group(2) @binding(14) var anisotropy_sampler: sampler;
+@group(3) @binding(13) var anisotropy_texture: texture_2d<f32>;
+@group(3) @binding(14) var anisotropy_sampler: sampler;
 #endif  // PBR_ANISOTROPY_TEXTURE_SUPPORTED
 
 #ifdef PBR_TRANSMISSION_TEXTURES_SUPPORTED
-@group(2) @binding(15) var specular_transmission_texture: texture_2d<f32>;
-@group(2) @binding(16) var specular_transmission_sampler: sampler;
-@group(2) @binding(17) var thickness_texture: texture_2d<f32>;
-@group(2) @binding(18) var thickness_sampler: sampler;
-@group(2) @binding(19) var diffuse_transmission_texture: texture_2d<f32>;
-@group(2) @binding(20) var diffuse_transmission_sampler: sampler;
+@group(3) @binding(15) var specular_transmission_texture: texture_2d<f32>;
+@group(3) @binding(16) var specular_transmission_sampler: sampler;
+@group(3) @binding(17) var thickness_texture: texture_2d<f32>;
+@group(3) @binding(18) var thickness_sampler: sampler;
+@group(3) @binding(19) var diffuse_transmission_texture: texture_2d<f32>;
+@group(3) @binding(20) var diffuse_transmission_sampler: sampler;
 #endif  // PBR_TRANSMISSION_TEXTURES_SUPPORTED
 
 #ifdef PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
-@group(2) @binding(21) var clearcoat_texture: texture_2d<f32>;
-@group(2) @binding(22) var clearcoat_sampler: sampler;
-@group(2) @binding(23) var clearcoat_roughness_texture: texture_2d<f32>;
-@group(2) @binding(24) var clearcoat_roughness_sampler: sampler;
-@group(2) @binding(25) var clearcoat_normal_texture: texture_2d<f32>;
-@group(2) @binding(26) var clearcoat_normal_sampler: sampler;
+@group(3) @binding(21) var clearcoat_texture: texture_2d<f32>;
+@group(3) @binding(22) var clearcoat_sampler: sampler;
+@group(3) @binding(23) var clearcoat_roughness_texture: texture_2d<f32>;
+@group(3) @binding(24) var clearcoat_roughness_sampler: sampler;
+@group(3) @binding(25) var clearcoat_normal_texture: texture_2d<f32>;
+@group(3) @binding(26) var clearcoat_normal_sampler: sampler;
 #endif  // PBR_MULTI_LAYER_MATERIAL_TEXTURES_SUPPORTED
 
 #ifdef PBR_SPECULAR_TEXTURES_SUPPORTED
-@group(2) @binding(27) var specular_texture: texture_2d<f32>;
-@group(2) @binding(28) var specular_sampler: sampler;
-@group(2) @binding(29) var specular_tint_texture: texture_2d<f32>;
-@group(2) @binding(30) var specular_tint_sampler: sampler;
+@group(3) @binding(27) var specular_texture: texture_2d<f32>;
+@group(3) @binding(28) var specular_sampler: sampler;
+@group(3) @binding(29) var specular_tint_texture: texture_2d<f32>;
+@group(3) @binding(30) var specular_tint_sampler: sampler;
 #endif  // PBR_SPECULAR_TEXTURES_SUPPORTED
 
 #endif  // BINDLESS
@@ -11837,9 +12908,9 @@ fn deferred_output(in: VertexOutput, pbr_input: PbrInput) -> FragmentOutput {
 }
 
 // Maximum of 8 bits available
-const DEFERRED_FLAGS_UNLIT_BIT: u32                 = 1u;
-const DEFERRED_FLAGS_FOG_ENABLED_BIT: u32           = 2u;
-const DEFERRED_MESH_FLAGS_SHADOW_RECEIVER_BIT: u32  = 4u;
+const DEFERRED_FLAGS_UNLIT_BIT: u32                 = 1u << 0u;
+const DEFERRED_FLAGS_FOG_ENABLED_BIT: u32           = 1u << 1u;
+const DEFERRED_MESH_FLAGS_SHADOW_RECEIVER_BIT: u32  = 1u << 2u;
 
 fn deferred_flags_from_mesh_material_flags(mesh_flags: u32, mat_flags: u32) -> u32 {
     var flags = 0u;
@@ -13192,7 +14263,7 @@ fn apply_pbr_lighting(
             shadow = shadows::fetch_point_shadow(light_id, in.world_position, in.world_normal);
         }
 
-        let light_contrib = lighting::point_light(light_id, &lighting_input, enable_diffuse);
+        let light_contrib = lighting::point_light(light_id, &lighting_input, enable_diffuse, true);
         direct_light += light_contrib * shadow;
 
 #ifdef STANDARD_MATERIAL_DIFFUSE_TRANSMISSION
@@ -13212,7 +14283,7 @@ fn apply_pbr_lighting(
         }
 
         let transmitted_light_contrib =
-            lighting::point_light(light_id, &transmissive_lighting_input, enable_diffuse);
+            lighting::point_light(light_id, &transmissive_lighting_input, enable_diffuse, true);
         transmitted_light += transmitted_light_contrib * transmitted_shadow;
 #endif
     }
@@ -13281,9 +14352,6 @@ fn apply_pbr_lighting(
         // check if this light should be skipped, which occurs if this light does not intersect with the view
         // note point and spot lights aren't skippable, as the relevant lights are filtered in `assign_lights_to_clusters`
         let light = &view_bindings::lights.directional_lights[i];
-        if (*light).skip != 0u {
-            continue;
-        }
 
         // If we're lightmapped, disable diffuse contribution from the light if
         // requested, to avoid double-counting light.
@@ -13937,7 +15005,23 @@ fn compute_specular_layer_values_for_point_light(
 
     // Representative Point Area Lights.
     // see http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf p14-16
-    let centerToRay = dot(light_to_frag, R) * R - light_to_frag;
+    var LtFdotR = dot(light_to_frag, R);
+
+    // HACK: the following line is an amendment to fix a discontinuity when a surface
+    // intersects the light sphere. See https://github.com/bevyengine/bevy/issues/13318
+    //
+    // This sentence in the reference is crux of the problem: "We approximate finding the point with the
+    // smallest angle to the reflection ray by finding the point with the smallest distance to the ray."
+    // This approximation turns out to be completely wrong for points inside or near the sphere.
+    // Clamping this dot product to be positive ensures `centerToRay` lies on ray and not behind it.
+    // Any non-zero epsilon works here, it just has to be positive to avoid a singularity at zero.
+    // However, this is still far from physically accurate. Deriving an exact solution would help,
+    // but really we should adopt a superior solution to area lighting, such as:
+    // Physically Based Area Lights by Michal Drobot, or
+    // Polygonal-Light Shading with Linearly Transformed Cosines by Eric Heitz et al.
+    LtFdotR = max(0.0001, LtFdotR);
+
+    let centerToRay = LtFdotR * R - light_to_frag;
     let closestPoint = light_to_frag + centerToRay * saturate(
         light_position_radius * inverseSqrt(dot(centerToRay, centerToRay)));
     let LspecLengthInverse = inverseSqrt(dot(closestPoint, closestPoint));
@@ -14099,10 +15183,77 @@ fn perceptualRoughnessToRoughness(perceptualRoughness: f32) -> f32 {
     return clampedPerceptualRoughness * clampedPerceptualRoughness;
 }
 
+// this must align with CubemapLayout in decal/clustered.rs
+const CUBEMAP_TYPE_CROSS_VERTICAL: u32 = 0;
+const CUBEMAP_TYPE_CROSS_HORIZONTAL: u32 = 1;
+const CUBEMAP_TYPE_SEQUENCE_VERTICAL: u32 = 2;
+const CUBEMAP_TYPE_SEQUENCE_HORIZONTAL: u32 = 3;
+
+const X_PLUS: u32 = 0;
+const X_MINUS: u32 = 1;
+const Y_PLUS: u32 = 2;
+const Y_MINUS: u32 = 3;
+const Z_MINUS: u32 = 4;
+const Z_PLUS: u32 = 5;
+
+fn cubemap_uv(direction: vec3<f32>, cubemap_type: u32) -> vec2<f32> {
+    let abs_direction = abs(direction);
+    let max_axis = max(abs_direction.x, max(abs_direction.y, abs_direction.z));
+
+    let face_index = select(
+        select(X_PLUS, X_MINUS, direction.x < 0.0),
+        select(
+            select(Y_PLUS, Y_MINUS, direction.y < 0.0),
+            select(Z_PLUS, Z_MINUS, direction.z < 0.0),
+            max_axis != abs_direction.y
+        ),
+        max_axis != abs_direction.x
+    );
+    
+    var face_uv: vec2<f32>;
+    var divisor: f32;
+    var corner_uv: vec2<u32> = vec2(0, 0);
+    var face_size: vec2<f32>;
+
+    switch face_index {
+        case X_PLUS:  { face_uv = vec2<f32>(direction.z, -direction.y); divisor = direction.x; }
+        case X_MINUS: { face_uv = vec2<f32>(-direction.z, -direction.y); divisor = -direction.x; }
+        case Y_PLUS:  { face_uv = vec2<f32>(direction.x,  -direction.z); divisor = direction.y; }
+        case Y_MINUS: { face_uv = vec2<f32>(direction.x, direction.z); divisor = -direction.y; }
+        case Z_PLUS:  { face_uv = vec2<f32>(direction.x, direction.y); divisor = direction.z; }
+        case Z_MINUS: { face_uv = vec2<f32>(direction.x, -direction.y); divisor = -direction.z; }
+        default: {}
+    }
+    face_uv = (face_uv / divisor) * 0.5 + 0.5;
+
+    switch cubemap_type {
+        case CUBEMAP_TYPE_CROSS_VERTICAL: { 
+            face_size = vec2(1.0/3.0, 1.0/4.0); 
+            corner_uv = vec2<u32>((0x111102u >> (4 * face_index)) & 0xFu, (0x132011u >> (4 * face_index)) & 0xFu);
+        }
+        case CUBEMAP_TYPE_CROSS_HORIZONTAL: { 
+            face_size = vec2(1.0/4.0, 1.0/3.0); 
+            corner_uv = vec2<u32>((0x131102u >> (4 * face_index)) & 0xFu, (0x112011u >> (4 * face_index)) & 0xFu);
+        }
+        case CUBEMAP_TYPE_SEQUENCE_HORIZONTAL: {
+            face_size = vec2(1.0/6.0, 1.0);
+            corner_uv.x = face_index;
+        }
+        case CUBEMAP_TYPE_SEQUENCE_VERTICAL: {
+            face_size = vec2(1.0, 1.0/6.0);
+            corner_uv.y = face_index;
+        }
+        default: {}
+    }
+
+    return (vec2<f32>(corner_uv) + face_uv) * face_size;
+}
+
 fn point_light(
     light_id: u32,
     input: ptr<function, LightingInput>,
-    enable_diffuse: bool
+    enable_diffuse: bool,
+    enable_texture: bool,
 ) -> vec3<f32> {
     // Unpack.
     let diffuse_color = (*input).diffuse_color;
@@ -14198,8 +15349,26 @@ fn point_light(
     color = diffuse + specular_light;
 #endif  // STANDARD_MATERIAL_CLEARCOAT
 
+    var texture_sample = 1f;
+
+#ifdef LIGHT_TEXTURES
+    if enable_texture && (*light).decal_index != 0xFFFFFFFFu {
+        let relative_position = (view_bindings::clustered_decals.decals[(*light).decal_index].local_from_world * vec4(P, 1.0)).xyz;
+        let cubemap_type = view_bindings::clustered_decals.decals[(*light).decal_index].tag;
+        let decal_uv = cubemap_uv(relative_position, cubemap_type);
+        let image_index = view_bindings::clustered_decals.decals[(*light).decal_index].image_index;
+
+        texture_sample = textureSampleLevel(
+            view_bindings::clustered_decal_textures[image_index],
+            view_bindings::clustered_decal_sampler,
+            decal_uv,
+            0.0
+        ).r;
+    }
+#endif
+
     return color * (*light).color_inverse_square_range.rgb *
-        (rangeAttenuation * derived_input.NdotL);
+        (rangeAttenuation * derived_input.NdotL) * texture_sample;
 }
 
 fn spot_light(
@@ -14208,7 +15377,7 @@ fn spot_light(
     enable_diffuse: bool
 ) -> vec3<f32> {
     // reuse the point light calculations
-    let point_light = point_light(light_id, input, enable_diffuse);
+    let point_light = point_light(light_id, input, enable_diffuse, false);
 
     let light = &view_bindings::clusterable_objects.data[light_id];
 
@@ -14227,7 +15396,27 @@ fn spot_light(
     let attenuation = saturate(cd * (*light).light_custom_data.z + (*light).light_custom_data.w);
     let spot_attenuation = attenuation * attenuation;
 
-    return point_light * spot_attenuation;
+    var texture_sample = 1f;
+
+#ifdef LIGHT_TEXTURES
+    if (*light).decal_index != 0xFFFFFFFFu {
+        let local_position = (view_bindings::clustered_decals.decals[(*light).decal_index].local_from_world *
+            vec4((*input).P, 1.0)).xyz;
+        if local_position.z < 0.0 {
+            let decal_uv = (local_position.xy / (local_position.z * (*light).spot_light_tan_angle)) * vec2(-0.5, 0.5) + 0.5;
+            let image_index = view_bindings::clustered_decals.decals[(*light).decal_index].image_index;
+
+            texture_sample = textureSampleLevel(
+                view_bindings::clustered_decal_textures[image_index],
+                view_bindings::clustered_decal_sampler,
+                decal_uv,
+                0.0
+            ).r;
+        }
+    }
+#endif
+
+    return point_light * spot_attenuation * texture_sample;
 }
 
 fn directional_light(
@@ -14284,7 +15473,33 @@ fn directional_light(
     color = (diffuse + specular_light) * derived_input.NdotL;
 #endif  // STANDARD_MATERIAL_CLEARCOAT
 
-    return color * (*light).color.rgb;
+    var texture_sample = 1f;
+
+#ifdef LIGHT_TEXTURES
+    if (*light).decal_index != 0xFFFFFFFFu {
+        let local_position = (view_bindings::clustered_decals.decals[(*light).decal_index].local_from_world *
+            vec4((*input).P, 1.0)).xyz;
+        let decal_uv = local_position.xy * vec2(-0.5, 0.5) + 0.5;
+
+        // if tiled or within tile
+        if (view_bindings::clustered_decals.decals[(*light).decal_index].tag != 0u)
+                || all(clamp(decal_uv, vec2(0.0), vec2(1.0)) == decal_uv)
+        {
+            let image_index = view_bindings::clustered_decals.decals[(*light).decal_index].image_index;
+
+            texture_sample = textureSampleLevel(
+                view_bindings::clustered_decal_textures[image_index],
+                view_bindings::clustered_decal_sampler,
+                decal_uv - floor(decal_uv),
+                0.0
+            ).r;                    
+        } else {
+            texture_sample = 0f;
+        }
+    }
+#endif
+
+    return color * (*light).color.rgb * texture_sample;
 }
 
 ```
@@ -14783,36 +15998,34 @@ struct StandardMaterial {
 // NOTE: if these flags are updated or changed. Be sure to also update
 // deferred_flags_from_mesh_material_flags and mesh_material_flags_from_deferred_flags
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-const STANDARD_MATERIAL_FLAGS_BASE_COLOR_TEXTURE_BIT: u32         = 1u;
-const STANDARD_MATERIAL_FLAGS_EMISSIVE_TEXTURE_BIT: u32           = 2u;
-const STANDARD_MATERIAL_FLAGS_METALLIC_ROUGHNESS_TEXTURE_BIT: u32 = 4u;
-const STANDARD_MATERIAL_FLAGS_OCCLUSION_TEXTURE_BIT: u32          = 8u;
-const STANDARD_MATERIAL_FLAGS_DOUBLE_SIDED_BIT: u32               = 16u;
-const STANDARD_MATERIAL_FLAGS_UNLIT_BIT: u32                      = 32u;
-const STANDARD_MATERIAL_FLAGS_TWO_COMPONENT_NORMAL_MAP: u32       = 64u;
-const STANDARD_MATERIAL_FLAGS_FLIP_NORMAL_MAP_Y: u32              = 128u;
-const STANDARD_MATERIAL_FLAGS_FOG_ENABLED_BIT: u32                = 256u;
-const STANDARD_MATERIAL_FLAGS_DEPTH_MAP_BIT: u32                  = 512u;
-const STANDARD_MATERIAL_FLAGS_SPECULAR_TRANSMISSION_TEXTURE_BIT: u32 = 1024u;
-const STANDARD_MATERIAL_FLAGS_THICKNESS_TEXTURE_BIT: u32          = 2048u;
-const STANDARD_MATERIAL_FLAGS_DIFFUSE_TRANSMISSION_TEXTURE_BIT: u32 = 4096u;
-const STANDARD_MATERIAL_FLAGS_ATTENUATION_ENABLED_BIT: u32        = 8192u;
-const STANDARD_MATERIAL_FLAGS_CLEARCOAT_TEXTURE_BIT: u32          = 16384u;
-const STANDARD_MATERIAL_FLAGS_CLEARCOAT_ROUGHNESS_TEXTURE_BIT: u32 = 32768u;
-const STANDARD_MATERIAL_FLAGS_CLEARCOAT_NORMAL_TEXTURE_BIT: u32   = 65536u;
-const STANDARD_MATERIAL_FLAGS_ANISOTROPY_TEXTURE_BIT: u32         = 131072u;
-const STANDARD_MATERIAL_FLAGS_SPECULAR_TEXTURE_BIT: u32           = 262144u;
-const STANDARD_MATERIAL_FLAGS_SPECULAR_TINT_TEXTURE_BIT: u32      = 524288u;
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_RESERVED_BITS: u32       = 3758096384u; // (0b111u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_OPAQUE: u32              = 0u;          // (0u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MASK: u32                = 536870912u;  // (1u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_BLEND: u32               = 1073741824u; // (2u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_PREMULTIPLIED: u32       = 1610612736u; // (3u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_ADD: u32                 = 2147483648u; // (4u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MULTIPLY: u32            = 2684354560u; // (5u32 << 29)
-const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_ALPHA_TO_COVERAGE: u32   = 3221225472u; // (6u32 << 29)
-// ↑ To calculate/verify the values above, use the following playground:
-// https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7792f8dd6fc6a8d4d0b6b1776898a7f4
+const STANDARD_MATERIAL_FLAGS_BASE_COLOR_TEXTURE_BIT: u32            = 1u << 0u;
+const STANDARD_MATERIAL_FLAGS_EMISSIVE_TEXTURE_BIT: u32              = 1u << 1u;
+const STANDARD_MATERIAL_FLAGS_METALLIC_ROUGHNESS_TEXTURE_BIT: u32    = 1u << 2u;
+const STANDARD_MATERIAL_FLAGS_OCCLUSION_TEXTURE_BIT: u32             = 1u << 3u;
+const STANDARD_MATERIAL_FLAGS_DOUBLE_SIDED_BIT: u32                  = 1u << 4u;
+const STANDARD_MATERIAL_FLAGS_UNLIT_BIT: u32                         = 1u << 5u;
+const STANDARD_MATERIAL_FLAGS_TWO_COMPONENT_NORMAL_MAP: u32          = 1u << 6u;
+const STANDARD_MATERIAL_FLAGS_FLIP_NORMAL_MAP_Y: u32                 = 1u << 7u;
+const STANDARD_MATERIAL_FLAGS_FOG_ENABLED_BIT: u32                   = 1u << 8u;
+const STANDARD_MATERIAL_FLAGS_DEPTH_MAP_BIT: u32                     = 1u << 9u;
+const STANDARD_MATERIAL_FLAGS_SPECULAR_TRANSMISSION_TEXTURE_BIT: u32 = 1u << 10u;
+const STANDARD_MATERIAL_FLAGS_THICKNESS_TEXTURE_BIT: u32             = 1u << 11u;
+const STANDARD_MATERIAL_FLAGS_DIFFUSE_TRANSMISSION_TEXTURE_BIT: u32  = 1u << 12u;
+const STANDARD_MATERIAL_FLAGS_ATTENUATION_ENABLED_BIT: u32           = 1u << 13u;
+const STANDARD_MATERIAL_FLAGS_CLEARCOAT_TEXTURE_BIT: u32             = 1u << 14u;
+const STANDARD_MATERIAL_FLAGS_CLEARCOAT_ROUGHNESS_TEXTURE_BIT: u32   = 1u << 15u;
+const STANDARD_MATERIAL_FLAGS_CLEARCOAT_NORMAL_TEXTURE_BIT: u32      = 1u << 16u;
+const STANDARD_MATERIAL_FLAGS_ANISOTROPY_TEXTURE_BIT: u32            = 1u << 17u;
+const STANDARD_MATERIAL_FLAGS_SPECULAR_TEXTURE_BIT: u32              = 1u << 18u;
+const STANDARD_MATERIAL_FLAGS_SPECULAR_TINT_TEXTURE_BIT: u32         = 1u << 19u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_RESERVED_BITS: u32          = 7u << 29u; // (0b111u << 29u)
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_OPAQUE: u32                 = 0u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MASK: u32                   = 1u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_BLEND: u32                  = 2u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_PREMULTIPLIED: u32          = 3u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_ADD: u32                    = 4u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_MULTIPLY: u32               = 5u << 29u;
+const STANDARD_MATERIAL_FLAGS_ALPHA_MODE_ALPHA_TO_COVERAGE: u32      = 6u << 29u;
 
 
 // Creates a StandardMaterial with default values
@@ -15197,6 +16410,8 @@ struct PreviousViewUniforms {
     view_from_world: mat4x4<f32>,
     clip_from_world: mat4x4<f32>,
     clip_from_view: mat4x4<f32>,
+    world_from_clip: mat4x4<f32>,
+    view_from_clip: mat4x4<f32>,
 }
 
 @group(0) @binding(2) var<uniform> previous_view_uniforms: PreviousViewUniforms;
@@ -15482,10 +16697,10 @@ fn preprocess_depth(@builtin(global_invocation_id) global_id: vec3<u32>, @builti
 }
 
 // Allows us to sample from the depth buffer with bilinear filtering.
-@group(1) @binding(2) var depth_linear_sampler: sampler;
+@group(2) @binding(2) var depth_linear_sampler: sampler;
 
 // Allows us to sample from the depth buffer with nearest-neighbor filtering.
-@group(1) @binding(3) var depth_nearest_sampler: sampler;
+@group(2) @binding(3) var depth_nearest_sampler: sampler;
 
 // Main code
 
@@ -15968,6 +17183,177 @@ fn depth_ray_march_march(raymarch: ptr<function, DepthRayMarch>) -> DepthRayMarc
 }
 
 ```
+### bevy_shaders-raytracing_scene_bindings
+```rust
+#define_import_path bevy_solari::scene_bindings
+
+struct InstanceGeometryIds {
+    vertex_buffer_id: u32,
+    vertex_buffer_offset: u32,
+    index_buffer_id: u32,
+    index_buffer_offset: u32,
+}
+
+struct VertexBuffer { vertices: array<PackedVertex> }
+
+struct IndexBuffer { indices: array<u32> }
+
+struct PackedVertex {
+    a: vec4<f32>,
+    b: vec4<f32>,
+    tangent: vec4<f32>,
+}
+
+struct Vertex {
+    position: vec3<f32>,
+    normal: vec3<f32>,
+    uv: vec2<f32>,
+    tangent: vec4<f32>,
+}
+
+fn unpack_vertex(packed: PackedVertex) -> Vertex {
+    var vertex: Vertex;
+    vertex.position = packed.a.xyz;
+    vertex.normal = vec3(packed.a.w, packed.b.xy);
+    vertex.uv = packed.b.zw;
+    vertex.tangent = packed.tangent;
+    return vertex;
+}
+
+struct Material {
+    base_color: vec4<f32>,
+    emissive: vec4<f32>,
+    base_color_texture_id: u32,
+    normal_map_texture_id: u32,
+    emissive_texture_id: u32,
+    _padding: u32,
+}
+
+const TEXTURE_MAP_NONE = 0xFFFFFFFFu;
+
+struct LightSource {
+    kind: u32, // 1 bit for kind, 31 bits for extra data
+    id: u32,
+}
+
+const LIGHT_SOURCE_KIND_EMISSIVE_MESH = 0u;
+const LIGHT_SOURCE_KIND_DIRECTIONAL = 1u;
+
+struct DirectionalLight {
+    direction_to_light: vec3<f32>,
+    cos_theta_max: f32,
+    luminance: vec3<f32>,
+    inverse_pdf: f32,
+}
+
+const LIGHT_NOT_PRESENT_THIS_FRAME = 0xFFFFFFFFu;
+
+@group(0) @binding(0) var<storage> vertex_buffers: binding_array<VertexBuffer>;
+@group(0) @binding(1) var<storage> index_buffers: binding_array<IndexBuffer>;
+@group(0) @binding(2) var textures: binding_array<texture_2d<f32>>;
+@group(0) @binding(3) var samplers: binding_array<sampler>;
+@group(0) @binding(4) var<storage> materials: array<Material>;
+@group(0) @binding(5) var tlas: acceleration_structure;
+@group(0) @binding(6) var<storage> transforms: array<mat4x4<f32>>;
+@group(0) @binding(7) var<storage> geometry_ids: array<InstanceGeometryIds>;
+@group(0) @binding(8) var<storage> material_ids: array<u32>; // TODO: Store material_id in instance_custom_index instead?
+@group(0) @binding(9) var<storage> light_sources: array<LightSource>;
+@group(0) @binding(10) var<storage> directional_lights: array<DirectionalLight>;
+@group(0) @binding(11) var<storage> previous_frame_light_id_translations: array<u32>;
+
+const RAY_T_MIN = 0.01f;
+const RAY_T_MAX = 100000.0f;
+
+const RAY_NO_CULL = 0xFFu;
+
+fn trace_ray(ray_origin: vec3<f32>, ray_direction: vec3<f32>, ray_t_min: f32, ray_t_max: f32, ray_flag: u32) -> RayIntersection {
+    let ray = RayDesc(ray_flag, RAY_NO_CULL, ray_t_min, ray_t_max, ray_origin, ray_direction);
+    var rq: ray_query;
+    rayQueryInitialize(&rq, tlas, ray);
+    rayQueryProceed(&rq);
+    return rayQueryGetCommittedIntersection(&rq);
+}
+
+fn sample_texture(id: u32, uv: vec2<f32>) -> vec3<f32> {
+    return textureSampleLevel(textures[id], samplers[id], uv, 0.0).rgb; // TODO: Mipmap
+}
+
+struct ResolvedMaterial {
+    base_color: vec3<f32>,
+    emissive: vec3<f32>,
+}
+
+struct ResolvedRayHitFull {
+    world_position: vec3<f32>,
+    world_normal: vec3<f32>,
+    geometric_world_normal: vec3<f32>,
+    uv: vec2<f32>,
+    triangle_area: f32,
+    material: ResolvedMaterial,
+}
+
+fn resolve_material(material: Material, uv: vec2<f32>) -> ResolvedMaterial {
+    var m: ResolvedMaterial;
+
+    m.base_color = material.base_color.rgb;
+    if material.base_color_texture_id != TEXTURE_MAP_NONE {
+        m.base_color *= sample_texture(material.base_color_texture_id, uv);
+    }
+
+    m.emissive = material.emissive.rgb;
+    if material.emissive_texture_id != TEXTURE_MAP_NONE {
+        m.emissive *= sample_texture(material.emissive_texture_id, uv);
+    }
+
+    return m;
+}
+
+fn resolve_ray_hit_full(ray_hit: RayIntersection) -> ResolvedRayHitFull {
+    let barycentrics = vec3(1.0 - ray_hit.barycentrics.x - ray_hit.barycentrics.y, ray_hit.barycentrics);
+    return resolve_triangle_data_full(ray_hit.instance_index, ray_hit.primitive_index, barycentrics);
+}
+
+fn resolve_triangle_data_full(instance_id: u32, triangle_id: u32, barycentrics: vec3<f32>) -> ResolvedRayHitFull {
+    let instance_geometry_ids = geometry_ids[instance_id];
+    let material_id = material_ids[instance_id];
+
+    let index_buffer = &index_buffers[instance_geometry_ids.index_buffer_id].indices;
+    let vertex_buffer = &vertex_buffers[instance_geometry_ids.vertex_buffer_id].vertices;
+    let material = materials[material_id];
+
+    let indices_i = (triangle_id * 3u) + vec3(0u, 1u, 2u) + instance_geometry_ids.index_buffer_offset;
+    let indices = vec3((*index_buffer)[indices_i.x], (*index_buffer)[indices_i.y], (*index_buffer)[indices_i.z]) + instance_geometry_ids.vertex_buffer_offset;
+    let vertices = array<Vertex, 3>(unpack_vertex((*vertex_buffer)[indices.x]), unpack_vertex((*vertex_buffer)[indices.y]), unpack_vertex((*vertex_buffer)[indices.z]));
+
+    let transform = transforms[instance_id];
+    let local_position = mat3x3(vertices[0].position, vertices[1].position, vertices[2].position) * barycentrics;
+    let world_position = (transform * vec4(local_position, 1.0)).xyz;
+
+    let uv = mat3x2(vertices[0].uv, vertices[1].uv, vertices[2].uv) * barycentrics;
+
+    let local_normal = mat3x3(vertices[0].normal, vertices[1].normal, vertices[2].normal) * barycentrics; // TODO: Use barycentric lerp, ray_hit.object_to_world, cross product geo normal
+    var world_normal = normalize(mat3x3(transform[0].xyz, transform[1].xyz, transform[2].xyz) * local_normal);
+    let geometric_world_normal = world_normal;
+    if material.normal_map_texture_id != TEXTURE_MAP_NONE {
+        let local_tangent = mat3x3(vertices[0].tangent.xyz, vertices[1].tangent.xyz, vertices[2].tangent.xyz) * barycentrics;
+        let world_tangent = normalize(mat3x3(transform[0].xyz, transform[1].xyz, transform[2].xyz) * local_tangent);
+        let N = world_normal;
+        let T = world_tangent;
+        let B = vertices[0].tangent.w * cross(N, T);
+        let Nt = sample_texture(material.normal_map_texture_id, uv);
+        world_normal = normalize(Nt.x * T + Nt.y * B + Nt.z * N);
+    }
+
+    let triangle_edge0 = vertices[0].position - vertices[1].position;
+    let triangle_edge1 = vertices[0].position - vertices[2].position;
+    let triangle_area = length(cross(triangle_edge0, triangle_edge1)) / 2.0;
+
+    let resolved_material = resolve_material(material, uv);
+
+    return ResolvedRayHitFull(world_position, world_normal, geometric_world_normal, uv, triangle_area, resolved_material);
+}
+
+```
 ### bevy_shaders-remap_1d_to_2d_dispatch
 ```rust
 /// Remaps an indirect 1d to 2d dispatch for devices with low dispatch size limit.
@@ -15985,18 +17371,21 @@ var<push_constant> max_compute_workgroups_per_dimension: u32;
 @compute
 @workgroup_size(1, 1, 1)
 fn remap_dispatch() {
-    meshlet_software_raster_cluster_count = meshlet_software_raster_indirect_args.x;
+    let cluster_count = meshlet_software_raster_indirect_args.x;
 
-    if meshlet_software_raster_cluster_count > max_compute_workgroups_per_dimension {
-        let n = u32(ceil(sqrt(f32(meshlet_software_raster_cluster_count))));
+    if cluster_count > max_compute_workgroups_per_dimension {
+        let n = u32(ceil(sqrt(f32(cluster_count))));
         meshlet_software_raster_indirect_args.x = n;
         meshlet_software_raster_indirect_args.y = n;
+        meshlet_software_raster_cluster_count = cluster_count;
     }
 }
 
 ```
 ### bevy_shaders-render_sky
 ```rust
+enable dual_source_blending;
+
 #import bevy_pbr::atmosphere::{
     types::{Atmosphere, AtmosphereSettings},
     bindings::{atmosphere, view, atmosphere_transforms},
@@ -16018,9 +17407,11 @@ fn remap_dispatch() {
 #endif
 
 struct RenderSkyOutput {
-    @location(0) inscattering: vec4<f32>,
 #ifdef DUAL_SOURCE_BLENDING
-    @location(0) @second_blend_source transmittance: vec4<f32>,
+    @location(0) @blend_src(0) inscattering: vec4<f32>,
+    @location(0) @blend_src(1) transmittance: vec4<f32>,
+#else
+    @location(0) inscattering: vec4<f32>,
 #endif
 }
 
@@ -16089,13 +17480,14 @@ fn main(@builtin(global_invocation_id) global_invocation_id: vec3<u32>) {
 ### bevy_shaders-resolve_render_targets
 ```rust
 #import bevy_core_pipeline::fullscreen_vertex_shader::FullscreenVertexOutput
+#import bevy_pbr::meshlet_bindings::InstancedOffset
 
 #ifdef MESHLET_VISIBILITY_BUFFER_RASTER_PASS_OUTPUT
 @group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r64uint, read>;
 #else
 @group(0) @binding(0) var meshlet_visibility_buffer: texture_storage_2d<r32uint, read>;
 #endif
-@group(0) @binding(1) var<storage, read> meshlet_cluster_instance_ids: array<u32>;  // Per cluster
+@group(0) @binding(1) var<storage, read> meshlet_raster_clusters: array<InstancedOffset>;  // Per cluster
 @group(0) @binding(2) var<storage, read> meshlet_instance_material_ids: array<u32>; // Per entity instance
 
 /// This pass writes out the depth texture.
@@ -16123,11 +17515,304 @@ fn resolve_material_depth(in: FullscreenVertexOutput) -> @builtin(frag_depth) f3
     if depth == 0lu { discard; }
 
     let cluster_id = u32(visibility) >> 7u;
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
+    let instance_id = meshlet_raster_clusters[cluster_id].instance_id;
     let material_id = meshlet_instance_material_ids[instance_id];
     return f32(material_id) / 65535.0;
 }
 #endif
+
+```
+### bevy_shaders-restir_di
+```rust
+// https://intro-to-restir.cwyman.org/presentations/2023ReSTIR_Course_Notes.pdf
+
+#import bevy_core_pipeline::tonemapping::tonemapping_luminance as luminance
+#import bevy_pbr::pbr_deferred_types::unpack_24bit_normal
+#import bevy_pbr::prepass_bindings::PreviousViewUniforms
+#import bevy_pbr::rgb9e5::rgb9e5_to_vec3_
+#import bevy_pbr::utils::{rand_f, octahedral_decode}
+#import bevy_render::maths::PI
+#import bevy_render::view::View
+#import bevy_solari::sampling::{LightSample, generate_random_light_sample, calculate_light_contribution, trace_light_visibility, sample_disk}
+#import bevy_solari::scene_bindings::{previous_frame_light_id_translations, LIGHT_NOT_PRESENT_THIS_FRAME}
+
+@group(1) @binding(0) var view_output: texture_storage_2d<rgba16float, write>;
+@group(1) @binding(1) var<storage, read_write> reservoirs_a: array<Reservoir>;
+@group(1) @binding(2) var<storage, read_write> reservoirs_b: array<Reservoir>;
+@group(1) @binding(3) var gbuffer: texture_2d<u32>;
+@group(1) @binding(4) var depth_buffer: texture_depth_2d;
+@group(1) @binding(5) var motion_vectors: texture_2d<f32>;
+@group(1) @binding(6) var previous_gbuffer: texture_2d<u32>;
+@group(1) @binding(7) var previous_depth_buffer: texture_depth_2d;
+@group(1) @binding(8) var<uniform> view: View;
+@group(1) @binding(9) var<uniform> previous_view: PreviousViewUniforms;
+struct PushConstants { frame_index: u32, reset: u32 }
+var<push_constant> constants: PushConstants;
+
+const INITIAL_SAMPLES = 32u;
+const SPATIAL_REUSE_RADIUS_PIXELS = 30.0;
+const CONFIDENCE_WEIGHT_CAP = 20.0;
+
+const NULL_RESERVOIR_SAMPLE = 0xFFFFFFFFu;
+
+@compute @workgroup_size(8, 8, 1)
+fn initial_and_temporal(@builtin(global_invocation_id) global_id: vec3<u32>) {
+    if any(global_id.xy >= vec2u(view.viewport.zw)) { return; }
+
+    let pixel_index = global_id.x + global_id.y * u32(view.viewport.z);
+    var rng = pixel_index + constants.frame_index;
+
+    let depth = textureLoad(depth_buffer, global_id.xy, 0);
+    if depth == 0.0 {
+        reservoirs_b[pixel_index] = empty_reservoir();
+        return;
+    }
+    let gpixel = textureLoad(gbuffer, global_id.xy, 0);
+    let world_position = reconstruct_world_position(global_id.xy, depth);
+    let world_normal = octahedral_decode(unpack_24bit_normal(gpixel.a));
+    let base_color = pow(unpack4x8unorm(gpixel.r).rgb, vec3(2.2));
+    let diffuse_brdf = base_color / PI;
+
+    let initial_reservoir = generate_initial_reservoir(world_position, world_normal, diffuse_brdf, &rng);
+    let temporal_reservoir = load_temporal_reservoir(global_id.xy, depth, world_position, world_normal);
+    let combined_reservoir = merge_reservoirs(initial_reservoir, temporal_reservoir, world_position, world_normal, diffuse_brdf, &rng);
+
+    reservoirs_b[pixel_index] = combined_reservoir.merged_reservoir;
+}
+
+@compute @workgroup_size(8, 8, 1)
+fn spatial_and_shade(@builtin(global_invocation_id) global_id: vec3<u32>) {
+    if any(global_id.xy >= vec2u(view.viewport.zw)) { return; }
+
+    let pixel_index = global_id.x + global_id.y * u32(view.viewport.z);
+    var rng = pixel_index + constants.frame_index;
+
+    let depth = textureLoad(depth_buffer, global_id.xy, 0);
+    if depth == 0.0 {
+        reservoirs_a[pixel_index] = empty_reservoir();
+        textureStore(view_output, global_id.xy, vec4(vec3(0.0), 1.0));
+        return;
+    }
+    let gpixel = textureLoad(gbuffer, global_id.xy, 0);
+    let world_position = reconstruct_world_position(global_id.xy, depth);
+    let world_normal = octahedral_decode(unpack_24bit_normal(gpixel.a));
+    let base_color = pow(unpack4x8unorm(gpixel.r).rgb, vec3(2.2));
+    let diffuse_brdf = base_color / PI;
+    let emissive = rgb9e5_to_vec3_(gpixel.g);
+
+    let input_reservoir = reservoirs_b[pixel_index];
+    let spatial_reservoir = load_spatial_reservoir(global_id.xy, depth, world_position, world_normal, &rng);
+    let merge_result = merge_reservoirs(input_reservoir, spatial_reservoir, world_position, world_normal, diffuse_brdf, &rng);
+    let combined_reservoir = merge_result.merged_reservoir;
+
+    reservoirs_a[pixel_index] = combined_reservoir;
+
+    var pixel_color = merge_result.selected_sample_radiance * combined_reservoir.unbiased_contribution_weight * combined_reservoir.visibility;
+    pixel_color *= view.exposure;
+    pixel_color *= diffuse_brdf;
+    pixel_color += emissive;
+    textureStore(view_output, global_id.xy, vec4(pixel_color, 1.0));
+}
+
+fn generate_initial_reservoir(world_position: vec3<f32>, world_normal: vec3<f32>, diffuse_brdf: vec3<f32>, rng: ptr<function, u32>) -> Reservoir{
+    var reservoir = empty_reservoir();
+    var reservoir_target_function = 0.0;
+    for (var i = 0u; i < INITIAL_SAMPLES; i++) {
+        let light_sample = generate_random_light_sample(rng);
+
+        let mis_weight = 1.0 / f32(INITIAL_SAMPLES);
+        let light_contribution = calculate_light_contribution(light_sample, world_position, world_normal);
+        let target_function = luminance(light_contribution.radiance * diffuse_brdf);
+        let resampling_weight = mis_weight * (target_function * light_contribution.inverse_pdf);
+
+        reservoir.weight_sum += resampling_weight;
+
+        if rand_f(rng) < resampling_weight / reservoir.weight_sum {
+            reservoir.sample = light_sample;
+            reservoir_target_function = target_function;
+        }
+    }
+
+    if reservoir_valid(reservoir) {
+        let inverse_target_function = select(0.0, 1.0 / reservoir_target_function, reservoir_target_function > 0.0);
+        reservoir.unbiased_contribution_weight = reservoir.weight_sum * inverse_target_function;
+
+        reservoir.visibility = trace_light_visibility(reservoir.sample, world_position);
+        reservoir.unbiased_contribution_weight *= reservoir.visibility;
+    }
+
+    reservoir.confidence_weight = 1.0;
+    return reservoir;
+}
+
+fn load_temporal_reservoir(pixel_id: vec2<u32>, depth: f32, world_position: vec3<f32>, world_normal: vec3<f32>) -> Reservoir {
+    let motion_vector = textureLoad(motion_vectors, pixel_id, 0).xy;
+    let temporal_pixel_id_float = round(vec2<f32>(pixel_id) - (motion_vector * view.viewport.zw));
+    let temporal_pixel_id = vec2<u32>(temporal_pixel_id_float);
+    if any(temporal_pixel_id_float < vec2(0.0)) || any(temporal_pixel_id_float >= view.viewport.zw) || bool(constants.reset) {
+        return empty_reservoir();
+    }
+
+    let temporal_depth = textureLoad(previous_depth_buffer, temporal_pixel_id, 0);
+    let temporal_gpixel = textureLoad(previous_gbuffer, temporal_pixel_id, 0);
+    let temporal_world_position = reconstruct_previous_world_position(temporal_pixel_id, temporal_depth);
+    let temporal_world_normal = octahedral_decode(unpack_24bit_normal(temporal_gpixel.a));
+    if pixel_dissimilar(depth, world_position, temporal_world_position, world_normal, temporal_world_normal) {
+        return empty_reservoir();
+    }
+
+    let temporal_pixel_index = temporal_pixel_id.x + temporal_pixel_id.y * u32(view.viewport.z);
+    var temporal_reservoir = reservoirs_a[temporal_pixel_index];
+
+    temporal_reservoir.sample.light_id.x = previous_frame_light_id_translations[temporal_reservoir.sample.light_id.x];
+    if temporal_reservoir.sample.light_id.x == LIGHT_NOT_PRESENT_THIS_FRAME {
+        return empty_reservoir();
+    }
+
+    temporal_reservoir.confidence_weight = min(temporal_reservoir.confidence_weight, CONFIDENCE_WEIGHT_CAP);
+
+    return temporal_reservoir;
+}
+
+fn load_spatial_reservoir(pixel_id: vec2<u32>, depth: f32, world_position: vec3<f32>, world_normal: vec3<f32>, rng: ptr<function, u32>) -> Reservoir {
+    let spatial_pixel_id = get_neighbor_pixel_id(pixel_id, rng);
+
+    let spatial_depth = textureLoad(depth_buffer, spatial_pixel_id, 0);
+    let spatial_gpixel = textureLoad(gbuffer, spatial_pixel_id, 0);
+    let spatial_world_position = reconstruct_world_position(spatial_pixel_id, spatial_depth);
+    let spatial_world_normal = octahedral_decode(unpack_24bit_normal(spatial_gpixel.a));
+    if pixel_dissimilar(depth, world_position, spatial_world_position, world_normal, spatial_world_normal) {
+        return empty_reservoir();
+    }
+
+    let spatial_pixel_index = spatial_pixel_id.x + spatial_pixel_id.y * u32(view.viewport.z);
+    var spatial_reservoir = reservoirs_b[spatial_pixel_index];
+
+    if reservoir_valid(spatial_reservoir) {
+        spatial_reservoir.visibility = trace_light_visibility(spatial_reservoir.sample, world_position);
+    }
+
+    return spatial_reservoir;
+}
+
+fn get_neighbor_pixel_id(center_pixel_id: vec2<u32>, rng: ptr<function, u32>) -> vec2<u32> {
+    var spatial_id = vec2<i32>(center_pixel_id) + vec2<i32>(sample_disk(SPATIAL_REUSE_RADIUS_PIXELS, rng));
+    spatial_id = clamp(spatial_id, vec2(0i), vec2<i32>(view.viewport.zw) - 1i);
+    return vec2<u32>(spatial_id);
+}
+
+fn reconstruct_world_position(pixel_id: vec2<u32>, depth: f32) -> vec3<f32> {
+    let uv = (vec2<f32>(pixel_id) + 0.5) / view.viewport.zw;
+    let xy_ndc = (uv - vec2(0.5)) * vec2(2.0, -2.0);
+    let world_pos = view.world_from_clip * vec4(xy_ndc, depth, 1.0);
+    return world_pos.xyz / world_pos.w;
+}
+
+fn reconstruct_previous_world_position(pixel_id: vec2<u32>, depth: f32) -> vec3<f32> {
+    let uv = (vec2<f32>(pixel_id) + 0.5) / view.viewport.zw;
+    let xy_ndc = (uv - vec2(0.5)) * vec2(2.0, -2.0);
+    let world_pos = previous_view.world_from_clip * vec4(xy_ndc, depth, 1.0);
+    return world_pos.xyz / world_pos.w;
+}
+
+// Reject if tangent plane difference difference more than 0.3% or angle between normals more than 25 degrees
+fn pixel_dissimilar(depth: f32, world_position: vec3<f32>, other_world_position: vec3<f32>, normal: vec3<f32>, other_normal: vec3<f32>) -> bool {
+    // https://developer.download.nvidia.com/video/gputechconf/gtc/2020/presentations/s22699-fast-denoising-with-self-stabilizing-recurrent-blurs.pdf#page=45
+    let tangent_plane_distance = abs(dot(normal, other_world_position - world_position));
+    let view_z = -depth_ndc_to_view_z(depth);
+
+    return tangent_plane_distance / view_z > 0.003 || dot(normal, other_normal) < 0.906;
+}
+
+fn depth_ndc_to_view_z(ndc_depth: f32) -> f32 {
+#ifdef VIEW_PROJECTION_PERSPECTIVE
+    return -view.clip_from_view[3][2]() / ndc_depth;
+#else ifdef VIEW_PROJECTION_ORTHOGRAPHIC
+    return -(view.clip_from_view[3][2] - ndc_depth) / view.clip_from_view[2][2];
+#else
+    let view_pos = view.view_from_clip * vec4(0.0, 0.0, ndc_depth, 1.0);
+    return view_pos.z / view_pos.w;
+#endif
+}
+
+// Don't adjust the size of this struct without also adjusting RESERVOIR_STRUCT_SIZE.
+struct Reservoir {
+    sample: LightSample,
+    weight_sum: f32,
+    confidence_weight: f32,
+    unbiased_contribution_weight: f32,
+    visibility: f32,
+}
+
+fn empty_reservoir() -> Reservoir {
+    return Reservoir(
+        LightSample(vec2(NULL_RESERVOIR_SAMPLE, 0u), vec2(0.0)),
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    );
+}
+
+fn reservoir_valid(reservoir: Reservoir) -> bool {
+    return reservoir.sample.light_id.x != NULL_RESERVOIR_SAMPLE;
+}
+
+struct ReservoirMergeResult {
+    merged_reservoir: Reservoir,
+    selected_sample_radiance: vec3<f32>,
+}
+
+fn merge_reservoirs(
+    canonical_reservoir: Reservoir,
+    other_reservoir: Reservoir,
+    world_position: vec3<f32>,
+    world_normal: vec3<f32>,
+    diffuse_brdf: vec3<f32>,
+    rng: ptr<function, u32>,
+) -> ReservoirMergeResult {
+    // TODO: Balance heuristic MIS weights
+    let mis_weight_denominator = 1.0 / (canonical_reservoir.confidence_weight + other_reservoir.confidence_weight);
+
+    let canonical_mis_weight = canonical_reservoir.confidence_weight * mis_weight_denominator;
+    let canonical_target_function = reservoir_target_function(canonical_reservoir, world_position, world_normal, diffuse_brdf);
+    let canonical_resampling_weight = canonical_mis_weight * (canonical_target_function.a * canonical_reservoir.unbiased_contribution_weight);
+
+    let other_mis_weight = other_reservoir.confidence_weight * mis_weight_denominator;
+    let other_target_function = reservoir_target_function(other_reservoir, world_position, world_normal, diffuse_brdf);
+    let other_resampling_weight = other_mis_weight * (other_target_function.a * other_reservoir.unbiased_contribution_weight);
+
+    var combined_reservoir = empty_reservoir();
+    combined_reservoir.weight_sum = canonical_resampling_weight + other_resampling_weight;
+    combined_reservoir.confidence_weight = canonical_reservoir.confidence_weight + other_reservoir.confidence_weight;
+
+    // https://yusuketokuyoshi.com/papers/2024/Efficient_Visibility_Reuse_for_Real-time_ReSTIR_(Supplementary_Document).pdf
+    combined_reservoir.visibility = max(0.0, (canonical_reservoir.visibility * canonical_resampling_weight
+        + other_reservoir.visibility * other_resampling_weight) / combined_reservoir.weight_sum);
+
+    if rand_f(rng) < other_resampling_weight / combined_reservoir.weight_sum {
+        combined_reservoir.sample = other_reservoir.sample;
+
+        let inverse_target_function = select(0.0, 1.0 / other_target_function.a, other_target_function.a > 0.0);
+        combined_reservoir.unbiased_contribution_weight = combined_reservoir.weight_sum * inverse_target_function;
+
+        return ReservoirMergeResult(combined_reservoir, other_target_function.rgb);
+    } else {
+        combined_reservoir.sample = canonical_reservoir.sample;
+
+        let inverse_target_function = select(0.0, 1.0 / canonical_target_function.a, canonical_target_function.a > 0.0);
+        combined_reservoir.unbiased_contribution_weight = combined_reservoir.weight_sum * inverse_target_function;
+
+        return ReservoirMergeResult(combined_reservoir, canonical_target_function.rgb);
+    }
+}
+
+fn reservoir_target_function(reservoir: Reservoir, world_position: vec3<f32>, world_normal: vec3<f32>, diffuse_brdf: vec3<f32>) -> vec4<f32> {
+    if !reservoir_valid(reservoir) { return vec4(0.0); }
+    let light_contribution = calculate_light_contribution(reservoir.sample, world_position, world_normal).radiance;
+    let target_function = luminance(light_contribution * diffuse_brdf);
+    return vec4(light_contribution, target_function);
+}
 
 ```
 ### bevy_shaders-rgb9e5
@@ -16296,6 +17981,209 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
 }
 
 ```
+### bevy_shaders-sampling
+```rust
+#define_import_path bevy_solari::sampling
+
+#import bevy_pbr::utils::{rand_f, rand_vec2f, rand_range_u}
+#import bevy_render::maths::{PI, PI_2}
+#import bevy_solari::scene_bindings::{trace_ray, RAY_T_MIN, RAY_T_MAX, light_sources, directional_lights, LIGHT_SOURCE_KIND_DIRECTIONAL, resolve_triangle_data_full}
+
+// https://www.realtimerendering.com/raytracinggems/unofficial_RayTracingGems_v1.9.pdf#0004286901.INDD%3ASec28%3A303
+fn sample_cosine_hemisphere(normal: vec3<f32>, rng: ptr<function, u32>) -> vec3<f32> {
+    let cos_theta = 1.0 - 2.0 * rand_f(rng);
+    let phi = PI_2 * rand_f(rng);
+    let sin_theta = sqrt(max(1.0 - cos_theta * cos_theta, 0.0));
+    let x = normal.x + sin_theta * cos(phi);
+    let y = normal.y + sin_theta * sin(phi);
+    let z = normal.z + cos_theta;
+    return vec3(x, y, z);
+}
+
+// https://www.realtimerendering.com/raytracinggems/unofficial_RayTracingGems_v1.9.pdf#0004286901.INDD%3ASec19%3A294
+fn sample_disk(disk_radius: f32, rng: ptr<function, u32>) -> vec2<f32> {
+    let ab = 2.0 * rand_vec2f(rng) - 1.0;
+    let a = ab.x;
+    var b = ab.y;
+    if (b == 0.0) { b = 1.0; }
+
+    var phi: f32;
+    var r: f32;
+    if (a * a > b * b) {
+        r = disk_radius * a;
+        phi = (PI / 4.0) * (b / a);
+    } else {
+        r = disk_radius * b;
+        phi = (PI / 2.0) - (PI / 4.0) * (a / b);
+    }
+
+    let x = r * cos(phi);
+    let y = r * sin(phi);
+    return vec2(x, y);
+}
+
+fn sample_random_light(ray_origin: vec3<f32>, origin_world_normal: vec3<f32>, rng: ptr<function, u32>) -> vec3<f32> {
+    let light_sample = generate_random_light_sample(rng);
+    let light_contribution = calculate_light_contribution(light_sample, ray_origin, origin_world_normal);
+    let visibility = trace_light_visibility(light_sample, ray_origin);
+    return light_contribution.radiance * visibility * light_contribution.inverse_pdf;
+}
+
+struct LightSample {
+    light_id: vec2<u32>,
+    random: vec2<f32>,
+}
+
+struct LightContribution {
+    radiance: vec3<f32>,
+    inverse_pdf: f32,
+}
+
+fn generate_random_light_sample(rng: ptr<function, u32>) -> LightSample {
+    let light_count = arrayLength(&light_sources);
+    let light_id = rand_range_u(light_count, rng);
+    let random = rand_vec2f(rng);
+
+    let light_source = light_sources[light_id];
+    var triangle_id = 0u;
+
+    if light_source.kind != LIGHT_SOURCE_KIND_DIRECTIONAL {
+        let triangle_count = light_source.kind >> 1u;
+        triangle_id = rand_range_u(triangle_count, rng);
+    }
+
+    return LightSample(vec2(light_id, triangle_id), random);
+}
+
+fn calculate_light_contribution(light_sample: LightSample, ray_origin: vec3<f32>, origin_world_normal: vec3<f32>) -> LightContribution {
+    let light_id = light_sample.light_id.x;
+    let light_source = light_sources[light_id];
+
+    var light_contribution: LightContribution;
+    if light_source.kind == LIGHT_SOURCE_KIND_DIRECTIONAL {
+        light_contribution = calculate_directional_light_contribution(light_sample, light_source.id, origin_world_normal);
+    } else {
+        let triangle_count = light_source.kind >> 1u;
+        light_contribution = calculate_emissive_mesh_contribution(light_sample, light_source.id, triangle_count, ray_origin, origin_world_normal);
+    }
+
+    let light_count = arrayLength(&light_sources);
+    light_contribution.inverse_pdf *= f32(light_count);
+
+    return light_contribution;
+}
+
+fn calculate_directional_light_contribution(light_sample: LightSample, directional_light_id: u32, origin_world_normal: vec3<f32>) -> LightContribution {
+    let directional_light = directional_lights[directional_light_id];
+
+#ifdef DIRECTIONAL_LIGHT_SOFT_SHADOWS
+    // Sample a random direction within a cone whose base is the sun approximated as a disk
+    // https://www.realtimerendering.com/raytracinggems/unofficial_RayTracingGems_v1.9.pdf#0004286901.INDD%3ASec30%3A305
+    let cos_theta = (1.0 - light_sample.random.x) + light_sample.random.x * directional_light.cos_theta_max;
+    let sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    let phi = light_sample.random.y * PI_2;
+    let x = cos(phi) * sin_theta;
+    let y = sin(phi) * sin_theta;
+    var ray_direction = vec3(x, y, cos_theta);
+
+    // Rotate the ray so that the cone it was sampled from is aligned with the light direction
+    ray_direction = build_orthonormal_basis(directional_light.direction_to_light) * ray_direction;
+#else
+    let ray_direction = directional_light.direction_to_light;
+#endif
+
+    let cos_theta_origin = saturate(dot(ray_direction, origin_world_normal));
+    let radiance = directional_light.luminance * cos_theta_origin;
+
+    return LightContribution(radiance, directional_light.inverse_pdf);
+}
+
+fn calculate_emissive_mesh_contribution(light_sample: LightSample, instance_id: u32, triangle_count: u32, ray_origin: vec3<f32>, origin_world_normal: vec3<f32>) -> LightContribution {
+    let barycentrics = triangle_barycentrics(light_sample.random);
+    let triangle_id = light_sample.light_id.y;
+
+    let triangle_data = resolve_triangle_data_full(instance_id, triangle_id, barycentrics);
+
+    let light_distance = distance(ray_origin, triangle_data.world_position);
+    let ray_direction = (triangle_data.world_position - ray_origin) / light_distance;
+    let cos_theta_origin = saturate(dot(ray_direction, origin_world_normal));
+    let cos_theta_light = saturate(dot(-ray_direction, triangle_data.world_normal));
+    let light_distance_squared = light_distance * light_distance;
+
+    let radiance = triangle_data.material.emissive.rgb * cos_theta_origin * (cos_theta_light / light_distance_squared);
+    let inverse_pdf = f32(triangle_count) * triangle_data.triangle_area;
+
+    return LightContribution(radiance, inverse_pdf);
+}
+
+fn trace_light_visibility(light_sample: LightSample, ray_origin: vec3<f32>) -> f32 {
+    let light_id = light_sample.light_id.x;
+    let light_source = light_sources[light_id];
+
+    if light_source.kind == LIGHT_SOURCE_KIND_DIRECTIONAL {
+        return trace_directional_light_visibility(light_sample, light_source.id, ray_origin);
+    } else {
+        return trace_emissive_mesh_visibility(light_sample, light_source.id, ray_origin);
+    }
+}
+
+fn trace_directional_light_visibility(light_sample: LightSample, directional_light_id: u32, ray_origin: vec3<f32>) -> f32 {
+    let directional_light = directional_lights[directional_light_id];
+
+#ifdef DIRECTIONAL_LIGHT_SOFT_SHADOWS
+    // Sample a random direction within a cone whose base is the sun approximated as a disk
+    // https://www.realtimerendering.com/raytracinggems/unofficial_RayTracingGems_v1.9.pdf#0004286901.INDD%3ASec30%3A305
+    let cos_theta = (1.0 - light_sample.random.x) + light_sample.random.x * directional_light.cos_theta_max;
+    let sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    let phi = light_sample.random.y * PI_2;
+    let x = cos(phi) * sin_theta;
+    let y = sin(phi) * sin_theta;
+    var ray_direction = vec3(x, y, cos_theta);
+
+    // Rotate the ray so that the cone it was sampled from is aligned with the light direction
+    ray_direction = build_orthonormal_basis(directional_light.direction_to_light) * ray_direction;
+#else
+    let ray_direction = directional_light.direction_to_light;
+#endif
+
+    let ray_hit = trace_ray(ray_origin, ray_direction, RAY_T_MIN, RAY_T_MAX, RAY_FLAG_TERMINATE_ON_FIRST_HIT);
+    return f32(ray_hit.kind == RAY_QUERY_INTERSECTION_NONE);
+}
+
+fn trace_emissive_mesh_visibility(light_sample: LightSample, instance_id: u32, ray_origin: vec3<f32>) -> f32 {
+    let barycentrics = triangle_barycentrics(light_sample.random);
+    let triangle_id = light_sample.light_id.y;
+
+    let triangle_data = resolve_triangle_data_full(instance_id, triangle_id, barycentrics);
+
+    let light_distance = distance(ray_origin, triangle_data.world_position);
+    let ray_direction = (triangle_data.world_position - ray_origin) / light_distance;
+
+    let ray_t_max = light_distance - RAY_T_MIN - RAY_T_MIN;
+    if ray_t_max < RAY_T_MIN { return 0.0; }
+
+    let ray_hit = trace_ray(ray_origin, ray_direction, RAY_T_MIN, ray_t_max, RAY_FLAG_TERMINATE_ON_FIRST_HIT);
+    return f32(ray_hit.kind == RAY_QUERY_INTERSECTION_NONE);
+}
+
+// https://www.realtimerendering.com/raytracinggems/unofficial_RayTracingGems_v1.9.pdf#0004286901.INDD%3ASec22%3A297
+fn triangle_barycentrics(random: vec2<f32>) -> vec3<f32> {
+    var barycentrics = random;
+    if barycentrics.x + barycentrics.y > 1.0 { barycentrics = 1.0 - barycentrics; }
+    return vec3(1.0 - barycentrics.x - barycentrics.y, barycentrics);
+}
+
+// https://jcgt.org/published/0006/01/01/paper.pdf
+fn build_orthonormal_basis(normal: vec3<f32>) -> mat3x3<f32> {
+    let sign = select(-1.0, 1.0, normal.z >= 0.0);
+    let a = -1.0 / (sign + normal.z);
+    let b = normal.x * normal.y * a;
+    let tangent = vec3(1.0 + sign * normal.x * normal.x * a, sign * b, -sign * normal.x);
+    let bitangent = vec3(b, sign + normal.y * normal.y * a, -normal.y);
+    return mat3x3(tangent, bitangent, normal);
+}
+
+```
 ### bevy_shaders-screenshot
 ```rust
 // This vertex shader will create a triangle that will cover the entire screen
@@ -16324,7 +18212,7 @@ struct CustomMaterial {
     color: vec4<f32>,
 };
 
-@group(2) @binding(0) var<uniform> material: CustomMaterial;
+@group(3) @binding(0) var<uniform> material: CustomMaterial;
 
 @fragment
 fn fragment(
@@ -16404,6 +18292,22 @@ fn fetch_point_shadow(light_id: u32, frag_position: vec4<f32>, surface_normal: v
     return sample_shadow_cubemap(frag_ls * flip_z, distance_to_light, depth, light_id);
 }
 
+// this method of constructing a basis from a vec3 is used by glam::Vec3::any_orthonormal_pair
+// so we reproduce it here to avoid a mismatch if glam changes. we also switch the handedness
+// the construction of the orthonormal basis up and right vectors needs to precisely mirror the code
+// in bevy_light/spot_light.rs:spot_light_world_from_view
+fn spot_light_world_from_view(fwd: vec3<f32>) -> mat3x3<f32> {
+    var sign = -1.0;
+    if (fwd.z >= 0.0) {
+        sign = 1.0;
+    }
+    let a = -1.0 / (fwd.z + sign);
+    let b = fwd.x * fwd.y * a;
+    let up_dir = vec3<f32>(1.0 + sign * fwd.x * fwd.x * a, sign * b, -sign * fwd.x);
+    let right_dir = vec3<f32>(-b, -sign - fwd.y * fwd.y * a, fwd.y);
+    return mat3x3<f32>(right_dir, up_dir, fwd);
+}
+
 fn fetch_spot_shadow(
     light_id: u32,
     frag_position: vec4<f32>,
@@ -16430,17 +18334,7 @@ fn fetch_spot_shadow(
         + ((*light).shadow_depth_bias * normalize(surface_to_light))
         + (surface_normal.xyz * (*light).shadow_normal_bias) * distance_to_light;
 
-    // the construction of the up and right vectors needs to precisely mirror the code
-    // in render/light.rs:spot_light_view_matrix
-    var sign = -1.0;
-    if (fwd.z >= 0.0) {
-        sign = 1.0;
-    }
-    let a = -1.0 / (fwd.z + sign);
-    let b = fwd.x * fwd.y * a;
-    let up_dir = vec3<f32>(1.0 + sign * fwd.x * fwd.x * a, sign * b, -sign * fwd.x);
-    let right_dir = vec3<f32>(-b, -sign - fwd.y * fwd.y * a, fwd.y);
-    let light_inv_rot = mat3x3<f32>(right_dir, up_dir, fwd);
+    let light_inv_rot = spot_light_world_from_view(fwd);
 
     // because the matrix is a pure rotation matrix, the inverse is just the transpose, and to calculate
     // the product of the transpose with a vector we can just post-multiply instead of pre-multiplying.
@@ -17213,7 +19107,7 @@ struct ShowPrepassSettings {
     padding_1: u32,
     padding_2: u32,
 }
-@group(2) @binding(0) var<uniform> settings: ShowPrepassSettings;
+@group(3) @binding(0) var<uniform> settings: ShowPrepassSettings;
 
 @fragment
 fn fragment(
@@ -17250,9 +19144,9 @@ fn fragment(
 #ifdef SKINNED
 
 #ifdef SKINS_USE_UNIFORM_BUFFERS
-@group(1) @binding(1) var<uniform> joint_matrices: SkinnedMesh;
+@group(2) @binding(1) var<uniform> joint_matrices: SkinnedMesh;
 #else   // SKINS_USE_UNIFORM_BUFFERS
-@group(1) @binding(1) var<storage> joint_matrices: array<mat4x4<f32>>;
+@group(2) @binding(1) var<storage> joint_matrices: array<mat4x4<f32>>;
 #endif  // SKINS_USE_UNIFORM_BUFFERS
 
 // An array of matrices specifying the joint positions from the previous frame.
@@ -17262,9 +19156,9 @@ fn fragment(
 // If this is the first frame, or we're otherwise prevented from using data from
 // the previous frame, this is simply the same as `joint_matrices` above.
 #ifdef SKINS_USE_UNIFORM_BUFFERS
-@group(1) @binding(6) var<uniform> prev_joint_matrices: SkinnedMesh;
+@group(2) @binding(6) var<uniform> prev_joint_matrices: SkinnedMesh;
 #else   // SKINS_USE_UNIFORM_BUFFERS
-@group(1) @binding(6) var<storage> prev_joint_matrices: array<mat4x4<f32>>;
+@group(2) @binding(6) var<storage> prev_joint_matrices: array<mat4x4<f32>>;
 #endif  // SKINS_USE_UNIFORM_BUFFERS
 
 fn skin_model(
@@ -17433,6 +19327,9 @@ fn skybox_fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 struct PreviousViewUniforms {
     view_from_world: mat4x4<f32>,
     clip_from_world: mat4x4<f32>,
+    clip_from_view: mat4x4<f32>,
+    world_from_clip: mat4x4<f32>,
+    view_from_clip: mat4x4<f32>,
 }
 
 @group(0) @binding(0) var<uniform> view: View;
@@ -17675,10 +19572,10 @@ fn main(@builtin(global_invocation_id) idx: vec3<u32>) {
  *         * (See SMAA_INCLUDE_VS and SMAA_INCLUDE_PS below).
  *
  *     And four presets:
- *         SMAA_PRESET_LOW          (%60 of the quality)
- *         SMAA_PRESET_MEDIUM       (%80 of the quality)
- *         SMAA_PRESET_HIGH         (%95 of the quality)
- *         SMAA_PRESET_ULTRA        (%99 of the quality)
+ *         SMAA_PRESET_LOW          (60% of the quality)
+ *         SMAA_PRESET_MEDIUM       (80% of the quality)
+ *         SMAA_PRESET_HIGH         (95% of the quality)
+ *         SMAA_PRESET_ULTRA        (99% of the quality)
  *
  *     For example:
  *         #define SMAA_RT_METRICS float4(1.0 / 1280.0, 1.0 / 720.0, 1280.0, 720.0)
@@ -19117,10 +21014,10 @@ fn ssao_multibounce(visibility: f32, base_color: vec3<f32>) -> vec3<f32> {
 #endif
 
 // The texture representing the color framebuffer.
-@group(1) @binding(0) var color_texture: texture_2d<f32>;
+@group(2) @binding(0) var color_texture: texture_2d<f32>;
 
 // The sampler that lets us sample from the color framebuffer.
-@group(1) @binding(1) var color_sampler: sampler;
+@group(2) @binding(1) var color_sampler: sampler;
 
 // Group 1, bindings 2 and 3 are in `raymarch.wgsl`.
 
@@ -19282,7 +21179,7 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     view_transformations::position_world_to_clip
 }
 
-@group(2) @binding(0) var<storage, read> colors: array<vec4<f32>, 5>;
+@group(3) @binding(0) var<storage, read> colors: array<vec4<f32>, 5>;
 
 struct Vertex {
     @builtin(instance_index) instance_index: u32,
@@ -19523,8 +21420,8 @@ fn taa(@location(0) uv: vec2<f32>) -> Output {
 ```rust
 #import bevy_pbr::forward_io::VertexOutput
 
-@group(2) @binding(0) var textures: binding_array<texture_2d<f32>>;
-@group(2) @binding(1) var nearest_sampler: sampler;
+@group(3) @binding(0) var textures: binding_array<texture_2d<f32>>;
+@group(3) @binding(1) var nearest_sampler: sampler;
 // We can also have array of samplers
 // var samplers: binding_array<sampler>;
 
@@ -19539,6 +21436,67 @@ fn fragment(
     return textureSample(textures[index], nearest_sampler, inner_uv);
 }
 
+```
+### bevy_shaders-tilemap_chunk_material
+```rust
+#import bevy_sprite::{
+    mesh2d_functions as mesh_functions,
+    mesh2d_view_bindings::view,
+}
+
+struct Vertex {
+    @builtin(instance_index) instance_index: u32,
+    @builtin(vertex_index) vertex_index: u32,
+    @location(0) position: vec3<f32>,
+    @location(1) uv: vec2<f32>,
+};
+
+struct VertexOutput {
+    @builtin(position) position: vec4<f32>,
+    @location(0) uv: vec2<f32>,
+    @location(1) tile_index: u32,
+}
+
+@group(2) @binding(0) var tileset: texture_2d_array<f32>;
+@group(2) @binding(1) var tileset_sampler: sampler;
+@group(2) @binding(2) var tile_indices: texture_2d<u32>;
+
+@vertex
+fn vertex(vertex: Vertex) -> VertexOutput {
+    var out: VertexOutput;
+    
+    let world_from_local = mesh_functions::get_world_from_local(vertex.instance_index);
+    let world_position = mesh_functions::mesh2d_position_local_to_world(
+        world_from_local,
+        vec4<f32>(vertex.position, 1.0)
+    );
+
+    out.position = mesh_functions::mesh2d_position_world_to_clip(world_position);
+    out.uv = vertex.uv;
+    out.tile_index = vertex.vertex_index / 4u;
+
+    return out;
+}
+
+@fragment
+fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
+    let chunk_size = textureDimensions(tile_indices, 0);
+    let tile_xy = vec2<u32>(
+        in.tile_index % chunk_size.x,
+        in.tile_index / chunk_size.x
+    );
+    let tile_id = textureLoad(tile_indices, tile_xy, 0).r;
+
+    if tile_id == 0xffffu {
+        discard;
+    }
+
+    let color = textureSample(tileset, tileset_sampler, in.uv, tile_id);
+    if color.a < 0.001 {
+        discard;
+    }
+    return color;
+}
 ```
 ### bevy_shaders-tonemapping
 ```rust
@@ -20157,12 +22115,19 @@ struct AtmosphereTransforms {
 ```
 ### bevy_shaders-ui
 ```rust
+#define_import_path bevy_ui::ui_node
+
 #import bevy_render::view::View
 
 const TEXTURED = 1u;
 const RIGHT_VERTEX = 2u;
 const BOTTOM_VERTEX = 4u;
-const BORDER: u32 = 8u;
+// must align with BORDER_* shader_flags from bevy_ui/render/mod.rs
+const BORDER_LEFT: u32 = 256u;
+const BORDER_TOP: u32 = 512u;
+const BORDER_RIGHT: u32 = 1024u;
+const BORDER_BOTTOM: u32 = 2048u;
+const BORDER_ANY: u32 = BORDER_LEFT + BORDER_TOP + BORDER_RIGHT + BORDER_BOTTOM;
 
 fn enabled(flags: u32, mask: u32) -> bool {
     return (flags & mask) != 0u;
@@ -20273,34 +22238,61 @@ fn sd_inset_rounded_box(point: vec2<f32>, size: vec2<f32>, radius: vec4<f32>, in
     return sd_rounded_box(inner_point, inner_size, r);
 }
 
+fn nearest_border_active(point_vs_mid: vec2<f32>, size: vec2<f32>, width: vec4<f32>, flags: u32) -> bool {
+    if (flags & BORDER_ANY) == BORDER_ANY {
+        return true;
+    }
+ 
+    // get point vs top left
+    let point = clamp(point_vs_mid + size * 0.49999, vec2(0.0), size);
+ 
+    let left = point.x / width.x;
+    let top = point.y / width.y;
+    let right = (size.x - point.x) / width.z;
+    let bottom = (size.y - point.y) / width.w;
+ 
+    let min_dist = min(min(left, top), min(right, bottom));
+ 
+    return (enabled(flags, BORDER_LEFT) && min_dist == left) ||
+        (enabled(flags, BORDER_TOP) && min_dist == top) || 
+        (enabled(flags, BORDER_RIGHT) && min_dist == right) || 
+        (enabled(flags, BORDER_BOTTOM) && min_dist == bottom);
+}
+
 // get alpha for antialiasing for sdf
 fn antialias(distance: f32) -> f32 {
     // Using the fwidth(distance) was causing artifacts, so just use the distance.
     return saturate(0.5 - distance);
 }
 
-fn draw(in: VertexOutput, texture_color: vec4<f32>) -> vec4<f32> {
-    // Only use the color sampled from the texture if the `TEXTURED` flag is enabled. 
-    // This allows us to draw both textured and untextured shapes together in the same batch.
-    let color = select(in.color, in.color * texture_color, enabled(in.flags, TEXTURED));
-
+fn draw_uinode_border(
+    color: vec4<f32>,
+    point: vec2<f32>,
+    size: vec2<f32>,
+    radius: vec4<f32>,
+    border: vec4<f32>,
+    flags: u32,
+) -> vec4<f32> {
     // Signed distances. The magnitude is the distance of the point from the edge of the shape.
     // * Negative values indicate that the point is inside the shape.
     // * Zero values indicate the point is on the edge of the shape.
     // * Positive values indicate the point is outside the shape.
 
     // Signed distance from the exterior boundary.
-    let external_distance = sd_rounded_box(in.point, in.size, in.radius);
+    let external_distance = sd_rounded_box(point, size, radius);
 
     // Signed distance from the border's internal edge (the signed distance is negative if the point 
     // is inside the rect but not on the border).
     // If the border size is set to zero, this is the same as the external distance.
-    let internal_distance = sd_inset_rounded_box(in.point, in.size, in.radius, in.border);
+    let internal_distance = sd_inset_rounded_box(point, size, radius, border);
 
     // Signed distance from the border (the intersection of the rect with its border).
     // Points inside the border have negative signed distance. Any point outside the border, whether 
     // outside the outside edge, or inside the inner edge have positive signed distance.
     let border_distance = max(external_distance, -internal_distance);
+
+    // check if this node should apply color for the nearest border
+    let nearest_border = select(0.0, 1.0, nearest_border_active(point, size, border, flags));
 
 #ifdef ANTI_ALIAS
     // At external edges with no border, `border_distance` is equal to zero. 
@@ -20313,14 +22305,18 @@ fn draw(in: VertexOutput, texture_color: vec4<f32>) -> vec4<f32> {
 #endif
 
     // Blend mode ALPHA_BLENDING is used for UI elements, so we don't premultiply alpha here.
-    return vec4(color.rgb, saturate(color.a * t));
+    return vec4(color.rgb, saturate(color.a * t * nearest_border));
 }
 
-fn draw_background(in: VertexOutput, texture_color: vec4<f32>) -> vec4<f32> {
-    let color = select(in.color, in.color * texture_color, enabled(in.flags, TEXTURED));
-
+fn draw_uinode_background(
+    color: vec4<f32>,
+    point: vec2<f32>,
+    size: vec2<f32>,
+    radius: vec4<f32>,
+    border: vec4<f32>,
+) -> vec4<f32> {
     // When drawing the background only draw the internal area and not the border.
-    let internal_distance = sd_inset_rounded_box(in.point, in.size, in.radius, in.border);
+    let internal_distance = sd_inset_rounded_box(point, size, radius, border);
 
 #ifdef ANTI_ALIAS
     let t = antialias(internal_distance);
@@ -20335,10 +22331,14 @@ fn draw_background(in: VertexOutput, texture_color: vec4<f32>) -> vec4<f32> {
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     let texture_color = textureSample(sprite_texture, sprite_sampler, in.uv);
 
-    if enabled(in.flags, BORDER) {
-        return draw(in, texture_color);
+    // Only use the color sampled from the texture if the `TEXTURED` flag is enabled. 
+    // This allows us to draw both textured and untextured shapes together in the same batch.
+    let color = select(in.color, in.color * texture_color, enabled(in.flags, TEXTURED));
+
+    if enabled(in.flags, BORDER_ANY) {
+        return draw_uinode_border(color, in.point, in.size, in.radius, in.border, in.flags);
     } else {
-        return draw_background(in, texture_color);
+        return draw_uinode_background(color, in.point, in.size, in.radius, in.border);
     }
 }
 
@@ -20642,33 +22642,35 @@ struct View {
     world_from_clip: mat4x4<f32>,
     world_from_view: mat4x4<f32>,
     view_from_world: mat4x4<f32>,
-    // Typically a right-handed projection matrix, one of either:
+    // Typically a column-major right-handed projection matrix, one of either:
     //
     // Perspective (infinite reverse z)
     // ```
     // f = 1 / tan(fov_y_radians / 2)
     //
-    // ⎡ f / aspect  0     0   0 ⎤
-    // ⎢          0  f     0   0 ⎥
-    // ⎢          0  0     0  -1 ⎥
-    // ⎣          0  0  near   0 ⎦
+    // ⎡ f / aspect  0   0     0 ⎤
+    // ⎢          0  f   0     0 ⎥
+    // ⎢          0  0   0  near ⎥
+    // ⎣          0  0  -1     0 ⎦
     // ```
     //
     // Orthographic
     // ```
     // w = right - left
     // h = top - bottom
-    // d = near - far
+    // d = far - near
     // cw = -right - left
     // ch = -top - bottom
     //
-    // ⎡  2 / w       0         0  0 ⎤
-    // ⎢      0   2 / h         0  0 ⎥
-    // ⎢      0       0     1 / d  0 ⎥
-    // ⎣ cw / w  ch / h  near / d  1 ⎦
+    // ⎡ 2 / w      0      0   cw / w ⎤
+    // ⎢     0  2 / h      0   ch / h ⎥
+    // ⎢     0      0  1 / d  far / d ⎥
+    // ⎣     0      0      0        1 ⎦
     // ```
     //
     // `clip_from_view[3][3] == 1.0` is the standard way to check if a projection is orthographic
+    //
+    // Wgsl matrices are column major, so for example getting the near plane of a perspective projection is `clip_from_view[3][2]`
     // 
     // Custom projections are also possible however.
     clip_from_view: mat4x4<f32>,
@@ -20934,6 +22936,7 @@ fn ndc_to_frag_coord(ndc: vec2<f32>) -> vec2<f32> {
         meshlet_cluster_instance_ids,
         meshlet_instance_uniforms,
         meshlet_raster_clusters,
+        meshlet_previous_raster_counts,
         meshlet_visibility_buffer,
         view,
         get_meshlet_triangle_count,
@@ -20956,17 +22959,17 @@ struct VertexOutput {
 
 @vertex
 fn vertex(@builtin(instance_index) instance_index: u32, @builtin(vertex_index) vertex_index: u32) -> VertexOutput {
-    let cluster_id = meshlet_raster_clusters[meshlet_raster_cluster_rightmost_slot - instance_index];
-    let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
-    var meshlet = meshlets[meshlet_id];
+    let cluster_in_draw = meshlet_previous_raster_counts[1] + instance_index;
+    let cluster_id = meshlet_raster_cluster_rightmost_slot - cluster_in_draw;
+    let instanced_offset = meshlet_raster_clusters[cluster_id];
+    var meshlet = meshlets[instanced_offset.offset];
 
     let triangle_id = vertex_index / 3u;
     if triangle_id >= get_meshlet_triangle_count(&meshlet) { return dummy_vertex(); }
-    let index_id = (triangle_id * 3u) + (vertex_index % 3u);
+    let index_id = vertex_index;
     let vertex_id = get_meshlet_vertex_id(meshlet.start_index_id + index_id);
 
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
-    let instance_uniform = meshlet_instance_uniforms[instance_id];
+    let instance_uniform = meshlet_instance_uniforms[instanced_offset.instance_id];
 
     let vertex_position = get_meshlet_vertex_position(&meshlet, vertex_id);
     let world_from_local = affine3_to_square(instance_uniform.world_from_local);
@@ -21015,9 +23018,8 @@ fn divide(a: f32, b: f32) -> f32 {
     meshlet_bindings::{
         Meshlet,
         meshlet_visibility_buffer,
-        meshlet_cluster_meshlet_ids,
+        meshlet_raster_clusters,
         meshlets,
-        meshlet_cluster_instance_ids,
         meshlet_instance_uniforms,
         get_meshlet_vertex_id,
         get_meshlet_vertex_position,
@@ -21117,7 +23119,8 @@ struct VertexOutput {
 fn resolve_vertex_output(frag_coord: vec4<f32>) -> VertexOutput {
     let packed_ids = u32(textureLoad(meshlet_visibility_buffer, vec2<u32>(frag_coord.xy)).r);
     let cluster_id = packed_ids >> 7u;
-    let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
+    let instanced_offset = meshlet_raster_clusters[cluster_id];
+    let meshlet_id = instanced_offset.offset;
     var meshlet = meshlets[meshlet_id];
 
     let triangle_id = extractBits(packed_ids, 0u, 7u);
@@ -21127,7 +23130,7 @@ fn resolve_vertex_output(frag_coord: vec4<f32>) -> VertexOutput {
     let vertex_1 = load_vertex(&meshlet, vertex_ids[1]);
     let vertex_2 = load_vertex(&meshlet, vertex_ids[2]);
 
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
+    let instance_id = instanced_offset.instance_id;
     var instance_uniform = meshlet_instance_uniforms[instance_id];
 
     let world_from_local = affine3_to_square(instance_uniform.world_from_local);
@@ -21260,6 +23263,7 @@ fn calculate_world_tangent(
         meshlet_cluster_instance_ids,
         meshlet_instance_uniforms,
         meshlet_raster_clusters,
+        meshlet_previous_raster_counts,
         meshlet_software_raster_cluster_count,
         meshlet_visibility_buffer,
         view,
@@ -21295,12 +23299,11 @@ fn rasterize_cluster(
     if workgroup_id_1d >= meshlet_software_raster_cluster_count { return; }
 #endif
 
-    let cluster_id = meshlet_raster_clusters[workgroup_id_1d];
-    let meshlet_id = meshlet_cluster_meshlet_ids[cluster_id];
-    var meshlet = meshlets[meshlet_id];
+    let cluster_id = workgroup_id_1d + meshlet_previous_raster_counts[0];
+    let instanced_offset = meshlet_raster_clusters[cluster_id];
+    var meshlet = meshlets[instanced_offset.offset];
 
-    let instance_id = meshlet_cluster_instance_ids[cluster_id];
-    let instance_uniform = meshlet_instance_uniforms[instance_id];
+    let instance_uniform = meshlet_instance_uniforms[instanced_offset.instance_id];
     let world_from_local = affine3_to_square(instance_uniform.world_from_local);
 
     // Load and project 1 vertex per thread, and then again if there are more than 128 vertices in the meshlet
@@ -21699,7 +23702,7 @@ fn fragment(@builtin(position) position: vec4<f32>) -> @location(0) vec4<f32> {
             // case.
             let P_uvw = Ro_uvw + Rd_step_uvw * f32(step);
             if (all(P_uvw >= vec3(0.0)) && all(P_uvw <= vec3(1.0))) {
-                density *= textureSample(density_texture, density_sampler, P_uvw + density_texture_offset).r;
+                density *= textureSampleLevel(density_texture, density_sampler, P_uvw + density_texture_offset, 0.0).r;
             } else {
                 density = 0.0;
             }
@@ -21960,9 +23963,9 @@ struct WaterSettings {
 
 @group(0) @binding(1) var<uniform> globals: Globals;
 
-@group(2) @binding(100) var water_normals_texture: texture_2d<f32>;
-@group(2) @binding(101) var water_normals_sampler: sampler;
-@group(2) @binding(102) var<uniform> water_settings: WaterSettings;
+@group(3) @binding(100) var water_normals_texture: texture_2d<f32>;
+@group(3) @binding(101) var water_normals_sampler: sampler;
+@group(3) @binding(102) var<uniform> water_settings: WaterSettings;
 
 // Samples a single octave of noise and returns the resulting normal.
 fn sample_noise_octave(uv: vec2<f32>, strength: f32) -> vec3<f32> {
