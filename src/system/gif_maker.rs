@@ -7,7 +7,7 @@ use bevy::render::render_resource::{
 use bevy::{
     log,
     prelude::*,
-    render::view::screenshot::{save_to_disk, Capturing, Screenshot},
+    render::view::screenshot::{Capturing, Screenshot, save_to_disk},
     window::SystemCursorIcon,
     winit::cursor::CursorIcon,
 };
@@ -32,12 +32,11 @@ pub struct Shooting(bool);
 impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
         let scratch_dir = std::path::PathBuf::from(".gif_scratch");
-        if !scratch_dir.exists() {
-            if let Err(e) = std::fs::create_dir_all(&scratch_dir) {
+        if !scratch_dir.exists()
+            && let Err(e) = std::fs::create_dir_all(&scratch_dir) {
                 log::debug!("{} does not exist, creating...", scratch_dir.display());
                 log::error!("{e}");
             }
-        }
 
         app.insert_resource(Shooting(false));
         app.add_systems(Update, gif_capture_toggle.run_if(on_event::<KeyboardInput>));

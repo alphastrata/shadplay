@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use bevy::{
     log,
     prelude::*,
-    render::view::screenshot::{save_to_disk, Screenshot},
+    render::view::screenshot::{Screenshot, save_to_disk},
     window::PrimaryWindow,
 };
 

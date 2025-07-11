@@ -14,7 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .expect("Failed to execute git clone command")
             .success()
     {
-        eprintln!("Failed to clone Bevy repository.\nShadplay makes a copy of the bevy codebase here to help generate documentation for you, if you don't want that modify _this_ file `./shadplay/build.rs`");
+        eprintln!(
+            "Failed to clone Bevy repository.\nShadplay makes a copy of the bevy codebase here to help generate documentation for you, if you don't want that modify _this_ file `./shadplay/build.rs`"
+        );
 
         exit(1);
     }
@@ -67,7 +69,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Check for knight.glb in assets/scenes
     let knight_model_path = Path::new("../assets/scenes/knight.glb");
     if !knight_model_path.exists() {
-        dbg!("knight.glb does not exist at {:?}.\nThere's a free non-rigged version available of it here: https://sketchfab.com/3d-models/elysia-knight-d099f11914f445afbe727fe5c3ddd39d or,\nYou can a rigged version purchase here: https://www.artstation.com/marketplace/p/RGmbB/medieval-armor-set-unreal-engine-rigged", knight_model_path);
+        dbg!(
+            "knight.glb does not exist at {:?}.\nThere's a free non-rigged version available of it here: https://sketchfab.com/3d-models/elysia-knight-d099f11914f445afbe727fe5c3ddd39d or,\nYou can a rigged version purchase here: https://www.artstation.com/marketplace/p/RGmbB/medieval-armor-set-unreal-engine-rigged",
+            knight_model_path
+        );
         // Handle the absence of knight.glb as needed (e.g., download, notify, etc.)
     } else {
         dbg!("knight.glb already exists at {:?}", knight_model_path);

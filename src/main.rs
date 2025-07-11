@@ -28,8 +28,6 @@ fn main() {
                 UserSession::runtime_updater
                     .run_if(on_event::<WindowResized>)
                     .run_if(time_passed(1.0)), // Rate limit the speed at which we write to the config file...
-
-                                               //
             ),
         );
 

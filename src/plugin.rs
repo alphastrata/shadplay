@@ -1,8 +1,8 @@
+use crate::camera::PanOrbitCameraPlugin;
 use bevy::{
     input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
     sprite::Material2dPlugin, window::WindowResized,
 };
-use bevy_panorbit_camera::PanOrbitCameraPlugin;
 
 use crate::prelude::*;
 
