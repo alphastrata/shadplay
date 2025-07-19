@@ -4,8 +4,8 @@ use bevy::{
     asset::{AssetApp, AssetServer, Assets},
     ecs::system::{Commands, Local, Res},
     input::{
-        keyboard::{KeyCode, KeyboardInput},
         ButtonInput,
+        keyboard::{KeyCode, KeyboardInput},
     },
     log,
     prelude::{Handle, Image, Query, ResMut, Resource},
@@ -73,7 +73,9 @@ impl UserSession {
             }
             None => {
                 log::error!("Unable to find or create the config directory.");
-                unreachable!("If you see this error, shadpaly was unable to write the default user configuration to your system, please open an issue, on GH.")
+                unreachable!(
+                    "If you see this error, shadpaly was unable to write the default user configuration to your system, please open an issue, on GH."
+                )
             }
         }
     }

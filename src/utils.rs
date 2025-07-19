@@ -1,10 +1,10 @@
+use crate::camera::PanOrbitCamera;
 use bevy::{
     math::sampling::mesh_sampling,
     prelude::*,
     window::{PrimaryWindow, RequestRedraw, Window, WindowLevel},
     winit::WinitWindows,
 };
-use bevy_panorbit_camera::PanOrbitCamera;
 
 use crate::{prelude::*, shader_utils::YourShader};
 /// State: Used to transition between 2d and 3d mode.    
@@ -316,6 +316,7 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
     commands.spawn((
         Name::new("Cam3D"),
         Camera3d::default(),
+        PanOrbitCamera::default(),
         Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
     info!("Spawned Cam3d");
@@ -479,12 +480,11 @@ pub fn update_mouse_pos(
     };
 
     // Is the mouse on our window?
-    if shadplay_win_dims.hittest(mouse_xy) {
-        if let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
+    if shadplay_win_dims.hittest(mouse_xy)
+        && let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
             let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
             shad_mat.mouse_pos = sh_xy.into();
         }
-    }
 }
 
 impl From<Vec2> for MousePos {

@@ -145,7 +145,7 @@ See the [guide](./CONTRIBUTING.md)
 - [Alain's blog](https://alain.xyz/blog)
 - [GM Shaders](https://gmshaders.com/)
 - [WGSL function reference](https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl-function-reference.html)
-- [My blog, sometimes I write about shaders/gp-gpu programming](https://jeremyfwebb.ninja/blog)
+- [My blog, sometimes I write about shaders/gp-gpu programming](https://jeremyfwebb.ninja)
 
 ---
 

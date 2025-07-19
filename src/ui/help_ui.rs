@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Vec2};
-use bevy_egui::{egui, EguiContexts};
+use bevy_egui::{EguiContexts, egui};
 
 /// Plugin:
 /// Systems/Resources etc to facilitate the help UI which will show the hotkey bindings.

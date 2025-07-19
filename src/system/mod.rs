@@ -79,7 +79,7 @@ pub fn timestamper() -> String {
     let minute = local.minute();
     let second = local.second();
 
-    format!("{:02}-{:02}-{:02}", hour, minute, second)
+    format!("{hour:02}-{minute:02}-{second:02}")
 }
 
 /// dd-mm-yy as a String.
@@ -89,7 +89,7 @@ pub fn today() -> String {
     let month = local.month();
     let year = local.year() % 100;
 
-    format!("{:02}-{:02}-{:02}", day, month, year)
+    format!("{day:02}-{month:02}-{year:02}")
 }
 
 /// Grabs the `asssets/shaders/myshader.wgsl` and versions it with your screengrab.

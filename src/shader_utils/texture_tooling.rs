@@ -1,5 +1,5 @@
-use bevy::input::keyboard::KeyboardInput;
 use bevy::input::ButtonState;
+use bevy::input::keyboard::KeyboardInput;
 use bevy::prelude::*;
 
 use crate::prelude::*;
@@ -27,8 +27,11 @@ impl SetNewTexture for YourShader {
     ) {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
             let num_texs = user_added_textures.0.len();
-            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
-                num_texs, num_texs.min(9));
+            error!(
+                "No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+                num_texs,
+                num_texs.min(9)
+            );
 
             return;
         };
@@ -75,8 +78,11 @@ impl SetNewTexture for YourShader2D {
         let Some(new_tex) = user_added_textures.0.get(&idx) else {
             error!("Expected a texture at idx: {}, but none was found.", idx);
             let num_texs = user_added_textures.0.len();
-            error!("No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
-                num_texs, num_texs.min(9));
+            error!(
+                "No handle, it could still be loading your texture into the ECS!\nThere are currently {}, textures available on keys 0..{}",
+                num_texs,
+                num_texs.min(9)
+            );
 
             return;
         };

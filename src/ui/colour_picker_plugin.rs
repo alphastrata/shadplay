@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Vec2};
-use bevy_egui::{egui, EguiContexts, EguiPlugin};
+use bevy_egui::{EguiContexts, EguiPlugin, egui};
 
 use crate::system::clipboard::SystemClipboard;
 
@@ -80,7 +80,7 @@ impl ColourPickerTool {
                 debug!("{:?}", picker.colour);
 
                 let (r, g, b) = (picker.colour[0], picker.colour[1], picker.colour[2]);
-                (*sys_clip).set_from(format!("vec3f({}, {}, {})", r, g, b));
+                (*sys_clip).set_from(format!("vec3f({r}, {g}, {b})"));
             });
     }
 }

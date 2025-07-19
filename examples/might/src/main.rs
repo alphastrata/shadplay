@@ -1,18 +1,12 @@
 use bevy::{
     gltf::Gltf,
     log,
-    pbr::{
-        CascadeShadowConfigBuilder,
-        DirectionalLightShadowMap,
-        // At some stage in the future I'll want to use these!
-        //  ExtendedMaterial, MaterialExtension,
-        // OpaqueRendererMethod,
-    },
+    pbr::{CascadeShadowConfigBuilder, DirectionalLightShadowMap},
     prelude::*,
     render::render_resource::{AsBindGroup, ShaderRef},
 };
 
-use bevy_panorbit_camera::PanOrbitCamera;
+use shadplay::camera::{PanOrbitCamera, PanOrbitCameraPlugin};
 
 use std::f32::consts::*;
 
@@ -31,12 +25,15 @@ fn main() {
     // The environment maps used, are automatically downloadable so the shadplay/build.rs fetches them for you.
     let knight_model_path = std::path::Path::new("../assets/scenes/knight.glb");
     if !knight_model_path.exists() {
-        dbg!("knight.glb does not exist at {:?}.\nThere's a free non-rigged version available of it here: https://sketchfab.com/3d-models/elysia-knight-d099f11914f445afbe727fe5c3ddd39d or,\nYou can a rigged version purchase here: https://www.artstation.com/marketplace/p/RGmbB/medieval-armor-set-unreal-engine-rigged", knight_model_path);
+        dbg!(
+            "knight.glb does not exist at {:?}.\nThere's a free non-rigged version available of it here: https://sketchfab.com/3d-models/elysia-knight-d099f11914f445afbe727fe5c3ddd39d or,\nYou can a rigged version purchase here: https://www.artstation.com/marketplace/p/RGmbB/medieval-armor-set-unreal-engine-rigged",
+            knight_model_path
+        );
     }
 
     App::new()
         .insert_resource(DirectionalLightShadowMap { size: 4096 })
-        .add_plugins((DefaultPlugins, bevy_panorbit_camera::PanOrbitCameraPlugin))
+        .add_plugins((DefaultPlugins, PanOrbitCameraPlugin))
         .add_systems(Startup, setup)
         .add_systems(Update, (animate_light_direction, quit_listener))
         // Our Systems:
