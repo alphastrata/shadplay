@@ -1,125 +1,27 @@
-/*
-    This is a port of "Phosphor" by @XorDev https://www.shadertoy.com/view/WXV3zt
-*/
+/// ***************************** ///
+/// THIS IS THE DEFAULT 2D SHADER ///
+/// You can always get back to this with `python3 scripts/reset-2d.py` ///
+/// ***************************** ///
 
-#import bevy_sprite::mesh2d_view_bindings::globals
+#import bevy_sprite::mesh2d_view_bindings::globals 
+#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
 #import bevy_render::view::View
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 @group(0) @binding(0) var<uniform> view: View;
 
-/// Maximum steps for ray marching - higher values increase quality but reduce performance
-const MAX_MARCHING_STEPS: i32 = 28;
-
-/// How far back the camera is positioned - affects the apparent size of the effect
-const CAMERA_BACKWARD_OFFSET: f32 = 5.0;
-
-/// Base radius of the phosphor ring structure - larger values make the effect more expansive
-const RING_RADIUS: f32 = 3.0;
-
-/// Controls how strongly particles adhere to the ring shape - higher values make more distinct rings
-const RING_DISTANCE_WEIGHT: f32 = 0.09;
-
-/// Strength of the turbulent motion - higher values create more chaotic, sand-like movement
-const TURBULENCE_Y_WEIGHT: f32 = 0.06;
-
-/// Final brightness scaling - lower values make the overall effect brighter
-const TONEMAP_SCALE: f32 = 2e3;
-
-/// Animation speed multiplier - higher values make the particles move faster
-const SPEED: f32 = 1.15;
-
-/// Contrast boost applied at the end - higher values (1.5+) create more dramatic light/dark separation
-const CONTRAST: f32 = 1.015;
-
-/// Depth fade control - higher values make particles appear more gradually with distance
-const DEPTH_FADE_END: f32 = 0.8;
-
-/// Edge sharpness control - lower values create crisper particle edges (0.02-0.1 recommended)
-const EDGE_SHARPNESS: f32 = 0.07;
-
-/// Controls glow intensity - higher values make bright areas glow more
-const GLOW_INTENSITY: f32 = 1.8; // New glow control (1.0-2.5 range)
-
-/// Colour palette selector (0-3):
-/// 0 = Original purple/pink, 1 = Green/orange, 2 = Gold/blue, 3 = Cyan/magenta
-const PALETTE_INDEX: i32 = 0;
-
-// Multiple colour palettes
-const PALETTES: array<array<vec3<f32>, 3>, 4> = array<array<vec3<f32>, 3>, 4>(
-// 0: Original purple/pink
-array<vec3<f32>, 3>(vec3<f32>(0.8, 0.1, 0.8), // Vibrant purple
-vec3<f32>(1.0, 0.3, 0.6), // Bright pink
-vec3<f32>(0.5, 0.1, 1.0) // Deep violet
-),
-// 1: Green/orange
-array<vec3<f32>, 3>(vec3<f32>(0.1, 0.8, 0.1), // Electric green
-vec3<f32>(0.8, 0.5, 0.1), // Warm orange
-vec3<f32>(0.9, 0.9, 0.2) // Sunny yellow
-),
-// 2: Gold/blue
-array<vec3<f32>, 3>(vec3<f32>(0.9, 0.7, 0.1), // Rich gold
-vec3<f32>(0.1, 0.5, 0.9), // Deep blue
-vec3<f32>(0.9, 0.9, 0.3) // Light gold
-),
-// 3: Cyan/magenta
-array<vec3<f32>, 3>(vec3<f32>(0.1, 0.9, 0.9), // Bright cyan
-vec3<f32>(0.9, 0.1, 0.5), // Vibrant magenta
-vec3<f32>(0.3, 0.9, 0.9) // Light cyan
-));
-
-fn get_palette() -> array<vec3<f32>, 3> {
-    return PALETTES[PALETTE_INDEX % 4];
-}
-
-fn distance_field(p: vec3<f32>, time: f32, ray_depth: f32) -> f32 {
-    var a = normalize(cos(vec3<f32>(4.0, 2.0, 0.0) + time - ray_depth * 8.0 * SPEED));
-    a = a * dot(a, p) - cross(a, p);
-
-    var turbulence: vec3<f32> = a;
-    for (var d: i32 = 2; d < 9; d += 1) {
-        turbulence += sin(turbulence * f32(d) + time * SPEED).yzx / f32(d);
-    }
-
-    return RING_DISTANCE_WEIGHT * abs(length(p) - RING_RADIUS)
-        + TURBULENCE_Y_WEIGHT * abs(turbulence.y);
-}
+const SPEED:f32 = 1.0;
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
+    // ensure our uv coords match shadertoy/the-lil-book-of-shaders
     var uv = in.uv;
+    uv = (uv * 2.0) - 1.0;
     let resolution = view.viewport.zw;
-    uv = uv * 2.0 - 1.0;
+    let t = globals.time * SPEED;
     uv.x *= resolution.x / resolution.y;
+    uv *= rotate2D(NEG_HALF_PI);
 
-    let time = globals.time * SPEED;
-    let palette = get_palette();
-
-    var z: f32 = 0.0;
-    var d: f32 = 0.0;
-    var frag_colour = vec4<f32>(0.0);
-
-    for (var i: i32 = 0; i < MAX_MARCHING_STEPS; i += 1) {
-        let ray_dir = normalize(vec3<f32>(uv, -1.0));
-        var p = z * ray_dir;
-        p.z += CAMERA_BACKWARD_OFFSET;
-
-        d = distance_field(p, time, z);
-        z += d;
-
-        let colour_weights = cos(d / 0.1 + vec3<f32>(0.0, 2.0, 4.0)) + 1.0;
-        let base_colour = palette[0] * colour_weights.x + palette[1] * colour_weights.y + palette[2] * colour_weights.z;
-
-        // Configurable contrast falloff
-        let falloff = smoothstep(0.0, DEPTH_FADE_END, z) * (1.0 - smoothstep(0.0, EDGE_SHARPNESS, d));
-
-        frag_colour += vec4<f32>(base_colour, 1.0) * falloff / (d * 0.3 + 0.01) * z;
-    }
-
-    // Final tonemapping with contrast & glow
-    frag_colour = tanh(frag_colour / TONEMAP_SCALE);
-    frag_colour = pow(frag_colour, vec4<f32>(CONTRAST));
-    frag_colour = mix(frag_colour, frag_colour * frag_colour, 0.3); // Extra glow curve
-
-    return frag_colour;
-}
+    return vec4f(shader_toy_default(t, uv), 0.3);
+}    
+    
