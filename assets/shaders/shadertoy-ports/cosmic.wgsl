@@ -1,5 +1,5 @@
 /// A shadertoy port of 'Cosmic' https://www.shadertoy.com/view/msjXRK, by Xor.
-/// I have sligthly adjusted the colours, and used a smoothstep to improve the contrast too.
+/// I have slightly adjusted the colours, and used a smoothstep to improve the contrast too.
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 #import bevy_sprite::mesh2d_view_bindings::globals 
 #import shadplay::shader_utils::common::{NEG_HALF_PI, rotate2D}
