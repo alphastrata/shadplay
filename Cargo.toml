@@ -21,8 +21,8 @@ ui = []
 
 [dependencies]
 # Bump-a-lots
-bevy = { version = "0.16.1", features = ["file_watcher", "jpeg"] }
-bevy_egui = { version = "0.35.0" }
+bevy = { version = "0.17.0", features = ["file_watcher", "jpeg"] }
+bevy_egui = { version = "0.37.0" }
 
 # usually not bumped with bevy versions
 anyhow = "1.0.79"
@@ -31,10 +31,10 @@ copypasta = "0.10.0"
 directories = "6.0.0"
 image = "0.25.1"
 serde = { version = "1.0.190", features = ["derive"] }
-toml = "0.8.10"
+toml = "0.9.7"
 
 [dev-dependencies]
-bevy = { version = "0.16.1", features = [
+bevy = { version = "0.17.0", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",
