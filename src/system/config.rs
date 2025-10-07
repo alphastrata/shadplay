@@ -25,7 +25,7 @@ use std::{
 #[derive(Resource, Debug, Serialize, PartialEq, PartialOrd, Deserialize)]
 pub struct UserSession {
     #[serde(default = "default_window_dims")]
-    pub window_dims: (f32, f32),
+    pub window_dims: (u32, u32),
     #[serde(default = "neg")]
     decorations: bool,
     #[serde(default = "neg")]
@@ -38,8 +38,8 @@ pub struct UserSession {
     pub gif_buffer: Option<Handle<Image>>,
 }
 // Provide a default function for window_dims
-fn default_window_dims() -> (f32, f32) {
-    (800.0, 600.0) // Default window dimensions
+fn default_window_dims() -> (u32, u32) {
+    (800, 600) // Default window dimensions
 }
 
 fn neg() -> bool {
@@ -131,7 +131,7 @@ impl UserSession {
 
         user_config.decorations = win.decorations;
         user_config.always_on_top = matches!(win.window_level, WindowLevel::AlwaysOnTop);
-        user_config.window_dims = (width, height);
+        user_config.window_dims = (width as u32, height as u32);
         user_config.last_updated = std::time::SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .unwrap_or_default()
@@ -202,7 +202,7 @@ impl UserSession {
 impl Default for UserSession {
     fn default() -> Self {
         Self {
-            window_dims: (720.0, 480.0),
+            window_dims: (720, 480),
             decorations: true,
             always_on_top: true,
             last_updated: std::time::SystemTime::now()

@@ -1,9 +1,9 @@
 use bevy::{
     gltf::Gltf,
     log,
-    pbr::{CascadeShadowConfigBuilder, DirectionalLightShadowMap},
     prelude::*,
-    render::render_resource::{AsBindGroup, ShaderRef},
+    render::render_resource::{AsBindGroup},
+    shader::ShaderRef,
 };
 
 use shadplay::camera::{PanOrbitCamera, PanOrbitCameraPlugin};
@@ -73,12 +73,12 @@ fn setup(
             shadows_enabled: true,
             ..default()
         },
-        CascadeShadowConfigBuilder {
+        CascadeShadowConfig {
             num_cascades: 1,
             maximum_distance: 1.6,
+            first_cascade_far_bound: 0.1,
             ..default()
-        }
-        .build(),
+        },
     ));
 
     // ground plane

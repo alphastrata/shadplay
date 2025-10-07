@@ -2,10 +2,10 @@
 
 // The circle family
 const PI:f32  =         3.14159265359;
-const HALF_PI =         1.57079632679;
-const NEG_HALF_PI =    -1.57079632679;
-const NEG_QUARTER_PI = -0.78539816339;
-const QUARTER_PI =     -0.78539816339;
+const HALF_PI: f32 =         1.57079632679;
+const NEG_HALF_PI: f32 =    -1.57079632679;
+const NEG_QUARTER_PI: f32 = -0.78539816339;
+const QUARTER_PI: f32 =     0.78539816339;  // Fixed: was negative but should be positive
 const TAU:f32 =         6.28318530718;
 
 // Euler's number / Napier's constant

@@ -1,6 +1,5 @@
 use bevy::{
-    prelude::*, render::view::screenshot::Capturing, window::SystemCursorIcon,
-    winit::cursor::CursorIcon,
+    prelude::*, render::view::screenshot::Capturing, window::{SystemCursorIcon, CursorIcon},
 };
 use chrono::{Datelike, Local, Timelike};
 use std::{fs, path::Path};

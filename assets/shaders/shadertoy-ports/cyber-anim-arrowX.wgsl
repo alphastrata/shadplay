@@ -11,8 +11,8 @@
 @group(0) @binding(0) var<uniform> view: View;
 
 const SPEED:f32 = 0.2;    //Global Speed multiplier
-const NUM_ARROWS = 3.0;   // Number of arrows spawned (see the for-loop below)
-const COLOUR_TEMP = 0.02; // The 'intensity' of the red channel in the arrows.
+const NUM_ARROWS: f32 = 3.0;   // Number of arrows spawned (see the for-loop below)
+const COLOUR_TEMP: f32 = 0.02; // The 'intensity' of the red channel in the arrows.
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {

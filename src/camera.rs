@@ -35,8 +35,8 @@ impl Default for PanOrbitCamera {
 
 fn pan_orbit_camera(
     windows: Query<&Window>,
-    mut ev_motion: EventReader<MouseMotion>,
-    mut ev_scroll: EventReader<MouseWheel>,
+    mut ev_motion: MessageReader<MouseMotion>,
+    mut ev_scroll: MessageReader<MouseWheel>,
     input_mouse: Res<ButtonInput<MouseButton>>,
     input_keyboard: Res<ButtonInput<KeyCode>>,
     mut query: Query<(&mut PanOrbitCamera, &mut Transform)>,
