@@ -67,12 +67,11 @@ def main():
         success, output, return_code = test_shader(shader_path)
         
         if success:
-            print(f"  ✓ SUCCESS - {output.split('Loaded')[1].split('to')[0].strip()} shader detected")
             success_count += 1
         else:
-            print(f"  ✗ FAILED - Exit code: {return_code}")
+            print(f"    FAILED - Exit code: {return_code}")
             if "TIMEOUT" in output:
-                print(f"    Timeout occurred")
+                print("    Timeout occurred")
             else:
                 # Extract relevant error information
                 lines = output.split('\n')
