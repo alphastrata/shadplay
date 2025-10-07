@@ -72,7 +72,7 @@ fn load_and_apply_shader(shader_path: &str) -> Result<(), Box<dyn std::error::Er
     
     fs::write(target_path, &shader_content)?;
     
-    log::info!("Loaded {} shader from {} to {}", 
+    println!("Loaded {} shader from {} to {}", 
              if is_2d { "2D" } else { "3D" }, 
              shader_path, 
              target_path);
