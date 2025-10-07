@@ -54,7 +54,7 @@ fn load_and_apply_shader(shader_path: &str) -> Result<(), Box<dyn std::error::Er
     
     // Check if file exists
     if !path.exists() {
-        return Err(format!("Shader file does not exist: {}", shader_path));
+        return Err(format!("Shader file does not exist: {}", shader_path).into());
     }
     
     // Read the shader file
