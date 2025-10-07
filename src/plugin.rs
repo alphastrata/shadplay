@@ -1,7 +1,7 @@
 use crate::camera::PanOrbitCameraPlugin;
 use bevy::{
     input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
-    sprite::Material2dPlugin, window::WindowResized,
+    sprite_render::Material2dPlugin, window::WindowResized,
 };
 
 use crate::prelude::*;
@@ -27,8 +27,8 @@ impl Plugin for ShadPlayPlugin {
             .insert_resource(Rotating(false))
             .add_plugins(PanOrbitCameraPlugin)
             //events:
-            .add_event::<UserAddedTexture>()
-            .add_event::<DragNDropShader>()
+            .add_message::<UserAddedTexture>()
+            .add_message::<DragNDropShader>()
             // 3D
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)
@@ -43,7 +43,7 @@ impl Plugin for ShadPlayPlugin {
                 (
                     rotate.run_if(resource_equals::<Rotating>(Rotating(true))),
                     switch_shape,
-                    swap_3d_tex_from_idx.run_if(on_event::<KeyboardInput>),
+                    swap_3d_tex_from_idx.run_if(on_message::<KeyboardInput>),
                     toggle_rotate,
                 )
                     .run_if(in_state(AppState::ThreeD)),
@@ -56,8 +56,8 @@ impl Plugin for ShadPlayPlugin {
                     // #[cfg(debug_assertions)]
                     // crate::system::drag_n_drop::debug_tex_keys,
                     file_drag_and_drop_listener,
-                    add_and_set_dropped_file.run_if(on_event::<UserAddedTexture>),
-                    override_current_shader.run_if(on_event::<DragNDropShader>),
+                    add_and_set_dropped_file.run_if(on_message::<UserAddedTexture>),
+                    override_current_shader.run_if(on_message::<DragNDropShader>),
                     cam_switch_system,
                     quit,
                     switch_level,
@@ -74,8 +74,8 @@ impl Plugin for ShadPlayPlugin {
                     update_mouse_pos,
                     size_quad
                         .run_if(in_state(AppState::TwoD))
-                        .run_if(on_event::<WindowResized>),
-                    swap_2d_tex_from_idx.run_if(on_event::<KeyboardInput>),
+                        .run_if(on_message::<WindowResized>),
+                    swap_2d_tex_from_idx.run_if(on_message::<KeyboardInput>),
                 ),
             );
 

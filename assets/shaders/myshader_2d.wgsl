@@ -4,7 +4,7 @@
 /// ***************************** ///
 
 #import bevy_sprite::mesh2d_view_bindings::globals
-#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
+#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TAU as TWO_PI}
 #import bevy_render::view::View
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 

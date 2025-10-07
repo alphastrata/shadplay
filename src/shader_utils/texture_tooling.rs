@@ -40,7 +40,7 @@ impl SetNewTexture for YourShader {
 }
 
 pub fn swap_3d_tex_from_idx(
-    mut key_evr: EventReader<KeyboardInput>,
+    mut key_evr: MessageReader<KeyboardInput>,
     mut shader_mat3d: ResMut<Assets<YourShader>>,
     user_textures: Res<TexHandleQueue>,
 ) {
@@ -94,7 +94,7 @@ impl SetNewTexture for YourShader2D {
 }
 
 pub fn swap_2d_tex_from_idx(
-    mut key_evr: EventReader<KeyboardInput>,
+    mut key_evr: MessageReader<KeyboardInput>,
     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
     user_textures: Res<TexHandleQueue>,
 ) {

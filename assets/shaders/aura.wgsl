@@ -8,12 +8,12 @@ struct AuraMaterial {
 }
 
 @group(0) @binding(0)   var<uniform> view: View;
-@group(2) @binding(100) var<uniform> aura_mat: AuraMaterial;
+@group(3) @binding(100) var<uniform> aura_mat: AuraMaterial;
 
 // Colour picker tells us the values of the original..
 // Darkish
 // #CEAA4F
-const GOLD = vec3f(0.807843, 0.666667, 0.309804);
+const GOLD: vec3f = vec3f(0.807843, 0.666667, 0.309804);
 const SPIKE_NUM: f32 = 9.0;
 const SPIKE_LEN: f32 = 1.68;
 const SPIKE_SPEED:f32 = 32.0;

@@ -1,6 +1,6 @@
 #![allow(unused_imports)]
 use bevy::input::keyboard::KeyboardInput;
-use bevy::render::camera::RenderTarget;
+
 use bevy::render::render_resource::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
 };
@@ -8,11 +8,10 @@ use bevy::{
     log,
     prelude::*,
     render::view::screenshot::{Capturing, Screenshot, save_to_disk},
-    window::SystemCursorIcon,
-    winit::cursor::CursorIcon,
+    window::{SystemCursorIcon, CursorIcon},
 };
 
-use bevy::render::view::RenderLayers;
+// use bevy::render::view::RenderLayers; // Not currently used, commented out for now
 use bevy::window::{PrimaryWindow, WindowResized};
 
 use crate::prelude::AppState;
@@ -39,7 +38,7 @@ impl Plugin for GifMakerPlugin {
             }
 
         app.insert_resource(Shooting(false));
-        app.add_systems(Update, gif_capture_toggle.run_if(on_event::<KeyboardInput>));
+        app.add_systems(Update, gif_capture_toggle.run_if(on_message::<KeyboardInput>));
 
         // Limit timestep we can snap for our gif to 20 FPS
         app.insert_resource(Time::<Fixed>::from_seconds(0.05));

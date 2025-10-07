@@ -1,4 +1,4 @@
-use bevy::{log, prelude::*};
+use bevy::{log, prelude::*, ecs::message::Message};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -12,7 +12,7 @@ pub struct TexHandleQueue(pub HashMap<usize, Handle<Image>>);
 /// Event: used to store user defined textures that we allow them to drop onto the window.
 /// TX: [`file_drag_and_drop_listener`] system.
 /// RX: [swap_tex_to_idx] system.
-#[derive(Event, Deref, DerefMut, Clone, Debug)]
+#[derive(Event, Message, Deref, DerefMut, Clone, Debug)]
 pub struct UserAddedTexture(PathBuf);
 
 /// Supported textures extensions for the drag-n-drop your texture functionality
@@ -22,9 +22,9 @@ static WGSL_FORMATS: [&str; 1] = ["wgsl"];
 
 /// System: Listens for .png and .jpeg files dropped onto the window.
 pub fn file_drag_and_drop_listener(
-    mut events: EventReader<FileDragAndDrop>,
-    mut texture_tx: EventWriter<UserAddedTexture>,
-    mut shader_tx: EventWriter<DragNDropShader>,
+    mut events: MessageReader<FileDragAndDrop>,
+    mut texture_tx: MessageWriter<UserAddedTexture>,
+    mut shader_tx: MessageWriter<DragNDropShader>,
 ) {
     events.read().for_each(|event| {
         if let FileDragAndDrop::DroppedFile { path_buf, .. } = event {
@@ -51,7 +51,7 @@ pub fn file_drag_and_drop_listener(
 /// System: should a user drop a shader onto the app -- we want to read it, and replace our current shader with it,
 /// easy for us as they're locked into two options.
 pub fn override_current_shader(
-    mut dropped_shader: EventReader<DragNDropShader>,
+    mut dropped_shader: MessageReader<DragNDropShader>,
     app_state: Res<State<AppState>>,
 ) {
     dropped_shader.read().for_each(|pb| {
@@ -88,7 +88,7 @@ pub fn add_and_set_dropped_file(
     mut shader_mat_3d: ResMut<Assets<YourShader>>,
     mut shader_mat_2d: ResMut<Assets<YourShader2D>>,
     mut tex_handles: ResMut<TexHandleQueue>,
-    mut user_textures: EventReader<UserAddedTexture>,
+    mut user_textures: MessageReader<UserAddedTexture>,
 ) {
     let new_idx = tex_handles.keys().count(); // Because comp sci counting.
 

@@ -11,8 +11,8 @@
 
 const SPEED:f32 = 0.30;
 const PI: f32 = 3.14159265359;
-const TWO_PI = 6.2848;
-const NUM_ITER = 8.0;
+const TWO_PI: f32 = 6.2848;
+const NUM_ITER: f32 = 8.0;
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {

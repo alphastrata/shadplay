@@ -1,14 +1,14 @@
 //!
 //! Most of the boilerplate to make a custom shader work lives here.
 //!
-use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite::Material2d};
+use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite_render::Material2d, shader::ShaderRef, ecs::message::Message};
 use std::path::PathBuf;
 
 pub mod common;
 pub mod texture_tooling;
 
 /// Event: for facilitating the drag-n-drop of a .wgsl shader onto Shadplay.
-#[derive(Event, Debug, Deref, DerefMut)]
+#[derive(Event, Message, Debug, Deref, DerefMut)]
 pub struct DragNDropShader {
     pub path: PathBuf,
 }

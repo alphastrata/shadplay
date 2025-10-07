@@ -171,7 +171,7 @@ pub fn toggle_transparency(
     mut clear_colour: ResMut<ClearColor>,
     mut transparency_set: ResMut<TransparencySet>,
     mut _windows: Query<&mut Window>,
-    mut event: EventWriter<RequestRedraw>,
+    mut event: MessageWriter<RequestRedraw>,
 ) {
     if input.just_pressed(KeyCode::KeyO) {
         // let mut window = windows.single_mut();
@@ -207,8 +207,8 @@ pub fn switch_shape(
         let next = (idx + 1) % shape_options.0.len();
         let (_vis, mesh_handle, mat_handle, tf, shp) = &shape_options.0[next];
         commands.spawn((
-            Mesh3d(mesh_handle.clone_weak()),
-            MeshMaterial3d(mat_handle.clone_weak()),
+            Mesh3d(mesh_handle.clone()),
+            MeshMaterial3d(mat_handle.clone()),
             *tf,
             shp.clone(),
         ));
@@ -328,8 +328,8 @@ pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
             commands.spawn(
                 //
                 (
-                    Mesh3d(mesh_handle.clone_weak()),
-                    MeshMaterial3d(mat_handle.clone_weak()),
+                    Mesh3d(mesh_handle.clone()),
+                    MeshMaterial3d(mat_handle.clone()),
                     *tf,
                     shp.clone(),
                 ), //
