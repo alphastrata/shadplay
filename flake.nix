@@ -6,7 +6,12 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { self, nixpkgs, rust-overlay }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      rust-overlay,
+    }:
     let
       overlays = [
         (import rust-overlay)
@@ -22,50 +27,76 @@
         "aarch64-darwin"
       ];
 
-      forAllSystems = f: nixpkgs.lib.genAttrs allSystems (system: f {
-        pkgs = import nixpkgs { inherit overlays system; };
-      });
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs allSystems (
+          system:
+          f {
+            pkgs = import nixpkgs { inherit overlays system; };
+          }
+        );
     in
     {
-      devShells = forAllSystems ({ pkgs }: {
-        default = pkgs.mkShell {
-          packages = (with pkgs; [
-            alsa-lib
-            cargo-nextest
-            clang
-            fontconfig
-            fontconfig.dev
-            freetype.dev
-            libxkbcommon
-            lld
-            openssl
-            pkg-config
-            rustToolchain
-            udev
-            vulkan-headers
-            vulkan-loader
-            vulkan-tools
-            vulkan-validation-layers
-            wayland
-            xorg.libX11
-            xorg.libXcursor
-            xorg.libXi
-            xorg.libXrandr
-          ]) ++ pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs; [ libiconv ]);
+      devShells = forAllSystems (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
+            packages =
+              (with pkgs; [
+                cargo-nextest
+                clang
+                lld
+                openssl
+                pkg-config
+                rustToolchain
+                rustup
+              ])
+              ++ pkgs.lib.optionals pkgs.stdenv.isLinux (
+                with pkgs;
+                [
+                  alsa-lib
+                  fontconfig
+                  fontconfig.dev
+                  freetype.dev
+                  libxkbcommon
+                  udev
+                  vulkan-headers
+                  vulkan-loader
+                  vulkan-tools
+                  vulkan-validation-layers
+                  wayland
+                  xorg.libX11
+                  xorg.libXcursor
+                  xorg.libXi
+                  xorg.libXrandr
+                ]
+              )
+              ++ pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs; [ libiconv ]);
 
-          shellHook = ''
-            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.lib.makeLibraryPath [
-              pkgs.alsaLib
-              pkgs.udev
-              pkgs.vulkan-loader
-              pkgs.openssl
-              pkgs.alsa-lib
-              pkgs.libxkbcommon
+            shellHook = # sh
+              ''
+                export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${
+                  pkgs.lib.makeLibraryPath (
+                    (with pkgs; [
+                      openssl
+                    ])
+                    ++ pkgs.lib.optionals pkgs.stdenv.isLinux (
+                      with pkgs;
+                      [
 
-            ]}"
-            rustup default nightly
-          '';
-        };
-      });
+                        alsaLib
+                        vulkan-loader
+                        alsa-lib
+                        libxkbcommon
+                        udev
+                      ]
+                    )
+                  )
+                }"
+                rustup default nightly
+              '';
+          };
+        }
+      );
     };
 }
