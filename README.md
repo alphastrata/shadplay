@@ -1,9 +1,5 @@
 # shadplay
 
-![ferris-adam.png](readme_assets/ferris-adam.png)
-
-<center>artwork by Maz with SD</center>
-
 [![bevy tracking](https://img.shields.io/badge/bevy%20tracking-main-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
 
 <!-- Badges to insert at some stage...
