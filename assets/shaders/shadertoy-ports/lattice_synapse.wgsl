@@ -1,115 +1,105 @@
+//
+// Port of 'Lattice Synapse' by baxin1919
+// source: https://www.shadertoy.com/view/W3yXWy
+//
 
 #import bevy_sprite::mesh2d_view_bindings::globals
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
-#import shadplay::shader_utils::common::{PI, TWO_PI, rotate2D}
 #import bevy_render::view::View
+#import shadplay::shader_utils::common::{sd_sphere, sdBox, rotate2D, calcLookAtMatrix}
 
 @group(0) @binding(0) var<uniform> view: View;
 
-// Controls
-const SPEED: f32 = 0.2;
-const CAMERA_DISTANCE: f32 = 4.0;
-const MAX_STEPS: i32 = 64;
-const MAX_DIST: f32 = 100.0;
-const MIN_DIST: f32 = 0.001;
+const CUBE_SIZE: i32 = 8;
+const LED_RADIUS: f32 = 0.05;
+const GRID_SPACING: f32 = 0.35;
+const LED_COLOR: vec3<f32> = vec3<f32>(1.0);
 
-// Rotation matrices for 3D rotation
-fn rot_x(a: f32) -> mat3x3<f32> {
-    let s = sin(a);
-    let c = cos(a);
-    return mat3x3<f32>(
-        1.0, 0.0, 0.0,
-        0.0, c, -s,
-        0.0, s, c
-    );
+
+/// GLSL-style modulo function to ensure correct behavior with negative coordinates.
+fn mod_glsl(x: vec3<f32>, y: f32) -> vec3<f32> {
+    return x - y * floor(x / y);
 }
 
-fn rot_y(a: f32) -> mat3x3<f32> {
-    let s = sin(a);
-    let c = cos(a);
-    return mat3x3<f32>(
-        c, 0.0, s,
-        0.0, 1.0, 0.0,
-        -s, 0.0, c
-    );
-}
+/// The main distance function for the scene.
+fn map(p_in: vec3<f32>) -> f32 {
+    var p_local = p_in;
+    let angle = globals.time * 0.25;
+    
+    // To rotate the object on its own axis, we apply the inverse rotation
+    // to the incoming ray position. This transforms the world-space point
+    // into the object's local, un-rotated space.
+    let rotMatrix = rotate2D(angle); // Use counter-clockwise for inverse
+    
+    let new_xz = rotMatrix * p_local.xz;
+    p_local.x = new_xz.x;
+    p_local.z = new_xz.y;
 
-// Distance function for a torus
-fn torus_dist(p: vec3<f32>, r: vec2<f32>) -> f32 {
-    let q = vec2<f32>(length(p.xz) - r.x, p.y);
-    return length(q) - r.y;
-}
+    // Now that we are in the object's local space, we define all geometry.
+    
+    // 1. The repeating grid of spheres.
+    // We use a GLSL-style mod function to ensure the grid is centered correctly
+    // even when coordinates are negative during rotation.
+    let q = mod_glsl(p_local, GRID_SPACING) - GRID_SPACING * 0.5;
+    let spheresDist = sd_sphere(q, LED_RADIUS);
 
-// Distance function for the scene
-fn dist(p: vec3<f32>) -> f32 {
-    var p_mut = p;
-    p_mut = p_mut * rot_y(p.y * 0.2);
-    p_mut.z = abs(p_mut.z) - 2.0;
-    p_mut = p_mut * rot_y(globals.time * SPEED);
-    p_mut.xy = p_mut.xy * rot_y(p_mut.z * 0.5).xz;
-    let torus = torus_dist(p_mut, vec2<f32>(0.5, 0.1));
-    return torus;
-}
+    // 2. The bounding box that contains the spheres.
+    let cubeHalfSize = f32(CUBE_SIZE) * GRID_SPACING * 0.5;
+    let boxDist = sdBox(p_local, vec3<f32>(cubeHalfSize));
 
-// Raymarch the scene
-fn raymarch(ro: vec3<f32>, rd: vec3<f32>) -> f32 {
-    var d = 0.0;
-    for (var i = 0; i < MAX_STEPS; i++) {
-        let p = ro + rd * d;
-        let ds = dist(p);
-        d += ds;
-        if (d > MAX_DIST || ds < MIN_DIST) {
-            break;
-        }
-    }
-    return d;
-}
-
-// Get the normal of the surface
-fn get_normal(p: vec3<f32>) -> vec3<f32> {
-    let e = vec2<f32>(1.0, -1.0) * 0.5773 * 0.0005;
-    return normalize(
-        e.xyy * dist(p + e.xyy) + 
-        e.yyx * dist(p + e.yyx) + 
-        e.yxy * dist(p + e.yxy) + 
-        e.xxx * dist(p + e.xxx)
-    );
+    // 3. The final geometry is the intersection of the spheres and the box.
+    return max(spheresDist, boxDist);
 }
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
-    var uv = (in.uv - 0.5) * 2.0;
-    uv.x *= view.viewport.z / view.viewport.w;
+    let R = view.viewport.zw;
+    var uv = (in.uv * R * 2.0 - R) / R.y;
+    uv.y *= -1.0; // Invert Y-axis to match OpenGL coordinate system
 
-    let time = globals.time * SPEED;
+    let time = globals.time * 0.2;
+    // Define camera position (ray origin).
+    let ro = vec3<f32>(1.0, 2.5, 4.0);
+  
+    // Set up camera using the look-at matrix helper from common.wgsl
+    let look_at_target = vec3<f32>(0.0);
+    let up = vec3<f32>(0.0, 1.0, 0.0);
+    let fov = 1.5;
+    let camMat = calcLookAtMatrix(ro, look_at_target, up);
+    let rd = normalize(camMat * vec3<f32>(uv, fov));
 
-    // Camera setup
-    let ro = vec3<f32>(0.0, 0.0, -CAMERA_DISTANCE);
-    let rd = normalize(vec3<f32>(uv, 1.0));
-
-    // Raymarch
-    let d = raymarch(ro, rd);
-
+    var t = 0.0;
     var col = vec3<f32>(0.0);
 
-    if (d < MAX_DIST) {
-        let p = ro + rd * d;
-        let n = get_normal(p);
-        let r = reflect(rd, n);
+    // Raymarch loop.
+    for (var i = 0; i < 100; i = i + 1) {
+        let p = ro + rd * t;
+        let d = map(p);
 
-        // Lighting
-        let light_pos = vec3<f32>(2.0, 2.0, -3.0);
-        let l = normalize(light_pos - p);
-        let diff = max(dot(n, l), 0.0);
-        let spec = pow(max(dot(r, l), 0.0), 32.0);
+        if (d < 0.001) {
+            // Hit a sphere, calculate color.
+            let scanWave = sin(p.y * 2.0 - globals.time * 3.0);
+            let line = smoothstep(0.9, 0.95, scanWave);
+            let lineColor = vec3<f32>(0.25, 1.0, 0.3);
+            
+            let finalColor = mix(LED_COLOR * 0.5, lineColor, line);
+            
+            // Apply fog based on distance.
+            col = finalColor * exp(-0.15 * t);
+            
+            break;
+        }
 
-        // Color based on position and lighting
-        col = vec3<f32>(0.2, 0.3, 0.8) * diff + vec3<f32>(1.0) * spec;
-        col += sin(p * 2.0 + time) * 0.1;
+        t += d;
+
+        if (t > 20.0) {
+            break;
+        }
     }
 
-    // Fog
-    col = mix(col, vec3<f32>(0.0), smoothstep(0.0, MAX_DIST, d));
+    col = max(col, vec3<f32>(0.0, 0.0, 0.0) + uv.y * 0.05);
 
+    // Apply gamma correction.
+    col = pow(col, vec3<f32>(0.4545));
     return vec4<f32>(col, 1.0);
 }
