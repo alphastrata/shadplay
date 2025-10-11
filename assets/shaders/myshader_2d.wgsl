@@ -32,13 +32,13 @@
 // Adjust these to customize the shader without diving into the implementation.
 
 /// Number of tower cells in the X direction (columns)
-const GRID_COLS: f32 = 3.0;
+const GRID_COLS: f32 = 4.0;
 
 /// Number of tower cells in the Y direction (rows/vertical)
 const GRID_ROWS: f32 = 4.0;
 
 /// Number of tower cells in the Z direction (depth)
-const GRID_DEPTH: f32 = 3.0;
+const GRID_DEPTH: f32 = 4.0;
 
 /// Camera zoom factor. Higher = closer view. (Effectively adjusts focal length ratio)
 const CAMERA_ZOOM: f32 = 1.0;
