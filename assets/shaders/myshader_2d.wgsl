@@ -1,174 +1,285 @@
 //
-// This is a port of 'Holographic Storage' by dthopper
+// Configurable Holographic Storage Shader
+// Based on 'Holographic Storage' by dthopper
 // Source: https://www.shadertoy.com/view/fsffWH
 //
-// This shader demonstrates a raymarched scene with a complex, repeating
-// structure. It uses temporal accumulation for anti-aliasing, creating a
-// soft, volumetric look.
+// OVERVIEW:
+// This shader uses raymarching to render a volumetric, repeating lattice structure.
+// The scene consists of tower-like structures arranged in a 3D grid, with organic
+// distortions created through domain warping (position displacement using sine waves).
+//
+// WHAT IS RAYMARCHING?
+// Instead of traditional polygon rendering, we cast rays from the camera and step
+// along each ray, checking the distance to the nearest surface at each step. When
+// we get close enough to a surface, we accumulate color based on proximity.
+//
+// VISUAL EFFECT:
+// The result is a glowing, volumetric lattice that appears to have depth and
+// translucency, with each tower pulsating and warping over time.
 //
 
 #import bevy_sprite::mesh2d_view_bindings::globals
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
-#import shadplay::shader_utils::common::{PI, SQRT_OF_3, pR, sdBoundingBox, hash22, calcLookAtMatrix}
+#import shadplay::shader_utils::common PI, SQRT_OF_3, pR, sdBoundingBox, hash22, calcLookAtMatrix
 #import bevy_render::view::View
 
 @group(0) @binding(0) var<uniform> view: View;
 
-/// Defines the data structure for our scene's geometry.
-/// d: The signed distance to the surface.
-/// col: The color of the surface at this point.
-/// id: An identifier for the object hit.
+// =============================================================================
+// CONFIGURATION GLOBALS
+// =============================================================================
+// These constants control the appearance and layout of the scene.
+// Adjust these to customize the shader without diving into the implementation.
+
+/// Number of tower cells in the X direction (columns)
+const GRID_COLS: f32 = 3.0;
+
+/// Number of tower cells in the Y direction (rows/vertical)
+const GRID_ROWS: f32 = 4.0;
+
+/// Number of tower cells in the Z direction (depth)
+const GRID_DEPTH: f32 = 3.0;
+
+/// Camera zoom factor. Higher = closer view. (Effectively adjusts focal length ratio)
+const CAMERA_ZOOM: f32 = 1.0;
+
+/// Distance of camera from scene origin
+const CAMERA_DISTANCE: f32 = 8.0;
+
+/// Camera rotation around Y axis (horizontal spin) in radians
+const CAMERA_ROTATION_Y: f32 = PI * 0.25;
+
+/// Camera rotation around X axis (vertical tilt) in radians
+const CAMERA_ROTATION_X: f32 = PI * 0.2;
+
+/// Size of each tower cell in world space
+const CELL_SIZE: f32 = 1.0;
+
+/// Animation cycle duration in seconds
+const ANIMATION_PERIOD: f32 = 8.0;
+
+/// Number of temporal AA samples per pixel (higher = smoother but slower)
+const AA_SAMPLES: i32 = 4;
+
+/// Maximum raymarch distance multiplier
+const MAX_RAYMARCH_DISTANCE: f32 = 10.0;
+
+/// Number of raymarch iterations
+const RAYMARCH_ITERATIONS: i32 = 200;
+
+/// Color accumulation factor (controls brightness/glow intensity)
+const COLOR_ACCUMULATION: f32 = 0.002;
+
+/// Minimum step size epsilon (prevents overshooting surfaces)
+const RAYMARCH_EPSILON: f32 = 0.00004;
+
+// =============================================================================
+// DATA STRUCTURES
+// =============================================================================
+
+/// Represents the result of sampling the scene's distance field.
+/// 
+/// d: Signed distance to nearest surface (negative = inside, positive = outside)
+/// col: Color at this point in space
+/// id: Object identifier (for potential future use with multiple object types)
 struct Model {
     d: f32,
     col: vec3<f32>,
     id: i32,
 };
 
-// A private global variable to hold the current time fraction for animation.
+// =============================================================================
+// PRIVATE STATE
+// =============================================================================
+
+/// Current animation time fraction [0, 1), cycles every ANIMATION_PERIOD seconds
 var<private> t: f32;
 
+// =============================================================================
+// MAIN FRAGMENT SHADER
+// =============================================================================
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
-    // Get screen coordinates for the current fragment.
     let fragCoord = in.uv * view.viewport.zw;
     
-    // Set the global time for the animation, cycling every 4 seconds.
-    t = fract(globals.time / 8.0);
+    // Normalize time to [0, 1) range for smooth animation cycling
+    t = fract(globals.time / ANIMATION_PERIOD);
     
-    // --- Temporal Accumulation ---
-    // To create a smoother, anti-aliased image, we render the scene multiple
-    // times with slight variations and average the results. This is a common
-    // technique in raymarching to reduce noise and aliasing.
+    // --- TEMPORAL ANTI-ALIASING ---
+    // We render the scene multiple times with slight random offsets (jitter)
+    // and average the results. This technique reduces aliasing artifacts
+    // (jagged edges) by distributing samples across pixel boundaries.
+    //
+    // WHY THIS WORKS:
+    // Single samples can only say "hit" or "miss" for an edge passing through
+    // a pixel. Multiple jittered samples give us partial coverage information,
+    // creating smooth gradients at edges when averaged.
+    
     var col = vec4<f32>(0.0);
-    let num_samples = 4; // Number of samples to average.
-    
-    // Approximate a frame count from the continuous time uniform. This is
-    // used to seed the random jitter for each sample.
     let frame_approx = i32(globals.time * 60.0);
 
-    for (var i = 0; i < num_samples; i = i + 1) {
-        // Each call to draw() gets a slightly different seed, creating the jitter.
-        col += vec4<f32>(draw(fragCoord, frame_approx * num_samples + i), 1.0);
+    for (var i = 0; i < AA_SAMPLES; i = i + 1) {
+        // Each sample gets a unique seed for different jitter
+        col += vec4<f32>(draw(fragCoord, frame_approx * AA_SAMPLES + i), 1.0);
     }
 
-    // Average the accumulated colors.
-    col /= f32(num_samples);
-
+    col /= f32(AA_SAMPLES);
     return col;
 }
 
-
 // =============================================================================
-// Scene Rendering
+// SCENE RENDERING
 // =============================================================================
 
-/// Sets up the camera and performs the raymarching process.
-/// fragCoord: The screen coordinate for the current pixel.
-/// frame: The current frame number, used for seeding temporal effects.
+/// Renders a single sample of the scene from the camera's perspective.
+///
+/// PROCESS:
+/// 1. Setup camera position and orientation
+/// 2. Calculate ray direction through this pixel
+/// 3. March the ray through the scene, accumulating color
+/// 4. Return the final accumulated color
+///
+/// fragCoord: Screen-space coordinate of the pixel
+/// frame: Frame counter for temporal jittering
 fn draw(fragCoord: vec2<f32>, frame: i32) -> vec3<f32> {
     let resolution = view.viewport.zw;
-    // Normalise coordinates and account for aspect ratio.
+    
+    // Convert to normalized device coordinates [-1, 1], corrected for aspect ratio
     var p = (-resolution.xy + 2.0 * fragCoord.xy) / resolution.y;
         
-    // --- Jittering for Anti-Aliasing ---
-    // A random seed is generated for each sample to jitter the ray direction slightly.
-    // This helps smooth out hard edges when averaged in the fragment shader.
+    // --- ANTI-ALIASING JITTER ---
+    // Add random sub-pixel offset to this sample. Over multiple samples,
+    // this creates smooth anti-aliased edges.
     var seed = hash22(fragCoord + f32(frame) * SQRT_OF_3);
     p += 2.0 * (seed - vec2(0.5)) / resolution.xy;
 
-    // --- Camera Setup ---
-    var camPos = vec3<f32>(0.0, 0.0, 8.0);
+    // --- CAMERA SETUP ---
+    var camPos = vec3<f32>(0.0, 0.0, CAMERA_DISTANCE);
     
-    // Rotate the camera position.
+    // Apply camera rotations
     var temp_yz = camPos.yz;
-    pR(&temp_yz, PI * 0.2);
+    pR(&temp_yz, CAMERA_ROTATION_X);
     camPos.y = temp_yz.x;
     camPos.z = temp_yz.y;
 
     var temp_xz = camPos.xz;
-    pR(&temp_xz, PI * 0.25);
+    pR(&temp_xz, CAMERA_ROTATION_Y);
     camPos.x = temp_xz.x;
     camPos.z = temp_xz.y;
 
-    // Create the camera's view matrix.
+    // Create view matrix for camera orientation
     let camMat = calcLookAtMatrix(camPos, vec3<f32>(0.0), vec3<f32>(0.0, 1.0, 0.0));
     
-    // --- Raymarching ---
+    // --- RAY SETUP ---
     let focalLength = 100.0;
-    camPos *= focalLength / 1.0; // You can effectively use this to zoom in/out
+    camPos *= focalLength / CAMERA_ZOOM; // Apply zoom by scaling camera distance
     let rayDir = normalize(camMat * vec3<f32>(p.xy, focalLength));
     let origin = camPos;
     
+    // --- RAYMARCHING LOOP ---
+    // We step along the ray, accumulating color based on proximity to surfaces.
+    // This creates the volumetric, glowing effect.
+    //
+    // TECHNIQUE:
+    // - Query distance field at current position
+    // - Step forward by that distance (we know we won't hit anything closer)
+    // - Accumulate color inversely proportional to distance (closer = brighter)
+    // - Repeat until we've traveled too far or hit max iterations
+    
     var col = vec3<f32>(0.0);
     var rayLength = 0.0;
-    let maxlen = 10.0 * focalLength;
-    let iter = 200;
-    let eps = 0.00004;
+    let maxlen = MAX_RAYMARCH_DISTANCE * focalLength;
     
-    for (var i = 0; i < iter; i++) {
+    for (var i = 0; i < RAYMARCH_ITERATIONS; i++) {
         let rayPosition = origin + rayDir * rayLength;
         let model = map(rayPosition);
         
-        let d = max(eps, abs(model.d));
-        // Advance the ray. The random seed adds a bit of dithering to the step.
-        rayLength += d * (1.0 - seed.x * 0.125);
+        let d = max(RAYMARCH_EPSILON, abs(model.d));
         
-        // Re-seed for the next step.
-        seed = hash22(seed);
+        // Advance ray with slight random dithering to break up banding artifacts
+        rayLength += d * (1.0 - seed.x * 0.125);
+        seed = hash22(seed); // Re-seed for next iteration
  
         if (rayLength > maxlen) {
             break;
         }
         
-        // Accumulate color based on the distance field.
-        col += model.col / pow(d, 0.125) * 0.002;
+        // Accumulate color: closer to surface = brighter contribution
+        // The pow(d, 0.125) creates a non-linear falloff for artistic effect
+        col += model.col / pow(d, 0.125) * COLOR_ACCUMULATION;
     }
 
     return col;
 }
 
-
 // =============================================================================
-// Scene Definition (SDF)
+// SCENE DEFINITION (SIGNED DISTANCE FIELD)
 // =============================================================================
 
-/// Defines the 3D scene using a Signed Distance Function (SDF).
-/// This function returns the shortest distance from a point `p` to any surface
-/// in the scene. The sign of the distance indicates whether the point is
-/// inside or outside an object.
+/// Defines the geometry and appearance of the 3D scene.
+///
+/// SIGNED DISTANCE FIELDS (SDF):
+/// Instead of defining surfaces with polygons, we define a function that
+/// returns the distance to the nearest surface at any point in space.
+/// - Positive values: outside objects
+/// - Negative values: inside objects
+/// - Zero: exactly on the surface
+///
+/// DOMAIN OPERATIONS:
+/// We manipulate the input position `p` before evaluating the base shape.
+/// This creates complex, organic forms from simple primitives.
+///
+/// p_in: Position in 3D space to evaluate
+/// Returns: Model struct with distance, color, and ID
 fn map(p_in: vec3<f32>) -> Model {
     var p = p_in;
+    
+    // Base color derived from position (creates rainbow-like coloring)
     let col_in = normalize(p) * 0.5 + 0.5;
     var col = col_in;
 
-    // --- Domain Warping ---
-    // The position `p` is displaced using sine waves and smoothstep functions.
-    // This creates the complex, organic-looking distortions in the geometry.
+    // --- DOMAIN WARPING: Creating Organic Motion ---
+    // Each displacement layer adds visual complexity and animation.
+    // Think of these as "bending space" before we measure distances.
+    
+    // LAYER 1: Low frequency vertical waves
+    // Creates slow, large-scale undulation
     p -= sin(p.y * 15.0 + t * PI * 2.0 * 3.0) * 0.05;
 
-    let ps = p * mix(50.0, 100.0, smoothstep(-1.0, 1.0, p.y));
-    p += (sin(ps.x) + sin(ps.z) + sin(ps.y)) * 0.02 * smoothstep(-1.0, 1.0, p.y);
+    // LAYER 2: High frequency noise based on Y position
+    // Adds fine surface detail that increases toward edges
+    let highFreqPos = p * mix(50.0, 100.0, smoothstep(-1.0, 1.0, p.y));
+    p += (sin(highFreqPos.x) + sin(highFreqPos.z) + sin(highFreqPos.y)) 
+         * 0.02 * smoothstep(-1.0, 1.0, p.y);
 
+    // LAYER 3: Medium frequency vertical waves (phase-shifted from layer 1)
     p += sin(p.y * 10.0 + t * PI * 2.0 * 3.0) * 0.05;
+    
+    // LAYER 4: Animated 3D noise
+    // Creates time-varying turbulence throughout the space
     p += sin(p * 8.0 + t * PI * 2.0) * 0.1;
     
-    // --- Domain Repetition ---
-    // The space is tiled by repeatedly clamping the coordinates, which creates
-    // the repeating lattice structure.
-    let r = 1.0;
-    p -= r * 0.5;
-    let o = floor(p / r + 0.5);
-    // let o_clamped = clamp(o, vec3<f32>(-1.0, -2.0, -1.0), vec3<f32>(0.0, 1.0, 0.0));
-    // p -= o_clamped * r;
-
-    // Tile in a larger bounded region
-    let o_clamped = clamp(o, vec3<f32>(-2.0, -2.0, -2.0), vec3<f32>(2.0, 2.0, 2.0));
-    p -= o_clamped * r;
+    // --- DOMAIN REPETITION: Creating the Grid ---
+    // We tile space into a repeating grid of cells, but bound it to a finite region.
     
+    p -= CELL_SIZE * 0.5; // Center the cells
+    let cellIndex = floor(p / CELL_SIZE + 0.5); // Which cell are we in?
+    
+    // Calculate grid bounds based on configuration
+    let gridMin = vec3<f32>(-GRID_COLS * 0.5, -GRID_ROWS * 0.5, -GRID_DEPTH * 0.5);
+    let gridMax = vec3<f32>(GRID_COLS * 0.5, GRID_ROWS * 0.5, GRID_DEPTH * 0.5);
+    
+    // Clamp to bounded region (creates finite grid instead of infinite tiling)
+    let boundedCellIndex = clamp(cellIndex, gridMin, gridMax);
+    p -= boundedCellIndex * CELL_SIZE; // Fold space into cell
+    
+    // Blend position-based coloring with cell-based coloring
     col = mix(col, normalize(p) * 0.5 + 0.5, 0.5);
 
-    // The final shape is a bounding box.
+    // --- BASE GEOMETRY ---
+    // Each cell contains a rounded box (tower structure)
     let d = sdBoundingBox(p, vec3<f32>(0.3), 0.5);
+    
     return Model(d, col, 1);
 }
