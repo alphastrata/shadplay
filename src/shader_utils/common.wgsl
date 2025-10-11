@@ -23,11 +23,11 @@ fn intoPolar(uv: vec2<f32>)-> vec2<f32>{
     return vec2f(atan2(uv.x, uv.y), length(uv));
 }
 
-/// Clockwise by `theta`
+/// Counter-clockwise by `theta`
 fn rotate2D(theta: f32) -> mat2x2<f32> {
     let c = cos(theta);
     let s = sin(theta);
-    return mat2x2<f32>(c, s, -s, c);
+    return mat2x2<f32>(c, -s, s, c);
 }
 
 /// Move from the HueSaturationValue to RedGreenBlue
@@ -224,4 +224,41 @@ fn calcLookAtMatrix(ro: vec3<f32>, ta: vec3<f32>, up: vec3<f32>) -> mat3x3<f32> 
     let uu = normalize(cross(ww, up));
     let vv = normalize(cross(uu, ww));
     return mat3x3<f32>(uu, vv, ww);
+}
+
+/// SDF for a 3D Box.
+/// p: The point in space to sample.
+/// b: The half-dimensions of the box.
+/// From https://iquilezles.org/articles/distfunctions/distfunctions.htm
+fn sdBox(p: vec3<f32>, b: vec3<f32>) -> f32 {
+  let q = abs(p) - b;
+  return length(max(q, vec3<f32>(0.0))) + min(max(q.x, max(q.y, q.z)), 0.0);
+}
+
+/// Rotates a 2D vector clockwise by `theta` radians.
+fn rotate2D_clockwise(theta: f32) -> mat2x2<f32> {
+    let s = sin(theta);
+    let c = cos(theta);
+    return mat2x2<f32>(c, s, -s, c);
+}
+
+/// A specific 3D Fractal Brownian Motion function with time-based distortion.
+/// Used in the "Fireball" shader port.
+fn fbm_fireball(p_in: vec3<f32>, time: f32) -> f32 {
+  var p = p_in;
+  var amp = 1.0;
+  var fre = 1.0;
+  var n = 0.0;
+  for(var i = 0.0; i < 4.0; i = i + 1.0) {
+    n += abs(dot(cos(p * fre), vec3<f32>(0.1, 0.2, 0.3))) * amp;
+    amp *= 0.9;
+    fre *= 1.3;
+    
+    let new_xz = rotate2D_clockwise(p.y * 0.1 + time * 0.3) * p.xz;
+    p.x = new_xz.x;
+    p.z = new_xz.y;
+
+    p.y -= time * 4.0;
+  }
+  return n;
 }
