@@ -36,7 +36,14 @@ pub struct UserSession {
     /// RenderTarget for when we're making a gif out of
     #[serde(skip)]
     pub gif_buffer: Option<Handle<Image>>,
+    #[serde(default = "default_gif_framerate")]
+    pub gif_framerate: f64,
 }
+
+fn default_gif_framerate() -> f64 {
+    0.05
+}
+
 // Provide a default function for window_dims
 fn default_window_dims() -> (u32, u32) {
     (800, 600) // Default window dimensions
@@ -210,6 +217,7 @@ impl Default for UserSession {
                 .unwrap_or_default()
                 .as_secs(),
             gif_buffer: None,
+            gif_framerate: 0.05,
         }
     }
 }
@@ -227,6 +235,7 @@ mod tests {
             always_on_top: false,
             last_updated: 1635900000,
             gif_buffer: None,
+            gif_framerate: 0.05,
         };
 
         let temp_path = "./temp_config.toml";
@@ -250,6 +259,7 @@ mod tests {
             always_on_top: true,
             last_updated: 1635900000,
             gif_buffer: None,
+            gif_framerate: 0.05,
         };
         test_config.save_to_toml(p).unwrap();
     }
