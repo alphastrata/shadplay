@@ -186,3 +186,42 @@ fn aces_approx(_v: vec3<f32>) -> vec3<f32> {
     let e: f32 = 0.14;
     return clamp((v * (a * v + b)) / (v * (c * v + d) + e), vec3<f32>(0.0, 0.0, 0.0), vec3<f32>(1.0, 1.0, 1.0));
 }
+
+// --- Functions from 'Holographic Storage' Port ---
+
+/// Rotates a 2D vector `p` by angle `a` in-place using a pointer.
+/// This pattern is used to emulate GLSL's `inout` parameters.
+/// From a port of 'Holographic Storage' by dthopper.
+fn pR(p: ptr<function, vec2<f32>>, a: f32) {
+    *p = cos(a) * (*p) + sin(a) * vec2<f32>((*p).y, -(*p).x);
+}
+
+/// SDF for a bounding box.
+/// From https://iquilezles.org/articles/distfunctions/distfunctions.htm
+fn sdBoundingBox(p: vec3<f32>, b: vec3<f32>, e: f32 ) -> f32 {
+    let p_abs = abs(p) - b;
+    let q = abs(p_abs + e) - e;
+    return min(min(
+        length(max(vec3<f32>(p_abs.x, q.y, q.z), vec3<f32>(0.0))) + min(max(p_abs.x, max(q.y, q.z)), 0.0),
+        length(max(vec3<f32>(q.x, p_abs.y, q.z), vec3<f32>(0.0))) + min(max(q.x, max(p_abs.y, q.z)), 0.0)),
+        length(max(vec3<f32>(q.x, q.y, p_abs.z), vec3<f32>(0.0))) + min(max(q.x, max(q.y, p_abs.z)), 0.0)
+    );
+}
+
+/// 2D hash function returning a 2D vector.
+/// From Dave_Hoskins https://www.shadertoy.com/view/4djSRW
+fn hash22(p_in: vec2<f32>) -> vec2<f32> {
+    var p = p_in;
+    p += 1.61803398875; // fix artifacts when reseeding
+    var p3 = fract(vec3<f32>(p.xyx) * vec3<f32>(0.1031, 0.1030, 0.0973));
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.xx + p3.yz) * p3.zy);
+}
+
+/// Calculates a 3x3 look-at matrix for camera transformations.
+fn calcLookAtMatrix(ro: vec3<f32>, ta: vec3<f32>, up: vec3<f32>) -> mat3x3<f32> {
+    let ww = normalize(ta - ro);
+    let uu = normalize(cross(ww, up));
+    let vv = normalize(cross(uu, ww));
+    return mat3x3<f32>(uu, vv, ww);
+}
