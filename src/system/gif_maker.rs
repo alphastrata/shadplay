@@ -14,7 +14,7 @@ use bevy::{
 // use bevy::render::view::RenderLayers; // Not currently used, commented out for now
 use bevy::window::{PrimaryWindow, WindowResized};
 
-use crate::prelude::AppState;
+use crate::{prelude::AppState, system::config::UserSession};
 
 //NOTE: new strategy, take_screenshot exists on the screenshot manager so let's just use that pushing images into an ordered stack of images.
 // On enter/exit we move into gif mode.
@@ -41,7 +41,9 @@ impl Plugin for GifMakerPlugin {
         app.add_systems(Update, gif_capture_toggle.run_if(on_message::<KeyboardInput>));
 
         // Limit timestep we can snap for our gif to 20 FPS
-        app.insert_resource(Time::<Fixed>::from_seconds(0.05));
+        let user_config = app.world().get_resource::<UserSession>();
+        let framerate = user_config.map_or(0.05, |c| c.gif_framerate);
+        app.insert_resource(Time::<Fixed>::from_seconds(framerate));
         app.add_systems(
             FixedUpdate,
             (continous_capture.run_if(resource_exists_and_equals(Shooting(true))),),

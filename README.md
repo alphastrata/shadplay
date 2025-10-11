@@ -45,7 +45,7 @@ You will notice a large swath of the `wgsl` code from the Bevy codebase here, _w
 - Tips and Tools to format your `wgsl` work, so it looks more rusty (which will help you quickly get up to speed with the existing `wgsl` in the Bevy codebase).
 - Scripts to pull _all_ the functions from the Bevy codebase's shader code so you can easily lookup what's available for import. (See `scripts/README.md`)
 - Scripts to search the Bevy source code (opening your browser) for specific keywords. (See `scripts/README.md`)
-- Continious image capture to create .gifs! (Currently only supporting a maximum framerate of 20FPS for capture.)
+- Continious image capture to create .gifs! (Currently only supporting a maximum framerate of 20FPS for capture.) For the finest quality GIFs, we recommend [this guide on using ffmpeg](https://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html).
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor, most OSes should be supported).
