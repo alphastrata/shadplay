@@ -73,6 +73,7 @@ The app has some simple hotkeys:
 | <kbd>x</kbd>        | WINDOWS ONLY Toggle Window Fallthrough 3D                                             |
 | <kbd>l</kbd>        | Window-Level                                                                          |
 | <kbd>d</kbd>        | Toggle Decorations (not all OSes)                                                     |
+| <kbd>b</kbd>        | Toggle Border (3d only)                                                               |
 | <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)                 |
 | <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                       |
 | <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                    |

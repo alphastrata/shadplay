@@ -1,4 +1,4 @@
-use crate::camera::PanOrbitCameraPlugin;
+use crate::{camera::PanOrbitCameraPlugin, utils::{ShadplayWindowBorder, toggle_border}};
 use bevy::{
     input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
     sprite_render::Material2dPlugin, window::WindowResized,
@@ -22,6 +22,7 @@ impl Plugin for ShadPlayPlugin {
             .insert_resource(MonitorsSpecs::default())
             .insert_resource(TexHandleQueue::default())
             .insert_resource(ShadplayWindowDims::default())
+            .insert_resource(ShadplayWindowBorder::default())
             .insert_resource(ShapeOptions::default())
             .insert_resource(TransparencySet(true))
             .insert_resource(Rotating(false))
@@ -29,6 +30,7 @@ impl Plugin for ShadPlayPlugin {
             //events:
             .add_message::<UserAddedTexture>()
             .add_message::<DragNDropShader>()
+            .add_message::<ShadplayWindowBorder>()
             // 3D
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)
@@ -72,9 +74,12 @@ impl Plugin for ShadPlayPlugin {
                 (
                     // utils::max_mon_res, // We're currently not using the maximum resolution of the primary monitor.
                     update_mouse_pos,
+                    toggle_border
+                        .run_if(in_state(AppState::TwoD))
+                        .run_if(on_message::<KeyboardInput>),
                     size_quad
                         .run_if(in_state(AppState::TwoD))
-                        .run_if(on_message::<WindowResized>),
+                        .run_if(on_message::<WindowResized>.or(on_message::<ShadplayWindowBorder>)),
                     swap_2d_tex_from_idx.run_if(on_message::<KeyboardInput>),
                 ),
             );
