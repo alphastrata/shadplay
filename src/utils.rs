@@ -100,6 +100,35 @@ impl ShadplayWindowDims {
     }
 }
 
+/// Resource and Message: Used for toggling on/off border for the 2d shader.
+#[derive(Resource, Message, Debug, Clone)]
+pub struct ShadplayWindowBorder {
+    pub enabled: bool,
+    pub thickness: Vec2
+}
+
+impl ShadplayWindowBorder {
+    /// Get border thickness in __%__
+    /// 
+    /// If `enabled` is `false` will return __x__ = `1.00`, __y__ = `1.00`
+    pub fn thickness(&self) -> Vec2 {
+        if !self.enabled {
+            return Vec2::new(1.00, 1.00);
+        } 
+
+        1.00 - self.thickness
+    }
+}
+
+impl Default for ShadplayWindowBorder {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            thickness: Vec2::new(0.05, 0.05)
+        }
+    }
+}
+
 /// Resource: All the shapes we have the option of displaying. 3d Only.
 #[allow(clippy::type_complexity)]
 #[derive(Resource, Default)]
@@ -429,6 +458,7 @@ pub fn size_quad(
     windows: Query<&Window>,
     mut query: Query<&mut Transform, With<BillBoardQuad>>,
     mut msd: ResMut<ShadplayWindowDims>,
+    border: Res<ShadplayWindowBorder>,
     // monitors: Res<MonitorsSpecs>,
 ) {
     let win = windows
@@ -436,6 +466,7 @@ pub fn size_quad(
         .expect("Should be impossible to NOT get a window");
 
     let (width, height) = (win.width(), win.height());
+    let (border_w, border_h) = (border.thickness().x, border.thickness().y);
 
     query.iter_mut().for_each(|mut transform| {
         *msd = ShadplayWindowDims(Vec2 {
@@ -443,9 +474,26 @@ pub fn size_quad(
             y: height,
         });
 
-        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
+        transform.scale = Vec3::new(width * border_w, height * border_h, 1.0);
         info!("Window Resized, resizing quad");
     });
+}
+
+/// System: Runs only when in [`AppState::TwoD`]
+/// 
+/// Used for toggling on/off the window border.
+/// 
+/// Press `b` when in 2D mode to toggle the window border.
+pub fn toggle_border(
+    mut border: ResMut<ShadplayWindowBorder>,
+    input: Res<ButtonInput<KeyCode>>,
+    mut fire_event: MessageWriter<ShadplayWindowBorder>
+) {
+    if input.just_pressed(KeyCode::KeyB) {
+        info!("Toggling window border");
+        border.enabled = !border.enabled;
+        fire_event.write(border.clone());
+    }
 }
 
 // Monitor Maximum Res.
