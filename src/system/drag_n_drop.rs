@@ -1,4 +1,4 @@
-use bevy::{log, prelude::*, ecs::message::Message};
+use bevy::{ecs::message::Message, log, prelude::*};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -123,4 +123,26 @@ pub fn add_and_set_dropped_file(
 #[cfg(debug_assertions)]
 pub fn debug_tex_keys(tex_handles: Res<TexHandleQueue>) {
     debug!("Num Textures: {}", tex_handles.len());
+}
+
+/// This runs every frame and switches to the newest dropped texture AS SOON AS it's ready
+pub fn switch_to_newest_texture_when_loaded(
+    mut tex_handles: ResMut<TexHandleQueue>,
+    mut shader_mat_3d: ResMut<Assets<YourShader>>,
+    mut shader_mat_2d: ResMut<Assets<YourShader2D>>,
+    images: Res<Assets<Image>>,
+) {
+    let newest_idx = tex_handles.keys().max().copied().unwrap_or(0);
+
+    // Check if the newest texture is actually loaded yet
+    if let Some(handle) = tex_handles.0.get(&newest_idx) {
+        if images.get(handle).is_some() {
+            // It's loaded → tell the shader to use it!
+            if let Some((_, mat)) = shader_mat_2d.iter_mut().next() {
+                YourShader2D::set_current_tex(mat, newest_idx, &tex_handles);
+            } else if let Some((_, mat)) = shader_mat_3d.iter_mut().next() {
+                YourShader::set_current_tex(mat, newest_idx, &tex_handles);
+            }
+        }
+    }
 }

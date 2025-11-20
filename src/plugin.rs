@@ -1,4 +1,8 @@
-use crate::{camera::PanOrbitCameraPlugin, utils::{ShadplayWindowBorder, toggle_border}};
+use crate::{
+    camera::PanOrbitCameraPlugin,
+    system::drag_n_drop::switch_to_newest_texture_when_loaded,
+    utils::{ShadplayWindowBorder, toggle_border},
+};
 use bevy::{
     input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
     sprite_render::Material2dPlugin, window::WindowResized,
@@ -66,6 +70,7 @@ impl Plugin for ShadPlayPlugin {
                     toggle_transparency,
                     #[cfg(target_os = "windows")]
                     toggle_window_passthrough,
+                    switch_to_newest_texture_when_loaded,
                 ),
             )
             // 2d Only Sytsems
