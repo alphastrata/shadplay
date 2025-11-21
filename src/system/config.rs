@@ -230,7 +230,7 @@ mod tests {
     #[test]
     fn save_and_load_user_config() {
         let test_config = UserSession {
-            window_dims: (1024.0, 768.0),
+            window_dims: (1024, 768),
             decorations: false,
             always_on_top: false,
             last_updated: 1635900000,
@@ -254,7 +254,7 @@ mod tests {
     fn config_path_for_user_config() {
         let p = UserSession::get_config_path();
         let test_config = UserSession {
-            window_dims: (1024.0, 768.0),
+            window_dims: (1024, 768),
             decorations: false,
             always_on_top: true,
             last_updated: 1635900000,
