@@ -271,7 +271,7 @@ pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut windows: Query<(&mut Window, &mut CursorOptions)>,  // Query both!
 ) {
-    let Ok((mut window, mut cursor_options)) = windows.get_single_mut() else {
+    let Ok((mut window, mut cursor_options)) = windows.single_mut() else {
         error!("No primary window found");
         return;
     };
