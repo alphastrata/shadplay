@@ -280,7 +280,7 @@ pub fn toggle_window_passthrough(
         cursor_options.hit_test = !cursor_options.hit_test;
         
         info!(
-            "PASSTHROUGH TOGGLED → hit_test: {} | decorations: {:?}",
+            "PASSTHROUGH TOGGLED → hit_test: {} | decorations: {:}",
             cursor_options.hit_test, window.decorations
         );
     }
