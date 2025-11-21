@@ -269,7 +269,7 @@ pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&
 #[cfg(target_os = "windows")]
 pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut windows: Query<(&mut Window, &mut CursorOptions)>,  // Query both!
+    mut windows: Query<(&mut Window, &mut CursorOptions)>,
 ) {
     let Ok((mut window, mut cursor_options)) = windows.single_mut() else {
         error!("No primary window found");
