@@ -1,6 +1,8 @@
-// #import bevy_sprite::mesh2d_view_bindings::globals 
-#import bevy_render::globals
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
+#import bevy_sprite::mesh2d_view_bindings::globals 
+
+#import bevy_render::view  View
+@group(0) @binding(0) var<uniform> view: View;
 
 
 @fragment
@@ -10,27 +12,27 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
 
 // This is a port/cover of Kimishisu's awesome YT tutotial: https://www.youtube.com/watch?v=f4s1h2YETNY
 fn kishimisu(in: VertexOutput) -> vec4<f32> {
-    let uv0 = ((in.uv.xy) * 2.0) - 1.0;
-    var uv = (in.uv.xy) ;
+    let resolution = view.viewport.zw;
+    var finalColor = vec3<f32>(0.0);
 
-    var output = vec3(0.0);
+    var uv = (in.uv.xy * 2.0) - 1.0;
+    uv.x *= resolution.x / resolution.y;
+    let uv0 = uv;
 
-    for (var i = 0.0; i < 1.0; i += 1.0) {
-        uv = fract((uv * .0982)) - 1.225;
+    for (var i = 0.0; i < 4.0; i += 1.0){
+        var col = palette(length(uv0) + i * 0.4 + globals.time * 0.4);
+
+        uv = fract(uv * 1.5) - 0.5;
 
         var d = length(uv) * exp(-length(uv0));
-
-        var col = palette(length(uv0) + (i * 4.3) + (globals.time * .4));
-
-        d = sin(d * 8. + globals.time) / 4.;
+        d = sin(d * 8. + globals.time) / 8.;
         d = abs(d);
+        d = pow(0.02 / d, 4.0);
 
-        d = pow(0.01 / d, 1.8);
-
-        output += col * d;
+        finalColor += col * d;
     }
 
-    return vec4<f32>(output, 1.0);
+    return vec4<f32>(finalColor, 1.0);
 }
 
 fn palette(t: f32) -> vec3<f32> {
