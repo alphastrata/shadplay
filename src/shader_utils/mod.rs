@@ -1,7 +1,10 @@
 //!
 //! Most of the boilerplate to make a custom shader work lives here.
 //!
-use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite_render::Material2d, shader::ShaderRef, ecs::message::Message};
+use bevy::{
+    ecs::message::Message, prelude::*, reflect::TypePath, render::render_resource::*,
+    shader::ShaderRef, sprite_render::Material2d,
+};
 use std::path::PathBuf;
 
 pub mod common;

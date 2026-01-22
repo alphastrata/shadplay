@@ -1,10 +1,4 @@
-use bevy::{
-    gltf::Gltf,
-    log,
-    prelude::*,
-    render::render_resource::{AsBindGroup},
-    shader::ShaderRef,
-};
+use bevy::{gltf::Gltf, log, prelude::*, render::render_resource::AsBindGroup, shader::ShaderRef};
 
 use shadplay::camera::{PanOrbitCamera, PanOrbitCameraPlugin};
 

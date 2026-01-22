@@ -8,7 +8,7 @@ use bevy::{
     log,
     prelude::*,
     render::view::screenshot::{Capturing, Screenshot, save_to_disk},
-    window::{SystemCursorIcon, CursorIcon},
+    window::{CursorIcon, SystemCursorIcon},
 };
 
 // use bevy::render::view::RenderLayers; // Not currently used, commented out for now
@@ -32,13 +32,17 @@ impl Plugin for GifMakerPlugin {
     fn build(&self, app: &mut App) {
         let scratch_dir = std::path::PathBuf::from(".gif_scratch");
         if !scratch_dir.exists()
-            && let Err(e) = std::fs::create_dir_all(&scratch_dir) {
-                log::debug!("{} does not exist, creating...", scratch_dir.display());
-                log::error!("{e}");
-            }
+            && let Err(e) = std::fs::create_dir_all(&scratch_dir)
+        {
+            log::debug!("{} does not exist, creating...", scratch_dir.display());
+            log::error!("{e}");
+        }
 
         app.insert_resource(Shooting(false));
-        app.add_systems(Update, gif_capture_toggle.run_if(on_message::<KeyboardInput>));
+        app.add_systems(
+            Update,
+            gif_capture_toggle.run_if(on_message::<KeyboardInput>),
+        );
 
         // Limit timestep we can snap for our gif to 20 FPS
         let user_config = app.world().get_resource::<UserSession>();
