@@ -26,7 +26,6 @@ fn main() {
     }
 
     App::new()
-        .insert_resource(DirectionalLightShadowMap { size: 4096 })
         .add_plugins((DefaultPlugins, PanOrbitCameraPlugin))
         .add_systems(Startup, setup)
         .add_systems(Update, (animate_light_direction, quit_listener))
@@ -65,12 +64,9 @@ fn setup(
     commands.spawn((
         DirectionalLight {
             shadows_enabled: true,
-            ..default()
-        },
-        CascadeShadowConfig {
-            num_cascades: 1,
-            maximum_distance: 1.6,
-            first_cascade_far_bound: 0.1,
+            shadow_depth_bias: 0.0,
+            shadow_normal_bias: 1.0,
+            illuminance: 10000.0,
             ..default()
         },
     ));
