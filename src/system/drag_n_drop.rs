@@ -1,4 +1,4 @@
-use bevy::{log, prelude::*, ecs::message::Message};
+use bevy::{ecs::message::Message, log, prelude::*};
 use std::collections::HashMap;
 use std::path::PathBuf;
 

@@ -1,12 +1,12 @@
 [package]
 name = "shadplay"
-version = "0.0.4"
+version = "0.0.5"
 resolver = "2"
 edition = "2024"
 authors = ["jeremy webb <alphastrata@gmail.com>"]
 license = "MIT"
 description = """
-Shadplay is a simple, (WIP) application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
+Shadplay is a simple,  application that provides a window where shader code is applied to Bevy mesh geometry. The primary goal of shadplay is to allow users to see immediate changes to their shader code. This is achieved by leveraging Bevy's file-watcher system, which automatically recompiles and updates the shader on the mesh whenever the user saves their changes in their editor of choice. shadplay is designed to provide the lowest barrier to entry for individuals who want to learn or practice using WGSL (WebGPU Shading Language) for the purposes of doing work in Bevy.
 """
 
 [[example]]
@@ -20,20 +20,20 @@ ui = ["bevy_egui"]
 
 [dependencies]
 # Bump-a-lots
-bevy = { version = "0.17.0", features = ["file_watcher", "jpeg"] }
-bevy_egui = { version = "0.37.0", optional = true }
+bevy = { version = "0.18.0", features = ["file_watcher", "jpeg"] }
+bevy_egui = { version = "0.39.0", optional = true }
 
 # usually not bumped with bevy versions
-anyhow = "1.0.79"
-chrono = "0.4.34"
-copypasta = "0.10.0"
+anyhow = "1.0.100"
+chrono = "0.4.42"
+copypasta = "0.10.2"
 directories = "6.0.0"
-image = "0.25.1"
-serde = { version = "1.0.190", features = ["derive"] }
-toml = "0.9.7"
+image = "0.25.9"
+serde = { version = "1.0.228", features = ["derive"] }
+toml = "0.9.11"
 
 [dev-dependencies]
-bevy = { version = "0.17.0", features = [
+bevy = { version = "0.18.0", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",

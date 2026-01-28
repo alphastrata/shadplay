@@ -104,17 +104,17 @@ impl ShadplayWindowDims {
 #[derive(Resource, Message, Debug, Clone)]
 pub struct ShadplayWindowBorder {
     pub enabled: bool,
-    pub thickness: Vec2
+    pub thickness: Vec2,
 }
 
 impl ShadplayWindowBorder {
     /// Get border thickness in __%__
-    /// 
+    ///
     /// If `enabled` is `false` will return __x__ = `1.00`, __y__ = `1.00`
     pub fn thickness(&self) -> Vec2 {
         if !self.enabled {
             return Vec2::new(1.00, 1.00);
-        } 
+        }
 
         1.00 - self.thickness
     }
@@ -124,7 +124,7 @@ impl Default for ShadplayWindowBorder {
     fn default() -> Self {
         Self {
             enabled: true,
-            thickness: Vec2::new(0.05, 0.05)
+            thickness: Vec2::new(0.05, 0.05),
         }
     }
 }
@@ -278,7 +278,7 @@ pub fn toggle_window_passthrough(
 
     if keyboard_input.just_pressed(KeyCode::KeyP) || keyboard_input.just_pressed(KeyCode::KeyX) {
         cursor_options.hit_test = !cursor_options.hit_test;
-        
+
         info!(
             "PASSTHROUGH TOGGLED → hit_test: {} | decorations: {:}",
             cursor_options.hit_test, window.decorations
@@ -476,14 +476,14 @@ pub fn size_quad(
 }
 
 /// System: Runs only when in [`AppState::TwoD`]
-/// 
+///
 /// Used for toggling on/off the window border.
-/// 
+///
 /// Press `b` when in 2D mode to toggle the window border.
 pub fn toggle_border(
     mut border: ResMut<ShadplayWindowBorder>,
     input: Res<ButtonInput<KeyCode>>,
-    mut fire_event: MessageWriter<ShadplayWindowBorder>
+    mut fire_event: MessageWriter<ShadplayWindowBorder>,
 ) {
     if input.just_pressed(KeyCode::KeyB) {
         info!("Toggling window border");
@@ -525,10 +525,11 @@ pub fn update_mouse_pos(
 
     // Is the mouse on our window?
     if shadplay_win_dims.hittest(mouse_xy)
-        && let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
-            let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
-            shad_mat.mouse_pos = sh_xy.into();
-        }
+        && let Some((_, shad_mat)) = shader_mat.iter_mut().next()
+    {
+        let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
+        shad_mat.mouse_pos = sh_xy.into();
+    }
 }
 
 impl From<Vec2> for MousePos {

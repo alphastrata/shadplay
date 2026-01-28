@@ -1,4 +1,7 @@
-use crate::{camera::PanOrbitCameraPlugin, utils::{ShadplayWindowBorder, toggle_border}};
+use crate::{
+    camera::PanOrbitCameraPlugin,
+    utils::{ShadplayWindowBorder, toggle_border},
+};
 use bevy::{
     input::keyboard::KeyboardInput, log::tracing_subscriber::util::SubscriberInitExt, prelude::*,
     sprite_render::Material2dPlugin, window::WindowResized,
