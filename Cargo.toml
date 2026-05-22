@@ -12,7 +12,6 @@ Shadplay is a simple,  application that provides a window where shader code is a
 [[example]]
 name = "might"
 path = "examples/might/src/main.rs"
-description = "Might, is an attempt to recreate the legendary Pally aura of the same name from Diablo II"
 
 [features]
 default = ["ui"]
