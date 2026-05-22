@@ -19,13 +19,8 @@ impl Plugin for HelpUIPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(HelpUIToggle { open: false });
 
-        app.add_systems(
-            Update,
-            (
-                toggle_help_ui,
-                help_window.run_if(resource_equals(HelpUIToggle { open: true })),
-            ),
-        );
+        app.add_systems(Update, toggle_help_ui);
+        app.add_systems(Update, help_window);
     }
 }
 
@@ -47,7 +42,7 @@ fn toggle_help_ui(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<HelpUITog
 /*
 to update run: `rg "input.just_pressed" -B 4`, the names of the functions should be indicative of what the binding does.
 */
-fn help_window(mut ctx: EguiContexts) {
+fn help_window(mut ctx: EguiContexts) -> Result {
     egui::Window::new("Help")
         .collapsible(false)
         .resizable(false)
@@ -70,7 +65,7 @@ fn help_window(mut ctx: EguiContexts) {
             stroke: egui::Stroke::NONE,
         })
         .anchor(Align2::RIGHT_BOTTOM, Vec2::new(-35.0, -30.0))
-        .show(ctx.ctx_mut().unwrap(), |ui| {
+        .show(ctx.ctx_mut()?, |ui| {
             ui.label(RichText::new("/   -   Toggles help(this) menu").color(Color32::WHITE));
             ui.label(RichText::new("D   -   Toggles window decorations").color(Color32::WHITE));
             ui.label(RichText::new("H   -   Switch to 3D Mode").color(Color32::WHITE));
@@ -90,4 +85,5 @@ fn help_window(mut ctx: EguiContexts) {
             ui.label(RichText::new("T   -   Switch to 2D Mode").color(Color32::WHITE));
             ui.label(RichText::new("Spacebar - Take screenshot").color(Color32::WHITE));
         });
+    Ok(())
 }

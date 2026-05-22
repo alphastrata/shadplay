@@ -17,9 +17,12 @@ impl Plugin for ShadPlayPlugin {
         app.insert_state(AppState::TwoD) // we start always in 2d mode
             // .insert_state(AppState::ThreeD)
             .add_plugins(ShadplayShaderLibrary) // Something of a library with common functions.
-            .add_plugins(crate::system::ScreenshotPlugin) //NOTE: this is not Bevy's one!
-            .add_plugins(ColourPickerPlugin)
-            .add_plugins(MaterialPlugin::<YourShader>::default())
+            .add_plugins(crate::system::ScreenshotPlugin); //NOTE: this is not Bevy's one!
+
+        #[cfg(feature = "ui")]
+        app.add_plugins(ColourPickerPlugin);
+
+        app.add_plugins(MaterialPlugin::<YourShader>::default())
             .add_plugins(Material2dPlugin::<YourShader2D>::default())
             // Resources
             .insert_resource(MonitorsSpecs::default())
@@ -82,7 +85,7 @@ impl Plugin for ShadPlayPlugin {
                         .run_if(on_message::<KeyboardInput>),
                     size_quad
                         .run_if(in_state(AppState::TwoD))
-                        .run_if(on_message::<WindowResized>.or(on_message::<ShadplayWindowBorder>)),
+                        .run_if(on_message::<WindowResized>.or_else(on_message::<ShadplayWindowBorder>)),
                     swap_2d_tex_from_idx.run_if(on_message::<KeyboardInput>),
                 ),
             );
