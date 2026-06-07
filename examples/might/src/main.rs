@@ -1,4 +1,4 @@
-use bevy::{gltf::Gltf, log, prelude::*, render::render_resource::AsBindGroup, shader::ShaderRef};
+use bevy::{gltf::Gltf, log, prelude::*, render::render_resource::AsBindGroup, shader::ShaderRef, world_serialization::WorldAssetRoot};
 
 use shadplay::camera::{PanOrbitCamera, PanOrbitCameraPlugin};
 
@@ -63,7 +63,7 @@ fn setup(
 
     commands.spawn((
         DirectionalLight {
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             shadow_depth_bias: 0.0,
             shadow_normal_bias: 1.0,
             illuminance: 10000.0,
@@ -110,7 +110,7 @@ fn spawn_knight(
         let as_custom_mat = AuraMaterial { inner: 0.0 };
 
         commands
-            .spawn(SceneRoot(gltf.scenes[0].clone()))
+            .spawn(WorldAssetRoot(gltf.scenes[0].clone()))
             .with_children(|parent| {
                 parent.spawn((
                     Mesh3d(meshes.add(disc)),

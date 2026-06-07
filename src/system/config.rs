@@ -154,8 +154,8 @@ impl UserSession {
     fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> anyhow::Result<Image> {
         let (width, height) = self.window_dims;
         let size = Extent3d {
-            width: width,
-            height: height,
+            width,
+            height,
             ..Default::default()
         };
 
@@ -176,8 +176,8 @@ impl UserSession {
         };
         new_scratch.resize(size);
 
-        if let Some(current_buffer) = images.get_mut(&self.gif_buffer.clone().unwrap()) {
-            Ok(std::mem::replace(current_buffer, new_scratch))
+        if let Some(mut current_buffer) = images.get_mut(&self.gif_buffer.clone().unwrap()) {
+            Ok(std::mem::replace(&mut *current_buffer, new_scratch))
         } else {
             anyhow::bail!("Failed to swap the buffers..");
         }

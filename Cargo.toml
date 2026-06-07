@@ -12,37 +12,37 @@ Shadplay is a simple,  application that provides a window where shader code is a
 [[example]]
 name = "might"
 path = "examples/might/src/main.rs"
-description = "Might, is an attempt to recreate the legendary Pally aura of the same name from Diablo II"
 
 [features]
 default = ["ui"]
 ui = ["bevy_egui"]
+bevy_egui = ["dep:bevy_egui"]
 
 [dependencies]
 # Bump-a-lots
-bevy = { version = "0.18.0", features = ["file_watcher", "jpeg"] }
-bevy_egui = { version = "0.39.0", optional = true }
+bevy = { version = "0.19.0-rc.2", features = ["file_watcher", "jpeg"] }
+bevy_egui = { optional = true, version = "0.40.0-rc.1" }
 
 # usually not bumped with bevy versions
-anyhow = "1.0.100"
-chrono = "0.4.42"
+anyhow = "1.0.102"
+chrono = "0.4.44"
 copypasta = "0.10.2"
 directories = "6.0.0"
-image = "0.25.9"
+image = "0.25.10"
 serde = { version = "1.0.228", features = ["derive"] }
-toml = "0.9.11"
+toml = "0.9.12"
 
 [dev-dependencies]
-bevy = { version = "0.18.0", features = [
+bevy = { version = "0.19.0-rc.2", features = [
   "file_watcher",
   "jpeg",
   "dynamic_linking",
 ] }
 
 [build-dependencies]
-reqwest = "0.12.15"
+reqwest = "0.12.28"
 tokio = { version = "1", features = ["full"] } # Required for Might
-glob = "0.3.1"
+glob = "0.3.3"
 
 [profile.dev] # A little bit of optimisation for dev builds
 opt-level = 2

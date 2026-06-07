@@ -4,6 +4,7 @@ pub mod camera;
 pub mod plugin;
 pub mod shader_utils;
 pub mod system;
+#[cfg(feature = "ui")]
 pub mod ui;
 pub mod utils;
 
@@ -11,6 +12,8 @@ pub mod prelude {
     //! The Shadplay Prelude, you'll probably find yourself wanting things from/adding things to this, if you're working on Shadplay.
     #[cfg(target_os = "windows")]
     pub use crate::utils::toggle_window_passthrough;
+    #[cfg(feature = "ui")]
+    pub use crate::ui::colour_picker_plugin::ColourPickerPlugin;
     pub use crate::{
         shader_utils::{
             DragNDropShader, MousePos, YourShader, YourShader2D,
@@ -22,7 +25,6 @@ pub mod prelude {
             file_drag_and_drop_listener, override_current_shader,
         },
         system::screenshot::screenshot_and_version_shader_on_spacebar,
-        ui::colour_picker_plugin::ColourPickerPlugin,
         utils::{
             self, AppState, MonitorsSpecs, Rotating, ShadplayWindowDims, ShapeOptions,
             TransparencySet, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes, quit, rotate,
