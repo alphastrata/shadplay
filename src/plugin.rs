@@ -20,7 +20,7 @@ impl Plugin for ShadPlayPlugin {
             .add_plugins(crate::system::ScreenshotPlugin); //NOTE: this is not Bevy's one!
 
         #[cfg(feature = "ui")]
-        app.add_plugins(ColourPickerPlugin);
+        app.add_plugins((bevy_egui::EguiPlugin::default(), ColourPickerPlugin));
 
         app.add_plugins(MaterialPlugin::<YourShader>::default())
             .add_plugins(Material2dPlugin::<YourShader2D>::default())

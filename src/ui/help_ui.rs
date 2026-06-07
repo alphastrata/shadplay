@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_egui::EguiPrimaryContextPass;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Vec2};
 use bevy_egui::{EguiContexts, egui};
@@ -20,7 +21,7 @@ impl Plugin for HelpUIPlugin {
         app.insert_resource(HelpUIToggle { open: false });
 
         app.add_systems(Update, toggle_help_ui);
-        app.add_systems(Update, help_window);
+        app.add_systems(EguiPrimaryContextPass, help_window);
     }
 }
 
