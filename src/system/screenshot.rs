@@ -5,7 +5,6 @@ use bevy::{
     log,
     prelude::*,
     render::view::screenshot::{Screenshot, save_to_disk},
-    window::PrimaryWindow,
 };
 
 use crate::utils::AppState;
@@ -35,17 +34,11 @@ pub fn screenshot_and_version_shader_on_spacebar(
             let shader_path = match app_state.get() {
                 AppState::TwoD => DEFAULT_SHADER_2D,
                 AppState::ThreeD => DEFAULT_SHADER_3D,
-                _ => {
-                    log::debug!("Sceenshot system does nothing in GifMode.");
-                    return;
-                }
+                _ => { log::debug!("Screenshot system does nothing in GifMode."); return; }
             };
             super::version_current_shader(Path::new(shader_path), &target);
         } else {
-            log::error!(
-                "Screenshot was NOT taken, there was no screenshot at {}",
-                target.display()
-            )
+            log::error!("Screenshot was NOT taken, there was no screenshot at {}", target.display());
         }
     }
 }

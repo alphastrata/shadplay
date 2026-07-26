@@ -47,7 +47,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let out_dirs = vec!["../assets/environment_maps", "../assets/scenes"];
 
-    out_dirs.into_iter().try_for_each(|dir| fs::create_dir_all(dir))?;
+    out_dirs.into_iter().try_for_each(fs::create_dir_all)?;
 
     futures::future::try_join_all(urls.iter().map(|url| async move {
         let filename = Path::new(url).file_name().unwrap();

@@ -1,4 +1,11 @@
-use bevy::{gltf::Gltf, log, prelude::*, render::render_resource::AsBindGroup, shader::ShaderRef, world_serialization::WorldAssetRoot};
+use bevy::{
+    gltf::Gltf,
+    light::{CascadeShadowConfigBuilder, DirectionalLightShadowMap},
+    log,
+    prelude::*,
+    render::render_resource::AsBindGroup,
+    shader::ShaderRef,
+};
 
 use shadplay::camera::{PanOrbitCamera, PanOrbitCameraPlugin};
 
@@ -15,8 +22,6 @@ struct Knight {
 struct WasLoaded(bool);
 
 fn main() {
-    // Check the knight model is available and if not, show where it can be got.
-    // The environment maps used, are automatically downloadable so the shadplay/build.rs fetches them for you.
     let knight_model_path = std::path::Path::new("../assets/scenes/knight.glb");
     if !knight_model_path.exists() {
         dbg!(
@@ -26,10 +31,10 @@ fn main() {
     }
 
     App::new()
+        .insert_resource(DirectionalLightShadowMap { size: 4096 })
         .add_plugins((DefaultPlugins, PanOrbitCameraPlugin))
         .add_systems(Startup, setup)
         .add_systems(Update, (animate_light_direction, quit_listener))
-        // Our Systems:
         .add_systems(Startup, load_knight)
         .add_systems(
             Update,
@@ -38,7 +43,6 @@ fn main() {
                 .run_if(resource_exists::<Knight>)
                 .run_if(resource_exists_and_equals::<WasLoaded>(WasLoaded(false))),
         )
-        // Our Materials
         .add_plugins(MaterialPlugin::<AuraMaterial>::default())
         .run();
 }
@@ -57,21 +61,24 @@ fn setup(
             diffuse_map: asset_server.load("environment_maps/pisa_diffuse_rgb9e5_zstd.ktx2"),
             specular_map: asset_server.load("environment_maps/pisa_specular_rgb9e5_zstd.ktx2"),
             intensity: 1.0,
-            ..Default::default()
+            ..default()
         },
     ));
 
     commands.spawn((
         DirectionalLight {
             shadow_maps_enabled: true,
-            shadow_depth_bias: 0.0,
-            shadow_normal_bias: 1.0,
-            illuminance: 10000.0,
             ..default()
         },
+        CascadeShadowConfigBuilder {
+            num_cascades: 1,
+            maximum_distance: 1.6,
+            first_cascade_far_bound: 0.1,
+            ..default()
+        }
+        .build(),
     ));
 
-    // ground plane
     commands.spawn((
         Mesh3d(meshes.add(Plane3d::default().mesh().size(50.0, 50.0))),
         MeshMaterial3d(materials.add(StandardMaterial {
@@ -84,29 +91,25 @@ fn setup(
     ));
 }
 
-// Loads our knight into the asset server, it isn't spawned.
 fn load_knight(mut commands: Commands, asset_server: Res<AssetServer>) {
     let hndl = asset_server.load("scenes/knight.glb");
     commands.insert_resource(Knight { handle: hndl });
     commands.insert_resource(WasLoaded(false));
-
     log::info!("load_knight done.");
 }
-// Spawns the knight model in.
+
 fn spawn_knight(
     mut commands: Commands,
     knight: Res<Knight>,
     assets_gltf: Res<Assets<Gltf>>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut was_loaded: ResMut<WasLoaded>,
-    // mut materials: ResMut<Assets<ExtendedMaterial<StandardMaterial, AuraMaterial>>>,
     mut materials: ResMut<Assets<AuraMaterial>>,
 ) {
     if let Some(gltf) = assets_gltf.get(&knight.handle) {
         log::info!("Spawning scene...");
 
         let disc = Mesh::from(Cylinder::new(1.2, 0.001));
-
         let as_custom_mat = AuraMaterial { inner: 0.0 };
 
         commands
@@ -119,12 +122,10 @@ fn spawn_knight(
             });
 
         was_loaded.0 = true;
-
         log::info!("Spawn complete...");
     }
 }
 
-// from the bevy load_gltf example
 fn animate_light_direction(
     time: Res<Time>,
     mut query: Query<&mut Transform, With<DirectionalLight>>,
@@ -139,10 +140,8 @@ fn animate_light_direction(
     });
 }
 
-/// Our Aura shader:
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct AuraMaterial {
-    /// This is currently unused but reserving for future use :wink
     #[uniform(100)]
     inner: f32,
 }
@@ -152,13 +151,11 @@ impl Material for AuraMaterial {
         "shaders/aura.wgsl".into()
     }
 
-    // Available in StandardMaterial
     fn alpha_mode(&self) -> AlphaMode {
         AlphaMode::Blend
     }
 }
 
-/// System: listening for `q` or `esc` to quit.
 fn quit_listener(input: Res<ButtonInput<KeyCode>>) {
     if input.just_pressed(KeyCode::KeyQ) || input.just_pressed(KeyCode::Escape) {
         std::process::exit(0)

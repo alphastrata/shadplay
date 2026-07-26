@@ -1,22 +1,18 @@
-use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite::Material2d, shader::ShaderRef};
+use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite_render::Material2d, shader::ShaderRef};
 use std::path::PathBuf;
 
 pub mod common;
 pub mod texture_tooling;
 
-#[derive(Event, Debug, Deref, DerefMut)]
+#[derive(Event, Message, Debug, Deref, DerefMut)]
 pub struct DragNDropShader {
     pub path: PathBuf,
 }
 
-// ************************************ //
-//                3D                    //
-// ************************************ //
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct YourShader {
     #[uniform(100)]
     pub color: LinearRgba,
-
     #[texture(101, dimension = "2d")]
     #[sampler(102)]
     pub img: Handle<Image>,
@@ -28,14 +24,10 @@ impl Material for YourShader {
     }
 }
 
-// ************************************ //
-//                2D                    //
-// ************************************ //
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct YourShader2D {
     #[uniform(0)]
     pub(crate) mouse_pos: MousePos,
-
     #[texture(1, dimension = "2d")]
     #[sampler(2)]
     pub img: Handle<Image>,
@@ -53,8 +45,6 @@ impl Material2d for YourShader2D {
     }
 }
 
-// ---- ---- ---- ---- ---- ---- ---- ---- ----
-// dotted-line
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 struct DottedLineShader {
     #[uniform(100)]

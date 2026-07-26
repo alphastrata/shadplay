@@ -16,14 +16,7 @@ pub struct ScreenshotPlugin;
 
 impl Plugin for ScreenshotPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                screenshot_saving,
-                screenshot::screenshot_and_version_shader_on_spacebar,
-            ),
-        );
-
+        app.add_systems(Update, (screenshot_saving, screenshot::screenshot_and_version_shader_on_spacebar));
         app.add_plugins(gif_maker::GifMakerPlugin);
     }
 }
@@ -34,62 +27,33 @@ fn screenshot_saving(
     window: Single<Entity, With<Window>>,
 ) {
     match screenshot_saving.iter().count() {
-        0 => {
-            commands.entity(*window).remove::<CursorIcon>();
-        }
-        x if x > 0 => {
-            commands
-                .entity(*window)
-                .insert(CursorIcon::from(SystemCursorIcon::Progress));
-        }
+        0 => { commands.entity(*window).remove::<CursorIcon>(); }
+        x if x > 0 => { commands.entity(*window).insert(CursorIcon::from(SystemCursorIcon::Progress)); }
         _ => {}
     }
 }
 
-pub fn make_all<P>(p: P) -> Result<(), std::io::Error>
-where
-    P: AsRef<Path>,
-{
+pub fn make_all<P: AsRef<Path>>(p: P) -> Result<(), std::io::Error> {
     let path = p.as_ref();
-    if path.is_dir() {
-        return Ok(());
-    }
-
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent)?;
-    }
-
-    if path.extension().is_none() {
-        fs::create_dir(path)?;
-    } else {
-        fs::File::create(path)?;
-    }
-
+    if path.is_dir() { return Ok(()); }
+    if let Some(parent) = path.parent() { fs::create_dir_all(parent)?; }
+    if path.extension().is_none() { fs::create_dir(path)?; } else { fs::File::create(path)?; }
     Ok(())
 }
 
 pub fn timestamper() -> String {
     let local = Local::now();
-    let hour = local.hour();
-    let minute = local.minute();
-    let second = local.second();
-
-    format!("{hour:02}-{minute:02}-{second:02}")
+    format!("{:02}-{:02}-{:02}", local.hour(), local.minute(), local.second())
 }
 
 pub fn today() -> String {
     let local = Local::now();
-    let day = local.day();
-    let month = local.month();
-    let year = local.year() % 100;
-
-    format!("{day:02}-{month:02}-{year:02}")
+    format!("{:02}-{:02}-{:02}", local.day(), local.month(), local.year() % 100)
 }
 
 pub fn version_current_shader(source: &Path, target: &Path) {
     let mut target_adjusted = target.to_path_buf();
     target_adjusted.set_extension("wgsl");
-
     if let Err(e) = fs::copy(source, &target_adjusted) {
         error!("versioning shader failed with error:{}", e);
         error!("source file: {}", source.display());
