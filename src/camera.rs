@@ -52,20 +52,14 @@ fn pan_orbit_camera(
     let orbit_button_changed = false;
 
     if input_mouse.pressed(MouseButton::Left) {
-        for ev in ev_motion.read() {
-            rotation_move += ev.delta;
-        }
+        ev_motion.read().for_each(|ev| rotation_move += ev.delta);
     }
 
     if input_mouse.pressed(MouseButton::Right) {
-        for ev in ev_motion.read() {
-            pan += ev.delta;
-        }
+        ev_motion.read().for_each(|ev| pan += ev.delta);
     }
 
-    for ev in ev_scroll.read() {
-        scroll += ev.y;
-    }
+    ev_scroll.read().for_each(|ev| scroll += ev.y);
 
     if input_keyboard.pressed(KeyCode::ArrowUp) {
         pan.y -= 1.0;
@@ -80,7 +74,7 @@ fn pan_orbit_camera(
         pan.x += 1.0;
     }
 
-    for (mut pan_orbit, mut transform) in query.iter_mut() {
+    query.iter_mut().for_each(|(mut pan_orbit, mut transform)| {
         if orbit_button_changed {
             // only check for upside down when orbiting started or ended
             let up = transform.rotation * Vec3::Y;
@@ -125,5 +119,5 @@ fn pan_orbit_camera(
             transform.translation =
                 pan_orbit.focus + rot_matrix.mul_vec3(Vec3::new(0.0, 0.0, pan_orbit.radius));
         }
-    }
+    });
 }

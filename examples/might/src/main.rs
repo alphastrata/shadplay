@@ -129,14 +129,14 @@ fn animate_light_direction(
     time: Res<Time>,
     mut query: Query<&mut Transform, With<DirectionalLight>>,
 ) {
-    for mut transform in &mut query {
+    query.iter_mut().for_each(|mut transform| {
         transform.rotation = Quat::from_euler(
             EulerRot::ZYX,
             0.0,
             time.elapsed_secs() * PI / 5.0,
             -FRAC_PI_4,
         );
-    }
+    });
 }
 
 /// Our Aura shader:

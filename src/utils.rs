@@ -1,4 +1,5 @@
 use crate::camera::PanOrbitCamera;
+use std::path::{Path, PathBuf};
 use bevy::{
     math::sampling::mesh_sampling,
     prelude::*,
@@ -156,11 +157,11 @@ pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotati
 
 /// System: Rotates the currently active geometry in the scene, 3d only.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
-    for mut transform in &mut query {
+    query.iter_mut().for_each(|mut transform| {
         transform.rotate_local_z(time.delta_secs() * 0.25);
         transform.rotate_local_x(time.delta_secs() * 0.33);
         transform.rotate_y(time.delta_secs() * 0.250);
-    }
+    });
 }
 
 /// System:
@@ -371,22 +372,22 @@ pub fn cleanup_3d(
     mut cam_q: Query<(Entity, &mut Camera)>,
     mut shape_q: Query<(Entity, &Transform), With<Shape>>,
 ) {
-    for (ent, _cam) in cam_q.iter_mut() {
+    cam_q.iter_mut().for_each(|(ent, _cam)| {
         commands.entity(ent).despawn();
         info!("Despawned 3D camera.")
-    }
-    for (ent, _tf) in shape_q.iter_mut() {
+    });
+    shape_q.iter_mut().for_each(|(ent, _tf)| {
         commands.entity(ent).despawn();
         info!("Despawned shape.")
-    }
+    });
 }
 
 /// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
-    for (ent, _q) in cam_q.iter_mut() {
+    cam_q.iter_mut().for_each(|(ent, _q)| {
         commands.entity(ent).despawn();
         info!("Despawned 2D camera.")
-    }
+    });
 }
 
 /// System: switches between 3d and 2d cameras, by triggering the [`AppState::XYZ`] transitions.
@@ -538,5 +539,110 @@ impl From<Vec2> for MousePos {
             x: value.x,
             y: value.y,
         }
+    }
+}
+
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
+// Screensaver mode
+// ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+#[derive(Resource)]
+pub struct ScreensaverState {
+    pub shaders: Vec<PathBuf>,
+    pub index: usize,
+    pub interval: f32,
+}
+
+/// Detects if a shader is 2D or 3D based on common patterns
+pub fn detect_shader_type(shader_content: &str) -> bool {
+    let mut is_2d_score = 0;
+    let mut is_3d_score = 0;
+
+    if shader_content.contains("bevy_sprite::mesh2d_view_bindings") {
+        is_2d_score += 1000;
+    }
+    if shader_content.contains("bevy_sprite::mesh2d_vertex_output") {
+        is_2d_score += 1000;
+    }
+    if shader_content.contains("mesh2d_") {
+        is_2d_score += 500;
+    }
+    if shader_content.contains("bevy_pbr::") {
+        is_3d_score += 1000;
+    }
+    if shader_content.contains("forward_io") {
+        is_3d_score += 500;
+    }
+    if shader_content.contains("mesh_view_bindings") {
+        is_3d_score += 300;
+    }
+    if shader_content.contains("bevy_sprite::") {
+        is_2d_score += 100;
+    }
+    if shader_content.contains("VertexOutput") && shader_content.contains("bevy_sprite::") {
+        is_2d_score += 200;
+    }
+
+    is_2d_score > is_3d_score
+}
+
+/// Copies a shader file to the appropriate target based on its type
+pub fn apply_shader_file(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let content = std::fs::read_to_string(path)?;
+    let is_2d = detect_shader_type(&content);
+    let target = if is_2d {
+        "assets/shaders/myshader_2d.wgsl"
+    } else {
+        "assets/shaders/myshader.wgsl"
+    };
+    std::fs::write(target, &content)?;
+    Ok(())
+}
+
+/// Cycles through shaders on a timer in screensaver mode
+pub fn screensaver_cycle(
+    mut local_timer: Local<f32>,
+    time: Res<Time>,
+    mut state: ResMut<ScreensaverState>,
+) {
+    if state.shaders.is_empty() {
+        return;
+    }
+    *local_timer += time.delta_secs();
+    if *local_timer < state.interval {
+        return;
+    }
+    *local_timer = 0.0;
+
+    let path = &state.shaders[state.index];
+    if let Err(e) = apply_shader_file(path) {
+        error!("screensaver: failed to load shader {}: {}", path.display(), e);
+    }
+    state.index = (state.index + 1) % state.shaders.len();
+}
+
+/// Exits screensaver on any user input
+pub fn screensaver_exit(
+    keyboard: Res<ButtonInput<KeyCode>>,
+    mouse_buttons: Res<ButtonInput<MouseButton>>,
+    mut mouse_motion: MessageReader<bevy::input::mouse::MouseMotion>,
+) {
+    if keyboard.get_just_pressed().next().is_some() {
+        std::process::exit(0);
+    }
+    if mouse_buttons.get_just_pressed().next().is_some() {
+        std::process::exit(0);
+    }
+    mouse_motion.read().for_each(|ev| {
+        if ev.delta.length_squared() > 0.0 {
+            std::process::exit(0);
+        }
+    });
+}
+
+/// Keeps cursor hidden in screensaver mode
+pub fn screensaver_hide_cursor(mut cursors: Query<&mut bevy::window::CursorOptions>) {
+    if let Ok(mut cursor) = cursors.single_mut() {
+        cursor.visible = false;
     }
 }

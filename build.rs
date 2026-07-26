@@ -47,15 +47,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let out_dirs = vec!["../assets/environment_maps", "../assets/scenes"];
 
-    for dir in out_dirs {
-        fs::create_dir_all(dir)?;
-    }
+    out_dirs.into_iter().try_for_each(|dir| fs::create_dir_all(dir))?;
 
-    for url in urls.iter() {
+    futures::future::try_join_all(urls.iter().map(|url| async move {
         let filename = Path::new(url).file_name().unwrap();
         let filepath = Path::new("assets/environment_maps").join(filename);
-
-        // Check if the file already exists
         if !filepath.exists() {
             let response = reqwest::get(url.to_string()).await?.bytes().await?;
             let mut file = File::create(&filepath)?;
@@ -64,7 +60,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         } else {
             dbg!("File already exists: {:?}", filepath);
         }
-    }
+        Ok::<_, Box<dyn std::error::Error>>(())
+    }))
+    .await?;
 
     // Check for knight.glb in assets/scenes
     let knight_model_path = Path::new("../assets/scenes/knight.glb");

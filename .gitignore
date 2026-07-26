@@ -191,3 +191,4 @@ cython_debug/
 .direnv/*
 .cargo/config.toml
 .cargo
+.loreignore

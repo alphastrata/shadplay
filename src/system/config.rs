@@ -154,8 +154,13 @@ impl UserSession {
     fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> anyhow::Result<Image> {
         let (width, height) = self.window_dims;
         let size = Extent3d {
+<<<<<<< HEAD
             width,
             height,
+=======
+            width,
+            height,
+>>>>>>> 3888289 (chore: rules, plan, enact ze plan)
             ..Default::default()
         };
 
