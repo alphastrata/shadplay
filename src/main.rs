@@ -63,7 +63,7 @@ fn run_normal(shader_arg: Option<String>) {
             PostUpdate,
             (
                 UserSession::runtime_updater
-                    .run_if(on_message::<WindowResized>)
+                    .run_if(on_event::<WindowResized>)
                     .run_if(time_passed(1.0)),
             ),
         )
@@ -93,7 +93,6 @@ fn run_screensaver(dir: &str, shader_arg: Option<String>) {
         std::process::exit(1);
     }
 
-    // Load initial shader
     if let Some(ref path) = shader_arg {
         if let Err(e) = utils::apply_shader_file(Path::new(path)) {
             eprintln!("Error loading shader from {}: {}", path, e);

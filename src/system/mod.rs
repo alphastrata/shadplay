@@ -46,11 +46,6 @@ fn screenshot_saving(
     }
 }
 
-// ---------------------------------------------
-// FILESYSTEM HELPERS:
-// ---------------------------------------------
-
-/// Make every file/dir etc required from a given `p`:
 pub fn make_all<P>(p: P) -> Result<(), std::io::Error>
 where
     P: AsRef<Path>,
@@ -73,7 +68,6 @@ where
     Ok(())
 }
 
-/// Provides a String of hh-mm-ss_dd-mm-yy timestamp.
 pub fn timestamper() -> String {
     let local = Local::now();
     let hour = local.hour();
@@ -83,7 +77,6 @@ pub fn timestamper() -> String {
     format!("{hour:02}-{minute:02}-{second:02}")
 }
 
-/// dd-mm-yy as a String.
 pub fn today() -> String {
     let local = Local::now();
     let day = local.day();
@@ -93,7 +86,6 @@ pub fn today() -> String {
     format!("{day:02}-{month:02}-{year:02}")
 }
 
-/// Grabs the `asssets/shaders/myshader.wgsl` and versions it with your screengrab.
 pub fn version_current_shader(source: &Path, target: &Path) {
     let mut target_adjusted = target.to_path_buf();
     target_adjusted.set_extension("wgsl");

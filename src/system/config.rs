@@ -1,5 +1,3 @@
-//! Logic and Helpers etc for dealing with the system Shadplay is running on, i.e
-//! the app's default config, long-lived settings and the clipboard interactions.
 use bevy::{
     asset::{AssetApp, AssetServer, Assets},
     ecs::system::{Commands, Local, Res},
@@ -31,9 +29,8 @@ pub struct UserSession {
     #[serde(default = "neg")]
     always_on_top: bool,
     #[serde(default = "default_last_updated")]
-    last_updated: u64, //Toml doesn't supprot u128
+    last_updated: u64,
 
-    /// RenderTarget for when we're making a gif out of
     #[serde(skip)]
     pub gif_buffer: Option<Handle<Image>>,
     #[serde(default = "default_gif_framerate")]
@@ -44,16 +41,14 @@ fn default_gif_framerate() -> f64 {
     0.05
 }
 
-// Provide a default function for window_dims
 fn default_window_dims() -> (u32, u32) {
-    (800, 600) // Default window dimensions
+    (800, 600)
 }
 
 fn neg() -> bool {
     false
 }
 
-// Provide a default function for last_updated
 fn default_last_updated() -> u64 {
     std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -109,11 +104,8 @@ impl UserSession {
         Window {
             title: "shadplay".into(),
             resolution: self.window_dims.into(),
-            // transparent: true,
-            // decorations: self.decorations,
             transparent: false,
             decorations: true,
-            // Mac only
             #[cfg(target_os = "macos")]
             composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
             window_level: self.window_level(),
@@ -128,10 +120,10 @@ impl UserSession {
         }
     }
 
-    /// System: When the screen dims change, we update the Self we have in the bevy [`Resource`]s.
     pub fn runtime_updater(mut user_config: ResMut<UserSession>, windows: Query<&Window>) {
         let win = windows
-            .single()
+            .iter()
+            .next()
             .expect("Should be impossible to NOT get a window");
 
         let (width, height) = (win.width(), win.height());
@@ -150,7 +142,6 @@ impl UserSession {
         }
     }
 
-    /// Works like a `std::mem::swap(a, b)`, but takes the asset server to attain the Handle<Image> for `b`.
     fn pop_gif_buffer(&mut self, images: &mut ResMut<Assets<Image>>) -> anyhow::Result<Image> {
         let (width, height) = self.window_dims;
         let size = Extent3d {
@@ -188,7 +179,6 @@ impl UserSession {
         }
     }
 
-    /// takes the UserSession's current buffer and saves it to disk as an `ordererd` png.
     pub fn flush_gif_buffer_to_disk(
         &mut self,
         mut local: Local<usize>,
@@ -196,7 +186,6 @@ impl UserSession {
     ) {
         let image = self.pop_gif_buffer(&mut images).unwrap();
         let dynamic = image.clone().try_into_dynamic().unwrap();
-        // let filename = format!(".gif_scratch/{:05}.png", *local);
         let filename = "output.png".to_string();
         let format = image::ImageFormat::from_path(filename.clone()).unwrap();
         log::debug!("ImCompressed: {}", image.is_compressed());

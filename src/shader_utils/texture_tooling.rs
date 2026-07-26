@@ -4,11 +4,8 @@ use bevy::prelude::*;
 
 use crate::prelude::*;
 
-/// Implement this on your own shaders you create, should you want them to take advantage of the texture updater system(s).
-/// It's exteremly easy to do, just see the examples in `src/texture_tooling.rs`
 pub trait SetNewTexture {
     type ShaderTarget;
-    /// Helper to set/override the current texture on the currently active shader
     fn set_current_tex(
         shader_mat: &mut Self::ShaderTarget,
         idx: usize,
@@ -35,16 +32,15 @@ impl SetNewTexture for YourShader {
 
             return;
         };
-        shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+        shader_mat.img = new_tex.clone();
     }
 }
 
 pub fn swap_3d_tex_from_idx(
-    mut key_evr: MessageReader<KeyboardInput>,
+    mut key_evr: EventReader<KeyboardInput>,
     mut shader_mat3d: ResMut<Assets<YourShader>>,
     user_textures: Res<TexHandleQueue>,
 ) {
-    // Iterate over all `YourShader` assets
     if let Some((_, shad_mat)) = shader_mat3d.iter_mut().next() {
         key_evr.read().for_each(|ev| {
             if let ButtonState::Pressed = ev.state {
@@ -86,7 +82,7 @@ impl SetNewTexture for YourShader2D {
 
             return;
         };
-        shader_mat.img = new_tex.clone(); // Cloning handles is fine.
+        shader_mat.img = new_tex.clone();
 
         #[cfg(debug_assertions)]
         debug!("Should be set to {}", idx);
@@ -94,7 +90,7 @@ impl SetNewTexture for YourShader2D {
 }
 
 pub fn swap_2d_tex_from_idx(
-    mut key_evr: MessageReader<KeyboardInput>,
+    mut key_evr: EventReader<KeyboardInput>,
     mut shader_mat2d: ResMut<Assets<YourShader2D>>,
     user_textures: Res<TexHandleQueue>,
 ) {

@@ -1,17 +1,10 @@
-//!
-//! Most of the boilerplate to make a custom shader work lives here.
-//!
-use bevy::{
-    ecs::message::Message, prelude::*, reflect::TypePath, render::render_resource::*,
-    shader::ShaderRef, sprite_render::Material2d,
-};
+use bevy::{prelude::*, reflect::TypePath, render::render_resource::*, sprite::Material2d, shader::ShaderRef};
 use std::path::PathBuf;
 
 pub mod common;
 pub mod texture_tooling;
 
-/// Event: for facilitating the drag-n-drop of a .wgsl shader onto Shadplay.
-#[derive(Event, Message, Debug, Deref, DerefMut)]
+#[derive(Event, Debug, Deref, DerefMut)]
 pub struct DragNDropShader {
     pub path: PathBuf,
 }
@@ -19,17 +12,16 @@ pub struct DragNDropShader {
 // ************************************ //
 //                3D                    //
 // ************************************ //
-/// The 3D shader.
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct YourShader {
     #[uniform(100)]
-    pub color: LinearRgba, //RGBA
+    pub color: LinearRgba,
 
     #[texture(101, dimension = "2d")]
     #[sampler(102)]
     pub img: Handle<Image>,
 }
-// 3d impl
+
 impl Material for YourShader {
     fn fragment_shader() -> ShaderRef {
         "shaders/myshader.wgsl".into()
@@ -39,7 +31,6 @@ impl Material for YourShader {
 // ************************************ //
 //                2D                    //
 // ************************************ //
-/// The 2D shadertoy like shader
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
 pub struct YourShader2D {
     #[uniform(0)]
@@ -63,28 +54,19 @@ impl Material2d for YourShader2D {
 }
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ----
-// For an example of how you can pass larger ammounts of data from bevy -> yourshadercode
-// You need to use this sort of structure, for example with the dotted_line.wgsl shader.
-// ---- ---- ---- ---- ---- ---- ---- ---- ----
 // dotted-line
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
-// #[uuid = "c74e039a-3df7-4f71-bd1d-7fe4b25a2230"]
 struct DottedLineShader {
     #[uniform(100)]
-    uniforms: Holder, //RGBA
+    uniforms: Holder,
 }
 
-/// Simplified holding struct to make passing across uniform(n) simpler.
 #[derive(ShaderType, Default, Clone, Debug)]
 struct Holder {
     tint: LinearRgba,
-    /// How wide do you want the line as a % of its availablu uv space: 0.5 would be 50% of the surface of the geometry
     line_width: f32,
-    /// How many segments (transparent 'cuts') do you want?
     segments: f32,
-    /// How fast do you want the animation to be? set 0.0 to disable.
     phase: f32,
-    /// How far spaced apart do you want these lines?
     line_spacing: f32,
 }
 

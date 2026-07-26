@@ -1,8 +1,3 @@
-//NOTE: This is based on the bevy camera tutorial && the panorbit_camera code,
-// it's reimplemented here because I want fewer dependencies in the Shadplay project && the delays of waiting for
-// plugins everytime bevy updates, (having to depend on transient branches etc while the community plugins catch up)
-// is nolonger something I have the time to track.
-
 use bevy::{
     input::mouse::{MouseMotion, MouseWheel},
     prelude::*,
@@ -35,16 +30,15 @@ impl Default for PanOrbitCamera {
 
 fn pan_orbit_camera(
     windows: Query<&Window>,
-    mut ev_motion: MessageReader<MouseMotion>,
-    mut ev_scroll: MessageReader<MouseWheel>,
+    mut ev_motion: EventReader<MouseMotion>,
+    mut ev_scroll: EventReader<MouseWheel>,
     input_mouse: Res<ButtonInput<MouseButton>>,
     input_keyboard: Res<ButtonInput<KeyCode>>,
     mut query: Query<(&mut PanOrbitCamera, &mut Transform)>,
 ) {
-    let window = windows.single();
-    let window = match window {
-        Ok(w) => w,
-        Err(_) => return,
+    let window = match windows.iter().next() {
+        Some(w) => w,
+        None => return,
     };
     let mut pan = Vec2::ZERO;
     let mut rotation_move = Vec2::ZERO;
@@ -76,7 +70,6 @@ fn pan_orbit_camera(
 
     query.iter_mut().for_each(|(mut pan_orbit, mut transform)| {
         if orbit_button_changed {
-            // only check for upside down when orbiting started or ended
             let up = transform.rotation * Vec3::Y;
             pan_orbit.upside_down = up.y <= 0.0;
         }
@@ -92,11 +85,10 @@ fn pan_orbit_camera(
             let delta_y = rotation_move.y / window_size.y * std::f32::consts::PI;
             let yaw = Quat::from_rotation_y(-delta_x);
             let pitch = Quat::from_rotation_x(-delta_y);
-            transform.rotation = yaw * transform.rotation; // rotate around global y axis
-            transform.rotation *= pitch; // rotate around local x axis
+            transform.rotation = yaw * transform.rotation;
+            transform.rotation *= pitch;
         } else if pan.length_squared() > 0.0 {
             any = true;
-            // make panning distance independent of resolution and FOV,
             let window_size = Vec2::new(window.width(), window.height());
             let pan_x = pan.x / window_size.x * pan_orbit.radius;
             let pan_y = pan.y / window_size.y * pan_orbit.radius;
@@ -107,14 +99,10 @@ fn pan_orbit_camera(
         } else if scroll.abs() > 0.0 {
             any = true;
             pan_orbit.radius -= scroll * pan_orbit.radius * 0.2;
-            // dont allow zoom to be negative or zero
             pan_orbit.radius = f32::max(pan_orbit.radius, 0.05);
         }
 
         if any {
-            // emulating parent/child to make the yaw/y-axis rotation behave like a turntable
-            // parent = focus, child = camera
-            // child is offset from parent by radius
             let rot_matrix = Mat3::from_quat(transform.rotation);
             transform.translation =
                 pan_orbit.focus + rot_matrix.mul_vec3(Vec3::new(0.0, 0.0, pan_orbit.radius));

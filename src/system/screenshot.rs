@@ -13,15 +13,6 @@ use crate::utils::AppState;
 const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wgsl";
 const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
 
-/// Saves a screenshot && versions the shader (from [`DEFAULT_SHADER`]) that was active when screenshotting.
-/// giving you something like this:
-///```shell
-/// screenshots
-///└──  01-2-23
-///    └──  09-23-29
-///        ├──  screenshot.png
-///        └──  screenshot.wgsl
-///```
 pub fn screenshot_and_version_shader_on_spacebar(
     input: Res<ButtonInput<KeyCode>>,
     app_state: Res<State<AppState>>,

@@ -1,5 +1,3 @@
-#![allow(unused_imports, dead_code)]
-
 pub mod camera;
 pub mod plugin;
 pub mod shader_utils;
@@ -9,7 +7,6 @@ pub mod ui;
 pub mod utils;
 
 pub mod prelude {
-    //! The Shadplay Prelude, you'll probably find yourself wanting things from/adding things to this, if you're working on Shadplay.
     #[cfg(target_os = "windows")]
     pub use crate::utils::toggle_window_passthrough;
     #[cfg(feature = "ui")]
