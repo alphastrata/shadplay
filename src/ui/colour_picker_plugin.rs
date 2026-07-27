@@ -45,6 +45,7 @@ impl Plugin for ColourPickerPlugin {
 }
 
 impl ColourPickerTool {
+    #[expect(dead_code)]
     fn draw_ui(
         mut picker: ResMut<ColourPickerTool>,
         mut ctx: EguiContexts,

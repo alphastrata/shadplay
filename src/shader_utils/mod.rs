@@ -46,6 +46,7 @@ impl Material2d for YourShader2D {
 }
 
 #[derive(Asset, AsBindGroup, TypePath, Debug, Clone)]
+#[expect(dead_code)]
 struct DottedLineShader {
     #[uniform(100)]
     uniforms: Holder,
