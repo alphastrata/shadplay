@@ -32,7 +32,7 @@ impl HelpUIToggle {
     }
 }
 
-/// System: listens permanetly for a `?` the `/` key and toggles on/off the help UI.
+/// System: listens permanently for a `?` the `/` key and toggles on/off the help UI.
 fn toggle_help_ui(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<HelpUIToggle>) {
     if input.just_pressed(KeyCode::Slash) {
         (*toggle).flip();

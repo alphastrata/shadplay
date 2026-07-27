@@ -1,0 +1,9 @@
+# rules config
+ignore = []
+enabled = []
+disabled = []
+
+[rust_analyser]
+enabled = false
+
+ensure-latest-deps = false

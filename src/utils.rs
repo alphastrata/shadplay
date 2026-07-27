@@ -1,139 +1,70 @@
 use crate::camera::PanOrbitCamera;
+use std::path::{Path, PathBuf};
 use bevy::{
-    math::sampling::mesh_sampling,
     prelude::*,
-    window::{CursorOptions, PrimaryWindow, RequestRedraw, Window, WindowLevel},
+    window::{PrimaryWindow, RequestRedraw, Window, WindowLevel, CursorOptions},
     winit::WinitWindows,
 };
 
 use crate::{prelude::*, shader_utils::YourShader};
-/// State: Used to transition between 2d and 3d mode.    
-/// Used by: cam_switch_system, screenshot
+
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum AppState {
-    // Startup,
     #[default]
     TwoD,
     ThreeD,
     GifCapture,
 }
 
-/// Component: Marking shapes that we spawn.
-/// Used by: the rotate system.
 #[derive(Component, Clone, Default)]
 pub struct Shape;
 
-/// Component: Marking the 2d geometry we use inplace of a custom vertex shader.
-/// Used by: size_quad
 #[derive(Component)]
 pub struct BillBoardQuad;
 
-/// Component: Marking the 3d camera.
-/// Used by: the CamSwitch event.
 #[derive(Component)]
 pub struct Cam3D;
 
-/// Component: Marking the 2d camera.
-/// Used by: the CamSwitch event.
 #[derive(Component)]
 pub struct Cam2D;
 
-/// Resource: Holds the current monitor, and a list of the others' [`winit::monitor::MonitorHandle`](s), info, we go outside of bevy to get these,
-/// pre-startup so, they cannot be reasonably updated yet..
 #[derive(Resource, Default, Deref, DerefMut)]
 pub struct MonitorsSpecs {
-    // Index of the current primary monitor (at app startup)
-    pub current: (u32, u32), // max-width, max-height
+    pub current: (u32, u32),
 }
 impl MonitorsSpecs {
     pub fn get(&self) -> (f32, f32) {
         (self.current.0 as f32, self.current.1 as f32)
     }
-
-    // self.x as f32
     pub fn x(&self) -> f32 {
         self.current.0 as f32
     }
-
-    // self.y as f32
     pub fn y(&self) -> f32 {
         self.current.1 as f32
     }
-
-    // self.xy as Vec2
     pub fn xy(&self) -> Vec2 {
-        Vec2 {
-            x: self.x(),
-            y: self.y(),
-        }
+        Vec2 { x: self.x(), y: self.y() }
     }
 }
 
-/// Resource: Used for toggling on/off the transparency of the app.
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
 
-/// Resource: Used to ensure the mouse, when passed to the 2d Shader cannot go stupidly out of bounds.
 #[derive(Resource, DerefMut, Deref, Default, Debug)]
 pub struct ShadplayWindowDims(pub Vec2);
 impl ShadplayWindowDims {
-    // is the mouse 'in' the shadplay window?
     pub(crate) fn hittest(&self, mouse_in: Vec2) -> bool {
-        std::ops::Range {
-            start: 0.0,
-            end: self.x,
-        }
-        .contains(&mouse_in.x)
-            || std::ops::Range {
-                start: 0.0,
-                end: self.y,
-            }
-            .contains(&mouse_in.y)
+        (0.0..self.x).contains(&mouse_in.x) || (0.0..self.y).contains(&mouse_in.y)
     }
-
-    /// Normalise the width (0) and height (1) on Self, to -0.5, to 0.5
     pub(crate) fn to_uv(&self, xy: Vec2) -> Vec2 {
-        Vec2 {
-            x: xy.x / (self.x / 2.0) - 1.0,
-            y: xy.y / (self.y / 2.0) - 1.0,
-        }
+        Vec2 { x: xy.x / (self.x / 2.0) - 1.0, y: xy.y / (self.y / 2.0) - 1.0 }
     }
 }
 
-/// Resource and Message: Used for toggling on/off border for the 2d shader.
-#[derive(Resource, Message, Debug, Clone)]
-pub struct ShadplayWindowBorder {
-    pub enabled: bool,
-    pub thickness: Vec2,
-}
-
-impl ShadplayWindowBorder {
-    /// Get border thickness in __%__
-    ///
-    /// If `enabled` is `false` will return __x__ = `1.00`, __y__ = `1.00`
-    pub fn thickness(&self) -> Vec2 {
-        if !self.enabled {
-            return Vec2::new(1.00, 1.00);
-        }
-
-        1.00 - self.thickness
-    }
-}
-
-impl Default for ShadplayWindowBorder {
-    fn default() -> Self {
-        Self {
-            enabled: true,
-            thickness: Vec2::new(0.05, 0.05),
-        }
-    }
-}
-
-/// Resource: All the shapes we have the option of displaying. 3d Only.
 #[allow(clippy::type_complexity)]
 #[derive(Resource, Default)]
 pub struct ShapeOptions(
-    pub  Vec<(
+    pub Vec<(
         bool,
         Handle<Mesh>,
         Handle<YourShader>,
@@ -142,40 +73,30 @@ pub struct ShapeOptions(
     )>,
 );
 
-/// Resource: Tracking whether or not we're rotating our shapes. 3d only.
 #[derive(Debug, Resource, Default, PartialEq)]
 pub struct Rotating(pub bool);
 
-/// System: to toggle on/off the rotating, 3d only.
 pub fn toggle_rotate(input: Res<ButtonInput<KeyCode>>, mut toggle: ResMut<Rotating>) {
     if input.just_pressed(KeyCode::KeyR) {
         toggle.0 = !toggle.0;
-        info!("Togling rotate to {toggle:#?}");
+        info!("Toggling rotate to {toggle:#?}");
     }
 }
 
-/// System: Rotates the currently active geometry in the scene, 3d only.
 pub fn rotate(mut query: Query<&mut Transform, With<Shape>>, time: Res<Time>) {
-    for mut transform in &mut query {
+    query.iter_mut().for_each(|mut transform| {
         transform.rotate_local_z(time.delta_secs() * 0.25);
         transform.rotate_local_x(time.delta_secs() * 0.33);
         transform.rotate_y(time.delta_secs() * 0.250);
-    }
+    });
 }
 
-/// System:
-/// Move between always on bottom, always on top and just, 'normal' window modes, by hitting the 'L' key.
 pub fn switch_level(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
-    //TODO: move logic to helper func and have this trigger on key or Event.
     if input.just_pressed(KeyCode::KeyL) {
-        let mut window = match windows.single_mut() {
-            Ok(w) => w,
-            Err(e) => {
-                error!("No primary window found {}", e);
-                return;
-            }
+        let mut window = match windows.iter_mut().next() {
+            Some(w) => w,
+            None => { error!("No primary window found"); return; }
         };
-
         window.window_level = match window.window_level {
             WindowLevel::AlwaysOnBottom => WindowLevel::Normal,
             WindowLevel::Normal => WindowLevel::AlwaysOnTop,
@@ -185,16 +106,12 @@ pub fn switch_level(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Wi
     }
 }
 
-/// System:
-/// Quits the app...
 pub fn quit(input: Res<ButtonInput<KeyCode>>) {
     if input.just_pressed(KeyCode::KeyQ) {
         std::process::exit(0)
     }
 }
 
-/// System:
-/// Toggles the window's transparency (on supported OS')
 pub fn toggle_transparency(
     input: Res<ButtonInput<KeyCode>>,
     mut clear_colour: ResMut<ClearColor>,
@@ -203,8 +120,6 @@ pub fn toggle_transparency(
     mut event: MessageWriter<RequestRedraw>,
 ) {
     if input.just_pressed(KeyCode::KeyO) {
-        // let mut window = windows.single_mut();
-        // window.transparent = !window.transparent; // Not supported after creation.
         if **transparency_set {
             *clear_colour = ClearColor(Color::BLACK);
         } else {
@@ -215,8 +130,6 @@ pub fn toggle_transparency(
     }
 }
 
-/// System: Runs in [`AppState::ThreeD`] only.
-/// Switch the shape we're currently playing with a shader on.
 pub fn switch_shape(
     input: Res<ButtonInput<KeyCode>>,
     mut shape_options: ResMut<ShapeOptions>,
@@ -225,14 +138,9 @@ pub fn switch_shape(
 ) {
     if input.just_pressed(KeyCode::KeyS) {
         info!("Shape change requested...");
-        // Old
-        let Some(idx) = shape_options.0.iter().position(|v| v.0) else {
-            return;
-        };
+        let Some(idx) = shape_options.0.iter().position(|v| v.0) else { return; };
         shape_options.0[idx].0 = false;
         query.iter().for_each(|e| commands.entity(e).despawn());
-
-        // New
         let next = (idx + 1) % shape_options.0.len();
         let (_vis, mesh_handle, mat_handle, tf, shp) = &shape_options.0[next];
         commands.spawn((
@@ -246,47 +154,30 @@ pub fn switch_shape(
     }
 }
 
-/// System:
-/// Toggle the app's window decorations (the titlebar at the top with th close/minimise buttons etc);
 pub fn toggle_decorations(input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {
     if input.just_pressed(KeyCode::KeyD) {
-        let mut window = match windows.single_mut() {
-            Ok(w) => w,
-            Err(e) => {
-                error!("No primary window found {}", e);
-                return;
-            }
-        };
+        let mut window = windows.iter_mut().next().unwrap();
         window.decorations = !window.decorations;
-
         info!("WINDOW_DECORATIONS: {:?}", window.decorations);
     }
 }
 
-/// System:
-/// Toggle mouse passthrough (click-through window).
-/// This is ONLY supported on Windows.
 #[cfg(target_os = "windows")]
 pub fn toggle_window_passthrough(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut windows: Query<(&mut Window, &mut CursorOptions)>,
+    mut cursor_options: Query<&mut CursorOptions>,
 ) {
-    let Ok((mut window, mut cursor_options)) = windows.single_mut() else {
-        error!("No primary window found");
-        return;
-    };
-
-    if keyboard_input.just_pressed(KeyCode::KeyP) || keyboard_input.just_pressed(KeyCode::KeyX) {
-        cursor_options.hit_test = !cursor_options.hit_test;
-
-        info!(
-            "PASSTHROUGH TOGGLED → hit_test: {} | decorations: {:}",
-            cursor_options.hit_test, window.decorations
-        );
+    if keyboard_input.just_pressed(KeyCode::KeyP) {
+        info!("PASSTHROUGH TOGGLED.");
+    }
+    if keyboard_input.just_pressed(KeyCode::KeyX) {
+        if let Some(mut cursor) = cursor_options.iter_mut().next() {
+            debug!("PASSTHROUGH TOGGLED.");
+            cursor.hit_test = !cursor.hit_test;
+        }
     }
 }
 
-/// System: Startup, initialises the scene's geometry. 3d only.
 pub fn init_shapes(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<YourShader>>,
@@ -302,241 +193,149 @@ pub fn init_shapes(
     });
     info!("{texture:#?} (space.jpg) texture added!");
 
-    shape_options.0.push((
-        false,
-        meshes.add(Mesh::from(Torus {
-            major_radius: 2.0,
-            minor_radius: 0.3,
-        })),
-        mat.clone(),
-        Transform::from_xyz(0.0, 0.3, 0.0),
-        Shape,
-    ));
-    info!("Torus added");
-
-    shape_options.0.push((
-        true,
-        meshes.add(Mesh::from(Cuboid::default())),
-        mat.clone(),
-        Transform::from_xyz(0.0, 0.3, 0.0),
-        Shape,
-    ));
-    info!("Cube added");
-
-    shape_options.0.push((
-        false,
-        meshes.add(Sphere::default()),
-        mat.clone(),
-        Transform::from_xyz(0.0, 0.3, 0.0),
-        Shape,
-    ));
-    info!("Sphere added");
-
+    shape_options.0.push((false, meshes.add(Mesh::from(Torus { major_radius: 2.0, minor_radius: 0.3 })), mat.clone(), Transform::from_xyz(0.0, 0.3, 0.0), Shape));
+    shape_options.0.push((true, meshes.add(Mesh::from(Cuboid::default())), mat.clone(), Transform::from_xyz(0.0, 0.3, 0.0), Shape));
+    shape_options.0.push((false, meshes.add(Sphere::default()), mat.clone(), Transform::from_xyz(0.0, 0.3, 0.0), Shape));
     info!("Shapes initialised!");
 }
 
-/// System: Setup 3d Camera. Called on entry of [`AppState::ThreeD`]
 pub fn setup_3d(mut commands: Commands, shape_options: Res<ShapeOptions>) {
-    // 3D camera
     commands.spawn((
-        Name::new("Cam3D"),
-        Camera3d::default(),
-        PanOrbitCamera::default(),
+        Name::new("Cam3D"), Camera3d::default(), PanOrbitCamera::default(),
         Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
-    info!("Spawned Cam3d");
-
-    assert!(!shape_options.0.is_empty());
-    assert_eq!(shape_options.0.len(), 3);
     shape_options.0.iter().filter(|vis| vis.0).for_each(
         |(_vis, mesh_handle, mat_handle, tf, shp)| {
-            commands.spawn(
-                //
-                (
-                    Mesh3d(mesh_handle.clone()),
-                    MeshMaterial3d(mat_handle.clone()),
-                    *tf,
-                    shp.clone(),
-                ), //
-            );
-
-            info!("Spawned mesh");
+            commands.spawn((Mesh3d(mesh_handle.clone()), MeshMaterial3d(mat_handle.clone()), *tf, shp.clone()));
         },
     );
 }
 
-/// System: Cleans up the 3d camera. Called on exit of [`AppState::ThreeD`]
-pub fn cleanup_3d(
-    mut commands: Commands,
-    mut cam_q: Query<(Entity, &mut Camera)>,
-    mut shape_q: Query<(Entity, &Transform), With<Shape>>,
-) {
-    for (ent, _cam) in cam_q.iter_mut() {
-        commands.entity(ent).despawn();
-        info!("Despawned 3D camera.")
-    }
-    for (ent, _tf) in shape_q.iter_mut() {
-        commands.entity(ent).despawn();
-        info!("Despawned shape.")
-    }
+pub fn cleanup_3d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>, mut shape_q: Query<(Entity, &Transform), With<Shape>>) {
+    cam_q.iter_mut().for_each(|(ent, _cam)| commands.entity(ent).despawn());
+    shape_q.iter_mut().for_each(|(ent, _tf)| commands.entity(ent).despawn());
 }
 
-/// System: Cleans up the 2d camera. Called on exit of [`AppState::TwoD`]
 pub fn cleanup_2d(mut commands: Commands, mut cam_q: Query<(Entity, &mut Camera)>) {
-    for (ent, _q) in cam_q.iter_mut() {
-        commands.entity(ent).despawn();
-        info!("Despawned 2D camera.")
-    }
+    cam_q.iter_mut().for_each(|(ent, _q)| commands.entity(ent).despawn());
 }
 
-/// System: switches between 3d and 2d cameras, by triggering the [`AppState::XYZ`] transitions.
-pub fn cam_switch_system(
-    mut next_state: ResMut<NextState<AppState>>,
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-) {
-    if keyboard_input.pressed(KeyCode::KeyT) {
-        info!("Swapping to 2D");
-        next_state.set(AppState::TwoD)
-    }
-    if keyboard_input.pressed(KeyCode::KeyH) {
-        info!("Swapping to 3D");
-        next_state.set(AppState::ThreeD)
-    }
+pub fn cam_switch_system(mut next_state: ResMut<NextState<AppState>>, keyboard_input: Res<ButtonInput<KeyCode>>) {
+    if keyboard_input.pressed(KeyCode::KeyT) { next_state.set(AppState::TwoD) }
+    if keyboard_input.pressed(KeyCode::KeyH) { next_state.set(AppState::ThreeD) }
 }
 
-/// System: initialises 2d Camera. Called on entry of [`AppState::TwoD`]
-/// NOTE: this also initialises the [`TexHandleQueue`], the default texture is bound to 0 by this system on startup.
 pub fn setup_2d(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut your_shader: ResMut<Assets<YourShader2D>>,
-    mut msd: ResMut<ShadplayWindowDims>,
-    mut user_textures: ResMut<TexHandleQueue>,
-    asset_server: Res<AssetServer>,
+    mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>,
+    mut your_shader: ResMut<Assets<YourShader2D>>, mut msd: ResMut<ShadplayWindowDims>,
+    mut user_textures: ResMut<TexHandleQueue>, asset_server: Res<AssetServer>,
     windows: Query<&Window>,
 ) {
-    //FIXME:
-    // TODO: hoist this into its own startup initialiser.
     let texture: Handle<Image> = asset_server.load("textures/space.jpg");
     user_textures.insert(0, texture.clone());
-
-    // 2D camera
     commands.spawn((Camera2d, Cam2D));
-    info!("Spawned 2d Cam");
-
-    let win = windows
-        .single()
-        .expect("Should be impossible to NOT get a window");
+    let win = windows.iter().next().expect("no window");
     let (width, height) = (win.width(), win.height());
-
-    *msd = ShadplayWindowDims(Vec2 {
-        x: width / 2.0,
-        y: height / 2.0,
-    });
-
-    info!("Set MaxSceenDims set to {width}, {height}");
-
-    // Quad
+    *msd = ShadplayWindowDims(Vec2 { x: width / 2.0, y: height / 2.0 });
     commands.spawn((
         Mesh2d(meshes.add(Rectangle::default())),
-        MeshMaterial2d(your_shader.add(YourShader2D {
-            img: texture,
-            mouse_pos: MousePos { x: 100.0, y: 128.0 },
-        })),
-        Transform::from_translation(Vec3::ZERO),
-        BillBoardQuad,
+        MeshMaterial2d(your_shader.add(YourShader2D { img: texture, mouse_pos: MousePos { x: 100.0, y: 128.0 } })),
+        Transform::from_translation(Vec3::ZERO), BillBoardQuad,
     ));
 }
 
-/// System: Runs only when in [`AppState::TwoD`]
-/// Resize the quad such that it's always the width/height of the viewport when in 2D mode.
 pub fn size_quad(
-    windows: Query<&Window>,
-    mut query: Query<&mut Transform, With<BillBoardQuad>>,
+    windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>,
     mut msd: ResMut<ShadplayWindowDims>,
-    border: Res<ShadplayWindowBorder>,
-    // monitors: Res<MonitorsSpecs>,
 ) {
-    let win = windows
-        .single()
-        .expect("Should be impossible to NOT get a window");
-
+    let win = windows.iter().next().expect("no window");
     let (width, height) = (win.width(), win.height());
-    let (border_w, border_h) = (border.thickness().x, border.thickness().y);
-
     query.iter_mut().for_each(|mut transform| {
-        *msd = ShadplayWindowDims(Vec2 {
-            x: width,
-            y: height,
-        });
-
-        transform.scale = Vec3::new(width * border_w, height * border_h, 1.0);
-        info!("Window Resized, resizing quad");
+        *msd = ShadplayWindowDims(Vec2 { x: width, y: height });
+        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
     });
 }
 
-/// System: Runs only when in [`AppState::TwoD`]
-///
-/// Used for toggling on/off the window border.
-///
-/// Press `b` when in 2D mode to toggle the window border.
-pub fn toggle_border(
-    mut border: ResMut<ShadplayWindowBorder>,
-    input: Res<ButtonInput<KeyCode>>,
-    mut fire_event: MessageWriter<ShadplayWindowBorder>,
-) {
-    if input.just_pressed(KeyCode::KeyB) {
-        info!("Toggling window border");
-        border.enabled = !border.enabled;
-        fire_event.write(border.clone());
-    }
-}
-
-// Monitor Maximum Res.
 pub fn max_mon_res(
-    window_query: Query<Entity, With<Window>>,
-    winit_windows: NonSend<WinitWindows>,
+    window_query: Query<Entity, With<Window>>, winit_windows: NonSend<WinitWindows>,
     mut mon_specs: ResMut<MonitorsSpecs>,
 ) {
-    let Ok(entity) = window_query.single() else {
-        error!("Unable to pull single Window, this is a horrible thing to have happen.");
-        return;
-    };
+    let Ok(entity) = window_query.iter().next().ok_or(()) else { return; };
     if let Some(winit_window) = winit_windows.get_window(entity) {
         let current_monitor = winit_window.current_monitor().unwrap();
         let (w, h) = (current_monitor.size().width, current_monitor.size().height);
         *mon_specs = MonitorsSpecs { current: (w, h) };
     }
 }
+
 pub fn update_mouse_pos(
     window: Query<&Window, With<PrimaryWindow>>,
     mut shader_mat: ResMut<Assets<YourShader2D>>,
     shadplay_win_dims: Res<ShadplayWindowDims>,
 ) {
-    let win = match window.single() {
-        Ok(w) => w,
-        Err(_) => return,
-    };
-
-    let mouse_xy = match win.physical_cursor_position() {
-        Some(pos) => pos,
-        None => return,
-    };
-
-    // Is the mouse on our window?
-    if shadplay_win_dims.hittest(mouse_xy)
-        && let Some((_, shad_mat)) = shader_mat.iter_mut().next()
-    {
-        let sh_xy = shadplay_win_dims.to_uv(mouse_xy);
-        shad_mat.mouse_pos = sh_xy.into();
+    let win = match window.iter().next() { Some(w) => w, None => return };
+    let mouse_xy = match win.physical_cursor_position() { Some(pos) => pos, None => return };
+    if shadplay_win_dims.hittest(mouse_xy) && let Some((_, shad_mat)) = shader_mat.iter_mut().next() {
+        shad_mat.mouse_pos = shadplay_win_dims.to_uv(mouse_xy).into();
     }
 }
 
 impl From<Vec2> for MousePos {
-    fn from(value: Vec2) -> Self {
-        MousePos {
-            x: value.x,
-            y: value.y,
-        }
+    fn from(value: Vec2) -> Self { MousePos { x: value.x, y: value.y } }
+}
+
+// Screensaver mode
+#[derive(Resource)]
+pub struct ScreensaverState {
+    pub shaders: Vec<PathBuf>,
+    pub index: usize,
+    pub interval: f32,
+}
+
+pub fn detect_shader_type(shader_content: &str) -> bool {
+    let mut is_2d = 0;
+    let mut is_3d = 0;
+    if shader_content.contains("bevy_sprite::mesh2d_view_bindings") { is_2d += 1000; }
+    if shader_content.contains("bevy_sprite::mesh2d_vertex_output") { is_2d += 1000; }
+    if shader_content.contains("mesh2d_") { is_2d += 500; }
+    if shader_content.contains("bevy_pbr::") { is_3d += 1000; }
+    if shader_content.contains("forward_io") { is_3d += 500; }
+    if shader_content.contains("mesh_view_bindings") { is_3d += 300; }
+    if shader_content.contains("bevy_sprite::") { is_2d += 100; }
+    if shader_content.contains("VertexOutput") && shader_content.contains("bevy_sprite::") { is_2d += 200; }
+    is_2d > is_3d
+}
+
+pub fn apply_shader_file(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let content = std::fs::read_to_string(path)?;
+    let target = if detect_shader_type(&content) { "assets/shaders/myshader_2d.wgsl" } else { "assets/shaders/myshader.wgsl" };
+    std::fs::write(target, &content)?;
+    Ok(())
+}
+
+pub fn screensaver_cycle(mut local_timer: Local<f32>, time: Res<Time>, mut state: ResMut<ScreensaverState>) {
+    if state.shaders.is_empty() { return; }
+    *local_timer += time.delta_secs();
+    if *local_timer < state.interval { return; }
+    *local_timer = 0.0;
+    let path = &state.shaders[state.index];
+    if let Err(e) = apply_shader_file(path) {
+        error!("screensaver: failed to load shader {}: {}", path.display(), e);
+    }
+    state.index = (state.index + 1) % state.shaders.len();
+}
+
+pub fn screensaver_exit(
+    keyboard: Res<ButtonInput<KeyCode>>, mouse_buttons: Res<ButtonInput<MouseButton>>,
+    mut mouse_motion: MessageReader<bevy::input::mouse::MouseMotion>,
+) {
+    if keyboard.get_just_pressed().next().is_some() { std::process::exit(0); }
+    if mouse_buttons.get_just_pressed().next().is_some() { std::process::exit(0); }
+    mouse_motion.read().for_each(|ev| { if ev.delta.length_squared() > 0.0 { std::process::exit(0); } });
+}
+
+pub fn screensaver_hide_cursor(mut cursors: Query<&mut CursorOptions>) {
+    if let Some(mut cursor) = cursors.iter_mut().next() {
+        cursor.visible = false;
     }
 }

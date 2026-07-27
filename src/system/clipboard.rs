@@ -17,6 +17,7 @@ impl Default for SystemClipboard {
 
 impl SystemClipboard {
     /// Sets the contents of the system clipboard to `msg`.
+    #[expect(dead_code)]
     pub(crate) fn set_from(&mut self, msg: String) {
         if let Err(e) = self.most_recent_copypasta.set_contents(msg) {
             log::error!("{e}");

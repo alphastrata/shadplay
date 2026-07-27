@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_egui::egui::epaint::Shadow;
 use bevy_egui::egui::{Align2, Color32, CornerRadius, RichText, Vec2};
-use bevy_egui::{EguiContexts, EguiPlugin, egui};
+use bevy_egui::{EguiContexts, egui};
 
 use crate::system::clipboard::SystemClipboard;
 
@@ -45,6 +45,7 @@ impl Plugin for ColourPickerPlugin {
 }
 
 impl ColourPickerTool {
+    #[expect(dead_code)]
     fn draw_ui(
         mut picker: ResMut<ColourPickerTool>,
         mut ctx: EguiContexts,
