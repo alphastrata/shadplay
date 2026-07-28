@@ -23,9 +23,9 @@ pub mod prelude {
         },
         system::screenshot::screenshot_and_version_shader_on_spacebar,
         utils::{
-            self, AppState, MonitorsSpecs, Rotating, ShadplayWindowDims, ShapeOptions,
+            self, AppState, Border, MonitorsSpecs, Rotating, ShadplayWindowDims, ShapeOptions,
             TransparencySet, cam_switch_system, cleanup_2d, cleanup_3d, init_shapes, quit, rotate,
-            setup_2d, setup_3d, size_quad, switch_level, switch_shape, toggle_rotate,
+            setup_2d, setup_3d, size_quad, switch_level, switch_shape, toggle_border, toggle_rotate,
             toggle_transparency, update_mouse_pos,
         },
     };

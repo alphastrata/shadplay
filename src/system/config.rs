@@ -1,7 +1,7 @@
 use bevy::{
     asset::Assets,
     ecs::system::Local,
-    log, prelude::{Handle, Image, Query, ResMut, Resource},
+    log, prelude::{Handle, Image, Query, Res, ResMut, Resource},
     render::render_resource::Extent3d,
     render::render_resource::{TextureDescriptor, TextureDimension, TextureFormat, TextureUsages},
     window::{Window, WindowLevel},
@@ -27,8 +27,11 @@ pub struct UserSession {
     pub gif_buffer: Option<Handle<Image>>,
     #[serde(default = "default_gif_framerate")]
     pub gif_framerate: f64,
+    #[serde(default = "pos")]
+    pub border: bool,
 }
 
+fn pos() -> bool { true }
 fn default_gif_framerate() -> f64 { 0.05 }
 fn default_window_dims() -> (u32, u32) { (800, 600) }
 fn neg() -> bool { false }
@@ -77,11 +80,18 @@ impl UserSession {
         if self.always_on_top { WindowLevel::AlwaysOnTop } else { WindowLevel::Normal }
     }
 
-    pub fn runtime_updater(mut user_config: ResMut<UserSession>, windows: Query<&Window>) {
+    pub fn runtime_updater(
+        mut user_config: ResMut<UserSession>,
+        windows: Query<&Window>,
+        border: Option<Res<crate::utils::Border>>,
+    ) {
         let win = windows.iter().next().expect("no window");
         user_config.decorations = win.decorations;
         user_config.always_on_top = matches!(win.window_level, WindowLevel::AlwaysOnTop);
         user_config.window_dims = (win.width() as u32, win.height() as u32);
+        if let Some(b) = border {
+            user_config.border = b.0;
+        }
         user_config.last_updated = std::time::SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_secs();
         if let Err(e) = user_config.save_to_toml(Self::get_config_path()) {
             log::error!("Failed to update user's config {}", e);
@@ -125,7 +135,7 @@ impl Default for UserSession {
         Self {
             window_dims: (720, 480), decorations: true, always_on_top: true,
             last_updated: std::time::SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_secs(),
-            gif_buffer: None, gif_framerate: 0.05,
+            gif_buffer: None, gif_framerate: 0.05, border: true,
         }
     }
 }
@@ -139,7 +149,7 @@ mod tests {
     fn save_and_load_user_config() {
         let test_config = UserSession {
             window_dims: (1024, 768), decorations: false, always_on_top: false,
-            last_updated: 1635900000, gif_buffer: None, gif_framerate: 0.05,
+            last_updated: 1635900000, gif_buffer: None, gif_framerate: 0.05, border: true,
         };
         let temp_path = "./temp_config.toml";
         test_config.save_to_toml(temp_path).expect("Failed to save test config to TOML");
@@ -153,7 +163,7 @@ mod tests {
         let p = UserSession::get_config_path();
         let test_config = UserSession {
             window_dims: (1024, 768), decorations: false, always_on_top: true,
-            last_updated: 1635900000, gif_buffer: None, gif_framerate: 0.05,
+            last_updated: 1635900000, gif_buffer: None, gif_framerate: 0.05, border: true,
         };
         test_config.save_to_toml(p).unwrap();
     }
