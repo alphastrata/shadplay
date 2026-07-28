@@ -10,6 +10,12 @@ pub struct ShadPlayPlugin;
 
 impl Plugin for ShadPlayPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
+        let border_initial = app
+            .world()
+            .get_resource::<crate::system::config::UserSession>()
+            .map(|s| Border(s.border))
+            .unwrap_or_default();
+
         app.insert_state(AppState::TwoD)
             .add_plugins(ShadplayShaderLibrary)
             .add_plugins(crate::system::ScreenshotPlugin)
@@ -22,12 +28,13 @@ impl Plugin for ShadPlayPlugin {
             .insert_resource(ShapeOptions::default())
             .insert_resource(TransparencySet(true))
             .insert_resource(Rotating(false))
+            .insert_resource(border_initial)
             .add_plugins(PanOrbitCameraPlugin)
             .add_message::<UserAddedTexture>()
             .add_message::<DragNDropShader>()
             .add_systems(OnEnter(AppState::ThreeD), setup_3d)
             .add_systems(OnExit(AppState::ThreeD), cleanup_3d)
-            .add_systems(OnEnter(AppState::TwoD), setup_2d)
+            .add_systems(OnEnter(AppState::TwoD), (setup_2d, size_quad).chain())
             .add_systems(OnExit(AppState::TwoD), cleanup_2d)
             .add_systems(PreStartup, init_shapes)
             .add_systems(
@@ -50,6 +57,7 @@ impl Plugin for ShadPlayPlugin {
                     quit,
                     switch_level,
                     toggle_transparency,
+                    toggle_border,
                     #[cfg(target_os = "windows")]
                     toggle_window_passthrough,
                 ),
@@ -60,7 +68,7 @@ impl Plugin for ShadPlayPlugin {
                     update_mouse_pos,
                     size_quad
                         .run_if(in_state(AppState::TwoD))
-                        .run_if(on_message::<WindowResized>),
+                        .run_if(resource_changed::<Border>.or_else(on_message::<WindowResized>)),
                     swap_2d_tex_from_idx.run_if(on_message::<KeyboardInput>),
                 ),
             );

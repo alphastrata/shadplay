@@ -50,6 +50,22 @@ impl MonitorsSpecs {
 #[derive(Resource, DerefMut, Deref)]
 pub struct TransparencySet(pub bool);
 
+#[derive(Debug, Resource, Deref, DerefMut, PartialEq)]
+pub struct Border(pub bool);
+
+impl Default for Border {
+    fn default() -> Self {
+        Self(true)
+    }
+}
+
+pub fn toggle_border(input: Res<ButtonInput<KeyCode>>, mut border: ResMut<Border>) {
+    if input.just_pressed(KeyCode::KeyB) {
+        border.0 = !border.0;
+        info!("Toggling border to {}", border.0);
+    }
+}
+
 #[derive(Resource, DerefMut, Deref, Default, Debug)]
 pub struct ShadplayWindowDims(pub Vec2);
 impl ShadplayWindowDims {
@@ -246,13 +262,14 @@ pub fn setup_2d(
 
 pub fn size_quad(
     windows: Query<&Window>, mut query: Query<&mut Transform, With<BillBoardQuad>>,
-    mut msd: ResMut<ShadplayWindowDims>,
+    mut msd: ResMut<ShadplayWindowDims>, border: Res<Border>,
 ) {
     let win = windows.iter().next().expect("no window");
     let (width, height) = (win.width(), win.height());
     query.iter_mut().for_each(|mut transform| {
         *msd = ShadplayWindowDims(Vec2 { x: width, y: height });
-        transform.scale = Vec3::new(width * 0.95, height * 0.95, 1.0);
+        let factor = if border.0 { 0.95 } else { 1.0 };
+        transform.scale = Vec3::new(width * factor, height * factor, 1.0);
     });
 }
 
