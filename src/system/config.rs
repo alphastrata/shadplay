@@ -4,7 +4,7 @@ use bevy::{
     log, prelude::{Handle, Image, Query, Res, ResMut, Resource},
     render::render_resource::Extent3d,
     render::render_resource::{TextureDescriptor, TextureDimension, TextureFormat, TextureUsages},
-    window::{Window, WindowLevel},
+    window::{CompositeAlphaMode, Window, WindowLevel},
 };
 use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
