@@ -1,35 +1,21 @@
-THREE3_SHADER_STARTER = """//!
+from pathlib import Path
+
+THREE3_SHADER_STARTER: str = """//!
 //! The default 3d Shader.
 //!
-#import bevy_pbr::forward_io::VertexOutput
-#import bevy_pbr::mesh_view_bindings::globals;
-#import bevy_pbr::utils PI
-#import shadplay::shader_utils::common NEG_HALF_PI, shader_toy_default, rotate2D
-#import bevy_render::view::View
- 
-@group(0) @binding(0) var<uniform> view: View;
+import bevy_pbr::render::forward_io::VertexOutput;
 
-@group(2) @binding(100)var<uniform> color: vec4f;
-@group(2) @binding(101) var texture: texture_2d<f32>;
-@group(2) @binding(102) var texture_sampler: sampler;
-
-const SPEED:f32 = 1.0;
+@group(constants::MATERIAL_BIND_GROUP) @binding(100) var<uniform> color: vec4f;
+@group(constants::MATERIAL_BIND_GROUP) @binding(101) var texture: texture_2d<f32>;
+@group(constants::MATERIAL_BIND_GROUP) @binding(102) var texture_sampler: sampler;
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
-    // ensure our uv coords match shadertoy/the-lil-book-of-shaders
-    let texture_uvs = in.uv;
+    return textureSample(texture, texture_sampler, in.uv);
+}
+"""
 
-    let tex: vec4f = textureSample(texture, texture_sampler, texture_uvs); // textureSample is provided by wgsl?
-    return tex;
+FILE_PATH: Path = Path("./assets/shaders/myshader.wesl")
 
-}"""
-
-# Define the file path
-file_path = "./assets/shaders/myshader.wgsl"
-
-# Open the file in write mode and replace its contents
-with open(file_path, "w") as file:
-    file.write(THREE3_SHADER_STARTER)
-
-print(f"Content in {file_path} has been replaced with the provided shader code.")
+FILE_PATH.write_text(THREE3_SHADER_STARTER)
+print(f"Content in {FILE_PATH} has been replaced with the provided shader code.")

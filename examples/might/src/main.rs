@@ -148,7 +148,7 @@ pub struct AuraMaterial {
 
 impl Material for AuraMaterial {
     fn fragment_shader() -> ShaderRef {
-        "shaders/aura.wgsl".into()
+        "shaders/aura.wesl".into()
     }
 
     fn alpha_mode(&self) -> AlphaMode {

@@ -53,7 +53,7 @@ pub fn today() -> String {
 
 pub fn version_current_shader(source: &Path, target: &Path) {
     let mut target_adjusted = target.to_path_buf();
-    target_adjusted.set_extension("wgsl");
+    target_adjusted.set_extension("wesl");
     if let Err(e) = fs::copy(source, &target_adjusted) {
         error!("versioning shader failed with error:{}", e);
         error!("source file: {}", source.display());

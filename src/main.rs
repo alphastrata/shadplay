@@ -16,7 +16,7 @@ use shadplay::{
 /// shadplay — live shader editor & screensaver
 struct Args {
     #[argh(option, short = 'S')]
-    /// run in screensaver mode, cycling through wgsl files in DIR
+    /// run in screensaver mode, cycling through wesl files in DIR
     screensaver: Option<String>,
     #[argh(positional)]
     /// shader file to load
@@ -68,11 +68,11 @@ fn run_screensaver(dir: &str, shader_arg: Option<String>) {
     let mut shaders: Vec<std::path::PathBuf> = fs::read_dir(dir_path).into_iter()
         .flat_map(|e| e.flatten())
         .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|e| e == "wgsl"))
+        .filter(|p| p.extension().is_some_and(|e| e == "wesl"))
         .collect();
     shaders.sort();
     if shaders.is_empty() {
-        eprintln!("No .wgsl files found in {}", dir);
+        eprintln!("No .wesl files found in {}", dir);
         std::process::exit(1);
     }
     if let Some(ref path) = shader_arg {

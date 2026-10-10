@@ -35,11 +35,11 @@ You will notice a large swath of the `wgsl` code from the Bevy codebase here, _w
 
 ## Features
 
-- A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wgsl`.
+- A large collection of example shaders illustrating creative and educational uses. `assets/shaders/yourshadergoeshere.wesl`.
 - Live preview of shader code on bevy mesh geometry.
-- Textures, see `assets/shaders/howto-texture.wgsl`.
+- Textures, see `assets/shaders/howto-texture.wesl`.
 - Drag and drop `.png` or `.jpg` files onto the window to use as said textures.
-- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wgsl`.
+- Mouse coords over a `uniform`, see `assets/shaders/howto-mouse.wesl`.
 - Colour picker with system copy so that you get an immediate `vecf3(r, g, b)` immediately available for quick pasta action.
 - Drag and drop (valid `wgsl`) shaders onto the app window to see them working.
 - Tips and Tools to format your `wgsl` work, so it looks more rusty (which will help you quickly get up to speed with the existing `wgsl` in the Bevy codebase).
@@ -49,14 +49,14 @@ You will notice a large swath of the `wgsl` code from the Bevy codebase here, _w
 - Automatic recompilation and update of shaders upon saving changes in your editor.
 - Quick iteration and experimentation with `wgsl` shader code.
 - Transparent background, with always-on-top (so you can have it on top of your editor, most OSes should be supported).
-- Screenshot the shader you're working on with <kbd>SPACEBAR</kbd>, this will also version the shader (at `assets/shaders/myshader.wgsl`) for you i.e:
+- Screenshot the shader you're working on with <kbd>SPACEBAR</kbd>, this will also version the shader (at `assets/shaders/myshader.wesl`) for you i.e:
 
 ```shell
  screenshots
 └──|  01-10-23
     └──| 09-23-29
         ├──|  screenshot.png // Your screenshot
-        └──|  screenshot.wgsl// The shader at `assets/shaders/myshader.wgsl`
+        └──|  screenshot.wesl// The shader at `assets/shaders/myshader.wesl`
 ```
 
 ### Keybindings:
@@ -76,7 +76,7 @@ The app has some simple hotkeys:
 | <kbd>b</kbd>        | Toggle Border (2d only)                                                               |
 | <kbd>t</kbd>        | Toggle Transparency (returning to fully transparent is not supported)                 |
 | <kbd>r</kbd>        | Toggle Rotating shape (3d only)                                                       |
-| <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wgsl`                                    |
+| <kbd>spacebar</kbd> | Takes a screenshot && versions the current `.wesl`                                    |
 | <kbd>return</kbd>   | Takes screenshots continiously, hit `return` again to stop capture                    |
 | <kbd>0</kbd>        | Select the `texture` at index 0                                                       |
 | <kbd>1</kbd>        | Select the `texture` at index 1 (assuming you drag-n-dropped a texture onto Shadplay) |
@@ -109,7 +109,7 @@ then:
  $ cargo run --release
 ```
 
-- Then edit the `myshader.wgsl`, or `myshader_2d.wgsl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
+- Then edit the `myshader.wesl`, or `myshader_2d.wesl`(if in 2d/shadertoy-mode) file in real time. (<kbd>h</kbd>, and <kbd>t</kbd> to move between 2d/3d).
 
 ---
 

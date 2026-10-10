@@ -12,7 +12,7 @@ pub struct TexHandleQueue(pub HashMap<usize, Handle<Image>>);
 pub struct UserAddedTexture(PathBuf);
 
 static AVAILABLE_TEX_FORMATS: [&str; 3] = ["png", "jpeg", "jpg"];
-static WGSL_FORMATS: [&str; 1] = ["wgsl"];
+static SHADER_FORMATS: [&str; 2] = ["wgsl", "wesl"];
 
 pub fn file_drag_and_drop_listener(
     mut events: MessageReader<FileDragAndDrop>,
@@ -26,7 +26,7 @@ pub fn file_drag_and_drop_listener(
                 path_buf.extension().is_some_and(|x| x.to_string_lossy().contains(fmt))
             }) {
                 texture_tx.write(UserAddedTexture(path_buf.clone()));
-            } else if WGSL_FORMATS.iter().any(|fmt| {
+            } else if SHADER_FORMATS.iter().any(|fmt| {
                 path_buf.extension().is_some_and(|x| x.to_string_lossy().contains(fmt))
             }) {
                 shader_tx.write(DragNDropShader { path: path_buf.clone() });
@@ -40,16 +40,16 @@ pub fn override_current_shader(
     app_state: Res<State<AppState>>,
 ) {
     dropped_shader.read().for_each(|pb| {
-        info!("A wgsl shader was dropped on with path: {}", pb.display());
+        info!("A shader was dropped on with path: {}", pb.display());
         let Ok(shader_as_string) = std::fs::read_to_string(pb.as_path()) else { return; };
         match app_state.get() {
             AppState::TwoD => {
-                if let Err(e) = std::fs::write("assets/shaders/myshader_2d.wgsl", &shader_as_string) {
+                if let Err(e) = std::fs::write("assets/shaders/myshader_2d.wesl", &shader_as_string) {
                     error!("Error overriding the 2d shader:\n\t{}", e);
                 }
             }
             AppState::ThreeD => {
-                if let Err(e) = std::fs::write("assets/shaders/myshader.wgsl", &shader_as_string) {
+                if let Err(e) = std::fs::write("assets/shaders/myshader.wesl", &shader_as_string) {
                     error!("Error overriding the 3d shader:\n\t{}", e);
                 }
             }

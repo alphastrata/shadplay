@@ -4,7 +4,7 @@ use bevy::{
     log, prelude::{Handle, Image, Query, Res, ResMut, Resource},
     render::render_resource::Extent3d,
     render::render_resource::{TextureDescriptor, TextureDimension, TextureFormat, TextureUsages},
-    window::{CompositeAlphaMode, Window, WindowLevel},
+    window::{Window, WindowLevel},
 };
 use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
@@ -70,7 +70,7 @@ impl UserSession {
             transparent: false,
             decorations: true,
             #[cfg(target_os = "macos")]
-            composite_alpha_mode: CompositeAlphaMode::PostMultiplied,
+            composite_alpha_mode: bevy::window::CompositeAlphaMode::PostMultiplied,
             window_level: self.window_level(),
             ..bevy::prelude::default()
         }

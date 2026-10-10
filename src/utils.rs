@@ -312,20 +312,20 @@ pub struct ScreensaverState {
 pub fn detect_shader_type(shader_content: &str) -> bool {
     let mut is_2d = 0;
     let mut is_3d = 0;
-    if shader_content.contains("bevy_sprite::mesh2d_view_bindings") { is_2d += 1000; }
-    if shader_content.contains("bevy_sprite::mesh2d_vertex_output") { is_2d += 1000; }
-    if shader_content.contains("mesh2d_") { is_2d += 500; }
+    if shader_content.contains("mesh2d::view_bindings") { is_2d += 1000; }
+    if shader_content.contains("mesh2d::vertex_output") { is_2d += 1000; }
+    if shader_content.contains("mesh2d") { is_2d += 500; }
     if shader_content.contains("bevy_pbr::") { is_3d += 1000; }
     if shader_content.contains("forward_io") { is_3d += 500; }
     if shader_content.contains("mesh_view_bindings") { is_3d += 300; }
-    if shader_content.contains("bevy_sprite::") { is_2d += 100; }
-    if shader_content.contains("VertexOutput") && shader_content.contains("bevy_sprite::") { is_2d += 200; }
+    if shader_content.contains("bevy_sprite_render::") { is_2d += 100; }
+    if shader_content.contains("VertexOutput") && shader_content.contains("bevy_sprite_render::") { is_2d += 200; }
     is_2d > is_3d
 }
 
 pub fn apply_shader_file(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
     let content = std::fs::read_to_string(path)?;
-    let target = if detect_shader_type(&content) { "assets/shaders/myshader_2d.wgsl" } else { "assets/shaders/myshader.wgsl" };
+    let target = if detect_shader_type(&content) { "assets/shaders/myshader_2d.wesl" } else { "assets/shaders/myshader.wesl" };
     std::fs::write(target, &content)?;
     Ok(())
 }
