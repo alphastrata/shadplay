@@ -9,8 +9,8 @@ use bevy::{
 
 use crate::utils::AppState;
 
-const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wgsl";
-const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wgsl";
+const DEFAULT_SHADER_3D: &str = "assets/shaders/myshader.wesl";
+const DEFAULT_SHADER_2D: &str = "assets/shaders/myshader_2d.wesl";
 
 pub fn screenshot_and_version_shader_on_spacebar(
     input: Res<ButtonInput<KeyCode>>,

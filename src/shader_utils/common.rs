@@ -1,21 +1,10 @@
-//! Bundles in our shader functions/consts etc declared in `shader_utils/common.wgsl` to make them importable.
-use bevy::{
-    asset::{load_internal_asset, uuid_handle},
-    prelude::{App, Handle, Plugin, Shader},
-};
+//! Makes `shader_utils/common.wesl` importable as `shadplay::shader_utils::common`.
+use bevy::{prelude::{App, Plugin}, shader::load_shader_library};
 
 pub struct ShadplayShaderLibrary;
 
-pub const SHADPLAY_SHADER_LIBRARY_HANDLE: Handle<Shader> =
-    uuid_handle!("1d4373c8-5cfe-4779-9e71-f268b2e43fa9");
-
 impl Plugin for ShadplayShaderLibrary {
     fn build(&self, app: &mut App) {
-        load_internal_asset!(
-            app,
-            SHADPLAY_SHADER_LIBRARY_HANDLE,
-            "common.wgsl", // Must be a more complete path. (The bevy codebase puts them alongside...)
-            Shader::from_wgsl
-        );
+        load_shader_library!(app, "common.wesl");
     }
 }

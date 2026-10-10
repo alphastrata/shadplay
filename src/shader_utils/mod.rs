@@ -20,7 +20,7 @@ pub struct YourShader {
 
 impl Material for YourShader {
     fn fragment_shader() -> ShaderRef {
-        "shaders/myshader.wgsl".into()
+        "shaders/myshader.wesl".into()
     }
 }
 
@@ -41,7 +41,7 @@ pub struct MousePos {
 
 impl Material2d for YourShader2D {
     fn fragment_shader() -> ShaderRef {
-        "shaders/myshader_2d.wgsl".into()
+        "shaders/myshader_2d.wesl".into()
     }
 }
 
@@ -63,6 +63,6 @@ struct Holder {
 
 impl Material for DottedLineShader {
     fn fragment_shader() -> ShaderRef {
-        "shaders/dotted_line.wgsl".into()
+        "shaders/dotted_line.wesl".into()
     }
 }

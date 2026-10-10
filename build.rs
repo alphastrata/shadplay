@@ -21,16 +21,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         exit(1);
     }
 
-    // Collect paths of all .wgsl files using `glob` crate
-    let wgsl_files = glob::glob("bevy/**/*.wgsl")
-        .expect("Failed to read .wgsl files")
+    // Collect paths of all .wesl files using `glob` crate
+    let wesl_files = glob::glob("bevy/**/*.wesl")
+        .expect("Failed to read .wesl files")
         .filter_map(Result::ok);
 
     // Create the 'bevy_shaders' directory
     fs::create_dir_all("bevy_shaders").expect("Failed to create 'bevy_shaders' directory");
 
-    // Move the .wgsl files to the 'bevy_shaders' directory
-    wgsl_files.into_iter().for_each(|path| {
+    // Move the .wesl files to the 'bevy_shaders' directory
+    wesl_files.into_iter().for_each(|path| {
         let filename = path.file_name().expect("Failed to get filename");
         let destination = format!("bevy_shaders/{}", filename.to_string_lossy());
         fs::rename(path, destination).expect("Failed to move file");
