@@ -1,16 +1,18 @@
-TWO2_SHADER_STARTER = """/// ***************************** ///
+from pathlib import Path
+
+TWO2_SHADER_STARTER: str = """/// ***************************** ///
 /// THIS IS THE DEFAULT 2D SHADER ///
-/// You can always get back to this with `python3 scripts/reset-2d.py` ///
+/// You can always get back to this with `uv run scripts/reset-2d.py` ///
 /// ***************************** ///
 
-#import bevy_sprite::mesh2d_view_bindings::globals 
-#import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D, TWO_PI}
-#import bevy_render::view::View
-#import bevy_sprite::mesh2d_vertex_output::VertexOutput
+import bevy_sprite_render::mesh2d::view_bindings::globals;
+import shadplay::shader_utils::common::{NEG_HALF_PI, shader_toy_default, rotate2D};
+import bevy_render::view::View;
+import bevy_sprite_render::mesh2d::vertex_output::VertexOutput;
 
 @group(0) @binding(0) var<uniform> view: View;
 
-const SPEED:f32 = 1.0;
+const SPEED: f32 = 1.0;
 
 @fragment
 fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
@@ -23,15 +25,10 @@ fn fragment(in: VertexOutput) -> @location(0) vec4<f32> {
     uv *= rotate2D(NEG_HALF_PI);
 
     return vec4f(shader_toy_default(t, uv), 0.3);
-}    
-    
+}
 """
 
-# Define the file path
-file_path = "./assets/shaders/myshader_2d.wgsl"
+FILE_PATH: Path = Path("./assets/shaders/myshader_2d.wesl")
 
-# Open the file in write mode and replace its contents
-with open(file_path, "w") as file:
-    file.write(TWO2_SHADER_STARTER)
-
-print(f"Content in {file_path} has been replaced with the provided shader code.")
+FILE_PATH.write_text(TWO2_SHADER_STARTER)
+print(f"Content in {FILE_PATH} has been replaced with the provided shader code.")
